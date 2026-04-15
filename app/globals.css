@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
+html {
+  min-height: 100%;
+}
+
 :root {
+  /* Figma-style canvas (Queenie-ish neutral dot field) */
+  --canvas: #e8e8e8;
+  --canvas-dot: rgba(0, 0, 0, 0.055);
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -12,15 +19,45 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  min-height: 100%;
+  background-color: var(--canvas);
+  background-image: radial-gradient(
+    var(--canvas-dot) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* LiquidGlassNav: CSS animations instead of Framer infinite `animate` (SSR/client DOM match). */
+@keyframes liquid-glass-nav-conic-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.liquid-glass-nav-conic {
+  animation: liquid-glass-nav-conic-spin 24s linear infinite;
+}
+
+@keyframes liquid-glass-nav-shimmer {
+  0%,
+  100% {
+    transform: translateX(-130%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(130%);
+    opacity: 0.16;
+  }
+}
+
+.liquid-glass-nav-shimmer {
+  animation: liquid-glass-nav-shimmer 9.8s ease-in-out infinite;
 }

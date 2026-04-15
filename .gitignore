@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude internal
+.claude/
+.claudeignore
+Untitled
+
+# Large videos (host externally)
+public/buddy/antoher.mp4
+public/buddy/sequence-04.mp4
+public/jahn/jahn.mp4
+public/nightterrors/Nightterrors video.mp4

@@ -1,0 +1,790 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Match Next app Figma-style canvas (globals.css) */
+:root {
+  --canvas: #e8e8e8;
+  --canvas-dot: rgba(0, 0, 0, 0.055);
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background-color: var(--canvas);
+  background-image: radial-gradient(
+    var(--canvas-dot) 1px,
+    transparent 1px
+  );
+  background-size: 20px 20px;
+  background-attachment: fixed;
+  position: fixed; /* Locks the viewport */
+  top: 0;
+  left: 0;
+}
+
+/* DONATE — fixed upper-left in design space; position set in script */
+.donate-btn {
+  position: absolute;
+  z-index: 32;
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  background: transparent;
+  color: #0a0a0a;
+  border: 2px solid #0a0a0a;
+  border-radius: 999px;
+  font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas",
+    "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  line-height: 1.2;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  transform: none;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.donate-btn:hover {
+  background: #0a0a0a;
+  color: #ffffff;
+  border-color: #0a0a0a;
+  box-shadow: none;
+}
+
+.donate-btn:active {
+  transform: translateY(1px);
+}
+
+.donate-btn:focus-visible {
+  outline: 3px solid #0a0a0a;
+  outline-offset: 3px;
+}
+
+.donate-btn:hover:focus-visible {
+  outline-color: #ffffff;
+}
+
+/* Lower-right on the map (design space); scales with the scene */
+.bird-catcher {
+  position: absolute;
+  right: 1.25rem;
+  bottom: calc(5.5rem - 30px);
+  z-index: 8;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas",
+    "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  color: #0a0a0a;
+  line-height: 1.25;
+  text-align: right;
+  white-space: nowrap;
+  pointer-events: none;
+  /* Help text stay crisp under transforms */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  /* Reduce glow blur (blur + scaled transform can look smeary) */
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 1px rgba(255, 255, 255, 1),
+    0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.bird-catcher__line {
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.bird-catcher #bird-catch-count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mobile map (JS toggles .scene--is-mobile when viewport ≤ MOBILE_BACKGROUND_MAX_WIDTH_PX) */
+#spatial-scene.scene--is-mobile .donate-btn {
+  font-size: 14px;
+  padding: 0.5rem 1.15rem;
+  letter-spacing: 0.09em;
+}
+
+#spatial-scene.scene--is-mobile .bird-catcher {
+  bottom: calc(5.5rem - 30px - 140px);
+  font-size: 11px;
+}
+
+#spatial-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Light edge on dot canvas (replaces thick white bezel) */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+#spatial-scene {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  will-change: transform;
+  overflow: visible;
+  background: transparent;
+}
+
+.spatial-bg {
+  position: absolute;
+  width: calc(100% + 36px);
+  height: calc(100% + 36px);
+  left: -25px;
+  top: -18px;
+  object-fit: cover;
+  object-position: center;
+  transform: translateY(130px) scale(1.1);
+  transform-origin: center;
+  z-index: 0;
+  user-select: none;
+  /* Allow background-only hover/click zones without blocking assets above it */
+  pointer-events: auto;
+  cursor: default;
+  opacity: 5;
+  clip-path: inset(2px); 
+}
+
+/* `waterfall.png` on narrow viewports — smaller than desktop bg (~0.3 less scale) */
+.spatial-bg.spatial-bg--mobile {
+  transform: translate(70px, 88px) scale(0.87);
+  object-position: 50% 22%;
+}
+
+
+
+/* Bird flies from branding tree (position set in JS); clickable while flying */
+.hover-bird {
+  position: fixed;
+  z-index: 100002;
+  pointer-events: none;
+  opacity: 0;
+  will-change: left, top, opacity;
+}
+
+.hover-bird.is-catchable {
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.hover-bird img {
+  display: block;
+  width: clamp(36px, 5.5vmin, 68px);
+  height: auto;
+  image-rendering: auto;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
+  pointer-events: auto;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.bird-catch-bubble {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 14px);
+  transform: translateX(-50%);
+  /* Prefer wider (flatter) bubbles, but never overflow viewport */
+  min-width: min(18rem, calc(100vw - 1.5rem));
+  max-width: min(40rem, calc(100vw - 1.5rem));
+  padding: 0.35rem 0.95rem;
+  background: #ffffff;
+  color: #0a0a0a;
+  border: 2px solid #0a0a0a;
+  border-radius: 0.65rem;
+  font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas",
+    "Courier New", monospace;
+  font-size: clamp(0.62rem, 1.5vmin, 0.78rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: 0.03em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.bird-catch-bubble.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* little tail */
+.bird-catch-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-right: 2px solid #0a0a0a;
+  border-bottom: 2px solid #0a0a0a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-bird {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.ambient-dust {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Above plant assets; masked to background collage; zones limit spawn area */
+.ambient-leaves-root {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.leaf-zone {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.leaf-floater {
+  position: absolute;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.leaf-floater__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+}
+
+/* Spiral swirl (design-space px) */
+.leaf-spiral-1 {
+  animation-name: leaf-spiral-a;
+}
+
+.leaf-spiral-2 {
+  animation-name: leaf-spiral-b;
+}
+
+.leaf-spiral-3 {
+  animation-name: leaf-spiral-c;
+}
+
+.leaf-spiral-4 {
+  animation-name: leaf-spiral-d;
+}
+
+.leaf-spiral-5 {
+  animation-name: leaf-spiral-e;
+}
+
+.dust-particle {
+  pointer-events: none;
+  position: absolute;
+  bottom: -10%;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(224, 255, 214, 0.75) 0%,
+    rgba(199, 246, 196, 0.35) 45%,
+    rgba(199, 246, 196, 0) 100%
+  );
+  filter: blur(0.3px);
+  opacity: 0;
+  animation-name: dust-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.asset-link {
+  position: absolute;
+  display: block;
+  z-index: 2;
+  transform-origin: center;
+}
+
+/* Radio: ~30° counterclockwise (tilt to the left) */
+.asset-link--radio-tilt .asset-image {
+  transform: rotate(-5deg);
+  transform-origin: center center;
+}
+
+.anim-sway {
+  animation: sway 5s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.asset-link.has-top-only-sway {
+  --sway-split: 58%;
+}
+
+.asset-link.has-top-only-sway .asset-image-base {
+  clip-path: inset(var(--sway-split) 0 0 0);
+}
+
+.asset-link.has-top-only-sway .asset-image-top {
+  clip-path: inset(0 0 calc(100% - var(--sway-split)) 0);
+}
+
+.asset-link.has-top-only-sway .asset-image-top.anim-sway {
+  transform-origin: 50% 100%;
+}
+
+.asset-color-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  z-index: 6;
+  mix-blend-mode: screen;
+  opacity: 0.92;
+  transform-origin: center center;
+  transform: none;
+}
+
+.asset-color-pulse-clipped {
+  object-fit: fill;
+}
+
+/* Portal + tablet share timing so they pulse in sync */
+.asset-color-pulse-synced {
+  animation: pulse-inner-sync 1.15s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.anim-breathe {
+  animation: breathe 6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.anim-breathe-dramatic {
+  animation: breathe-dramatic 5.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.anim-orb-drift {
+  animation: orb-drift 28s ease-in-out infinite;
+}
+
+.asset-link.orb-motion-paused.anim-orb-drift {
+  animation-play-state: paused;
+}
+
+/* Music notes floating upward above the radio */
+.radio-music-note {
+  position: absolute;
+  bottom: 56%;
+  transform: translateX(-50%);
+  margin-left: 0;
+  pointer-events: none;
+  font-size: clamp(13px, 2.4vmin, 22px);
+  line-height: 1;
+  color: rgba(220, 185, 255, 0.96);
+  text-shadow:
+    0 0 10px rgba(180, 120, 255, 0.9),
+    0 0 18px rgba(140, 80, 220, 0.45);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+}
+
+.radio-note-a {
+  animation-name: radio-note-rise-a;
+  animation-duration: 2.05s;
+}
+
+.radio-note-b {
+  animation-name: radio-note-rise-b;
+  animation-duration: 2.35s;
+}
+
+.radio-note-c {
+  animation-name: radio-note-rise-c;
+  animation-duration: 2.2s;
+}
+
+.radio-music-note:not(.radio-note-a):not(.radio-note-b):not(.radio-note-c) {
+  animation-name: radio-note-rise-a;
+  animation-duration: 1.95s;
+}
+
+.asset-image {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+  display: block;
+}
+
+.asset-link:focus-visible {
+  outline: 0.2rem solid rgba(255, 255, 255, 0.85);
+  outline-offset: 0.2rem;
+  border-radius: 0.25rem;
+}
+
+.asset-tooltip {
+  position: fixed;
+  z-index: 99999;
+  padding: 0.1rem 0.15rem;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #ffffff;
+  font-size: clamp(0.8rem, 1.35vmin, 1rem);
+  font-weight: 600;
+  font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas",
+    "Courier New", monospace;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -125%) scale(0.98);
+  transform-origin: center;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  /* White text with a dark halo so it stays readable on light parts of the map */
+  text-shadow:
+    0 0 1px rgba(0, 0, 0, 0.9),
+    0 0 8px rgba(0, 0, 0, 0.75),
+    0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+.asset-tooltip.visible {
+  opacity: 1;
+  transform: translate(-50%, -125%) scale(1);
+}
+
+.tooltip-type-text {
+  color: inherit;
+}
+
+.tooltip-type-caret {
+  display: inline-block;
+  margin-left: 0.06em;
+  font-weight: 300;
+  color: #ffffff;
+  animation: tooltip-caret-blink 0.72s step-end infinite;
+}
+
+@keyframes tooltip-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-0.95deg);
+  }
+  50% {
+    transform: rotate(0.95deg);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.01);
+  }
+}
+
+@keyframes breathe-dramatic {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.065);
+  }
+}
+
+/* Design-space–style tour across the 1024×580 scene (relative to orb anchor) */
+@keyframes orb-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  12% {
+    transform: translate(320px, -130px) rotate(2deg);
+  }
+  28% {
+    transform: translate(560px, -40px) rotate(-1.5deg);
+  }
+  44% {
+    transform: translate(620px, 90px) rotate(1deg);
+  }
+  58% {
+    transform: translate(380px, 120px) rotate(-2deg);
+  }
+  72% {
+    transform: translate(80px, 40px) rotate(1.5deg);
+  }
+  86% {
+    transform: translate(-220px, -50px) rotate(-1deg);
+  }
+}
+
+@keyframes pulse-inner-sync {
+  0%,
+  100% {
+    opacity: 0.48;
+    filter: brightness(1.03) saturate(1.15);
+  }
+  50% {
+    opacity: 0.86;
+    filter: brightness(1.45) saturate(1.35);
+  }
+}
+
+@keyframes radio-note-rise-a {
+  0% {
+    transform: translate3d(-50%, 0, 0) rotate(-12deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(calc(-50% + 6px), -86px, 0) rotate(8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes radio-note-rise-b {
+  0% {
+    transform: translate3d(-50%, 4px, 0) rotate(10deg);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.92;
+  }
+  100% {
+    transform: translate3d(calc(-50% - 8px), -102px, 0) rotate(-14deg);
+    opacity: 0;
+  }
+}
+
+@keyframes radio-note-rise-c {
+  0% {
+    transform: translate3d(-50%, 2px, 0) rotate(-6deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(calc(-50% + 10px), -94px, 0) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leaf-spiral-a {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  7% {
+    opacity: 1;
+  }
+  18% {
+    transform: translate3d(10px, -14px, 0) rotate(140deg);
+  }
+  36% {
+    transform: translate3d(-8px, -30px, 0) rotate(280deg);
+  }
+  54% {
+    transform: translate3d(-22px, -18px, 0) rotate(420deg);
+  }
+  72% {
+    transform: translate3d(-12px, -44px, 0) rotate(560deg);
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-28px, -52px, 0) rotate(680deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leaf-spiral-b {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  7% {
+    opacity: 1;
+  }
+  20% {
+    transform: translate3d(-12px, -10px, 0) rotate(-150deg);
+  }
+  40% {
+    transform: translate3d(6px, -32px, 0) rotate(-300deg);
+  }
+  60% {
+    transform: translate3d(20px, -22px, 0) rotate(-450deg);
+  }
+  80% {
+    transform: translate3d(8px, -48px, 0) rotate(-600deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-6px, -58px, 0) rotate(-720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leaf-spiral-c {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  25% {
+    transform: translate3d(16px, -8px, 0) rotate(200deg);
+  }
+  50% {
+    transform: translate3d(-4px, -36px, 0) rotate(400deg);
+  }
+  75% {
+    transform: translate3d(-26px, -28px, 0) rotate(600deg);
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-14px, -56px, 0) rotate(780deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leaf-spiral-d {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  22% {
+    transform: translate3d(-14px, -16px, 0) rotate(-180deg);
+  }
+  44% {
+    transform: translate3d(12px, -34px, 0) rotate(-360deg);
+  }
+  66% {
+    transform: translate3d(24px, -20px, 0) rotate(-520deg);
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(4px, -50px, 0) rotate(-680deg);
+    opacity: 0;
+  }
+}
+
+@keyframes leaf-spiral-e {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+    opacity: 0;
+  }
+  6% {
+    opacity: 1;
+  }
+  30% {
+    transform: translate3d(8px, -20px, 0) scale(1.05) rotate(240deg);
+  }
+  55% {
+    transform: translate3d(-18px, -38px, 0) scale(1.02) rotate(480deg);
+  }
+  78% {
+    transform: translate3d(-8px, -50px, 0) scale(1) rotate(700deg);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-22px, -60px, 0) scale(0.98) rotate(840deg);
+    opacity: 0;
+  }
+}
+
+@keyframes dust-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.32;
+  }
+  78% {
+    opacity: 0.24;
+  }
+  100% {
+    transform: translate3d(var(--drift, 6px), -125%, 0) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@media (max-aspect-ratio: 3/4) {
+  .asset-tooltip {
+    font-size: clamp(0.78rem, 3.2vw, 1rem);
+  }
+}

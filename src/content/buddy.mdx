@@ -1,0 +1,211 @@
+---
+title: "Buddy"
+slug: "buddy"
+roles: ["Full Stack Engineer", "Product Designer", "Hardware Engineer", "Industrial Designer"]
+tools: ["Figma", "Cursor", "Gemini", "Raspberry Pi", "React", "FastAPI", "Linux"]
+---
+
+# Buddy
+
+A handheld LLM image and word based stenographer to rectify group miscommunications.
+
+## The Challenge
+
+LLM notetaker prototype
+
+## Quick Breakdown
+
+### Team
+
+Failenn Aselta — Full Stack Engineer, Product Designer, Hardware Engineer, Industrial Designer
+
+### Duration
+
+2 weeks
+
+### Tools
+
+Figma, Cursor, Gemini, Raspberry Pi, React, FastAPI, Linux
+
+### Skills
+
+LLM Integration, Rapid Prototyping, Embedded Systems, UI/UX Design, Full-Stack Development, Real-Time Processing
+
+## Project Overview
+
+### The Rundown
+
+Buddy seeks to resolve the disconnect of working in groups, by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It utilizes rapid prototyping, electronics, and full-stack software development to create a product that preserves conversations through a visual history of conversations and saves valuable concepts from being lost to misarticulation.
+
+## Research
+
+### Target Users
+
+Adam
+
+31-year-old Adam Lasenstorn is a product designer. He finds that he spends significant time working through miscommunications.
+
+How might we improve group communication?
+
+By implementing a technology that helps clarify ideas visually through LLM image generation.
+
+![](https://framerusercontent.com/images/SqRD3iGPV9zj7sjFW8paxNims.png?width=2107&height=1520)
+
+solution
+
+Early Drawings
+
+Early drawings were translated from low-fi sketches to high-fidelity models quite quickly, as my main concern was how quickly I could develop the full stack.
+
+figma video
+
+![](https://framerusercontent.com/images/4reE52POoiLbl6A2UOKHSF2IOHY.png?width=1280&height=1248)
+
+![](https://framerusercontent.com/images/x8AO0uXQ7jQm3Ygxv7EX3q1M.png?width=3840&height=3840)
+
+local host video
+
+Created with Gemini, Cursor, React, FastAPI, and LLM's
+
+engineering
+
+System Creation
+
+Diagram created with Gemini code for Figma Mermaid Plugin
+
+![](https://framerusercontent.com/images/tl84asp687nyKW8brKTGrottPC4.png?width=2442&height=1886)
+
+```
+system_prompt = f"""
+
+    You are a Visual Assistant. You generate Mermaid.js code OR Fal.ai image prompts.
+
+    CURRENT MODE: {"DIAGRAM" if history and history[-1].get('mode') == 'DIAGRAM' else "SKETCH"} (You can switch based on intent).
+
+    TASK:
+
+    1. ANALYZE USER INTENT:
+
+       - If asking for a chart, graph, flow, or timeline -> output mode: "DIAGRAM".
+
+       - If describing a scene, photo, texture, or visual style -> output mode: "SKETCH".
+
+       - If referring to "it", "the image", or "that", use the CONTEXT HISTORY to understand what is being modified.
+
+    2. FOR DIAGRAMS (Mermaid):
+
+       - Return valid Mermaid code only. No backticks.
+
+       - Support: graph TD, mindmap, pie, sequenceDiagram, xychart-beta, gantt.
+
+    3. FOR SKETCHES (Images):
+
+       - If this is a refinement (e.g. "make it blue"), keep the core details of the previous prompt and apply the change.
+
+       - set "is_refinement": true only if editing the previous image.
+
+    Return JSON ONLY:
+
+    { "mode": "DIAGRAM" or "SKETCH", "prompt": "...", "is_refinement": true/false }
+
+    """
+```
+
+- Had to clearly define the LLM's persona, ultimately assigning it the role of a Visual Assistant for the cleanest outputs.
+
+- A major technical hurdle was training the model to generate proper images without relying on explicit keywords.
+
+```python
+# Create a PDF summary to ensure universal accessibility
+pdf_buffer = io.BytesIO()
+c = canvas.Canvas(pdf_buffer, pagesize=letter)
+text_obj = c.beginText(40, 750)
+for line in summary_lines:
+    text_obj.textLine(line)
+c.drawText(text_obj)
+c.save()
+
+# Package into a downloadable ZIP artifact
+zip_file.writestr("session_summary.pdf", pdf_buffer.getvalue())
+return StreamingResponse(
+    io.BytesIO(zip_buffer.read()),
+    media_type="application/zip",
+    headers={"Content-Disposition": "attachment; filename=session_export.zip"}
+)
+```
+
+- Engineered a session-commit function that dynamically zips all generated assets and transcripts into a universal PDF format.
+
+- Transformed a transient AI conversation into a professional leave-behind artifact.
+
+- Ensures design logic remains accessible to the user long after the application is closed.
+
+hardware
+
+Progress Photo
+
+![](https://framerusercontent.com/images/j2HHaeedoprk3Go4S0GDJiWjg.jpg?width=1441&height=1080)
+
+![](https://framerusercontent.com/images/LmhB2ABNE1nd6lVg1nLstxoXTro.jpg?width=2560&height=1707)
+
+![](https://framerusercontent.com/images/iUJeKBozFgDvEJX0WMzyj3dqqI.jpg?width=2560&height=1706)
+
+![](https://framerusercontent.com/images/v8RXXQKw8S25Bo0EMrzo4KC79k.png?width=555&height=555)
+
+- ![](https://framerusercontent.com/images/B9GkX7orORDgH2rQotIt6DptFT8.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/eshLNiiuNozrxDvWyO6uDH3xLzI.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/bk1mqOQFupF1kSjRJ0mMNM5BRpY.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/7B2xqX2fMs5W3Fcw4hgU6dmub9Q.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/oJNQniV8JUqD0haxoP2A9TnNiQE.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/bBzGi6YFBTx4s09RUP8jDyaBo0I.jpg?width=6240&height=3512)
+
+## Final Product
+
+- ![](https://framerusercontent.com/images/hslrB5Qc5E482B4kJT5701XZ8.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/rfQnvvCsvZcUTRaOfL3vOGJf44.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/d9OOEzR6VLJQxSHX3ESKX1gKQ.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/0RGrhdFOAMiowItEhX683ImdrRU.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/mw1fJj2ppbs1c1hQkOHo25Sgs0.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/lmRBIzPDTnRNcPX002QA7gQQpk.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/ADHDdlmgCcrf3JZoj9qQUePYEw.jpg?width=6240&height=3512)
+
+early iterations overview
+
+final
+
+Considerations and Thoughts
+
+Building BUDDY taught me that prompt engineering is product design, hardware constraints sharpen software decisions, and permanence is a feature. Defining the LLM's persona precisely determined every output downstream. Running the full stack on a Raspberry Pi forced architectural clarity that cloud deployment never would have. The session export, turning a transient conversation into a downloadable artifact, changed how people understood the product entirely.
+
+For the next iteration I would anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
+
+Bibliography
+
+Arias, Ernesto G., and Gerhard Fischer. "Boundary Objects: Their Role in Articulating the Task at Hand and Making Information Relevant to It." International ICSC Symposium on Interactive and Collaborative Computing (ICC'2000). University of Colorado Boulder, 2000.
+
+[l3d.colorado.edu](https://l3d.colorado.edu/wp-content/uploads/2016/04/icsc2000.pdf)
+
+Brubaker, E. R., S. D. Sheppard, P. J. Hinds, and M. C. Yang. "Objects of Collaboration: Roles of Objects in Spanning Knowledge Boundaries in a Design Company." Volume 6: 34th International Conference on Design Theory and Methodology (DTM). Massachusetts Institute of Technology, 2022.
+
+[dspace.mit.edu](https://dspace.mit.edu/bitstream/handle/1721.1/154882/v006t06a006-detc2022-89388.pdf?sequence=2&isAllowed=y)
+
+Huang, Y.-H. "Understanding the Collaboration Difficulties Between UX Designers and Developers in Agile Environments." Master's thesis, Purdue University, 2018.
+
+[docs.lib.purdue.edu](https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=2610&context=open_access_theses)
+
+## Video
+
+<video controls playsinline style="width:100%;border-radius:0.75rem;margin:1.5rem 0;box-shadow:0 4px 24px -6px rgba(0,0,0,0.15)" src="https://framerusercontent.com/assets/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4"></video>
+
+## Gallery
+
+- ![](https://framerusercontent.com/images/k3E2zSqk8wxKKOCSIayAMCkfW8E.png?width=1620&height=1620)
+- ![](https://framerusercontent.com/images/2uzOqnUhxlB1qXWUlImSaLvMMc.png?width=1847&height=1728)
+- ![](https://framerusercontent.com/images/wtw2vrbowd3Sg0oZeRMtkwl54.jpg?width=2075&height=3300)
+- ![](https://framerusercontent.com/images/SGynHhpcTFqJSaqv7cKJd6fNs.jpg?width=3300&height=1175)
+- ![](https://framerusercontent.com/images/3deuU0s0tD6UVJExZduovj62TSQ.png?width=1800&height=1125)
+- ![](https://framerusercontent.com/images/4Ylfczm446pSjjV9EE2EUgbKOw.png?width=1393&height=3044)
+- ![](https://framerusercontent.com/images/dTOwVHfP1wBrUeiOu17Kp73Ll4.jpg?width=4000&height=2947)
+- ![](https://framerusercontent.com/images/SDIAkJWSo6CNPMy0pN3TktWJB4.jpg?width=1600&height=1600)
+- ![](https://framerusercontent.com/images/B9GkX7orORDgH2rQotIt6DptFT8.jpg?width=6240&height=3512)
+- ![](https://framerusercontent.com/images/hslrB5Qc5E482B4kJT5701XZ8.jpg?width=6240&height=3512)
