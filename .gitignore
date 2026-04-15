@@ -45,8 +45,5 @@ next-env.d.ts
 .claudeignore
 Untitled
 
-# Large videos (host externally)
-public/buddy/antoher.mp4
-public/buddy/sequence-04.mp4
-public/jahn/jahn.mp4
-public/nightterrors/Nightterrors video.mp4
+# Large videos tracked via Git LFS
+# (see .gitattributes)
