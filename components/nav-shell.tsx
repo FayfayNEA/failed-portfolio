@@ -14,6 +14,7 @@ function isFullBleed(pathname: string) {
 export function NavShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const fullBleed = isFullBleed(pathname);
+  const fitherBg = pathname.startsWith("/work/fither");
 
   return (
     <>
@@ -21,7 +22,8 @@ export function NavShell({ children }: { children: React.ReactNode }) {
       <div
         className={cn(
           "relative z-[1] flex min-h-full flex-1 flex-col",
-          !fullBleed && "pt-[4.5rem] md:pt-[5rem]"
+          !fullBleed && "pt-[4.5rem] md:pt-[5rem]",
+          fitherBg && "fither-page-canvas min-h-[100dvh]"
         )}
       >
         {children}

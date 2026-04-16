@@ -305,7 +305,7 @@ export default function BuddyPage() {
           Buddy
         </h1>
 
-        {/* Hero video — centered, wider than copy column */}
+        {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">
           <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">
             <video
