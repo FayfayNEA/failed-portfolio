@@ -8,26 +8,34 @@ export const metadata: Metadata = {
 
 export default function FitherWorkPage() {
   return (
-    <div className="fixed inset-0" style={{ background: "#e7eddc" }}>
-      {/* Iframe fills the entire screen */}
-      <iframe
-        src="/fither/index.html"
-        className="h-full w-full border-none"
-        title="Fither"
-      />
-
-      {/* Breadcrumb floats inside the fither background, top-left */}
-      <div className="absolute top-5 left-6 md:left-10">
+    <div
+      className="relative -mt-[4.5rem] flex min-h-[100dvh] flex-col bg-[#e7eddc] pt-[4.5rem] md:-mt-[5rem] md:pt-[5rem]"
+      style={{ background: "#e7eddc" }}
+    >
+      {/* Breadcrumb below site nav; background extends under nav via negative margin */}
+      <div className="shrink-0 px-6 pt-2 pb-1 md:px-10">
         <nav className="flex items-center gap-1 font-mono text-[11px] font-light tracking-[0.04em] text-black">
-          <Link href="/" className="hover:underline underline-offset-2">home</Link>
+          <Link href="/" className="hover:underline underline-offset-2">
+            home
+          </Link>
           <span className="opacity-40">/</span>
-          <Link href="/work" className="hover:underline underline-offset-2">work</Link>
+          <Link href="/work" className="hover:underline underline-offset-2">
+            work
+          </Link>
           <span className="opacity-40">/</span>
-          <Link href="/product-design" className="hover:underline underline-offset-2">product-design</Link>
+          <Link href="/product-design" className="hover:underline underline-offset-2">
+            product-design
+          </Link>
           <span className="opacity-40">/</span>
           <span>fither</span>
         </nav>
       </div>
+
+      <iframe
+        src="/fither/index.html"
+        className="min-h-0 w-full flex-1 border-0"
+        title="Fither"
+      />
     </div>
   );
 }

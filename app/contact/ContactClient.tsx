@@ -250,8 +250,8 @@ export default function ContactClient() {
             </div>
             </div>
 
-            <p className="mx-auto mt-10 max-w-[76ch] text-center text-[0.75rem] leading-relaxed text-zinc-500">
-              Prefer email. If you’re sending a deck, keep it under 20 slides.
+            <p className="mx-auto mt-10 max-w-[76ch] text-center font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
+              Stack — Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
             </p>
           </div>
         </div>
