@@ -23,7 +23,7 @@ const OLIVE_CARD_GRAIN_BG =
 export default function ContactClient() {
   const email = "failennaselta@gmail.com";
   const [copied, setCopied] = useState(false);
-  const slabTrackRef = useRef<HTMLDivElement | null>(null);
+  const pageRef = useRef<HTMLElement | null>(null);
 
   const copyLabel = copied ? "Copied" : "Copy email";
   const onCopy = async () => {
@@ -61,32 +61,33 @@ export default function ContactClient() {
   const sheenY = useTransform(sy, [-strength, strength], ["-30%", "30%"]);
 
   return (
-    <div className="flex min-h-full flex-col bg-transparent text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]">
-      <main className="relative flex min-h-[calc(100dvh-3.5rem)] flex-col bg-transparent">
+    <div className="relative -mt-[4.5rem] flex min-h-full flex-col bg-transparent pt-[4.5rem] text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif] md:-mt-[5rem] md:pt-[5rem]">
+      <main
+        ref={pageRef}
+        className="relative flex min-h-[100dvh] flex-col bg-transparent"
+      >
+        {/* Viewport-fixed fluid background for the Contact route. */}
+        <div className="pointer-events-none fixed inset-0 -z-10">
+          <FluidSlab
+            className="h-full w-full"
+            intensity={0.75}
+            tint={[0.12, 0.92, 0.22]}
+            tintStrength={0.2}
+            followMouse
+            mouseStrength={1.6}
+            eventTargetRef={pageRef}
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/[0.02]"
+          />
+        </div>
         <div className="relative flex flex-1 items-center justify-center px-4 py-14 sm:px-6 max-[900px]:py-10">
           <div className="relative w-full max-w-[980px]">
-            {/* Cards with fluid slab behind */}
-            <div ref={slabTrackRef} className="relative">
-              <div className="absolute -inset-6 -z-10 overflow-hidden rounded-[2.75rem]">
-                <FluidSlab
-                  className="h-full w-full"
-                  intensity={0.75}
-                  tint={[0.34, 1.0, 0.58]}
-                  tintStrength={0.62}
-                  followMouse
-                  mouseStrength={1.6}
-                  eventTargetRef={slabTrackRef}
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/[0.04]"
-                />
-              </div>
-
-
+            <div className="relative">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">
-              {/* Primary glass slab */}
-              <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.08] p-5 sm:p-8 shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-2xl backdrop-saturate-125">
+                {/* Primary glass slab */}
+                <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.08] p-5 sm:p-8 shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-2xl backdrop-saturate-125">
                 <div
                   className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/30 via-white/[0.10] to-white/[0.06]"
                   aria-hidden
@@ -236,7 +237,7 @@ export default function ContactClient() {
                   <iframe
                     data-testid="embed-iframe"
                     style={{ borderRadius: 12 }}
-                    src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=0"
+                    src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=1"
                     width="100%"
                     height="260"
                     allowFullScreen

@@ -16,9 +16,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Failenn Aselta",
   description: "Portfolio and projects by Failenn Aselta.",
-  icons: {
-    icon: [{ url: "/honey-bee.png", type: "image/png" }],
-  },
 };
 
 export default function RootLayout({

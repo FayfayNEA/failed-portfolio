@@ -70,9 +70,9 @@ export default function WorkPage() {
               <Link
                 href={f.href}
                 className={cn(
-                  "flex flex-col items-center outline-offset-4",
-                  "transition-transform duration-200 hover:scale-[1.06] hover:drop-shadow-[0_12px_24px_rgba(0,0,0,0.2)]",
-                  "focus-visible:rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-800"
+                  "group relative flex flex-col items-center outline-offset-2",
+                  "transition-transform duration-200 hover:scale-[1.04] hover:drop-shadow-[0_12px_24px_rgba(0,0,0,0.22)]",
+                  "focus-visible:rounded-[10px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2F7DDC]"
                 )}
                 aria-label={f.label}
               >
@@ -91,13 +91,25 @@ export default function WorkPage() {
                     aria-hidden
                   />
                 </div>
-                <span
-                  className={cn(
-                    "mt-0.5 whitespace-nowrap text-center font-mono text-[clamp(7px,1.6vw,9px)] font-medium leading-tight tracking-wide",
-                    "text-[#4a5d32] drop-shadow-sm"
-                  )}
-                >
-                  {f.label}
+                <span className="relative mt-2 inline-flex items-center justify-center">
+                  {/* Subtle, transparent cyan capsule with light grey overlay (Finder-style) */}
+                  <span
+                    className="pointer-events-none absolute inset-x-[-6px] top-1/2 h-[1.35em] -translate-y-1/2 rounded-full bg-[rgba(143,213,245,0.32)] shadow-[0_0_0_0.5px_rgba(148,181,208,0.7),0_4px_10px_-6px_rgba(15,23,42,0.55)] opacity-0 transition-opacity duration-140 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    aria-hidden
+                  />
+                  {/* Light grey micro-noise overlay to soften the blue */}
+                  <span
+                    className="pointer-events-none absolute inset-x-[-6px] top-1/2 h-[1.35em] -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_0_0,rgba(0,0,0,0.08)_0,rgba(0,0,0,0)_40%),radial-gradient(circle_at_100%_0,rgba(0,0,0,0.06)_0,rgba(0,0,0,0)_40%)] opacity-0 mix-blend-soft-light transition-opacity duration-140 group-hover:opacity-90 group-focus-visible:opacity-90"
+                    aria-hidden
+                  />
+                  <span
+                    className={cn(
+                      "relative whitespace-nowrap text-center font-mono text-[clamp(7px,1.6vw,9px)] font-medium leading-tight tracking-wide",
+                      "text-[#111827] drop-shadow-[0_0.5px_0_rgba(255,255,255,0.7)]"
+                    )}
+                  >
+                    {f.label}
+                  </span>
                 </span>
               </Link>
             </div>

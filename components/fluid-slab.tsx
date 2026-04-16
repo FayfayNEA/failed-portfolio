@@ -24,10 +24,10 @@ function usePrefersReducedMotion() {
 export default function FluidSlab({
   className,
   intensity = 0.8,
-  tint = [0.70, 0.88, 0.76],
-  tintStrength = 0.16,
+  tint = [0.12, 0.5, 0.22],
+  tintStrength = .05,
   followMouse = false,
-  mouseStrength = 1.0,
+  mouseStrength = 2.0,
   eventTargetRef,
 }: {
   className?: string;
@@ -61,6 +61,7 @@ export default function FluidSlab({
       uniform vec3 uTint;
       uniform vec2 uMouse;
       uniform float uMouseStrength;
+      uniform float uMouseVel;
       uniform float uTintStrength;
 
       // Hash + value noise
@@ -108,12 +109,12 @@ export default function FluidSlab({
         vec2 p = (uv - 0.5);
         p.x *= uResolution.x / max(uResolution.y, 1.0);
 
-        // Mouse influence (subtle): shift sampling around cursor.
+        // Mouse influence: local warp + movement-driven ripples.
         vec2 m = (uMouse - 0.5);
         m.x *= uResolution.x / max(uResolution.y, 1.0);
         float md = length(p - m);
         float mf = exp(-md * 3.0) * uMouseStrength;
-        p += (p - m) * (0.10 * mf);
+        p += (p - m) * (0.06 * mf);
 
         // Flow
         float n1 = fbm(p * 3.2 + vec2(t, -t));
@@ -121,6 +122,15 @@ export default function FluidSlab({
         vec2 warp = vec2(n1 - 0.5, n2 - 0.5);
 
         float liquid = fbm((p + warp * 0.55) * 6.0 + vec2(t * 0.8, t * 0.6));
+
+        // Cursor passes "push" the field: stronger when moving, decays with distance.
+        float v = clamp(uMouseVel, 0.0, 1.0);
+        float push = exp(-md * 5.0) * v * uMouseStrength;
+        liquid += push * 0.18;
+
+        // A tighter, subtler ring ripple close to the cursor.
+        float ring = sin(md * 26.0 - uTime * 2.6) * exp(-md * 6.0);
+        liquid += ring * 0.02 * v * uMouseStrength;
         float rip = noise((p + warp) * 18.0 + t * 2.0);
 
         // Faux normal from height field for specular
@@ -141,13 +151,16 @@ export default function FluidSlab({
         val = mix(0.65, val, clamp(uIntensity, 0.0, 1.0));
         val = mix(0.62, val, edge);
 
-        // Keep within neutral range.
-        val = clamp(val, 0.10, 0.98);
+        // Keep within a bright glass range (avoid murky midtones).
+        val = clamp(val, 0.1, 0.99);
 
-        // Subtle green tint (still mostly neutral).
-        float tintAmt = uTintStrength * clamp(uIntensity, 0.0, 1.0);
-        vec3 col = mix(vec3(val), uTint * val + (1.0 - uTint) * val, tintAmt);
-        gl_FragColor = vec4(col, 0.92);
+        // Tint: apply a colored multiplier on top of luminance, then blend by tint strength.
+        float tintAmt = clamp(uTintStrength, 0.0, 1.0) * clamp(uIntensity, 0.0, 1.0);
+        vec3 neutral = vec3(val);
+        vec3 tintMul = mix(vec3(1.0), clamp(uTint, 0.0, 1.0), 0.92);
+        vec3 tinted = neutral * tintMul;
+        vec3 col = mix(neutral, tinted, tintAmt);
+        gl_FragColor = vec4(col, 0.9);
       }
     `;
 
@@ -173,6 +186,9 @@ export default function FluidSlab({
     const geometry = new THREE.PlaneGeometry(2, 2, 1, 1);
     const mouse = new THREE.Vector2(0.5, 0.5);
     const targetMouse = new THREE.Vector2(0.5, 0.5);
+    const lastMouse = new THREE.Vector2(0.5, 0.5);
+    let mouseVel = 0;
+    let lastVelT = performance.now();
     const material = new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
@@ -183,6 +199,7 @@ export default function FluidSlab({
         uTint: { value: new THREE.Vector3(tint[0], tint[1], tint[2]) },
         uMouse: { value: mouse },
         uMouseStrength: { value: followMouse ? mouseStrength : 0.0 },
+        uMouseVel: { value: 0 },
         uTintStrength: { value: tintStrength },
       },
       vertexShader: shader.vertexShader,
@@ -232,7 +249,17 @@ export default function FluidSlab({
       const t = (now - start) / 1000;
       material.uniforms.uTime.value = t;
       // Dampen pointer input to avoid jumpiness.
-      if (followMouse) mouse.lerp(targetMouse, 0.12);
+      if (followMouse) {
+        mouse.lerp(targetMouse, 0.08);
+        const dt = Math.max(0.001, (now - lastVelT) / 1000);
+        const d = mouse.distanceTo(lastMouse);
+        // Normalize to 0..1-ish in typical pointer speeds; then smooth.
+        const inst = THREE.MathUtils.clamp(d / dt * 0.35, 0, 1);
+        mouseVel = THREE.MathUtils.lerp(mouseVel, inst, 0.12);
+        material.uniforms.uMouseVel.value = mouseVel;
+        lastMouse.copy(mouse);
+        lastVelT = now;
+      }
       renderer.render(scene, camera);
       raf = window.requestAnimationFrame(render);
     };
