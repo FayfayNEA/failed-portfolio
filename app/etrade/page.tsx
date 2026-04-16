@@ -9,7 +9,8 @@ const CATEGORY = "product-design";
 const TITLE = "E*Trade";
 const DESCRIPTION = "Redesigning a trading platform to modernize clunky UI and speed up trades.";
 const HERO = "https://framerusercontent.com/images/NvG3dp6QgMIWgEFMHXnQsAmc3lc.png";
-const HERO_VIDEO = "https://framerusercontent.com/assets/ds2YbeFmQB3425UP32r2dvg6c.mp4";
+/** Local encode: video-only (no audio). */
+const HERO_VIDEO = "/etrade/hero.mp4";
 
 export const metadata: Metadata = {
   title: TITLE,

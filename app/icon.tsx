@@ -1,13 +1,14 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 
 export const runtime = "nodejs";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
 export default async function Icon() {
-  const iconUrl = new URL("./icon.png", import.meta.url);
-  const iconData = await readFile(iconUrl);
+  const iconPath = fileURLToPath(new URL("./icon.png", import.meta.url));
+  const iconData = await readFile(iconPath);
   const base64 = Buffer.from(iconData).toString("base64");
   const src = `data:image/png;base64,${base64}`;
 

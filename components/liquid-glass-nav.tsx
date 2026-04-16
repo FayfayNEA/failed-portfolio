@@ -73,12 +73,16 @@ export function LiquidGlassNav() {
 
             <div className="relative flex items-center gap-0 px-4 py-2.5 md:px-5 md:py-3">
               {/* Brand wordmark */}
-              <Link href="/" aria-label="Home — Failenn Aselta" className="shrink-0 leading-[1.2]">
+              <Link
+                href="/"
+                aria-label="Home — Failenn Aselta"
+                className="shrink-0 inline-block text-center leading-[1.2]"
+              >
                 <motion.span
                   whileHover={reduced ? {} : { scale: 1.03, y: -1 }}
                   whileTap={reduced ? {} : { scale: 0.96 }}
                   transition={spring}
-                  className="block"
+                  className="block text-center"
                 >
                   <span className={cn("block font-mono text-[11px] font-semibold tracking-[0.1em] md:text-[12px]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
                     failenn aselta

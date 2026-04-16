@@ -9,7 +9,8 @@ import { getContentBySlug } from "@/lib/content";
 
 const TITLE       = "Eidolon";
 const DESCRIPTION = "Creating a visual-driven AI agent to help users trust AI agents.";
-const HERO_IMAGE  = "https://framerusercontent.com/assets/raPqzNvYI1Sd18DxoUcU8CBu2vE.mp4";
+/** Local encode: video-only (no audio). */
+const HERO_IMAGE = "/eidolon/hero.mp4";
 const CHALLENGE   = "Design the internet for when it is 98% AI and 2% human.";
 
 const METADATA = {
@@ -468,10 +469,11 @@ export default async function EidolonPage() {
                   <div className="relative p-3 sm:p-4 md:p-5">
                     <video
                       controls
+                      muted
                       playsInline
                       preload="metadata"
                       className="h-[min(92dvh,960px)] w-full rounded-xl bg-black/[0.02] object-contain ring-1 ring-black/[0.06]"
-                      src="https://framerusercontent.com/assets/QsCLaiwNkAZTCJnxJv6KKxEk2Q.mp4"
+                      src="/eidolon/final-product.mp4"
                     />
                   </div>
                 </div>
@@ -499,27 +501,27 @@ export default async function EidolonPage() {
                 </div>
 
                 <div className="min-w-0 space-y-4">
-                  <div className="flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600">
+                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
                       1
                     </span>
-                    <p className="text-[0.9rem] leading-[1.65] text-violet-950">
+                    <p className="text-[0.9rem] leading-[1.65] text-lime-950">
                       Advocacy must be structural: the interface should actively protect users from persuasion, not merely explain it.
                     </p>
                   </div>
-                  <div className="flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600">
+                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
                       2
                     </span>
-                    <p className="text-[0.9rem] leading-[1.65] text-violet-950">
+                    <p className="text-[0.9rem] leading-[1.65] text-lime-950">
                       Cognitive load reduction needs evidence: design decisions should be grounded in fluency research, not intuition alone.
                     </p>
                   </div>
-                  <div className="flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600">
+                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
                       3
                     </span>
-                    <p className="text-[0.9rem] leading-[1.65] text-violet-950">
+                    <p className="text-[0.9rem] leading-[1.65] text-lime-950">
                       Agentic systems must surface reasoning: trust comes from observable actions and legible intent, not output polish.
                     </p>
                   </div>

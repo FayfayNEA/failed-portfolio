@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 
 const SLUG = "spiral";
-const CATEGORY = "architecture";
+const CATEGORY = "branding";
 
 const TITLE = "The Spiral";
 const HERO = "https://framerusercontent.com/images/DEKAt5ypvDK9UvA3LPNiXGUeV0.png?width=800&height=1000";
