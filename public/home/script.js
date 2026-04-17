@@ -3,6 +3,8 @@ const DESIGN_WIDTH = 1024;
 const DESIGN_HEIGHT = 580;
 const SCENE_Y_SHIFT_PERCENT = -54;
 const SCENE_SHIFT_UP_PX = 120;
+/** Mobile-only vertical nudge (px) to center the asset cluster */
+const MOBILE_SCENE_SHIFT_DOWN_PX = 78;
 /** Extra leftward shift (px) so the map isn’t clipped on the right */
 const SCENE_SHIFT_LEFT_EXTRA_PX = 20;
 /** Extra scale for hotspot width on mobile only (≤ MOBILE_BACKGROUND_MAX_WIDTH_PX) */
@@ -1172,6 +1174,9 @@ function refreshSceneScale() {
 
   let txPx = -DESIGN_WIDTH / 2 - SCENE_SHIFT_LEFT_EXTRA_PX;
   let tyPx = (SCENE_Y_SHIFT_PERCENT / 100) * DESIGN_HEIGHT - verticalNudge - SCENE_SHIFT_UP_PX;
+  if (isMobileViewportWidth(iw)) {
+    tyPx += MOBILE_SCENE_SHIFT_DOWN_PX;
+  }
   
   const needsTopSeamFix =
     (iw <= 940 && ih <= 894) || (iw > 1680 && ih <= 910);
