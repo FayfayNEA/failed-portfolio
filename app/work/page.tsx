@@ -54,7 +54,7 @@ export default function WorkPage() {
               draggable={false}
             />
 
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3.5 pt-10 -translate-y-[50px] translate-x-[5px]">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3.5 pt-10 -translate-y-[50px] translate-x-[9px]">
               {FOLDER_STRIPS.map((f) => (
                 <Link
                   key={f.href}

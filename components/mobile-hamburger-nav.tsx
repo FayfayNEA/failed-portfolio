@@ -30,10 +30,31 @@ export function MobileHamburgerNav() {
 
   useEffect(() => {
     if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // iOS Safari: `overflow: hidden` on body can still rubber-band / leave visual artifacts.
+    // Lock scroll by fixing the body in place, then restore scroll position on close.
+    const scrollY = window.scrollY;
+    const b = document.body;
+    const prev = {
+      position: b.style.position,
+      top: b.style.top,
+      left: b.style.left,
+      right: b.style.right,
+      width: b.style.width,
+    };
+
+    b.style.position = "fixed";
+    b.style.top = `-${scrollY}px`;
+    b.style.left = "0";
+    b.style.right = "0";
+    b.style.width = "100%";
+
     return () => {
-      document.body.style.overflow = prev;
+      b.style.position = prev.position;
+      b.style.top = prev.top;
+      b.style.left = prev.left;
+      b.style.right = prev.right;
+      b.style.width = prev.width;
+      window.scrollTo(0, scrollY);
     };
   }, [open]);
 
