@@ -4,6 +4,7 @@ import { ContentMdx } from "@/components/content-mdx";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import type { SidebarSection } from "@/components/case-study-sidebar";
 import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
+import { AutoPlayVideo } from "@/components/autoplay-video";
 import { ProjectSurface } from "@/components/project-surface";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { cn } from "@/lib/cn";
@@ -100,15 +101,11 @@ export async function ScrapedContentPage({
               <div className="w-full max-w-[min(520px,88vw)] sm:max-w-[min(580px,86vw)] md:max-w-[min(640px,84vw)]">
                 <div className="relative overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/80 bg-white">
                   <div className="relative flex justify-center p-4 sm:p-5 md:p-6">
-                    <video
-                      controls
-                      playsInline
-                      preload="metadata"
-                      className="h-auto w-full max-h-[min(92dvh,960px)] rounded-lg bg-white object-contain shadow-[0_4px_24px_-12px_rgba(0,0,0,0.08)] ring-[0.5px] ring-zinc-200/60"
+                    <AutoPlayVideo
                       src={heroImage}
-                    >
-                      Your browser does not support video playback.
-                    </video>
+                      controls
+                      className="h-auto w-full max-h-[min(92dvh,960px)] rounded-lg bg-white object-contain shadow-[0_4px_24px_-12px_rgba(0,0,0,0.08)] ring-[0.5px] ring-zinc-200/60"
+                    />
                   </div>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
+import { AutoPlayVideo } from "@/components/autoplay-video";
 import { getContentBySlug } from "@/lib/content";
 
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
@@ -467,11 +468,9 @@ export default async function EidolonPage() {
                     aria-hidden
                   />
                   <div className="relative p-3 sm:p-4 md:p-5">
-                    <video
+                    <AutoPlayVideo
                       controls
                       muted
-                      playsInline
-                      preload="metadata"
                       className="h-[min(92dvh,960px)] w-full rounded-xl bg-black/[0.02] object-contain ring-1 ring-black/[0.06]"
                       src="/eidolon/final-product.mp4"
                     />

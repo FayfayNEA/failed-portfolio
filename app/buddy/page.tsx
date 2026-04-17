@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
 import { BuddyChallengeDisclosure } from "@/components/buddy-challenge-disclosure";
-import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
+import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import { ImageLightbox } from "@/components/image-lightbox";
+import { AutoPlayVideo } from "@/components/autoplay-video";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { ProjectSurface } from "@/components/project-surface";
 import { cn } from "@/lib/cn";
@@ -253,15 +254,12 @@ function IterationVideoFrame({ src }: { src: string }) {
         aria-hidden
       />
       <div className="relative z-[2] flex justify-center px-2.5 py-5 md:px-[14px] md:py-6">
-        <video
-          controls
-          playsInline
-          preload="metadata"
-          className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"
+        <AutoPlayVideo
           src={src}
-        >
-          Your browser does not support video playback.
-        </video>
+          poster={BUDDY_PROCESS_CLIPS_BG}
+          controls
+          className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"
+        />
       </div>
     </div>
   );
@@ -294,6 +292,9 @@ export default function BuddyPage() {
           "min-[1001px]:pl-[max(0.75rem,calc((100vw-min(900px,96vw))/2-30px-max(22rem,12.5vw)))] min-[1001px]:pr-12"
         )}
       >
+        <div className="min-[1001px]:hidden">
+          <CaseBreadcrumb segments={BUDDY_BREADCRUMB} />
+        </div>
 
         {/* Title — Rosario; top aligns with sidebar breadcrumb */}
         <h1
@@ -308,15 +309,11 @@ export default function BuddyPage() {
         {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">
           <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">
-            <video
-              controls
-              playsInline
-              preload="metadata"
-              className="aspect-video w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
+            <AutoPlayVideo
               src="/buddy/sequence-04.mp4"
-            >
-              Your browser does not support video playback.
-            </video>
+              controls
+              className="aspect-video w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
+            />
           </div>
         </div>
 

@@ -10,6 +10,7 @@ import type { SidebarSection } from "@/components/case-study-sidebar";
 import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { CoolPageCursor } from "@/components/cool-page-cursor";
+import { AutoPlayVideo } from "@/components/autoplay-video";
 import { cn } from "@/lib/cn";
 
 type Hero =
@@ -249,23 +250,19 @@ function HeroVideoCarousel({
         {...swipe}
       >
         <div className="relative overflow-hidden rounded-2xl">
-          <video
+          <AutoPlayVideo
             key={videos[index]}
+            src={videos[index]}
             controls={controls}
             muted
             autoPlay
             loop
-            playsInline
-            preload="metadata"
             className={cn(
               // no background "card" wrapper — just the media frame
               "h-auto w-full object-contain",
               "max-h-[min(92dvh,960px)]"
             )}
-            src={videos[index]}
-          >
-            Your browser does not support video playback.
-          </video>
+          />
 
           {/* Beveled edge overlay */}
           <div
@@ -435,11 +432,9 @@ export function ManualProjectPage({
                         heroFrameVariant === "liquid" ? "p-3 sm:p-4 md:p-5" : "p-4 sm:p-5 md:p-6"
                       )}
                     >
-                      <video
+                      <AutoPlayVideo
                         controls
                         muted
-                        playsInline
-                        preload="metadata"
                         className={cn(
                           "h-auto w-full max-h-[min(92dvh,960px)] rounded-xl object-contain",
                           heroFrameVariant === "liquid"
@@ -447,9 +442,7 @@ export function ManualProjectPage({
                             : "bg-white ring-[0.5px] ring-zinc-200/60"
                         )}
                         src={hero.src}
-                      >
-                        Your browser does not support video playback.
-                      </video>
+                      />
                     </div>
                   </div>
                 </div>
