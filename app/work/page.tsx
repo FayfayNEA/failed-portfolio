@@ -39,7 +39,8 @@ const FOLDER_STRIPS: {
 export default function WorkPage() {
   return (
     <div className="flex min-h-full flex-col overflow-x-hidden bg-transparent text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]">
-      <main className="flex flex-1 flex-col items-center justify-center px-4 py-6 md:px-8 md:py-12">
+      <main className="flex flex-1 flex-col px-4 py-6 md:px-8 md:py-12">
+        <div className="flex w-full flex-1 flex-col items-center justify-center max-md:min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]">
         {/* Mobile: custom hero + vertical folder stack */}
         <div className="w-full md:hidden">
           <div className="relative mx-auto w-full max-w-[min(520px,94vw)] overflow-hidden">
@@ -104,7 +105,7 @@ export default function WorkPage() {
 
         {/* Desktop: original CRT hero + horizontal folder strips */}
         <div className="hidden w-full md:block">
-          <div className="relative w-full max-w-[min(920px,94vw)]">
+          <div className="relative mx-auto w-full max-w-[min(900px,96vw)]">
             <Image
               src={WORK_HERO}
               alt="Work console: metallic computer with screen"
@@ -176,8 +177,9 @@ export default function WorkPage() {
             ))}
           </div>
         </div>
+        </div>
 
-        <p className="mt-10 max-w-md text-center text-[12px] leading-relaxed text-zinc-500">
+        <p className="mx-auto mt-10 max-w-md text-center text-[12px] leading-relaxed text-zinc-500">
           Click the folders on the screen, or open{" "}
           <Link
             href="/work/fither"

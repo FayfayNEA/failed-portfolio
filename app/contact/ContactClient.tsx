@@ -119,17 +119,20 @@ export default function ContactClient() {
       >
         {/* Viewport-fixed fluid background for the Contact route. */}
         <div className="pointer-events-none sticky top-0 z-0 h-[100dvh] -mb-[100dvh] bg-[var(--canvas)] [transform:translateZ(0)]">
-          <FluidSlab
-            className="h-full w-full"
-            intensity={isBelowMd ? 0 : 0.75}
-            tint={[0.12, 0.92, 0.22]}
-            tintStrength={isBelowMd ? 0 : 0.2}
-            followMouse={!isBelowMd}
-            mouseStrength={1.6}
-            eventTargetRef={pageRef}
-            maxPixelRatio={isBelowMd ? 1 : 1.5}
-            antialias={!isBelowMd}
-          />
+          {/* FluidSlab’s shader keeps a high alpha even at intensity=0, which reads as a flat gray panel on iOS. */}
+          {!isBelowMd && (
+            <FluidSlab
+              className="h-full w-full"
+              intensity={0.75}
+              tint={[0.12, 0.92, 0.22]}
+              tintStrength={0.2}
+              followMouse
+              mouseStrength={1.6}
+              eventTargetRef={pageRef}
+              maxPixelRatio={1.5}
+              antialias
+            />
+          )}
           <div
             aria-hidden="true"
             className={cn(
