@@ -56,8 +56,8 @@ export default function WorkPage() {
             <div
               key={f.href}
               className={cn(
-                "absolute z-20 max-md:top-[calc(33%+22px)] md:top-[calc(37%+30px)]",
-                "w-[min(7vw,32px)] md:w-[8%]"
+                "absolute z-20 max-md:top-[calc(33%+26px)] md:top-[calc(37%+30px)]",
+                "w-[min(7vw,36px)] md:w-[8%]"
               )}
               style={{
                 left: f.center,
