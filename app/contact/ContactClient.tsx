@@ -117,8 +117,15 @@ export default function ContactClient() {
         ref={pageRef}
         className="relative flex min-h-[100dvh] flex-col bg-transparent"
       >
-        {/* Viewport-fixed fluid background for the Contact route. */}
-        <div className="pointer-events-none sticky top-0 z-0 h-[100dvh] -mb-[100dvh] bg-[var(--canvas)] [transform:translateZ(0)]">
+        {/* Background: desktop uses a true viewport-fixed slab under the floating nav */}
+        <div
+          className={cn(
+            "pointer-events-none z-0 bg-[var(--canvas)] [transform:translateZ(0)]",
+            isBelowMd
+              ? "sticky top-0 h-[100dvh] -mb-[100dvh]"
+              : "fixed inset-0 h-[100dvh] min-h-[100dvh]"
+          )}
+        >
           {/* FluidSlab’s shader keeps a high alpha even at intensity=0, which reads as a flat gray panel on iOS. */}
           {!isBelowMd && (
             <FluidSlab
@@ -143,7 +150,15 @@ export default function ContactClient() {
             )}
           />
         </div>
-        <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-14 sm:px-6 max-[900px]:py-10">
+        <div
+          className={cn(
+            "relative z-10 flex flex-1 px-4 sm:px-6",
+            // Mobile: don’t vertically-center a tall column (it shoves everything upward).
+            "max-md:items-start max-md:justify-start max-md:py-6",
+            // Desktop: keep the editorial “centered slab” layout.
+            "md:items-center md:justify-center md:py-14 max-[900px]:md:py-10"
+          )}
+        >
           <div className="relative w-full max-w-[980px]">
             <div className="relative">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">
@@ -316,7 +331,7 @@ export default function ContactClient() {
                     style={{ borderRadius: 12 }}
                     src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=1"
                     width="100%"
-                    height="260"
+                    className="h-[200px] w-full md:h-[260px]"
                     allowFullScreen
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy"
