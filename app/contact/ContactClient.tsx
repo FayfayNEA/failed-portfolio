@@ -3,9 +3,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FluidSlab from "@/components/fluid-slab";
 import { cn } from "@/lib/cn";
+
+function useIsBelowMd() {
+  const [v, setV] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 767px)").matches
+      : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setV(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return v;
+}
 
 const IMG = {
   iconX:
@@ -27,9 +43,12 @@ const MAG_STRENGTH = 14;
 function MagneticHoverShell({
   className,
   children,
+  disablePull = false,
 }: {
   className?: string;
   children: React.ReactNode;
+  /** Skip springs on small screens to avoid extra work while scrolling. */
+  disablePull?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const mx = useMotionValue(0);
@@ -37,6 +56,7 @@ function MagneticHoverShell({
   const sx = useSpring(mx, magneticSpring);
   const sy = useSpring(my, magneticSpring);
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (disablePull) return;
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -51,6 +71,10 @@ function MagneticHoverShell({
   };
   const sheenX = useTransform(sx, [-MAG_STRENGTH, MAG_STRENGTH], ["-40%", "40%"]);
   const sheenY = useTransform(sy, [-MAG_STRENGTH, MAG_STRENGTH], ["-30%", "30%"]);
+
+  if (disablePull) {
+    return <div className={cn("relative overflow-hidden", className)}>{children}</div>;
+  }
 
   return (
     <motion.div
@@ -74,6 +98,7 @@ export default function ContactClient() {
   const email = "failennaselta@gmail.com";
   const [copied, setCopied] = useState(false);
   const pageRef = useRef<HTMLElement | null>(null);
+  const isBelowMd = useIsBelowMd();
 
   const copyLabel = copied ? "Copied" : "Copy email";
   const onCopy = async () => {
@@ -96,12 +121,14 @@ export default function ContactClient() {
         <div className="pointer-events-none fixed inset-0 -z-10">
           <FluidSlab
             className="h-full w-full"
-            intensity={0.75}
+            intensity={isBelowMd ? 0.5 : 0.75}
             tint={[0.12, 0.92, 0.22]}
             tintStrength={0.2}
-            followMouse
+            followMouse={!isBelowMd}
             mouseStrength={1.6}
             eventTargetRef={pageRef}
+            maxPixelRatio={isBelowMd ? 1 : 1.5}
+            antialias={!isBelowMd}
           />
           <div
             aria-hidden="true"
@@ -113,7 +140,7 @@ export default function ContactClient() {
             <div className="relative">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">
                 {/* Primary glass slab */}
-                <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.08] p-5 sm:p-8 shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-2xl backdrop-saturate-125">
+                <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.08] p-5 sm:p-8 shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125 md:backdrop-blur-2xl">
                 <div
                   className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/30 via-white/[0.10] to-white/[0.06]"
                   aria-hidden
@@ -144,7 +171,10 @@ export default function ContactClient() {
                   </a>
 
                   <div className="mt-6 flex flex-wrap items-center gap-3">
-                    <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.34] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.70)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.44]">
+                    <MagneticHoverShell
+                      disablePull={isBelowMd}
+                      className="inline-flex rounded-full border border-white/60 bg-white/[0.34] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.70)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.44]"
+                    >
                       <button
                         type="button"
                         onClick={onCopy}
@@ -155,7 +185,10 @@ export default function ContactClient() {
                       </button>
                     </MagneticHoverShell>
 
-                    <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.22] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.32]">
+                    <MagneticHoverShell
+                      disablePull={isBelowMd}
+                      className="inline-flex rounded-full border border-white/60 bg-white/[0.22] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.32]"
+                    >
                       <a
                         href={RESUME_URL}
                         target="_blank"
@@ -171,7 +204,7 @@ export default function ContactClient() {
               </div>
 
               {/* Social / secondary */}
-              <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.07] p-5 sm:p-8 shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] ring-1 ring-black/[0.05] backdrop-blur-2xl backdrop-saturate-125">
+              <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.07] p-5 sm:p-8 shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] ring-1 ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125 md:backdrop-blur-2xl">
                 <div
                   className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/26 via-white/[0.10] to-white/[0.04]"
                   aria-hidden
@@ -183,7 +216,10 @@ export default function ContactClient() {
                   </p>
 
                   <div className="grid grid-cols-2 gap-3">
-                    <MagneticHoverShell className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
+                    <MagneticHoverShell
+                      disablePull={isBelowMd}
+                      className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]"
+                    >
                       <Link
                         href="https://x.com/failennaselta"
                         target="_blank"
@@ -207,7 +243,10 @@ export default function ContactClient() {
                       </Link>
                     </MagneticHoverShell>
 
-                    <MagneticHoverShell className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
+                    <MagneticHoverShell
+                      disablePull={isBelowMd}
+                      className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]"
+                    >
                       <Link
                         href="https://www.linkedin.com/in/fa%C3%ADlenn-aselta/"
                         target="_blank"
@@ -233,7 +272,10 @@ export default function ContactClient() {
                   </div>
 
                   <div className="mt-3">
-                    <MagneticHoverShell className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
+                    <MagneticHoverShell
+                      disablePull={isBelowMd}
+                      className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]"
+                    >
                       <Link
                         href="https://github.com/FayfayNEA"
                         target="_blank"

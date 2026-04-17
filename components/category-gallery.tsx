@@ -5,6 +5,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 
+/**
+ * Tailwind `lg` is 1024px — below that we use a scrollable stack instead of the
+ * overlapping draggable deck (tablets at 768–1023px were still on the deck and looked broken).
+ */
+function useStackGalleryLayout() {
+  const [stack, setStack] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 1023px)").matches
+      : false
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const on = () => setStack(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return stack;
+}
+
 export interface GalleryProject {
   slug: string;
   title: string;
@@ -121,6 +141,7 @@ export function CategoryGallery({
   projects: GalleryProject[];
   storageKey: string;
 }) {
+  const isStackLayout = useStackGalleryLayout();
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ w: 1200, h: 700 });
   const [positions, setPositions] = useState<Pos[]>([]);
@@ -176,6 +197,10 @@ export function CategoryGallery({
 
   // Set initial positions + sizes from localStorage or defaults
   useEffect(() => {
+    if (isStackLayout) {
+      setReady(true);
+      return;
+    }
     const el = containerRef.current;
     if (!el) return;
     const { width: cw, height: ch } = el.getBoundingClientRect();
@@ -232,25 +257,28 @@ export function CategoryGallery({
         // ignore
       }
     }
-  }, [projects, storageKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isStackLayout, projects, storageKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Persist positions to localStorage whenever they change
   useEffect(() => {
+    if (isStackLayout) return;
     if (ready && positions.length === projects.length) {
       localStorage.setItem(storageKey, JSON.stringify(positions));
     }
-  }, [positions, ready, projects.length, storageKey]);
+  }, [isStackLayout, positions, ready, projects.length, storageKey]);
 
   // Persist sizes to localStorage whenever they change
   useEffect(() => {
+    if (isStackLayout) return;
     if (ready && baseSizes.length === projects.length) {
       localStorage.setItem(`${storageKey}-sizes`, JSON.stringify(baseSizes));
     }
-  }, [baseSizes, ready, projects.length, storageKey]);
+  }, [baseSizes, isStackLayout, ready, projects.length, storageKey]);
 
   // Re-clamp + proportionally scale positions when the container resizes
   const prevSize = useRef({ w: 0, h: 0 });
   useEffect(() => {
+    if (isStackLayout) return;
     if (!ready || positions.length === 0) return;
     const { w: newW, h: newH } = containerSize;
     const { w: oldW, h: oldH } = prevSize.current;
@@ -271,7 +299,7 @@ export function CategoryGallery({
       }))
     );
     prevSize.current = { w: newW, h: newH };
-  }, [containerSize, ready]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [containerSize, isStackLayout, ready]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Global mousemove / mouseup — handles both drag and resize
   useEffect(() => {
@@ -412,6 +440,100 @@ export function CategoryGallery({
       return [...next, idx];
     });
   }, []);
+
+  if (isStackLayout) {
+    return (
+      <div
+        ref={containerRef}
+        className="h-full w-full touch-pan-y overflow-y-auto overscroll-y-contain px-3 pb-28 pt-3 sm:px-4"
+      >
+        <ul
+          className="mx-auto flex max-w-md flex-col gap-5 sm:gap-6"
+          aria-label="Projects in this category"
+        >
+          {projects.map((project) => {
+            const labelTone = project.labelTextTone ?? "light";
+            return (
+              <li key={project.slug}>
+                <Link
+                  href={project.href}
+                  className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_12px_40px_-20px_rgba(0,0,0,0.15)] ring-1 ring-black/[0.05] transition-transform active:scale-[0.99]"
+                >
+                  {/* Image only — text lives below so long titles never stack into the next card */}
+                  <div className="relative aspect-[5/4] w-full shrink-0 overflow-hidden">
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: project.coverColor ?? "#728C69" }}
+                    />
+                    {project.coverImage && (
+                      <Image
+                        src={project.coverImage}
+                        alt={project.title}
+                        fill
+                        className={cn(
+                          project.coverImageFit === "contain"
+                            ? "object-contain"
+                            : "object-cover",
+                          project.coverImageClassName
+                        )}
+                        sizes="(max-width: 1024px) 100vw, 420px"
+                        draggable={false}
+                        unoptimized
+                      />
+                    )}
+                  </div>
+                  <div
+                    className="flex shrink-0 flex-col justify-center gap-1 border-t border-zinc-200/40 px-4 py-3"
+                    style={{
+                      backdropFilter: "blur(14px) saturate(160%)",
+                      WebkitBackdropFilter: "blur(14px) saturate(160%)",
+                      background:
+                        project.labelGlassTint === "moss"
+                          ? "rgba(114,140,105,0.16)"
+                          : "rgba(248,250,252,0.92)",
+                      boxShadow:
+                        project.labelGlassTint === "moss"
+                          ? "inset 0 1px 0 rgba(255,255,255,0.12)"
+                          : "inset 0 1px 0 rgba(255,255,255,0.6)",
+                    }}
+                  >
+                    <p
+                      className={cn(
+                        "text-[0.9rem] font-medium leading-snug tracking-tight sm:text-[0.95rem]",
+                        labelTone === "dark" ? "text-zinc-900" : "text-zinc-800"
+                      )}
+                    >
+                      {project.title}
+                      <span
+                        className={cn(
+                          "mx-1.5 font-light",
+                          labelTone === "dark" ? "text-zinc-500" : "text-zinc-500"
+                        )}
+                      >
+                        ·
+                      </span>
+                      <span className="font-normal text-zinc-500">{project.year}</span>
+                    </p>
+                    <p
+                      className={cn(
+                        "line-clamp-2 text-[0.78rem] leading-snug sm:text-[0.8rem]",
+                        labelTone === "dark" ? "text-zinc-600" : "text-zinc-600"
+                      )}
+                    >
+                      {project.description}
+                    </p>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+        <p className="mt-6 text-center text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+          Tap a card to open
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div

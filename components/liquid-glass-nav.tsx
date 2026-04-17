@@ -71,12 +71,12 @@ export function LiquidGlassNav() {
             <div className={cn("pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/18 to-transparent", isDark ? "opacity-[0.22]" : "opacity-[0.35]")} aria-hidden />
             <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
 
-            <div className="relative flex items-center gap-0 px-4 py-2.5 md:px-5 md:py-3">
-              {/* Brand wordmark */}
+            <div className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-5 md:py-3">
+              {/* Brand wordmark — smaller on narrow viewports so four nav links fit comfortably */}
               <Link
                 href="/"
                 aria-label="Home — Failenn Aselta"
-                className="shrink-0 inline-block text-center leading-[1.2]"
+                className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]"
               >
                 <motion.span
                   whileHover={reduced ? {} : { scale: 1.03, y: -1 }}
@@ -84,25 +84,42 @@ export function LiquidGlassNav() {
                   transition={spring}
                   className="block text-center"
                 >
-                  <span className={cn("block font-mono text-[11px] font-semibold tracking-[0.1em] md:text-[12px]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
+                  <span
+                    className={cn(
+                      "block font-mono text-[9px] font-semibold tracking-[0.06em] sm:text-[10px] sm:tracking-[0.08em] md:text-[12px] md:tracking-[0.1em]",
+                      isDark ? "text-white/95" : "text-[#4a5c35]"
+                    )}
+                  >
                     failenn aselta
                   </span>
-                  <span className={cn("block font-sans text-[9px] italic tracking-[0.05em] md:text-[10px]", isDark ? "text-white/50" : "text-[#5a6648]/65")}>
+                  <span
+                    className={cn(
+                      "block font-sans text-[7.5px] italic tracking-[0.04em] sm:text-[8.5px] md:text-[10px] md:tracking-[0.05em]",
+                      isDark ? "text-white/50" : "text-[#5a6648]/65"
+                    )}
+                  >
                     design engineer
                   </span>
                 </motion.span>
               </Link>
 
               {/* Divider */}
-              <span className={cn("mx-3 h-5 w-px shrink-0 md:mx-4", isDark ? "bg-gradient-to-b from-transparent via-white/20 to-transparent" : "bg-gradient-to-b from-transparent via-black/[0.08] to-transparent")} aria-hidden />
+              <span
+                className={cn(
+                  "mx-2 h-4 w-px shrink-0 sm:mx-2.5 sm:h-5 md:mx-4",
+                  isDark ? "bg-gradient-to-b from-transparent via-white/20 to-transparent" : "bg-gradient-to-b from-transparent via-black/[0.08] to-transparent"
+                )}
+                aria-hidden
+              />
 
               {/* Nav links — stagger in, spring hover */}
-              <nav className="flex flex-1 items-center justify-around" aria-label="Primary">
+              <nav className="flex min-w-0 flex-1 items-center justify-around" aria-label="Primary">
                 {LINKS.map(({ href, label }, i) => {
                   const active = isActive(href);
                   return (
                     <motion.div
                       key={href}
+                      className="min-w-0 flex-1"
                       initial={reduced ? false : { opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       whileHover={reduced ? {} : { y: -2, scale: 1.06 }}
@@ -117,7 +134,7 @@ export function LiquidGlassNav() {
                         href={href}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "block rounded-full px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors duration-150 md:px-3 md:text-[11px] md:tracking-[0.22em]",
+                          "block text-center rounded-full px-1.5 py-1 font-mono text-[8.5px] uppercase tracking-[0.12em] transition-colors duration-150 sm:px-2.5 sm:py-1.5 sm:text-[9.5px] sm:tracking-[0.15em] md:px-3 md:text-[11px] md:tracking-[0.22em]",
                           linkBase,
                           active && linkActive
                         )}

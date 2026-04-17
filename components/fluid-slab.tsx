@@ -29,6 +29,9 @@ export default function FluidSlab({
   followMouse = false,
   mouseStrength = 2.0,
   eventTargetRef,
+  /** Cap DPR for performance (contact uses 1 on small screens). */
+  maxPixelRatio = 1.5,
+  antialias = true,
 }: {
   className?: string;
   intensity?: number;
@@ -37,6 +40,8 @@ export default function FluidSlab({
   followMouse?: boolean;
   mouseStrength?: number;
   eventTargetRef?: RefObject<HTMLElement | null>;
+  maxPixelRatio?: number;
+  antialias?: boolean;
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -173,12 +178,14 @@ export default function FluidSlab({
     const eventTarget = eventTargetRef?.current ?? host;
 
     const renderer = new THREE.WebGLRenderer({
-      antialias: true,
+      antialias,
       alpha: true,
       powerPreference: "high-performance",
     });
     renderer.setClearColor(0x000000, 0);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio ?? 1, 1.5));
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio ?? 1, Math.max(0.75, maxPixelRatio))
+    );
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -284,9 +291,11 @@ export default function FluidSlab({
       if (renderer.domElement.parentNode === host) host.removeChild(renderer.domElement);
     };
   }, [
+    antialias,
     eventTargetRef,
     followMouse,
     intensity,
+    maxPixelRatio,
     mouseStrength,
     prefersReducedMotion,
     shader.fragmentShader,
