@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NavShell } from "@/components/nav-shell";
 import "./globals.css";
@@ -16,6 +17,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Failenn Aselta",
   description: "Portfolio and projects by Failenn Aselta.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#e8e8e8",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
