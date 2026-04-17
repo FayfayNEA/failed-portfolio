@@ -40,7 +40,7 @@ export function LiquidGlassNav() {
 
   return (
     <header
-      className="pointer-events-none fixed inset-x-0 top-3 z-[100] flex justify-center px-3 md:top-5"
+      className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[100] flex justify-center px-3 md:top-[calc(env(safe-area-inset-top)+1.25rem)]"
       aria-label="Site navigation"
     >
       {/* Whole pill slides down on mount */}

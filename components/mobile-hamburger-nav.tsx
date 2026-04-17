@@ -61,7 +61,7 @@ export function MobileHamburgerNav() {
   );
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-3 z-[100] flex justify-end px-3">
+    <div className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[100] flex justify-end px-3">
       <button
         type="button"
         aria-label={open ? "Close menu" : "Open menu"}
@@ -111,7 +111,7 @@ export function MobileHamburgerNav() {
 
             <motion.div
               className={cn(
-                "absolute right-3 top-16 w-[min(92vw,360px)] overflow-hidden rounded-2xl border-[0.5px]",
+                "absolute right-3 top-[calc(env(safe-area-inset-top)+4rem)] w-[min(92vw,360px)] overflow-hidden rounded-2xl border-[0.5px]",
                 "backdrop-blur-2xl backdrop-saturate-125",
                 isDark
                   ? "border-white/[0.10] bg-zinc-950/[0.52] shadow-[0_24px_80px_-40px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)]"
