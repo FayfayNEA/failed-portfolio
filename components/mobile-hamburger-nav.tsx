@@ -29,6 +29,12 @@ export function MobileHamburgerNav() {
   }, [pathname]);
 
   useEffect(() => {
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) return;
+    meta.setAttribute("content", "#e8e8e8");
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
     // iOS Safari: `overflow: hidden` on body can still rubber-band / leave visual artifacts.
     // Lock scroll by fixing the body in place, then restore scroll position on close.
@@ -55,6 +61,14 @@ export function MobileHamburgerNav() {
       b.style.right = prev.right;
       b.style.width = prev.width;
       window.scrollTo(0, scrollY);
+
+      // Safari sometimes keeps the UI tint from the darkest recent pixels (our overlay).
+      // Reassert theme-color after close so the top/bottom bars return to canvas.
+      const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+      if (meta) {
+        requestAnimationFrame(() => meta.setAttribute("content", "#e8e8e8"));
+        setTimeout(() => meta.setAttribute("content", "#e8e8e8"), 50);
+      }
     };
   }, [open]);
 
@@ -125,7 +139,8 @@ export function MobileHamburgerNav() {
             <div
               className={cn(
                 "absolute inset-0",
-                isDark ? "bg-black/55" : "bg-black/25"
+                // Avoid large pure-black slabs: Safari can "stick" the browser UI tint dark.
+                isDark ? "bg-[rgba(10,12,10,0.40)]" : "bg-[rgba(24,24,24,0.18)]"
               )}
               aria-hidden
             />
