@@ -28,7 +28,8 @@ export function NavShell({ children }: { children: React.ReactNode }) {
       <div
         className={cn(
           "relative z-[1] flex min-h-full flex-1 flex-col",
-          !fullBleed && "pt-[4.5rem] md:pt-[5rem]",
+          // Nav is already offset by safe-area; keep content padding tighter on mobile.
+          !fullBleed && "pt-[4rem] md:pt-[5rem]",
           fitherBg && "fither-page-canvas min-h-[100dvh]"
         )}
       >

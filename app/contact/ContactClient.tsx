@@ -112,7 +112,7 @@ export default function ContactClient() {
   };
 
   return (
-    <div className="relative -mt-[4.5rem] flex min-h-full flex-col bg-transparent pt-[4.5rem] text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif] md:-mt-[5rem] md:pt-[5rem]">
+    <div className="relative flex min-h-full flex-col bg-transparent text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]">
       <main
         ref={pageRef}
         className="relative flex min-h-[100dvh] flex-col bg-transparent"
@@ -140,9 +140,9 @@ export default function ContactClient() {
             <div className="relative">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">
                 {/* Primary glass slab */}
-                <div className="relative isolate overflow-hidden rounded-[2.25rem] p-5 sm:p-8 md:border md:border-white/55 md:bg-white/[0.08] md:shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] md:ring-1 md:ring-black/[0.05] md:backdrop-blur-xl md:backdrop-saturate-125 md:backdrop-blur-2xl">
+                <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.05] p-5 shadow-[0_22px_66px_-42px_rgba(0,0,0,0.16),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-125 sm:p-8 md:bg-white/[0.08] md:shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] md:ring-black/[0.05] md:backdrop-blur-2xl">
                 <div
-                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] md:bg-gradient-to-b md:from-white/30 md:via-white/[0.10] md:to-white/[0.06]"
+                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/22 via-white/[0.08] to-white/[0.04] md:from-white/30 md:via-white/[0.10] md:to-white/[0.06]"
                   aria-hidden
                 />
                 <span
@@ -204,9 +204,9 @@ export default function ContactClient() {
               </div>
 
               {/* Social / secondary */}
-              <div className="relative isolate overflow-hidden rounded-[2.25rem] p-5 sm:p-8 md:border md:border-white/55 md:bg-white/[0.07] md:shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] md:ring-1 md:ring-black/[0.05] md:backdrop-blur-xl md:backdrop-saturate-125 md:backdrop-blur-2xl">
+              <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.04] p-5 shadow-[0_18px_60px_-46px_rgba(0,0,0,0.14),inset_0_1px_0_0_rgba(255,255,255,0.5)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-125 sm:p-8 md:bg-white/[0.07] md:shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] md:ring-black/[0.05] md:backdrop-blur-2xl">
                 <div
-                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] md:bg-gradient-to-b md:from-white/26 md:via-white/[0.10] md:to-white/[0.04]"
+                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/20 via-white/[0.07] to-white/[0.03] md:from-white/26 md:via-white/[0.10] md:to-white/[0.04]"
                   aria-hidden
                 />
 
