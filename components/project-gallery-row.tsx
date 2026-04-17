@@ -2,6 +2,7 @@
 
 import { useCallback, useId, useState } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { cn } from "@/lib/cn";
 
 const SPRING = { type: "spring" as const, stiffness: 400, damping: 32, mass: 1 };
@@ -73,6 +74,8 @@ export function ProjectGalleryRow({
       return (cur + dir + n) % n;
     });
   }, [n]);
+
+  const swipe = useCarouselSwipe(go, n > 1);
 
   if (n === 0) return null;
 
@@ -350,7 +353,14 @@ export function ProjectGalleryRow({
           }
         }}
       >
-        <div className={cn("relative overflow-hidden", frameClass)}>
+        <div
+          className={cn(
+            "relative touch-manipulation overflow-hidden select-none",
+            n > 1 && "cursor-grab active:cursor-grabbing",
+            frameClass
+          )}
+          {...swipe}
+        >
           {isLiquidViolet ? (
             <>
               <div

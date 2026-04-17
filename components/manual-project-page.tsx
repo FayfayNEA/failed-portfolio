@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 import { useState, useCallback } from "react";
+import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { ProjectSurface } from "@/components/project-surface";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import type { SidebarSection } from "@/components/case-study-sidebar";
@@ -107,6 +108,11 @@ function HeroCarousel({
   const n = images.length;
   const prev = useCallback(() => setIndex((i) => (i - 1 + n) % n), [n]);
   const next = useCallback(() => setIndex((i) => (i + 1) % n), [n]);
+  const goSlide = useCallback(
+    (dir: -1 | 1) => setIndex((i) => (((i + dir) % n) + n) % n),
+    [n]
+  );
+  const swipe = useCarouselSwipe(goSlide, n > 1);
 
   const sizeClass =
     layout === "tall"
@@ -137,11 +143,13 @@ function HeroCarousel({
   return (
     <div
       className={cn(
-        "relative w-full",
+        "relative w-full touch-manipulation",
         layout === "tall" && "flex justify-center",
         layout === "full" &&
-          "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]"
+          "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]",
+        n > 1 && "cursor-grab active:cursor-grabbing select-none"
       )}
+      {...swipe}
     >
       {imageZoom ? (
         <div className={cn(cardClass, sizeClass, "overflow-hidden w-full")}>
@@ -200,6 +208,11 @@ function HeroVideoCarousel({
   const n = videos.length;
   const prev = useCallback(() => setIndex((i) => (i - 1 + n) % n), [n]);
   const next = useCallback(() => setIndex((i) => (i + 1) % n), [n]);
+  const goSlide = useCallback(
+    (dir: -1 | 1) => setIndex((i) => (((i + dir) % n) + n) % n),
+    [n]
+  );
+  const swipe = useCarouselSwipe(goSlide, n > 1);
 
   const wrapClass =
     size === "wide"
@@ -217,7 +230,14 @@ function HeroVideoCarousel({
 
   return (
     <div className="flex justify-center">
-      <div className={cn("relative w-full", wrapClass)}>
+      <div
+        className={cn(
+          "relative w-full touch-manipulation",
+          wrapClass,
+          n > 1 && "cursor-grab active:cursor-grabbing select-none"
+        )}
+        {...swipe}
+      >
         <div className="relative overflow-hidden rounded-2xl">
           <video
             key={videos[index]}

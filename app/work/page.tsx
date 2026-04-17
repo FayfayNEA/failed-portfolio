@@ -18,26 +18,24 @@ const FOLDER_ICON =
 
 /**
  * Folders sit on the glass, centered on each column of the CRT content.
- * `center` is horizontal % of the hero; `top` is distance from top; `w` is width % of hero.
+ * `center` is horizontal % of the hero; `w` is width % of hero.
+ * Vertical position: `max-md` sits higher so folders read on the glass on phones; `md+` matches desktop art.
  */
 const FOLDER_STRIPS: {
   href: string;
   label: string;
   /** horizontal center % */
   center: string;
-  top: string;
   w: string;
 }[] = [
-  /** `top` = vertical center of CRT; transform centers the folder+label stack on that point. */
-  { href: "/branding", label: "Branding", center: "calc(40% - 30px)", top: "calc(37% + 30px)", w: "8%" },
+  { href: "/branding", label: "Branding", center: "calc(40% - 30px)", w: "8%" },
   {
     href: "/product-design",
     label: "Product design",
     center: "50%",
-    top: "calc(37% + 30px)",
     w: "8%",
   },
-  { href: "/architecture", label: "Architecture", center: "calc(60% + 30px)", top: "calc(37% + 30px)", w: "8%" },
+  { href: "/architecture", label: "Architecture", center: "calc(60% + 30px)", w: "8%" },
 ];
 
 export default function WorkPage() {
@@ -59,10 +57,12 @@ export default function WorkPage() {
           {FOLDER_STRIPS.map((f) => (
             <div
               key={f.href}
-              className="absolute z-20"
+              className={cn(
+                "absolute z-20 max-md:top-[calc(31%+12px)] md:top-[calc(37%+30px)]",
+                "max-md:min-w-[48px] max-md:max-w-[56px]"
+              )}
               style={{
                 left: f.center,
-                top: f.top,
                 width: f.w,
                 transform: "translate(-50%, -50%)",
               }}
