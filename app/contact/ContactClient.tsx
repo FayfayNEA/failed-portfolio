@@ -118,7 +118,7 @@ export default function ContactClient() {
         className="relative flex min-h-[100dvh] flex-col bg-transparent"
       >
         {/* Viewport-fixed fluid background for the Contact route. */}
-        <div className="pointer-events-none fixed inset-0 -z-10">
+        <div className="pointer-events-none sticky top-0 z-0 h-[100dvh] -mb-[100dvh] bg-[var(--canvas)] [transform:translateZ(0)]">
           <FluidSlab
             className="h-full w-full"
             intensity={isBelowMd ? 0.5 : 0.75}
@@ -135,7 +135,7 @@ export default function ContactClient() {
             className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/[0.02]"
           />
         </div>
-        <div className="relative flex flex-1 items-center justify-center px-4 py-14 sm:px-6 max-[900px]:py-10">
+        <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-14 sm:px-6 max-[900px]:py-10">
           <div className="relative w-full max-w-[980px]">
             <div className="relative">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">

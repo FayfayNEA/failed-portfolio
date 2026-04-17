@@ -42,19 +42,19 @@ export default function WorkPage() {
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-6 md:px-8 md:py-12">
         {/* Mobile: custom hero + vertical folder stack */}
         <div className="w-full md:hidden">
-          <div className="relative mx-auto w-full max-w-[min(520px,94vw)]">
+          <div className="relative mx-auto w-full max-w-[min(520px,94vw)] overflow-hidden">
             <Image
               src="/work/work-mobile.png"
               alt="Work console: metallic device with cord"
               width={1024}
               height={1024}
-              className="relative z-0 h-auto w-full object-contain"
+              className="relative z-0 h-auto w-full object-contain scale-[1.06]"
               sizes="(max-width: 520px) 94vw, 520px"
               priority
               draggable={false}
             />
 
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-5 pt-10 -translate-y-[50px] translate-x-[5px]">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3.5 pt-10 -translate-y-[50px] translate-x-[5px]">
               {FOLDER_STRIPS.map((f) => (
                 <Link
                   key={f.href}
