@@ -40,7 +40,70 @@ export default function WorkPage() {
   return (
     <div className="flex min-h-full flex-col overflow-x-hidden bg-transparent text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]">
       <main className="flex flex-1 flex-col items-center justify-center px-4 py-6 md:px-8 md:py-12">
-        <div className="flex w-full flex-col items-center max-md:w-[calc(100%/1.3)] max-md:origin-top max-md:[transform:scale(1.3)]">
+        {/* Mobile: custom hero + vertical folder stack */}
+        <div className="w-full md:hidden">
+          <div className="relative mx-auto w-full max-w-[min(520px,94vw)]">
+            <Image
+              src="/work/work-mobile.png"
+              alt="Work console: metallic device with cord"
+              width={1024}
+              height={1024}
+              className="relative z-0 h-auto w-full object-contain"
+              sizes="(max-width: 520px) 94vw, 520px"
+              priority
+              draggable={false}
+            />
+
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-5 pt-10">
+              {FOLDER_STRIPS.map((f) => (
+                <Link
+                  key={f.href}
+                  href={f.href}
+                  className={cn(
+                    "group relative flex flex-col items-center outline-offset-2",
+                    "transition-transform duration-200 active:scale-[0.98]",
+                    "focus-visible:rounded-[10px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2F7DDC]"
+                  )}
+                  aria-label={f.label}
+                >
+                  <div className="relative w-[44px] drop-shadow-[0_10px_22px_rgba(0,0,0,0.35)]">
+                    <Image
+                      src={FOLDER_ICON}
+                      alt=""
+                      width={357}
+                      height={301}
+                      className="h-auto w-full select-none"
+                      draggable={false}
+                      sizes="44px"
+                    />
+                    <div
+                      className="pointer-events-none absolute inset-0 rounded-sm ring-1 ring-white/20 mix-blend-overlay"
+                      aria-hidden
+                    />
+                  </div>
+
+                  <span className="relative mt-2 inline-flex items-center justify-center">
+                    <span
+                      className="pointer-events-none absolute inset-x-[-6px] top-1/2 h-[1.35em] -translate-y-1/2 rounded-full bg-[rgba(143,213,245,0.32)] shadow-[0_0_0_0.5px_rgba(148,181,208,0.7),0_4px_10px_-6px_rgba(15,23,42,0.55)] opacity-100"
+                      aria-hidden
+                    />
+                    <span
+                      className={cn(
+                        "relative whitespace-nowrap text-center font-mono text-[10px] font-medium leading-tight tracking-wide",
+                        "text-[#111827] drop-shadow-[0_0.5px_0_rgba(255,255,255,0.7)]"
+                      )}
+                    >
+                      {f.label}
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: original CRT hero + horizontal folder strips */}
+        <div className="hidden w-full md:block">
           <div className="relative w-full max-w-[min(920px,94vw)]">
             <Image
               src={WORK_HERO}
@@ -57,8 +120,7 @@ export default function WorkPage() {
               <div
                 key={f.href}
                 className={cn(
-                  "absolute z-20 max-md:top-[calc(33%+28px)] md:top-[calc(37%+30px)]",
-                  "w-[min(7vw,38px)] md:w-[8%]"
+                  "absolute z-20 top-[calc(37%+30px)] w-[8%]"
                 )}
                 style={{
                   left: f.center,
@@ -113,18 +175,18 @@ export default function WorkPage() {
               </div>
             ))}
           </div>
-
-          <p className="mt-10 max-w-md text-center text-[12px] leading-relaxed text-zinc-500">
-            Click the folders on the screen, or open{" "}
-            <Link
-              href="/work/fither"
-              className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
-            >
-              Fither
-            </Link>{" "}
-            and other work from the map.
-          </p>
         </div>
+
+        <p className="mt-10 max-w-md text-center text-[12px] leading-relaxed text-zinc-500">
+          Click the folders on the screen, or open{" "}
+          <Link
+            href="/work/fither"
+            className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
+          >
+            Fither
+          </Link>{" "}
+          and other work from the map.
+        </p>
       </main>
     </div>
   );
