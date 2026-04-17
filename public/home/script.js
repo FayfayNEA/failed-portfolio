@@ -95,6 +95,14 @@ function isMobileViewportWidth(widthPx) {
   return widthPx <= MOBILE_BACKGROUND_MAX_WIDTH_PX;
 }
 
+function shouldDeferAmbientFx(widthPx) {
+  const w =
+    Number.isFinite(widthPx) && widthPx > 0
+      ? widthPx
+      : Math.max(1, viewport?.clientWidth || window.innerWidth);
+  return isMobileViewportWidth(w);
+}
+
 function applyDonatePosition(widthPx) {
   const w =
     Number.isFinite(widthPx) && widthPx > 0
@@ -684,21 +692,26 @@ void refreshGlobalTucanCountDisplay();
 birdCatchPanel.appendChild(birdCatchLine);
 scene.appendChild(birdCatchPanel);
 
-const dustLayer = document.createElement("div");
-dustLayer.className = "ambient-dust";
-for (let i = 0; i < DUST_PARTICLE_COUNT; i += 1) {
-  const p = document.createElement("span");
-  p.className = "dust-particle";
-  p.style.left = `${(Math.random() * 100).toFixed(2)}%`;
-  const size = (Math.random() * 3 + 2).toFixed(2);
-  p.style.width = `${size}px`;
-  p.style.height = `${size}px`;
-  p.style.animationDuration = `${(Math.random() * 8 + 8).toFixed(2)}s`;
-  p.style.animationDelay = `-${(Math.random() * 12).toFixed(2)}s`;
-  p.style.setProperty("--drift", `${(Math.random() * 24 - 12).toFixed(2)}px`);
-  dustLayer.appendChild(p);
+/** Ambient dust is pretty on desktop, but it’s a lot of animated DOM on mobile CPUs. */
+let dustLayer = null;
+const initialViewportW = Math.max(1, viewport?.clientWidth || window.innerWidth);
+if (!shouldDeferAmbientFx(initialViewportW)) {
+  dustLayer = document.createElement("div");
+  dustLayer.className = "ambient-dust";
+  for (let i = 0; i < DUST_PARTICLE_COUNT; i += 1) {
+    const p = document.createElement("span");
+    p.className = "dust-particle";
+    p.style.left = `${(Math.random() * 100).toFixed(2)}%`;
+    const size = (Math.random() * 3 + 2).toFixed(2);
+    p.style.width = `${size}px`;
+    p.style.height = `${size}px`;
+    p.style.animationDuration = `${(Math.random() * 8 + 8).toFixed(2)}s`;
+    p.style.animationDelay = `-${(Math.random() * 12).toFixed(2)}s`;
+    p.style.setProperty("--drift", `${(Math.random() * 24 - 12).toFixed(2)}px`);
+    dustLayer.appendChild(p);
+  }
+  scene.appendChild(dustLayer);
 }
-scene.appendChild(dustLayer);
 
 const leavesRoot = document.createElement("div");
 leavesRoot.className = "ambient-leaves-root";
@@ -869,6 +882,12 @@ function buildAmbientLeaves() {
 
 function mountLeavesLayer() {
   if (leavesLayerMounted) return;
+  const w = Math.max(1, viewport?.clientWidth || window.innerWidth);
+  if (shouldDeferAmbientFx(w)) return;
+  if (!background?.naturalWidth) {
+    background.addEventListener("load", () => mountLeavesLayer(), { once: true });
+    return;
+  }
   leavesLayerMounted = true;
   const maskUrl = createLeafBackgroundMaskDataUrl(background);
   applyLeavesRootMask(maskUrl);
@@ -1086,6 +1105,8 @@ if (background.complete && background.naturalWidth > 0) {
     "error",
     () => {
       if (!leavesLayerMounted) {
+        const w = Math.max(1, viewport?.clientWidth || window.innerWidth);
+        if (shouldDeferAmbientFx(w)) return;
         leavesLayerMounted = true;
         buildAmbientLeaves();
         scene.appendChild(leavesRoot);
@@ -1118,6 +1139,10 @@ function refreshSceneScale() {
   applySceneLayoutForViewportWidth(iw);
   scene.classList.toggle("scene--is-mobile", isMobileViewportWidth(iw));
   syncNetherPortalOverlayPosition(iw);
+  // If we start on mobile we skip leaf FX; if the viewport later widens, mount then.
+  if (!isMobileViewportWidth(iw)) {
+    mountLeavesLayer();
+  }
 
   const viewportKey = `${iw}x${ih}`;
   if (viewportKey !== lastViewportKey) {

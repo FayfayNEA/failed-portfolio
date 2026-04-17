@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ContactClient from "./ContactClient";
+import { ContactGate } from "./ContactGate";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
-  return <ContactClient />;
+  return <ContactGate />;
 }
