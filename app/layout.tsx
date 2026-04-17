@@ -17,11 +17,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Failenn Aselta",
   description: "Portfolio and projects by Failenn Aselta.",
+  themeColor: "#e8e8e8",
 };
 
 export const viewport: Viewport = {
   themeColor: "#e8e8e8",
   colorScheme: "light",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

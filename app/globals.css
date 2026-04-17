@@ -7,6 +7,7 @@ html {
   background-image: radial-gradient(var(--canvas-dot) 1px, transparent 1px);
   background-size: 20px 20px;
   background-attachment: fixed;
+  overscroll-behavior-y: none;
 }
 
 :root {
@@ -28,22 +29,31 @@ body {
   min-height: 100%;
   height: 100%;
   min-height: 100dvh;
-  /* iOS Safari can paint the safe-area/status-bar against `body`.
-     Keep `body` non-transparent to prevent dark flashes on route transitions. */
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  overscroll-behavior-y: none;
+}
+
+/* iOS Safari can briefly reveal the "page behind" during overscroll or SPA route transitions.
+   Paint a fixed, full-viewport canvas layer so the safe-area never flashes dark. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background-color: var(--canvas);
   background-image: radial-gradient(var(--canvas-dot) 1px, transparent 1px);
   background-size: 20px 20px;
-  background-attachment: fixed;
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  transform: translateZ(0);
 }
 
 /* Mobile browsers often glitch with `background-attachment: fixed` (gaps / partial paint). */
 @media (hover: none) and (pointer: coarse) {
   html {
-    background-attachment: scroll;
-  }
-  body {
     background-attachment: scroll;
   }
 }
