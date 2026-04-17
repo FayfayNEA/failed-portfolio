@@ -79,10 +79,7 @@ const projects: GalleryProject[] = [
 
 export default function ProductDesignPage() {
   return (
-    <div
-      className="flex flex-col overflow-hidden"
-      style={{ height: "calc(100dvh - 4.5rem)" }}
-    >
+    <div className="flex h-[calc(100dvh-4rem)] flex-col overflow-hidden md:h-[calc(100dvh-5rem)]">
       {/* Breadcrumb header */}
       <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:px-12">
         <CaseBreadcrumb

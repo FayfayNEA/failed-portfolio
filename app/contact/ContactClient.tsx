@@ -132,7 +132,12 @@ export default function ContactClient() {
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-black/[0.02]"
+            className={cn(
+              "absolute inset-0",
+              isBelowMd
+                ? "hidden"
+                : "bg-gradient-to-b from-white/10 via-transparent to-black/[0.02]"
+            )}
           />
         </div>
         <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-14 sm:px-6 max-[900px]:py-10">
@@ -140,9 +145,9 @@ export default function ContactClient() {
             <div className="relative">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-[1.1fr_0.9fr]">
                 {/* Primary glass slab */}
-                <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.05] p-5 shadow-[0_22px_66px_-42px_rgba(0,0,0,0.16),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-125 sm:p-8 md:bg-white/[0.08] md:shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] md:ring-black/[0.05] md:backdrop-blur-2xl">
+                <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-transparent p-5 shadow-none ring-1 ring-black/[0.04] backdrop-blur-none sm:p-8 md:bg-white/[0.08] md:shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] md:ring-black/[0.05] md:backdrop-blur-xl md:backdrop-saturate-125 md:backdrop-blur-2xl">
                 <div
-                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/22 via-white/[0.08] to-white/[0.04] md:from-white/30 md:via-white/[0.10] md:to-white/[0.06]"
+                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] max-md:hidden bg-gradient-to-b from-white/22 via-white/[0.08] to-white/[0.04] md:block md:from-white/30 md:via-white/[0.10] md:to-white/[0.06]"
                   aria-hidden
                 />
                 <span
@@ -204,9 +209,9 @@ export default function ContactClient() {
               </div>
 
               {/* Social / secondary */}
-              <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-white/[0.04] p-5 shadow-[0_18px_60px_-46px_rgba(0,0,0,0.14),inset_0_1px_0_0_rgba(255,255,255,0.5)] ring-1 ring-black/[0.04] backdrop-blur-xl backdrop-saturate-125 sm:p-8 md:bg-white/[0.07] md:shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] md:ring-black/[0.05] md:backdrop-blur-2xl">
+              <div className="relative isolate overflow-hidden rounded-[2.25rem] border border-white/55 bg-transparent p-5 shadow-none ring-1 ring-black/[0.04] backdrop-blur-none sm:p-8 md:bg-white/[0.07] md:shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] md:ring-black/[0.05] md:backdrop-blur-xl md:backdrop-saturate-125 md:backdrop-blur-2xl">
                 <div
-                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] bg-gradient-to-b from-white/20 via-white/[0.07] to-white/[0.03] md:from-white/26 md:via-white/[0.10] md:to-white/[0.04]"
+                  className="pointer-events-none absolute inset-0 rounded-[2.25rem] max-md:hidden bg-gradient-to-b from-white/20 via-white/[0.07] to-white/[0.03] md:block md:from-white/26 md:via-white/[0.10] md:to-white/[0.04]"
                   aria-hidden
                 />
 

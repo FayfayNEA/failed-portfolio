@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function FitherWorkPage() {
   return (
     <div
-      className="fither-page-canvas relative -mt-[4.5rem] flex min-h-[100dvh] flex-col pt-[4.5rem] md:-mt-[5rem] md:pt-[5rem]"
+      className="fither-page-canvas relative -mt-[4rem] flex min-h-[100dvh] flex-col pt-[4rem] md:-mt-[5rem] md:pt-[5rem]"
     >
       {/* Breadcrumb below site nav; background extends under nav via negative margin */}
       <div className="shrink-0 px-6 pt-2 pb-1 md:px-10">
