@@ -7,7 +7,7 @@ import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { ProjectSurface } from "@/components/project-surface";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import type { SidebarSection } from "@/components/case-study-sidebar";
-import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
+import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { CoolPageCursor } from "@/components/cool-page-cursor";
 import { cn } from "@/lib/cn";
@@ -392,6 +392,10 @@ export function ManualProjectPage({
           "min-[1001px]:pr-12"
         )}
       >
+        <div className="min-[1001px]:hidden">
+          <CaseBreadcrumb segments={breadcrumb} />
+        </div>
+
         <h1
           className={cn(
             "mb-8 mt-0 font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",

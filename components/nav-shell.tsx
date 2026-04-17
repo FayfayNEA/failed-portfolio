@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { LiquidGlassNav } from "@/components/liquid-glass-nav";
+import { MobileHamburgerNav } from "@/components/mobile-hamburger-nav";
 import { cn } from "@/lib/cn";
 
 /**
@@ -18,7 +19,12 @@ export function NavShell({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <LiquidGlassNav />
+      <div className="hidden md:block">
+        <LiquidGlassNav />
+      </div>
+      <div className="md:hidden">
+        <MobileHamburgerNav />
+      </div>
       <div
         className={cn(
           "relative z-[1] flex min-h-full flex-1 flex-col",

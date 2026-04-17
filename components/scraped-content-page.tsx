@@ -3,7 +3,7 @@
 import { ContentMdx } from "@/components/content-mdx";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import type { SidebarSection } from "@/components/case-study-sidebar";
-import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
+import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { ProjectSurface } from "@/components/project-surface";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { cn } from "@/lib/cn";
@@ -77,6 +77,10 @@ export async function ScrapedContentPage({
           "min-[1001px]:pr-12"
         )}
       >
+        <div className="min-[1001px]:hidden">
+          <CaseBreadcrumb segments={breadcrumbSegments} />
+        </div>
+
         {/* Title — light weight matching the rest of the site */}
         <h1 className="mb-8 mt-0 font-mono text-[clamp(2.75rem,4.8vw,4rem)] font-light leading-[1.02] tracking-[-0.04em] text-zinc-950">
           {title}
