@@ -355,8 +355,8 @@ export function ProjectGalleryRow({
       >
         <div
           className={cn(
-            "relative touch-manipulation overflow-hidden select-none",
-            n > 1 && "cursor-grab active:cursor-grabbing",
+            "relative touch-manipulation overflow-hidden select-none touch-pan-y overscroll-x-contain",
+            n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing",
             frameClass
           )}
           {...swipe}

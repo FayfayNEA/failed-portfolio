@@ -18,24 +18,22 @@ const FOLDER_ICON =
 
 /**
  * Folders sit on the glass, centered on each column of the CRT content.
- * `center` is horizontal % of the hero; `w` is width % of hero.
- * Vertical position: `max-md` sits higher so folders read on the glass on phones; `md+` matches desktop art.
+ * `center` is horizontal % of the hero. Width: narrow cap on mobile, 8% of hero on `md+`.
+ * Vertical position: `max-md` tuned to the glass; `md+` matches desktop art.
  */
 const FOLDER_STRIPS: {
   href: string;
   label: string;
   /** horizontal center % */
   center: string;
-  w: string;
 }[] = [
-  { href: "/branding", label: "Branding", center: "calc(40% - 30px)", w: "8%" },
+  { href: "/branding", label: "Branding", center: "calc(40% - 30px)" },
   {
     href: "/product-design",
     label: "Product design",
     center: "50%",
-    w: "8%",
   },
-  { href: "/architecture", label: "Architecture", center: "calc(60% + 30px)", w: "8%" },
+  { href: "/architecture", label: "Architecture", center: "calc(60% + 30px)" },
 ];
 
 export default function WorkPage() {
@@ -58,12 +56,11 @@ export default function WorkPage() {
             <div
               key={f.href}
               className={cn(
-                "absolute z-20 max-md:top-[calc(31%+12px)] md:top-[calc(37%+30px)]",
-                "max-md:min-w-[48px] max-md:max-w-[56px]"
+                "absolute z-20 max-md:top-[calc(32%+16px)] md:top-[calc(37%+30px)]",
+                "w-[min(5.5vw,28px)] md:w-[8%]"
               )}
               style={{
                 left: f.center,
-                width: f.w,
                 transform: "translate(-50%, -50%)",
               }}
             >

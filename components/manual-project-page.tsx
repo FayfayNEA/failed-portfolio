@@ -143,22 +143,32 @@ function HeroCarousel({
   return (
     <div
       className={cn(
-        "relative w-full touch-manipulation",
+        "relative w-full touch-manipulation touch-pan-y overscroll-x-contain",
         layout === "tall" && "flex justify-center",
         layout === "full" &&
           "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]",
-        n > 1 && "cursor-grab active:cursor-grabbing select-none"
+        n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing select-none"
       )}
       {...swipe}
     >
       {imageZoom ? (
         <div className={cn(cardClass, sizeClass, "overflow-hidden w-full")}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={images[index]} alt={`${alt} ${index + 1} of ${n}`} className={imgClass} />
+          <img
+            src={images[index]}
+            alt={`${alt} ${index + 1} of ${n}`}
+            className={imgClass}
+            draggable={false}
+          />
         </div>
       ) : (
         /* eslint-disable-next-line @next/next/no-img-element */
-        <img src={images[index]} alt={`${alt} ${index + 1} of ${n}`} className={imgClass} />
+        <img
+          src={images[index]}
+          alt={`${alt} ${index + 1} of ${n}`}
+          className={imgClass}
+          draggable={false}
+        />
       )}
 
       {/* Prev / Next buttons */}
@@ -232,9 +242,9 @@ function HeroVideoCarousel({
     <div className="flex justify-center">
       <div
         className={cn(
-          "relative w-full touch-manipulation",
+          "relative w-full touch-manipulation touch-pan-y overscroll-x-contain",
           wrapClass,
-          n > 1 && "cursor-grab active:cursor-grabbing select-none"
+          n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing select-none"
         )}
         {...swipe}
       >

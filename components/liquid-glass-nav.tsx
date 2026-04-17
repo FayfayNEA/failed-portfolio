@@ -134,7 +134,7 @@ export function LiquidGlassNav() {
                         href={href}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "block text-center rounded-full px-1.5 py-1 font-mono text-[8.5px] uppercase tracking-[0.12em] transition-colors duration-150 sm:px-2.5 sm:py-1.5 sm:text-[9.5px] sm:tracking-[0.15em] md:px-3 md:text-[11px] md:tracking-[0.22em]",
+                          "block text-center whitespace-nowrap leading-tight rounded-full px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.11em] transition-colors duration-150 sm:px-2.5 sm:py-1.5 sm:text-[9.5px] sm:tracking-[0.15em] md:px-3 md:text-[11px] md:tracking-[0.22em]",
                           linkBase,
                           active && linkActive
                         )}
