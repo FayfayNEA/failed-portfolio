@@ -31,7 +31,9 @@ export function MobileHamburgerNav() {
   useEffect(() => {
     const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
     if (!meta) return;
-    meta.setAttribute("content", "#e8e8e8");
+    // iOS Safari can ignore "re-setting" the same value; toggle to force refresh.
+    meta.setAttribute("content", "#e8e8e7");
+    requestAnimationFrame(() => meta.setAttribute("content", "#e8e8e8"));
   }, []);
 
   useEffect(() => {
@@ -54,6 +56,13 @@ export function MobileHamburgerNav() {
     b.style.right = "0";
     b.style.width = "100%";
 
+    // Keep Safari chrome in the light theme while menu is open.
+    const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute("content", "#e8e8e7");
+      requestAnimationFrame(() => meta.setAttribute("content", "#e8e8e8"));
+    }
+
     return () => {
       b.style.position = prev.position;
       b.style.top = prev.top;
@@ -64,10 +73,13 @@ export function MobileHamburgerNav() {
 
       // Safari sometimes keeps the UI tint from the darkest recent pixels (our overlay).
       // Reassert theme-color after close so the top/bottom bars return to canvas.
-      const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
       if (meta) {
+        meta.setAttribute("content", "#e8e8e7");
         requestAnimationFrame(() => meta.setAttribute("content", "#e8e8e8"));
-        setTimeout(() => meta.setAttribute("content", "#e8e8e8"), 50);
+        setTimeout(() => {
+          meta.setAttribute("content", "#e8e8e7");
+          requestAnimationFrame(() => meta.setAttribute("content", "#e8e8e8"));
+        }, 120);
       }
     };
   }, [open]);
@@ -139,8 +151,8 @@ export function MobileHamburgerNav() {
             <div
               className={cn(
                 "absolute inset-0",
-                // Avoid large pure-black slabs: Safari can "stick" the browser UI tint dark.
-                isDark ? "bg-[rgba(10,12,10,0.40)]" : "bg-[rgba(24,24,24,0.18)]"
+                // Keep this light so iOS Safari doesn't tint browser chrome dark.
+                isDark ? "bg-[rgba(232,232,232,0.08)]" : "bg-[rgba(232,232,232,0.55)]"
               )}
               aria-hidden
             />
