@@ -98,7 +98,7 @@ export function LiquidGlassNav() {
                       isDark ? "text-white/50" : "text-[#5a6648]/65"
                     )}
                   >
-                    design engineer
+                    designer
                   </span>
                 </motion.span>
               </Link>
