@@ -177,18 +177,32 @@ export default function WorkPage() {
             ))}
           </div>
         </div>
-        </div>
 
-        <p className="mx-auto mt-10 max-w-md text-center text-[12px] leading-relaxed text-zinc-500">
-          Click the folders on the screen, or open{" "}
-          <Link
-            href="/work/fither"
-            className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
-          >
-            Fither
-          </Link>{" "}
-          and other work from the map.
-        </p>
+        <div
+          role="note"
+          className="mx-auto mt-3 w-full max-w-md border-t border-zinc-300/80 pt-3 md:mt-4 md:pt-3.5"
+          aria-label="Click folders on the screen to open categories"
+        >
+          <p className="text-center text-[11px] leading-snug text-zinc-500 md:text-[12px] md:leading-relaxed">
+            <span className="font-medium text-zinc-600">Click the folders</span> on the screen to
+            open each category. You can also open{" "}
+            <Link
+              href="/work/fither"
+              className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
+            >
+              Fither
+            </Link>{" "}
+            and other work from the{" "}
+            <Link
+              href="/"
+              className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
+            >
+              home map
+            </Link>
+            .
+          </p>
+        </div>
+        </div>
       </main>
     </div>
   );

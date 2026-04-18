@@ -118,6 +118,45 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Fixed hint under the spatial map (viewport space, not scene transforms) */
+.map-explore-hint {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: max(0.45rem, env(safe-area-inset-bottom, 0px));
+  z-index: 28;
+  width: min(22rem, calc(100% - 1.25rem));
+  pointer-events: none;
+  margin: 0;
+  padding: 0 0.5rem;
+  text-align: center;
+  font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas",
+    "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  line-height: 1.4;
+  color: #0a0a0a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow:
+    0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 1px rgba(255, 255, 255, 1),
+    0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.map-explore-hint__line {
+  margin: 0;
+}
+
+.map-explore-hint__line--sub {
+  margin-top: 0.28rem;
+  font-size: 8px;
+  opacity: 0.9;
+  letter-spacing: 0.035em;
+  line-height: 1.38;
+}
+
 /* Mobile map (JS toggles .scene--is-mobile when viewport ≤ MOBILE_BACKGROUND_MAX_WIDTH_PX) */
 #spatial-scene.scene--is-mobile .donate-btn {
   font-size: 14px;
