@@ -7,8 +7,7 @@ const FEATURED = [
     title: "Buddy",
     category: "Product Design",
     year: "2025",
-    image:
-      "https://framerusercontent.com/images/B9GkX7orORDgH2rQotIt6DptFT8.jpg?width=6240&height=3512",
+    image: "/coverimages/buddy.png",
     alt: "Buddy project thumbnail",
   },
   {
@@ -16,7 +15,7 @@ const FEATURED = [
     title: "Eidolon",
     category: "Product Design",
     year: "2026",
-    image: "/eidolon/screen%201%20of%20intro.png",
+    image: "/coverimages/eidolon.png",
     alt: "Eidolon project thumbnail",
   },
   {
@@ -24,7 +23,7 @@ const FEATURED = [
     title: "Fither",
     category: "Product Design",
     year: "2025",
-    image: "/fither/assets/organic_dither_final.png",
+    image: "/fither/assets/organic_dot_field.png",
     alt: "Fither project thumbnail",
   },
   {
@@ -49,8 +48,7 @@ const FEATURED = [
     title: "E*Trade",
     category: "Product Design",
     year: "2026",
-    image:
-      "https://framerusercontent.com/images/NvG3dp6QgMIWgEFMHXnQsAmc3lc.png?width=3829&height=2020",
+    image: "/coverimages/etrade.png",
     alt: "E*Trade project thumbnail",
   },
 ] as const;
