@@ -470,15 +470,16 @@ export function CategoryGallery({
                         src={project.coverImage}
                         alt={project.title}
                         fill
+                        quality={75}
                         className={cn(
                           project.coverImageFit === "contain"
                             ? "object-contain"
                             : "object-cover",
                           project.coverImageClassName
                         )}
-                        sizes="(max-width: 1024px) 100vw, 420px"
+                        sizes="(max-width: 1024px) min(100vw, 440px), 420px"
                         draggable={false}
-                        unoptimized
+                        decoding="async"
                       />
                     )}
                   </div>
@@ -610,6 +611,7 @@ export function CategoryGallery({
                       src={project.coverImage}
                       alt={project.title}
                       fill
+                      quality={75}
                       className={cn(
                         project.coverImageFit === "contain"
                           ? "object-contain"
@@ -617,9 +619,9 @@ export function CategoryGallery({
                         "pointer-events-none",
                         project.coverImageClassName
                       )}
-                      sizes={`${cardW}px`}
+                      sizes={`${Math.min(cardW * 2, 900)}px`}
                       draggable={false}
-                      unoptimized
+                      decoding="async"
                     />
                   )}
 

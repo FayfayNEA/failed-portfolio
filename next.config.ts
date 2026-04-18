@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
         pathname: "/images/**",
       },
     ],
+    /** Prefer AVIF then WebP for smaller payloads (Next default here was WebP-only). */
+    formats: ["image/avif", "image/webp"],
+    /** Longer edge cache for optimized variants (CDN + browser reuse). */
+    minimumCacheTTL: 60 * 60 * 24 * 7,
+    qualities: [70, 75, 80],
+    /** Avoid oversized srcset buckets for card-sized remote thumbs. */
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
   },
 };
 

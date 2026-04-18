@@ -39,6 +39,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="dns-prefetch" href="//framerusercontent.com" />
+        <link rel="preconnect" href="https://framerusercontent.com" crossOrigin="anonymous" />
+      </head>
       <body className="flex min-h-full flex-col">
         <NavShell>{children}</NavShell>
       </body>

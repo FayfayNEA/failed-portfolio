@@ -160,6 +160,7 @@ function HeroCarousel({
             alt={`${alt} ${index + 1} of ${n}`}
             className={imgClass}
             draggable={false}
+            decoding="async"
           />
         </div>
       ) : (
@@ -169,6 +170,7 @@ function HeroCarousel({
           alt={`${alt} ${index + 1} of ${n}`}
           className={imgClass}
           draggable={false}
+          decoding="async"
         />
       )}
 
@@ -479,6 +481,8 @@ export function ManualProjectPage({
                 <img
                   src={hero.src}
                   alt={hero.alt}
+                  decoding="async"
+                  fetchPriority="high"
                   className={cn(
                     "rounded-2xl shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]",
                     hero.layout === "tall"

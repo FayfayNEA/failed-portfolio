@@ -93,8 +93,10 @@ export default function Home() {
                       src={item.image}
                       alt={item.alt}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      quality={75}
+                      sizes="(max-width: 640px) min(92vw, 420px), (max-width: 1024px) min(46vw, 400px), min(28vw, 360px)"
                       className="object-contain object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                      decoding="async"
                     />
                   </div>
                 </div>

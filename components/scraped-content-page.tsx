@@ -114,6 +114,8 @@ export async function ScrapedContentPage({
               <img
                 src={heroImage}
                 alt={title}
+                decoding="async"
+                fetchPriority="high"
                 className="aspect-video h-auto w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
               />
             )}
