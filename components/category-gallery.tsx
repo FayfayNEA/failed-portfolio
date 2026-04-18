@@ -497,6 +497,12 @@ export function CategoryGallery({
                         unoptimized
                       />
                     )}
+                    {/* Covers baked-in “Frame 01” labels from Framer exports; shows real project title */}
+                    <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] bg-gradient-to-b from-black/55 via-black/25 to-transparent px-3 pb-8 pt-2">
+                      <p className="line-clamp-2 font-mono text-[10px] font-medium uppercase leading-tight tracking-[0.12em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] sm:text-[11px]">
+                        {project.title}
+                      </p>
+                    </div>
                   </div>
                   <div
                     className="flex shrink-0 flex-col justify-center gap-1 border-t border-zinc-200/40 px-4 py-3"
@@ -585,10 +591,10 @@ export function CategoryGallery({
               }}
               onMouseDown={(e) => startDrag(e, i)}
             >
-              {/* Project title (matches card; deck view label above frame) */}
+              {/* Title above card (Framer art often still contains “Frame NN” inside the bitmap) */}
               <p
-                className="mb-1 line-clamp-2 max-w-full font-normal text-zinc-500 pointer-events-none"
-                style={{ fontSize: frameFontSize }}
+                className="mb-1 line-clamp-2 max-w-full font-mono font-medium uppercase tracking-[0.08em] text-zinc-600 pointer-events-none"
+                style={{ fontSize: Math.max(9, frameFontSize) }}
               >
                 {project.title}
               </p>
@@ -638,6 +644,17 @@ export function CategoryGallery({
                       unoptimized
                     />
                   )}
+                  <div
+                    className="pointer-events-none absolute inset-x-0 top-0 z-[5] bg-gradient-to-b from-black/55 via-black/25 to-transparent px-2 pb-6 pt-1"
+                    style={{ paddingLeft: Math.max(6, Math.round(8 * cardScaleRatio)), paddingRight: Math.max(6, Math.round(8 * cardScaleRatio)) }}
+                  >
+                    <p
+                      className="line-clamp-2 font-mono font-medium uppercase leading-tight tracking-[0.1em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+                      style={{ fontSize: Math.max(8, Math.round(9 * cardScaleRatio)) }}
+                    >
+                      {project.title}
+                    </p>
+                  </div>
 
                   {/* Liquid glass label */}
                   <div
