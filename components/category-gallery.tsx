@@ -497,9 +497,8 @@ export function CategoryGallery({
                         unoptimized
                       />
                     )}
-                    {/* Covers baked-in “Frame 01” labels from Framer exports; shows real project title */}
-                    <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] bg-gradient-to-b from-black/55 via-black/25 to-transparent px-3 pb-8 pt-2">
-                      <p className="line-clamp-2 font-mono text-[10px] font-medium uppercase leading-tight tracking-[0.12em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.45)] sm:text-[11px]">
+                    <div className="pointer-events-none absolute inset-x-0 top-0 z-[8] bg-zinc-900/92 px-3 py-2 shadow-[0_1px_0_rgba(255,255,255,0.08)]">
+                      <p className="line-clamp-2 font-mono text-[11px] font-semibold leading-tight tracking-[0.04em] text-white sm:text-xs">
                         {project.title}
                       </p>
                     </div>
@@ -573,7 +572,6 @@ export function CategoryGallery({
           // Glass + font scale relative to the card's own size
           const cardScaleRatio = base.w / BASE_CARD_W;
           const glassH = Math.round(BASE_GLASS_H * scale * cardScaleRatio);
-          const frameFontSize = Math.max(8, Math.round(10 * scale * cardScaleRatio));
           const titleFontSize = Math.max(10, Math.round(13 * scale * cardScaleRatio));
           const descFontSize = Math.max(9, Math.round(11 * scale * cardScaleRatio));
 
@@ -591,15 +589,7 @@ export function CategoryGallery({
               }}
               onMouseDown={(e) => startDrag(e, i)}
             >
-              {/* Title above card (Framer art often still contains “Frame NN” inside the bitmap) */}
-              <p
-                className="mb-1 line-clamp-2 max-w-full font-mono font-medium uppercase tracking-[0.08em] text-zinc-600 pointer-events-none"
-                style={{ fontSize: Math.max(9, frameFontSize) }}
-              >
-                {project.title}
-              </p>
-
-              {/* Card */}
+              {/* Card — title strip is inside the frame so it always wins over “Frame NN” in bitmaps */}
               <div
                 className="group relative"
                 style={{ width: cardW, height: cardH }}
@@ -645,12 +635,17 @@ export function CategoryGallery({
                     />
                   )}
                   <div
-                    className="pointer-events-none absolute inset-x-0 top-0 z-[5] bg-gradient-to-b from-black/55 via-black/25 to-transparent px-2 pb-6 pt-1"
-                    style={{ paddingLeft: Math.max(6, Math.round(8 * cardScaleRatio)), paddingRight: Math.max(6, Math.round(8 * cardScaleRatio)) }}
+                    className="pointer-events-none absolute inset-x-0 top-0 z-[8] bg-zinc-900/92 px-2 py-1 shadow-[0_1px_0_rgba(255,255,255,0.08)]"
+                    style={{
+                      paddingLeft: Math.max(6, Math.round(8 * cardScaleRatio)),
+                      paddingRight: Math.max(6, Math.round(8 * cardScaleRatio)),
+                      paddingTop: Math.max(4, Math.round(5 * cardScaleRatio)),
+                      paddingBottom: Math.max(4, Math.round(5 * cardScaleRatio)),
+                    }}
                   >
                     <p
-                      className="line-clamp-2 font-mono font-medium uppercase leading-tight tracking-[0.1em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
-                      style={{ fontSize: Math.max(8, Math.round(9 * cardScaleRatio)) }}
+                      className="truncate font-mono font-semibold leading-none tracking-[0.04em] text-white"
+                      style={{ fontSize: Math.max(10, Math.round(11 * cardScaleRatio)) }}
                     >
                       {project.title}
                     </p>
