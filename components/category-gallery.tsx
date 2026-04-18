@@ -25,6 +25,22 @@ function useStackGalleryLayout() {
   return stack;
 }
 
+/** Framer CDN thumbs: request a modest width so bytes are small without `/_next/image` latency. */
+const GALLERY_FRAMER_MAX_W = 800;
+
+function galleryCoverSrc(src: string | undefined): string | undefined {
+  if (!src) return undefined;
+  if (!src.includes("framerusercontent.com/images")) return src;
+  try {
+    const u = new URL(src);
+    u.searchParams.set("width", String(GALLERY_FRAMER_MAX_W));
+    u.searchParams.delete("height");
+    return u.toString();
+  } catch {
+    return src;
+  }
+}
+
 export interface GalleryProject {
   slug: string;
   title: string;
@@ -467,10 +483,9 @@ export function CategoryGallery({
                     />
                     {project.coverImage && (
                       <Image
-                        src={project.coverImage}
+                        src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
                         alt={project.title}
                         fill
-                        quality={75}
                         className={cn(
                           project.coverImageFit === "contain"
                             ? "object-contain"
@@ -479,7 +494,7 @@ export function CategoryGallery({
                         )}
                         sizes="(max-width: 1024px) min(100vw, 440px), 420px"
                         draggable={false}
-                        decoding="async"
+                        unoptimized
                       />
                     )}
                   </div>
@@ -608,10 +623,9 @@ export function CategoryGallery({
                   {/* Cover image */}
                   {project.coverImage && (
                     <Image
-                      src={project.coverImage}
+                      src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
                       alt={project.title}
                       fill
-                      quality={75}
                       className={cn(
                         project.coverImageFit === "contain"
                           ? "object-contain"
@@ -621,7 +635,7 @@ export function CategoryGallery({
                       )}
                       sizes={`${Math.min(cardW * 2, 900)}px`}
                       draggable={false}
-                      decoding="async"
+                      unoptimized
                     />
                   )}
 
