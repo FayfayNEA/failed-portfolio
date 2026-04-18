@@ -87,14 +87,16 @@ export default function Home() {
           {FEATURED.map((item) => (
             <li key={item.href}>
               <Link href={item.href} className="group block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-400">
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm ring-1 ring-black/[0.08]">
-                  <Image
-                    src={item.image}
-                    alt={item.alt}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-                  />
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-zinc-300/25 ring-1 ring-black/[0.08]">
+                  <div className="absolute inset-2 overflow-hidden sm:inset-2.5 md:inset-3">
+                    <Image
+                      src={item.image}
+                      alt={item.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-contain object-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                    />
+                  </div>
                 </div>
                 <p className="mt-3 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
                   {item.category}
