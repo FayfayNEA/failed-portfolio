@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
-import { BuddyChallengeDisclosure } from "@/components/buddy-challenge-disclosure";
+import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import { ImageLightbox } from "@/components/image-lightbox";
@@ -333,9 +333,8 @@ export default function BuddyPage() {
 
         <Divider />
 
-        {/* THE CHALLENGE — expand on click */}
         <section id="the-challenge" className="scroll-mt-24">
-          <BuddyChallengeDisclosure summary="Design a product that helps people communicate." />
+          <CaseChallengeDisclosure summary="Design a product that helps people communicate." />
         </section>
 
         <Divider />

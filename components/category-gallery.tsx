@@ -569,12 +569,12 @@ export function CategoryGallery({
               }}
               onMouseDown={(e) => startDrag(e, i)}
             >
-              {/* Frame label */}
+              {/* Project title (matches card; deck view label above frame) */}
               <p
-                className="mb-1 font-normal text-zinc-400 pointer-events-none"
+                className="mb-1 line-clamp-2 max-w-full font-normal text-zinc-500 pointer-events-none"
                 style={{ fontSize: frameFontSize }}
               >
-                Frame {String(i + 1).padStart(2, "0")}
+                {project.title}
               </p>
 
               {/* Card */}
