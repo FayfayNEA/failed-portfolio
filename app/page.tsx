@@ -3,13 +3,13 @@ import Link from "next/link";
 
 const FEATURED = [
   {
-    href: "/vagabond",
-    title: "Vagabond Radio",
-    category: "Branding",
-    year: "2024",
+    href: "/buddy",
+    title: "Buddy",
+    category: "Product Design",
+    year: "2025",
     image:
-      "https://framerusercontent.com/images/rKvch1GkMbOWLcefYnDSdybGUq4.png?width=3952&height=1692",
-    alt: "Vagabond Radio project thumbnail",
+      "https://framerusercontent.com/images/B9GkX7orORDgH2rQotIt6DptFT8.jpg?width=6240&height=3512",
+    alt: "Buddy project thumbnail",
   },
   {
     href: "/eidolon",
@@ -20,13 +20,38 @@ const FEATURED = [
     alt: "Eidolon project thumbnail",
   },
   {
-    href: "/spiral",
-    title: "Spiral",
-    category: "Branding",
+    href: "/work/fither",
+    title: "Fither",
+    category: "Product Design",
+    year: "2025",
+    image: "/fither/assets/organic_dither_final.png",
+    alt: "Fither project thumbnail",
+  },
+  {
+    href: "/jahn",
+    title: "JAHN",
+    category: "Product Design",
+    year: "2025",
+    image: "/jahn/jahn%20image.jpg",
+    alt: "JAHN project thumbnail",
+  },
+  {
+    href: "/nightterrors",
+    title: "N1ghtterrors",
+    category: "Product Design",
+    year: "2025",
+    image:
+      "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",
+    alt: "N1ghtterrors project thumbnail",
+  },
+  {
+    href: "/etrade",
+    title: "E*Trade",
+    category: "Product Design",
     year: "2026",
     image:
-      "https://framerusercontent.com/images/DEKAt5ypvDK9UvA3LPNiXGUeV0.png?width=800&height=1000",
-    alt: "Spiral project thumbnail",
+      "https://framerusercontent.com/images/NvG3dp6QgMIWgEFMHXnQsAmc3lc.png?width=3829&height=2020",
+    alt: "E*Trade project thumbnail",
   },
 ] as const;
 
@@ -60,7 +85,7 @@ export default function Home() {
           </span>
         </div>
 
-        <ul className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-10 md:mt-14 md:grid-cols-3 md:gap-6 lg:gap-10">
+        <ul className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 md:mt-14 lg:grid-cols-3 lg:gap-10">
           {FEATURED.map((item) => (
             <li key={item.href}>
               <Link href={item.href} className="group block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-400">
@@ -69,7 +94,7 @@ export default function Home() {
                     src={item.image}
                     alt={item.alt}
                     fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
                   />
                 </div>
