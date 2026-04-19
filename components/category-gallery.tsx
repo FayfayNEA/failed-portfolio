@@ -470,7 +470,10 @@ export function CategoryGallery({
           {projects.map((project) => {
             const labelTone = project.labelTextTone ?? "light";
             return (
-              <li key={project.slug}>
+              <li key={project.slug} className="flex flex-col gap-px">
+                <p className="line-clamp-2 max-w-full shrink-0 truncate px-0.5 font-sans text-[11px] font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased">
+                  {project.title}
+                </p>
                 <Link
                   href={project.href}
                   className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_12px_40px_-20px_rgba(0,0,0,0.15)] ring-1 ring-black/[0.05] transition-transform active:scale-[0.99]"
@@ -497,11 +500,6 @@ export function CategoryGallery({
                         unoptimized
                       />
                     )}
-                    <div className="pointer-events-none absolute inset-x-0 top-0 z-[8] bg-zinc-900/92 px-3 py-2 shadow-[0_1px_0_rgba(255,255,255,0.08)]">
-                      <p className="line-clamp-2 font-mono text-[11px] font-semibold leading-tight tracking-[0.04em] text-white sm:text-xs">
-                        {project.title}
-                      </p>
-                    </div>
                   </div>
                   <div
                     className="flex shrink-0 flex-col justify-center gap-1 border-t border-zinc-200/40 px-4 py-3"
@@ -572,6 +570,7 @@ export function CategoryGallery({
           // Glass + font scale relative to the card's own size
           const cardScaleRatio = base.w / BASE_CARD_W;
           const glassH = Math.round(BASE_GLASS_H * scale * cardScaleRatio);
+          const figmaLabelSize = Math.max(10, Math.round(11 * cardScaleRatio));
           const titleFontSize = Math.max(10, Math.round(13 * scale * cardScaleRatio));
           const descFontSize = Math.max(9, Math.round(11 * scale * cardScaleRatio));
 
@@ -589,7 +588,13 @@ export function CategoryGallery({
               }}
               onMouseDown={(e) => startDrag(e, i)}
             >
-              {/* Card — title strip is inside the frame so it always wins over “Frame NN” in bitmaps */}
+              {/* Figma-style frame name above the artboard */}
+              <p
+                className="mb-px line-clamp-2 max-w-full truncate font-sans font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased pointer-events-none"
+                style={{ fontSize: figmaLabelSize }}
+              >
+                {project.title}
+              </p>
               <div
                 className="group relative"
                 style={{ width: cardW, height: cardH }}
@@ -634,22 +639,6 @@ export function CategoryGallery({
                       unoptimized
                     />
                   )}
-                  <div
-                    className="pointer-events-none absolute inset-x-0 top-0 z-[8] bg-zinc-900/92 px-2 py-1 shadow-[0_1px_0_rgba(255,255,255,0.08)]"
-                    style={{
-                      paddingLeft: Math.max(6, Math.round(8 * cardScaleRatio)),
-                      paddingRight: Math.max(6, Math.round(8 * cardScaleRatio)),
-                      paddingTop: Math.max(4, Math.round(5 * cardScaleRatio)),
-                      paddingBottom: Math.max(4, Math.round(5 * cardScaleRatio)),
-                    }}
-                  >
-                    <p
-                      className="truncate font-mono font-semibold leading-none tracking-[0.04em] text-white"
-                      style={{ fontSize: Math.max(10, Math.round(11 * cardScaleRatio)) }}
-                    >
-                      {project.title}
-                    </p>
-                  </div>
 
                   {/* Liquid glass label */}
                   <div
