@@ -41,6 +41,11 @@ function galleryCoverSrc(src: string | undefined): string | undefined {
   }
 }
 
+/** Framer-style layer name above each card (order follows `projects` array). */
+function framerFrameLabel(index: number): string {
+  return `Frame ${String(index + 1).padStart(2, "0")}`;
+}
+
 export interface GalleryProject {
   slug: string;
   title: string;
@@ -467,12 +472,12 @@ export function CategoryGallery({
           className="mx-auto flex max-w-md flex-col gap-5 sm:gap-6"
           aria-label="Projects in this category"
         >
-          {projects.map((project) => {
+          {projects.map((project, frameIdx) => {
             const labelTone = project.labelTextTone ?? "light";
             return (
               <li key={project.slug} className="flex flex-col gap-px">
-                <p className="line-clamp-2 max-w-full shrink-0 truncate px-0.5 font-sans text-[11px] font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased">
-                  {project.title}
+                <p className="line-clamp-1 max-w-full shrink-0 truncate px-0.5 font-sans text-[11px] font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased">
+                  {framerFrameLabel(frameIdx)}
                 </p>
                 <Link
                   href={project.href}
@@ -570,7 +575,7 @@ export function CategoryGallery({
           // Glass + font scale relative to the card's own size
           const cardScaleRatio = base.w / BASE_CARD_W;
           const glassH = Math.round(BASE_GLASS_H * scale * cardScaleRatio);
-          const figmaLabelSize = Math.max(10, Math.round(11 * cardScaleRatio));
+          const frameFontSize = Math.max(8, Math.round(10 * scale * cardScaleRatio));
           const titleFontSize = Math.max(10, Math.round(13 * scale * cardScaleRatio));
           const descFontSize = Math.max(9, Math.round(11 * scale * cardScaleRatio));
 
@@ -588,13 +593,15 @@ export function CategoryGallery({
               }}
               onMouseDown={(e) => startDrag(e, i)}
             >
-              {/* Figma-style frame name above the artboard */}
+              {/* Framer-style frame name above artboard */}
               <p
-                className="mb-px line-clamp-2 max-w-full truncate font-sans font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased pointer-events-none"
-                style={{ fontSize: figmaLabelSize }}
+                className="mb-1 line-clamp-1 max-w-full truncate font-sans font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased pointer-events-none"
+                style={{ fontSize: frameFontSize }}
               >
-                {project.title}
+                {framerFrameLabel(i)}
               </p>
+
+              {/* Card */}
               <div
                 className="group relative"
                 style={{ width: cardW, height: cardH }}
