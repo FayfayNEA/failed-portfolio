@@ -36,6 +36,15 @@ const projects: GalleryProject[] = [
     href: "/buddy",
   },
   {
+    slug: "fither",
+    title: "Fither",
+    description: "understanding dithers with ai",
+    year: "2026",
+    coverImage:
+      "/fither/assets/organic_dot_field.png",
+    href: "/work/fither",
+  },
+  {
     slug: "etrade",
     title: "E*Trade",
     description: "redesigning a financial trading platform",
@@ -56,15 +65,6 @@ const projects: GalleryProject[] = [
     coverImage:
       "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",
     href: "/nightterrors",
-  },
-  {
-    slug: "fither",
-    title: "Fither",
-    description: "understanding dithers with ai",
-    year: "2026",
-    coverImage:
-      "/fither/assets/organic_dot_field.png",
-    href: "/work/fither",
   },
   {
     slug: "jahn",

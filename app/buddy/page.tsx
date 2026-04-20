@@ -287,7 +287,7 @@ export default function BuddyPage() {
       <main
         className={cn(
           "pb-40 font-sans antialiased",
-          "max-[1000px]:mx-auto max-[1000px]:w-full max-[1000px]:min-w-0 max-[1000px]:max-w-[min(900px,96vw)] max-[1000px]:px-3 max-[1000px]:pt-[calc(1.5rem+50px)] max-[1000px]:md:pt-[calc(2rem+50px)]",
+          "max-[1000px]:mx-auto max-[1000px]:w-full max-[1000px]:min-w-0 max-[1000px]:max-w-[min(900px,96vw)] max-[1000px]:px-3 max-[1000px]:pt-6 max-[1000px]:md:pt-8",
           "min-[1001px]:ml-[calc(30px+max(22rem,12.5vw))] min-[1001px]:min-w-0 min-[1001px]:max-w-none min-[1001px]:pt-[50px]",
           "min-[1001px]:pl-[max(0.75rem,calc((100vw-min(900px,96vw))/2-30px-max(22rem,12.5vw)))] min-[1001px]:pr-12"
         )}

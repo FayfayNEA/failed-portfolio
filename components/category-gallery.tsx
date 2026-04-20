@@ -26,7 +26,7 @@ function useStackGalleryLayout() {
 }
 
 /** Framer CDN thumbs: request a modest width so bytes are small without `/_next/image` latency. */
-const GALLERY_FRAMER_MAX_W = 800;
+const GALLERY_FRAMER_MAX_W = 640;
 
 function galleryCoverSrc(src: string | undefined): string | undefined {
   if (!src) return undefined;
@@ -39,11 +39,6 @@ function galleryCoverSrc(src: string | undefined): string | undefined {
   } catch {
     return src;
   }
-}
-
-/** Framer-style layer name above each card (order follows `projects` array). */
-function framerFrameLabel(index: number): string {
-  return `Frame ${String(index + 1).padStart(2, "0")}`;
 }
 
 export interface GalleryProject {
@@ -69,29 +64,157 @@ export interface GalleryProject {
 type Pos = { x: number; y: number };
 type CardSize = { w: number; h: number };
 
-// Fractional default positions — multiplied by container w/h at runtime so
-// everything stays on-screen regardless of viewport size.
-const DEFAULTS_PCT: Pos[] = [
-  { x: 0.04, y: 0.07 },
-  { x: 0.32, y: 0.46 },
-  { x: 0.52, y: 0.08 },
-  { x: 0.72, y: 0.42 },
-  { x: 0.22, y: 0.25 },
-  { x: 0.62, y: 0.62 },
-];
-
-const BASE_CARD_W = 300;
-const BASE_CARD_H = 250;
-const BASE_GLASS_H = 76;
+const BASE_CARD_W = 280;
+const BASE_CARD_H = 230;
+const BASE_GLASS_H = 72;
 const MIN_CARD_W = 120;
 const MIN_CARD_H = 100;
 
-/** Scale cards down as the container narrows. Full size at ≥950 px wide. */
+/** Scale cards down as the container narrows. Full size at ≥1200 px wide. */
 function getScale(containerW: number): number {
-  return Math.max(0.5, Math.min(1, containerW / 950));
+  return Math.max(0.5, Math.min(1, containerW / 1200));
 }
 
 const SEL_GREEN = "#3a6148";
+
+function clamp(n: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, n));
+}
+
+function computeInitialPositions({
+  containerW,
+  containerH,
+  cardW,
+  cardH,
+  count,
+}: {
+  containerW: number;
+  containerH: number;
+  cardW: number;
+  cardH: number;
+  count: number;
+}): Pos[] {
+  // Keep a visible margin so cards never spawn kissing edges.
+  const pad = 12;
+  const gapX = 18;
+  const gapY = 18;
+  const maxX = Math.max(pad, containerW - cardW - pad);
+  const maxY = Math.max(pad, containerH - cardH - pad);
+
+  const innerW = Math.max(1, containerW - pad * 2);
+  const innerH = Math.max(1, containerH - pad * 2);
+
+  // Choose columns based on available width. Clamp to count so we don't waste space.
+  const cols = clamp(Math.floor((innerW + gapX) / (cardW + gapX)), 1, Math.max(1, count));
+  const rows = Math.max(1, Math.ceil(count / cols));
+
+  // Simple adjustment loop: try increasing columns to reduce rows until it fits or we hit count columns.
+  let adjCols = cols;
+  let adjRows = rows;
+  while (
+    adjRows * cardH + (adjRows - 1) * gapY > innerH &&
+    adjCols < count
+  ) {
+    adjCols += 1;
+    adjRows = Math.max(1, Math.ceil(count / adjCols));
+  }
+
+  const finalCols = adjCols;
+  const finalRows = adjRows;
+
+  // Center the grid inside the container for a deliberate “deck on a table” feel.
+  const gridW = finalCols * cardW + (finalCols - 1) * gapX;
+  const gridH = finalRows * cardH + (finalRows - 1) * gapY;
+  const originX = pad + Math.max(0, (innerW - gridW) / 2);
+  const originY = pad + Math.max(0, (innerH - gridH) / 2);
+
+  return Array.from({ length: count }, (_, i) => {
+    const r = Math.floor(i / finalCols);
+    const c = i % finalCols;
+
+    // Tiny stagger so it feels less like a strict grid, without causing collisions.
+    const stagger = (r % 2) * 10;
+    const x = clamp(originX + c * (cardW + gapX) + stagger, pad, maxX);
+    const y = clamp(originY + r * (cardH + gapY), pad, maxY);
+    return { x, y };
+  });
+}
+
+function computeInitialGridLayout({
+  containerW,
+  containerH,
+  count,
+}: {
+  containerW: number;
+  containerH: number;
+  count: number;
+}): { positions: Pos[]; baseSizes: CardSize[] } {
+  // Mirror the positioning constants inside `computeInitialPositions` so the
+  // size-fit check matches the actual placement.
+  const pad = 12;
+  const gapX = 18;
+  const gapY = 18;
+
+  const innerW = Math.max(1, containerW - pad * 2);
+  const innerH = Math.max(1, containerH - pad * 2);
+
+  // First-load: ensure *no overlap*. If the container is too small to fit all
+  // cards at the default size, scale the cards down for the initial layout.
+  // Users can still resize bigger afterwards.
+  const sc = getScale(containerW);
+  const minFit = 0.55;
+
+  for (let fit = 1; fit >= minFit; fit -= 0.05) {
+    const cardW = Math.round(BASE_CARD_W * sc * fit);
+    const cardH = Math.round(BASE_CARD_H * sc * fit);
+
+    const cols = clamp(
+      Math.floor((innerW + gapX) / (cardW + gapX)),
+      1,
+      Math.max(1, count)
+    );
+    let adjCols = cols;
+    let adjRows = Math.max(1, Math.ceil(count / adjCols));
+    while (adjRows * cardH + (adjRows - 1) * gapY > innerH && adjCols < count) {
+      adjCols += 1;
+      adjRows = Math.max(1, Math.ceil(count / adjCols));
+    }
+
+    const gridW = adjCols * cardW + (adjCols - 1) * gapX;
+    const gridH = adjRows * cardH + (adjRows - 1) * gapY;
+    if (gridW <= innerW && gridH <= innerH) {
+      return {
+        positions: computeInitialPositions({
+          containerW,
+          containerH,
+          cardW,
+          cardH,
+          count,
+        }),
+        baseSizes: Array.from({ length: count }, () => ({
+          w: Math.round(BASE_CARD_W * fit),
+          h: Math.round(BASE_CARD_H * fit),
+        })),
+      };
+    }
+  }
+
+  // Worst case fallback: still return something deterministic.
+  const fallbackFit = minFit;
+  return {
+    positions: computeInitialPositions({
+      containerW,
+      containerH,
+      cardW: Math.round(BASE_CARD_W * getScale(containerW) * fallbackFit),
+      cardH: Math.round(BASE_CARD_H * getScale(containerW) * fallbackFit),
+      count,
+    }),
+    baseSizes: Array.from({ length: count }, () => ({
+      w: Math.round(BASE_CARD_W * fallbackFit),
+      h: Math.round(BASE_CARD_H * fallbackFit),
+    })),
+  };
+}
 
 // Each handle's resize direction vector.
 // dx/dy = -1 (shrink/move that edge left/up), 0 (no effect), 1 (grow right/down)
@@ -218,10 +341,7 @@ export function CategoryGallery({
 
   // Set initial positions + sizes from localStorage or defaults
   useEffect(() => {
-    if (isStackLayout) {
-      setReady(true);
-      return;
-    }
+    if (isStackLayout) return;
     const el = containerRef.current;
     if (!el) return;
     const { width: cw, height: ch } = el.getBoundingClientRect();
@@ -254,15 +374,15 @@ export function CategoryGallery({
     }
 
     if (!storedPos) {
-      setPositions(
-        projects.map((_, i) => {
-          const pct = DEFAULTS_PCT[i % DEFAULTS_PCT.length];
-          return {
-            x: Math.min(pct.x * cw, cw - cw_ - 8),
-            y: Math.min(pct.y * ch, ch - ch_ - 8),
-          };
-        })
-      );
+      const layout = computeInitialGridLayout({
+        containerW: cw,
+        containerH: ch,
+        count: projects.length,
+      });
+      setPositions(layout.positions);
+
+      // First-load: enforce uniform card sizes for the whole deck.
+      setBaseSizes(layout.baseSizes);
       setReady(true);
     }
 
@@ -272,7 +392,9 @@ export function CategoryGallery({
       try {
         const parsed: CardSize[] = JSON.parse(storedSizes);
         if (Array.isArray(parsed) && parsed.length === projects.length) {
-          setBaseSizes(parsed);
+          // Enforce uniform sizing even if older per-card sizes were saved.
+          const first = parsed[0] ?? { w: BASE_CARD_W, h: BASE_CARD_H };
+          setBaseSizes(projects.map(() => ({ w: first.w, h: first.h })));
         }
       } catch {
         // ignore
@@ -383,9 +505,8 @@ export function CategoryGallery({
       }
 
       setBaseSizes((prev) => {
-        const next = [...prev];
-        next[r.idx] = { w: newW, h: newH };
-        return next;
+        // Keep the deck uniform-size: resizing one card resizes them all.
+        return prev.map(() => ({ w: newW, h: newH }));
       });
 
       // Only update position when a left or top handle is active
@@ -466,95 +587,94 @@ export function CategoryGallery({
     return (
       <div
         ref={containerRef}
-        className="h-full w-full touch-pan-y overflow-y-auto overscroll-y-contain px-3 pb-28 pt-3 sm:px-4"
+        className="h-full w-full touch-pan-y overflow-y-auto overscroll-y-contain px-4 pb-28 pt-5 sm:px-6"
       >
         <ul
-          className="mx-auto flex max-w-md flex-col gap-5 sm:gap-6"
+          className="mx-auto flex max-w-lg flex-col gap-10"
           aria-label="Projects in this category"
         >
-          {projects.map((project, frameIdx) => {
-            const labelTone = project.labelTextTone ?? "light";
-            return (
-              <li key={project.slug} className="flex flex-col gap-px">
-                <p className="line-clamp-1 max-w-full shrink-0 truncate px-0.5 font-sans text-[11px] font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased">
-                  {framerFrameLabel(frameIdx)}
-                </p>
-                <Link
-                  href={project.href}
-                  className="flex flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[0_12px_40px_-20px_rgba(0,0,0,0.15)] ring-1 ring-black/[0.05] transition-transform active:scale-[0.99]"
-                >
-                  {/* Image only — text lives below so long titles never stack into the next card */}
-                  <div className="relative aspect-[5/4] w-full shrink-0 overflow-hidden">
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: project.coverColor ?? "#728C69" }}
-                    />
-                    {project.coverImage && (
-                      <Image
-                        src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
-                        alt={project.title}
-                        fill
-                        className={cn(
-                          project.coverImageFit === "contain"
-                            ? "object-contain"
-                            : "object-cover",
-                          project.coverImageClassName
-                        )}
-                        sizes="(max-width: 1024px) min(100vw, 440px), 420px"
-                        draggable={false}
-                        unoptimized
-                      />
-                    )}
-                  </div>
-                  <div
-                    className="flex shrink-0 flex-col justify-center gap-1 border-t border-zinc-200/40 px-4 py-3"
-                    style={{
-                      backdropFilter: "blur(14px) saturate(160%)",
-                      WebkitBackdropFilter: "blur(14px) saturate(160%)",
-                      background:
-                        project.labelGlassTint === "moss"
-                          ? "rgba(114,140,105,0.16)"
-                          : "rgba(248,250,252,0.92)",
-                      boxShadow:
-                        project.labelGlassTint === "moss"
-                          ? "inset 0 1px 0 rgba(255,255,255,0.12)"
-                          : "inset 0 1px 0 rgba(255,255,255,0.6)",
-                    }}
-                  >
-                    <p
-                      className={cn(
-                        "text-[0.9rem] font-medium leading-snug tracking-tight sm:text-[0.95rem]",
-                        labelTone === "dark" ? "text-zinc-900" : "text-zinc-800"
-                      )}
-                    >
-                      {project.title}
+          {projects.map((project, frameIdx) => (
+            <li key={project.slug}>
+              <Link
+                href={project.href}
+                className="group block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-400"
+              >
+                <div className="relative aspect-[4/3] w-full overflow-visible">
+                  {/* Figma-style selection handles on hover/focus */}
+                  <div className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100">
+                    {[
+                      "top-[-6px] left-[-6px]",
+                      "top-[-6px] left-1/2 -translate-x-1/2",
+                      "top-[-6px] right-[-6px]",
+                      "top-1/2 -translate-y-1/2 left-[-6px]",
+                      "top-1/2 -translate-y-1/2 right-[-6px]",
+                      "bottom-[-6px] left-[-6px]",
+                      "bottom-[-6px] left-1/2 -translate-x-1/2",
+                      "bottom-[-6px] right-[-6px]",
+                    ].map((pos) => (
                       <span
-                        className={cn(
-                          "mx-1.5 font-light",
-                          labelTone === "dark" ? "text-zinc-500" : "text-zinc-500"
-                        )}
-                      >
-                        ·
-                      </span>
-                      <span className="font-normal text-zinc-500">{project.year}</span>
-                    </p>
-                    <p
-                      className={cn(
-                        "line-clamp-2 text-[0.78rem] leading-snug sm:text-[0.8rem]",
-                        labelTone === "dark" ? "text-zinc-600" : "text-zinc-600"
-                      )}
-                    >
-                      {project.description}
-                    </p>
+                        key={pos}
+                        className={`absolute h-3 w-3 rounded-[2px] bg-white ${pos}`}
+                        style={{ border: "1.5px solid #3a6148" }}
+                        aria-hidden
+                      />
+                    ))}
                   </div>
-                </Link>
-              </li>
-            );
-          })}
+
+                  <div
+                    className={[
+                      "absolute inset-0 overflow-hidden rounded-none",
+                      "border-[0.5px] border-white/55 ring-1 ring-black/[0.06]",
+                      "shadow-[0_22px_70px_-44px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.55)]",
+                      "bg-white/[0.22] backdrop-blur-2xl backdrop-saturate-[1.35]",
+                    ].join(" ")}
+                  >
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.46) 0%, rgba(255,255,255,0.12) 40%, rgba(114,140,105,0.10) 100%)",
+                      }}
+                      aria-hidden
+                    />
+                    <div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 [box-shadow:inset_0_0_0_1.5px_#3a6148]" />
+                    <div className="absolute inset-2.5 overflow-hidden">
+                      {project.coverImage && (
+                        <Image
+                          src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
+                          alt={project.title}
+                          fill
+                          className={cn(
+                            project.coverImageFit === "contain"
+                              ? "object-contain"
+                              : "object-cover",
+                            "object-center",
+                            project.coverImageClassName
+                          )}
+                          sizes="(max-width: 640px) min(92vw, 420px), min(46vw, 400px)"
+                          quality={75}
+                          priority={frameIdx < 2}
+                          loading={frameIdx < 2 ? "eager" : "lazy"}
+                          fetchPriority={frameIdx < 2 ? "high" : "auto"}
+                          draggable={false}
+                          unoptimized
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-3 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
+                  {project.description}
+                  <span className="mx-1.5 font-light text-zinc-400">·</span>
+                  {project.year}
+                </p>
+                <p className="mt-1 font-mono text-[0.95rem] font-normal tracking-tight text-zinc-900">
+                  {project.title}
+                </p>
+              </Link>
+            </li>
+          ))}
         </ul>
-        <p className="mt-6 text-center text-[10px] uppercase tracking-[0.18em] text-zinc-400">
-          Tap a card to open
-        </p>
       </div>
     );
   }
@@ -575,9 +695,9 @@ export function CategoryGallery({
           // Glass + font scale relative to the card's own size
           const cardScaleRatio = base.w / BASE_CARD_W;
           const glassH = Math.round(BASE_GLASS_H * scale * cardScaleRatio);
-          const frameFontSize = Math.max(8, Math.round(10 * scale * cardScaleRatio));
           const titleFontSize = Math.max(10, Math.round(13 * scale * cardScaleRatio));
           const descFontSize = Math.max(9, Math.round(11 * scale * cardScaleRatio));
+          const aboveFold = i < 3;
 
           return (
             <div
@@ -593,14 +713,6 @@ export function CategoryGallery({
               }}
               onMouseDown={(e) => startDrag(e, i)}
             >
-              {/* Framer-style frame name above artboard */}
-              <p
-                className="mb-1 line-clamp-1 max-w-full truncate font-sans font-medium leading-none tracking-[0.01em] text-zinc-500 antialiased pointer-events-none"
-                style={{ fontSize: frameFontSize }}
-              >
-                {framerFrameLabel(i)}
-              </p>
-
               {/* Card */}
               <div
                 className="group relative"
@@ -642,6 +754,10 @@ export function CategoryGallery({
                         project.coverImageClassName
                       )}
                       sizes={`${Math.min(cardW * 2, 900)}px`}
+                      quality={75}
+                      priority={aboveFold}
+                      loading={aboveFold ? "eager" : "lazy"}
+                      fetchPriority={aboveFold ? "high" : "auto"}
                       draggable={false}
                       unoptimized
                     />
@@ -721,7 +837,7 @@ export function CategoryGallery({
 
       {/* Hint */}
       <p className="pointer-events-none absolute bottom-5 right-5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
-        Drag to rearrange · handles to resize
+        Drag to rearrange
       </p>
     </div>
   );

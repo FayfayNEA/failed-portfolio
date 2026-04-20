@@ -132,9 +132,9 @@ body {
   text-align: center;
   font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas",
     "Courier New", monospace;
-  font-size: 9px;
+  font-size: clamp(11px, 1.55vmin, 13px);
   font-weight: 600;
-  letter-spacing: 0.055em;
+  letter-spacing: 0.05em;
   line-height: 1.4;
   color: #0a0a0a;
   -webkit-font-smoothing: antialiased;
@@ -147,6 +147,33 @@ body {
 
 .map-explore-hint__line {
   margin: 0;
+}
+
+.map-explore-hint__arrow {
+  margin-top: 0.25rem;
+  font-size: 1.2em;
+  line-height: 1;
+  opacity: 0.72;
+  will-change: transform;
+  animation: mapHintBounce 1.15s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-explore-hint__arrow {
+    animation: none;
+  }
+}
+
+@keyframes mapHintBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.68;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 0.85;
+  }
 }
 
 .map-explore-hint__line--sub {
@@ -825,5 +852,32 @@ body {
 @media (max-aspect-ratio: 3/4) {
   .asset-tooltip {
     font-size: clamp(0.78rem, 3.2vw, 1rem);
+  }
+}
+
+/* Persistent label under each asset — hidden on hover-capable devices, shown on touch */
+.asset-label {
+  position: absolute;
+  top: 80px; /* JS overrides this after the asset image loads */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "DotGothic16", ui-monospace, "Cascadia Mono", "Consolas", "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  color: #ffffff;
+  white-space: nowrap;
+  pointer-events: none;
+  display: none;
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 0.95),
+    0 0 8px rgba(0, 0, 0, 0.8),
+    0 1px 3px rgba(0, 0, 0, 0.9);
+  z-index: 20;
+}
+
+@media (hover: none) {
+  .asset-label {
+    display: block;
   }
 }

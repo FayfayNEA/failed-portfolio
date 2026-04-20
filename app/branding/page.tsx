@@ -13,7 +13,7 @@ const projects: GalleryProject[] = [
     slug: "vagabond",
     title: "Vagabond Radio",
     description: "vagabond radio",
-    year: "2024",
+    year: "2025",
     coverImage:
       "https://framerusercontent.com/images/rKvch1GkMbOWLcefYnDSdybGUq4.png",
     href: "/vagabond",

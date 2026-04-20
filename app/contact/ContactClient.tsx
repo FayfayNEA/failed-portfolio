@@ -30,7 +30,7 @@ const IMG = {
     "https://framerusercontent.com/images/8KmffkjfNuwc79LA0N3ciLnJw.png?width=1200&height=1200",
 } as const;
 
-const RESUME_URL = "/failenn-resume-de.pdf";
+const RESUME_URL = "/failenn-resume.pdf";
 
 /** SVG feTurbulence — editorial grain on olive card (inline style avoids JSX quote issues). */
 const OLIVE_CARD_GRAIN_BG =

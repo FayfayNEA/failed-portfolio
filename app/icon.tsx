@@ -1,13 +1,15 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 export const runtime = "nodejs";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
 export default async function Icon() {
-  const iconPath = fileURLToPath(new URL("./icon.png", import.meta.url));
+  // Next's runtime/bundler can make `import.meta.url` non-file-like in dev.
+  // Resolve from the repo root to keep this route stable.
+  const iconPath = path.join(process.cwd(), "app", "icon.png");
   const iconData = await readFile(iconPath);
   const base64 = Buffer.from(iconData).toString("base64");
   const src = `data:image/png;base64,${base64}`;

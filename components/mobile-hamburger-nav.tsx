@@ -25,7 +25,8 @@ export function MobileHamburgerNav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    setOpen(false);
+    // Defer to avoid sync setState in effect (keeps lint happy).
+    queueMicrotask(() => setOpen(false));
   }, [pathname]);
 
   useEffect(() => {

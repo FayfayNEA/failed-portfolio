@@ -13,7 +13,7 @@ const projects: GalleryProject[] = [
     slug: "venice",
     title: "Venice Pavilion",
     description: "a project in venice",
-    year: "2026",
+    year: "2025",
     coverImage:
       "https://framerusercontent.com/images/HL1ELAt4La6b4g71kQ2glWHA7Yk.png?width=2725&height=2044",
     coverImageFit: "contain",

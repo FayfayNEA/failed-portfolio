@@ -30,6 +30,10 @@ const NETHER_PORTAL_OVERLAY_LEFT_MOBILE_PX = NETHER_PORTAL_OVERLAY_LEFT_DESKTOP_
 const SITE_PATH_PREFIX = "";
 const WORK_PAGE_HREF = `${SITE_PATH_PREFIX}/work`;
 
+// Mobile shows persistent labels under assets (see CSS @media hover:none).
+// Avoid repeating generic labels like "Work" multiple times.
+const renderedPersistentLabels = new Set();
+
 const portfolioAssets = [
   { name: "Jaguar", filename: "panther reflection.png", link: "about", hoverLabel: "About" },
   { name: "Rocks_Foliage", filename: "rock with leaves.png", link: "jahn", hoverLabel: "Jahn" },
@@ -1047,6 +1051,35 @@ portfolioAssets.forEach((asset, index) => {
     startTooltipTypewriterOwned("asset", hoverTitle, { clientX: rect.left + rect.width / 2, clientY: rect.top });
   });
   anchor.addEventListener("blur", dismissTooltip);
+
+  const normalizedLabel = String(hoverTitle ?? "").trim().toLowerCase();
+  const shouldSkipPersistentLabel =
+    normalizedLabel === "work" && renderedPersistentLabels.has(normalizedLabel);
+
+  const labelEl = document.createElement("span");
+  labelEl.className = "asset-label";
+  labelEl.textContent = hoverTitle;
+  labelEl.setAttribute("aria-hidden", "true");
+  if (!shouldSkipPersistentLabel) {
+    renderedPersistentLabels.add(normalizedLabel);
+    anchor.appendChild(labelEl);
+  }
+
+  // Position label just below the image once its height is known.
+  // Anchor height collapses to 0 (all images are position:absolute), so
+  // top:100% would land at the anchor's top — we must set top explicitly.
+  const firstImg = anchor.querySelector("img");
+  if (firstImg) {
+    const placeLabel = () => {
+      const h = firstImg.offsetHeight || firstImg.getBoundingClientRect().height;
+      if (h > 0) labelEl.style.top = `${h + 4}px`;
+    };
+    if (firstImg.complete && firstImg.naturalHeight > 0) {
+      requestAnimationFrame(placeLabel);
+    } else {
+      firstImg.addEventListener("load", placeLabel, { once: true });
+    }
+  }
 
   scene.appendChild(anchor);
   sceneAssetAnchors.push(anchor);
