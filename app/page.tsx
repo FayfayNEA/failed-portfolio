@@ -68,7 +68,7 @@ export default function Home() {
       </div>
 
       <section
-        className="relative border-t border-black/[0.06] bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed] px-4 py-8 sm:bg-transparent sm:[background-image:none] md:px-8 md:py-20"
+        className="relative border-black/[0.06] bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed] px-4 py-8 sm:border-t sm:bg-transparent sm:[background-image:none] md:px-8 md:py-20"
         aria-labelledby="selected-work-heading"
       >
         {/* Mobile-only hint — explains the collage map above */}
@@ -92,7 +92,7 @@ export default function Home() {
         </div>
 
         <ul className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 md:mt-14 lg:grid-cols-3 lg:gap-10">
-          {FEATURED.map((item) => (
+          {FEATURED.map((item, idx) => (
             <li key={item.href}>
               <Link
                 href={item.href}
@@ -145,6 +145,9 @@ export default function Home() {
                         alt={item.alt}
                         fill
                         quality={80}
+                        priority={idx < 3}
+                        fetchPriority={idx < 3 ? "high" : "auto"}
+                        loading={idx < 3 ? "eager" : "lazy"}
                         sizes="(max-width: 640px) min(92vw, 420px), (max-width: 1024px) min(46vw, 400px), min(28vw, 360px)"
                         className="object-contain object-center"
                       />

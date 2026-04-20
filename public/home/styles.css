@@ -206,6 +206,13 @@ body {
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
 }
 
+/* Mobile: remove the thin viewport edge so it doesn't read as a "line" under/above nav. */
+@media (hover: none) {
+  #spatial-viewport {
+    box-shadow: none;
+  }
+}
+
 #spatial-scene {
   position: absolute;
   left: 50%;

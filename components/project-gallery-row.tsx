@@ -455,6 +455,9 @@ export function ProjectGalleryRow({
                   <img
                     src={images[slideIndex]}
                     alt=""
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="high"
                     className={
                       slideImageFit === "cover"
                         ? "h-full w-full object-cover"

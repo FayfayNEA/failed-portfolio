@@ -1060,6 +1060,10 @@ portfolioAssets.forEach((asset, index) => {
   labelEl.className = "asset-label";
   labelEl.textContent = hoverTitle;
   labelEl.setAttribute("aria-hidden", "true");
+  // Nudge the generic "Work" label so it doesn't collide with the cheetah.
+  if (normalizedLabel === "work") {
+    labelEl.style.transform = "translateX(-50%) translateX(26px)";
+  }
   if (!shouldSkipPersistentLabel) {
     renderedPersistentLabels.add(normalizedLabel);
     anchor.appendChild(labelEl);
