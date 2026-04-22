@@ -657,7 +657,6 @@ export function CategoryGallery({
                           loading={frameIdx < 2 ? "eager" : "lazy"}
                           fetchPriority={frameIdx < 2 ? "high" : "auto"}
                           draggable={false}
-                          unoptimized
                         />
                       )}
                     </div>
@@ -753,13 +752,12 @@ export function CategoryGallery({
                         "pointer-events-none",
                         project.coverImageClassName
                       )}
-                      sizes={`${Math.min(cardW * 2, 900)}px`}
+                      sizes={`${Math.min(cardW * 2, 640)}px`}
                       quality={75}
                       priority={aboveFold}
                       loading={aboveFold ? "eager" : "lazy"}
                       fetchPriority={aboveFold ? "high" : "auto"}
                       draggable={false}
-                      unoptimized
                     />
                   )}
 
