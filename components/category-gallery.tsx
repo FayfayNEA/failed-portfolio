@@ -10,11 +10,8 @@ import { cn } from "@/lib/cn";
  * overlapping draggable deck (tablets at 768–1023px were still on the deck and looked broken).
  */
 function useStackGalleryLayout() {
-  const [stack, setStack] = useState(() =>
-    typeof window !== "undefined"
-      ? window.matchMedia("(max-width: 1023px)").matches
-      : false
-  );
+  // Always start false (matches SSR) — useEffect corrects on client to avoid hydration mismatch.
+  const [stack, setStack] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
     const on = () => setStack(mq.matches);

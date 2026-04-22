@@ -57,7 +57,18 @@ export default function Home() {
   return (
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
       {/* Home is full-bleed (nav floats). Offset collage so it doesn't sit under nav. */}
-      <div className="min-h-0 w-full overflow-hidden pt-[5rem] md:pt-[5rem]">
+      <div className="relative min-h-0 w-full overflow-hidden pt-[5rem] md:pt-[5rem]">
+        {/* Gradient masks — blend away the hard overflow-hidden clip edges */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[5.5rem]"
+          style={{ background: "linear-gradient(to bottom, #e8e8e8 55%, transparent)" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16"
+          style={{ background: "linear-gradient(to top, #e8e8e8 0%, transparent 100%)" }}
+        />
         <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-5rem)]">
           <iframe
             src="/home/index.html"
