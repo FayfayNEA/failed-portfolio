@@ -657,6 +657,7 @@ export function CategoryGallery({
                           loading="eager"
                           fetchPriority="high"
                           draggable={false}
+                          unoptimized
                         />
                       )}
                     </div>
@@ -758,6 +759,7 @@ export function CategoryGallery({
                       loading="eager"
                       fetchPriority="high"
                       draggable={false}
+                      unoptimized
                     />
                   )}
 

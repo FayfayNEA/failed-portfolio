@@ -68,30 +68,15 @@ export default function Home() {
       </div>
 
       <section
-        className="relative border-black/[0.06] bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed] px-4 py-8 sm:border-t sm:bg-transparent sm:[background-image:none] md:px-8 md:py-20"
-        aria-labelledby="selected-work-heading"
+        className="relative bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed] px-4 py-8 sm:bg-transparent sm:[background-image:none] md:px-8 md:py-20"
+        aria-label="Selected work"
       >
         {/* Mobile-only hint — explains the collage map above */}
-        <p className="mb-5 text-center font-mono text-[9px] font-semibold tracking-[0.06em] text-zinc-400 sm:hidden">
+        <p className="mb-8 text-center font-mono text-[9px] font-semibold tracking-[0.06em] text-zinc-400 sm:hidden">
           tap map objects to explore ↑
         </p>
 
-        <div className="mx-auto flex max-w-6xl flex-col items-center">
-          <p
-            id="selected-work-heading"
-            className="font-mono text-[10px] font-medium tracking-[0.14em] text-zinc-500"
-          >
-            selected work
-          </p>
-          <span
-            className="mt-2 font-mono text-sm text-zinc-400 motion-safe:animate-bounce"
-            aria-hidden
-          >
-            ↓
-          </span>
-        </div>
-
-        <ul className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 md:mt-14 lg:grid-cols-3 lg:gap-10">
+        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10">
           {FEATURED.map((item, idx) => (
             <li key={item.href}>
               <Link
