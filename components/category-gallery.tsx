@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { FadingImage as Image } from "@/components/fading-image";
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 /**
@@ -638,7 +638,7 @@ export function CategoryGallery({
                       aria-hidden
                     />
                     <div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 [box-shadow:inset_0_0_0_1.5px_#3a6148]" />
-                    <div className="absolute inset-2.5 overflow-hidden bg-white/60">
+                    <div className="absolute inset-2.5 overflow-hidden">
                       {project.coverImage && (
                         <Image
                           src={galleryCoverSrc(project.coverImage) ?? project.coverImage}

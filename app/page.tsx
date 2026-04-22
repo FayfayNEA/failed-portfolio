@@ -1,4 +1,4 @@
-import { FadingImage as Image } from "@/components/fading-image";
+import Image from "next/image";
 import Link from "next/link";
 
 const FEATURED = [

@@ -26,12 +26,12 @@ export function NavShell({ children }: { children: React.ReactNode }) {
       <div className="md:hidden">
         <MobileHamburgerNav />
       </div>
-      <AnimatePresence mode="popLayout">
+      <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: 0.32, ease: [0.4, 0, 0.2, 1] } }}
-          exit={{ opacity: 0, transition: { duration: 0.18, ease: [0.4, 0, 1, 1] } }}
+          animate={{ opacity: 1, transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1] } }}
+          exit={{ opacity: 1, transition: { duration: 0 } }}
           className={cn(
             "relative z-[1] flex min-h-full flex-1 flex-col",
             !fullBleed && "pt-[4rem] md:pt-[5rem]",
