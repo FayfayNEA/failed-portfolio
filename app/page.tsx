@@ -61,8 +61,8 @@ export default function Home() {
         {/* Gradient masks — blend away the hard overflow-hidden clip edges */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[5.5rem]"
-          style={{ background: "linear-gradient(to bottom, #e8e8e8 55%, transparent)" }}
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[8rem]"
+          style={{ background: "linear-gradient(to bottom, #e8e8e8 62%, transparent)" }}
         />
         <div
           aria-hidden
