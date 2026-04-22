@@ -626,7 +626,7 @@ export function CategoryGallery({
                       "absolute inset-0 overflow-hidden rounded-none",
                       "border-[0.5px] border-white/55 ring-1 ring-black/[0.06]",
                       "shadow-[0_22px_70px_-44px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.55)]",
-                      "bg-white/[0.22] backdrop-blur-2xl backdrop-saturate-[1.35]",
+                      "bg-white/[0.22] backdrop-blur-lg backdrop-saturate-[1.35]",
                     ].join(" ")}
                   >
                     <div
