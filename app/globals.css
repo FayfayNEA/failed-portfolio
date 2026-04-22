@@ -69,6 +69,17 @@ body::before {
   background-attachment: fixed;
 }
 
+/* Water-smooth: override Tailwind's transition-colors/opacity/shadow defaults site-wide.
+   200ms linear feels snappy; 280ms decelerate feels like water. */
+.transition-colors,
+.transition-opacity,
+.transition-shadow,
+.transition-all,
+.transition {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 280ms !important;
+}
+
 /* LiquidGlassNav: CSS animations instead of Framer infinite `animate` (SSR/client DOM match). */
 @keyframes liquid-glass-nav-conic-spin {
   from {
