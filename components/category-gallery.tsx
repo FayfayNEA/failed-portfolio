@@ -638,7 +638,7 @@ export function CategoryGallery({
                       aria-hidden
                     />
                     <div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 [box-shadow:inset_0_0_0_1.5px_#3a6148]" />
-                    <div className="absolute inset-2.5 overflow-hidden">
+                    <div className="absolute inset-2.5 overflow-hidden bg-white/60">
                       {project.coverImage && (
                         <Image
                           src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
@@ -653,9 +653,9 @@ export function CategoryGallery({
                           )}
                           sizes="(max-width: 640px) min(92vw, 420px), min(46vw, 400px)"
                           quality={75}
-                          priority={frameIdx < 2}
-                          loading={frameIdx < 2 ? "eager" : "lazy"}
-                          fetchPriority={frameIdx < 2 ? "high" : "auto"}
+                          priority
+                          loading="eager"
+                          fetchPriority="high"
                           draggable={false}
                         />
                       )}
@@ -736,7 +736,7 @@ export function CategoryGallery({
                   {/* Background colour */}
                   <div
                     className="absolute inset-0"
-                    style={{ background: project.coverColor ?? "#728C69" }}
+                    style={{ background: project.coverColor ?? "#ffffff" }}
                   />
 
                   {/* Cover image */}
@@ -754,9 +754,9 @@ export function CategoryGallery({
                       )}
                       sizes={`${Math.min(cardW * 2, 640)}px`}
                       quality={75}
-                      priority={aboveFold}
-                      loading={aboveFold ? "eager" : "lazy"}
-                      fetchPriority={aboveFold ? "high" : "auto"}
+                      priority
+                      loading="eager"
+                      fetchPriority="high"
                       draggable={false}
                     />
                   )}
