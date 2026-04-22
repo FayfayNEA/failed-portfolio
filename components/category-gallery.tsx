@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { FadingImage as Image } from "@/components/fading-image";
 import { cn } from "@/lib/cn";
 
 /**
