@@ -7,25 +7,27 @@
   window.aiSuggestedName = null;
 
   // Maps renderStyle → a built-in preset key that uses that renderStyle.
-  // Calling applyPresetToUI on it sets lastNonCustomRenderStyle correctly
-  // without us needing to touch sketch.js.
+  // Used only to get sensible baseline slider values before applying AI params.
+  // lastNonCustomRenderStyle is explicitly overridden after applyPresetToUI so
+  // the actual render algorithm always matches what the AI suggested.
   const RENDER_STYLE_BASE_PRESET = {
-    organic:         "organic_natural_connections",
-    organic_dots:    "organic_dot_field_adaptive21",
-    halftone:        "grid_connected_dither",
-    stipple:         "organic_dither_field_final",
-    halftone_edges:  "organic_grid_gradient",
-    diamond_overlay: "diamond_overlay_noise",
-    square_overlay:  "square_overlay_default",
-    concentric:      "concentric_default",
-    ordered8:        "ordered_bayer8",
-    threshold:       "threshold_dither",
-    fs:              "floyd_steinberg",
-    atkinson:        "atkinson",
-    jarvis:          "jarvis_judice_ninke",
-    stucki:          "stucki",
-    burkes:          "burkes",
-    sierra2:         "sierra2",
+    organic:          "organic_natural_connections",
+    organic_dots:     "organic_dots",
+    halftone:         "grid_connected_dither",
+    halftone_edges:   "halftone_edges_dither",
+    stipple:          "organic_dither_field_final",
+    diamond_overlay:  "diamond_overlay",
+    square_overlay:   "square_overlay",
+    concentric:       "concentric_dither",
+    ordered:          "ordered_bayer8",
+    ordered8:         "ordered_bayer8",
+    threshold:        "threshold_basic",
+    fs:               "floyd_steinberg",
+    atkinson:         "atkinson",
+    jarvis:           "jarvis_judice_ninke",
+    stucki:           "stucki",
+    burkes:           "burkes",
+    sierra2:          "sierra2",
   };
 
   // Save the original image file when loaded so we can send it to AI.
@@ -87,6 +89,7 @@
       const res = await fetch("/api/suggest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        cache: "no-store",
         body: JSON.stringify(body),
       });
 
@@ -96,6 +99,7 @@
       }
 
       const { name, renderStyle, explanation, parameters } = await res.json();
+      console.log("[fither ai] suggestion", { name, renderStyle, parameters });
 
       // Apply a base preset that has the right renderStyle. This sets
       // lastNonCustomRenderStyle (via updateLastNonCustomRenderStyle inside
@@ -104,14 +108,31 @@
       const basePresetKey =
         RENDER_STYLE_BASE_PRESET[renderStyle] || "organic_natural_connections";
       applyPresetToUI(basePresetKey, true);
+      // Override lastNonCustomRenderStyle to the AI's actual suggestion —
+      // applyPresetToUI sets it from the base preset key which may differ.
+      lastNonCustomRenderStyle = renderStyle;
 
       // Overwrite all AI-generated parameters on top.
       const params =
         parameters && typeof parameters === "object"
           ? Object.entries(parameters)
           : [];
+      const applied = [];
+      const ignored = [];
       for (const [key, val] of params) {
+        const el = document.getElementById(key);
+        if (!el) {
+          ignored.push(key);
+          continue;
+        }
+        applied.push(key);
         setVal(key, val);
+      }
+      if (ignored.length) {
+        console.warn("[fither ai] ignored params (no matching control id)", ignored);
+      }
+      if (!applied.length) {
+        console.warn("[fither ai] no params applied — suggestion keys didn't match controls");
       }
 
       // Switch to custom — readCfg will use lastNonCustomRenderStyle.
@@ -122,7 +143,13 @@
 
       if (srcImg) {
         hasRendered = false;
-        scheduleRender(true);
+        setStatus("Rendering...");
+        // Force an immediate render pass even if timers are in-flight.
+        try {
+          redraw();
+        } catch (_) {
+          scheduleRender(true);
+        }
       }
 
       // Store name so the ★ Save button can pre-fill it.

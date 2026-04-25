@@ -182,8 +182,9 @@ function drawOrganicGrid(cfg, drawBridges, stippleMode = false) {
           if (Math.abs(a.b - b.b) > cfg.toneDiffLimit) continue;
 
           const d = dist(a.x, a.y, b.x, b.y);
-          if (d < (a.r + b.r) * 0.8) continue;
-          if (d > (a.r + b.r) * 1.5) continue;
+          // Only skip when dots deeply overlap — maxConnectDist is the upper bound.
+          if (d < (a.r + b.r) * 0.25) continue;
+          if (d > spacing * cfg.maxConnectDist * 0.9) continue;
 
           if (connected[gx][gy][n]) continue;
           connected[gx][gy][n] = true;
@@ -194,7 +195,6 @@ function drawOrganicGrid(cfg, drawBridges, stippleMode = false) {
             }
           }
 
-          if (d > spacing * cfg.maxConnectDist * 0.9) continue;
           drawBridge(a, b, cfg);
           links++;
         }
@@ -793,7 +793,7 @@ function drawBridge(a, b, cfg) {
   const tone = (a.b + b.b) * 0.5;
   const darknessFactor = 1.2 - tone;
   const baseW = Math.min(a.r, b.r) * cfg.bridgeScale * 0.7 * darknessFactor;
-  const waistW = baseW * clamp(cfg.bridgeWaist, 0.02, 1.0);
+  const waistW = baseW * clamp(cfg.bridgeWaist, 0.02, 3.0);
 
   const taperStrength = clamp(cfg.edgeTaper, 0.0, 1.0);
   const edgeLimitA = TWO_PI * a.r * 0.15;
@@ -1069,11 +1069,25 @@ function wireUI() {
   fileInput.addEventListener("change", async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    await loadFileAsImage(file);
-    layoutDirty = true;
-    hasRendered = false;
-    setStatus(`Loaded: ${file.name}. Rendering...`);
-    scheduleRender();
+    try {
+      await loadFileAsImage(file);
+      layoutDirty = true;
+      hasRendered = false;
+      setStatus(`Loaded: ${file.name}. Rendering...`);
+      scheduleRender();
+    } catch (err) {
+      const msg =
+        file?.type && !file.type.startsWith("image/")
+          ? "That file isn’t an image."
+          : "Couldn’t load that image. Try a PNG/JPG (some formats like HEIC aren’t supported).";
+      setStatus(msg);
+      console.error("Upload failed", err);
+    } finally {
+      // Allow re-uploading the same file (some browsers won't fire change twice otherwise).
+      try {
+        fileInput.value = "";
+      } catch (_) {}
+    }
   });
 
   document.getElementById("renderBtn").addEventListener("click", () => {
@@ -1138,13 +1152,13 @@ function wireUI() {
       if (!srcImg) return;
       if (applyingPreset) return;
 
-      // If you're on a named preset and tweak any slider, flip to Custom.
-      // Re-selecting the preset later snaps everything back to the true preset defaults.
+      // Keep lastNonCustomRenderStyle in sync so switching to custom later
+      // preserves the current algorithm. Do NOT flip to custom here — tweaking
+      // a slider on a named preset keeps you on that preset (shows "remixed").
       const sel = document.getElementById("presetSelect");
       const currentKey = sel?.value || "custom";
       if (currentKey !== "custom" && DITHER_PRESETS[currentKey]) {
         lastNonCustomRenderStyle = DITHER_PRESETS[currentKey].renderStyle || lastNonCustomRenderStyle;
-        if (sel) sel.value = "custom";
       }
 
       syncUIOutputs();
@@ -1205,13 +1219,12 @@ function wireNumericPairs() {
       num.value = String(v);
       sizeNumInputWidths();
 
-      // Mirror the same flip-to-custom logic as slider input events.
+      // Keep lastNonCustomRenderStyle in sync; do NOT flip to custom.
       if (!applyingPreset) {
         const sel = document.getElementById("presetSelect");
         const currentKey = sel?.value || "custom";
         if (currentKey !== "custom" && DITHER_PRESETS[currentKey]) {
           lastNonCustomRenderStyle = DITHER_PRESETS[currentKey].renderStyle || lastNonCustomRenderStyle;
-          if (sel) sel.value = "custom";
         }
       }
 
@@ -1290,23 +1303,27 @@ const BRIDGE_SLIDERS = [
   "row-toneDiffLimit", "row-gradientThreshold", "row-edgeTaper", "row-bridgeCurve"
 ];
 
+// These 4 bridge controls affect output across multiple algorithm families and
+// are always interactive regardless of which preset is active.
+const CORE_BRIDGE = ["row-bridgeScale", "row-bridgeWaist", "row-maxConnectDist", "row-toneDiffLimit"];
+
 const STYLE_SLIDERS = {
   organic:         new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-maxLinksPerDot","row-contrast","row-maxBright","row-quantizeLevels",...BRIDGE_SLIDERS]),
   organic_dots:    new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-maxLinksPerDot","row-contrast","row-maxBright","row-quantizeLevels",...BRIDGE_SLIDERS]),
   stipple:         new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-maxLinksPerDot","row-stippleJitter","row-halftoneGamma","row-contrast","row-maxBright","row-quantizeLevels",...BRIDGE_SLIDERS]),
-  halftone:        new Set(["row-gridCount","row-minRadius","row-maxRadius","row-halftoneGamma","row-contrast","row-quantizeLevels"]),
-  halftone_edges:  new Set(["row-gridCount","row-minRadius","row-maxRadius","row-halftoneGamma","row-stippleJitter","row-edgeMag","row-contrast","row-quantizeLevels"]),
+  halftone:        new Set(["row-gridCount","row-minRadius","row-maxRadius","row-halftoneGamma","row-contrast","row-quantizeLevels",...CORE_BRIDGE]),
+  halftone_edges:  new Set(["row-gridCount","row-minRadius","row-maxRadius","row-halftoneGamma","row-stippleJitter","row-edgeMag","row-contrast","row-quantizeLevels",...CORE_BRIDGE]),
   diamond_overlay: new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-stippleJitter","row-halftoneGamma","row-maxLinksPerDot","row-contrast","row-maxBright","row-quantizeLevels",...BRIDGE_SLIDERS]),
   square_overlay:  new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-stippleJitter","row-halftoneGamma","row-maxLinksPerDot","row-contrast","row-maxBright","row-quantizeLevels",...BRIDGE_SLIDERS]),
-  concentric:      new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-stippleJitter","row-halftoneGamma","row-contrast","row-quantizeLevels","row-bridgeScale","row-bridgeWaist"]),
-  ordered8:        new Set(["row-contrast"]),
-  threshold:       new Set(["row-contrast"]),
-  fs:              new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels"]),
-  atkinson:        new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels"]),
-  jarvis:          new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels"]),
-  stucki:          new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels"]),
-  burkes:          new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels"]),
-  sierra2:         new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels"]),
+  concentric:      new Set(["row-gridCount","row-minRadius","row-maxRadius","row-dotJitter","row-stippleJitter","row-halftoneGamma","row-contrast","row-quantizeLevels",...CORE_BRIDGE]),
+  ordered8:        new Set(["row-contrast",...CORE_BRIDGE]),
+  threshold:       new Set(["row-contrast",...CORE_BRIDGE]),
+  fs:              new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels",...CORE_BRIDGE]),
+  atkinson:        new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels",...CORE_BRIDGE]),
+  jarvis:          new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels",...CORE_BRIDGE]),
+  stucki:          new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels",...CORE_BRIDGE]),
+  burkes:          new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels",...CORE_BRIDGE]),
+  sierra2:         new Set(["row-contrast","row-halftoneGamma","row-quantizeLevels",...CORE_BRIDGE]),
 };
 
 const ALL_SLIDER_ROWS = [
@@ -1323,7 +1340,6 @@ function syncSliderActiveState(rs) {
   for (const id of ALL_SLIDER_ROWS) {
     const el = document.getElementById(id);
     if (!el) continue;
-    // In custom mode all sliders are live; otherwise gray out inactive ones
     if (isCustom || active.has(id)) {
       el.classList.remove("row--inactive");
     } else {
@@ -1363,7 +1379,26 @@ function loadFileAsImage(file) {
       },
       (err) => {
         URL.revokeObjectURL(url);
-        reject(err);
+        // Fallback: FileReader data URL (handles some cases where blob URL + loadImage fails)
+        try {
+          const reader = new FileReader();
+          reader.onerror = () => reject(err);
+          reader.onload = () => {
+            const dataUrl = reader.result;
+            if (typeof dataUrl !== "string") return reject(err);
+            loadImage(
+              dataUrl,
+              (img2) => {
+                srcImg = img2;
+                resolve();
+              },
+              (err2) => reject(err2 || err)
+            );
+          };
+          reader.readAsDataURL(file);
+        } catch (_) {
+          reject(err);
+        }
       }
     );
   });
