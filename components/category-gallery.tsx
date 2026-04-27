@@ -389,9 +389,7 @@ export function CategoryGallery({
       try {
         const parsed: CardSize[] = JSON.parse(storedSizes);
         if (Array.isArray(parsed) && parsed.length === projects.length) {
-          // Enforce uniform sizing even if older per-card sizes were saved.
-          const first = parsed[0] ?? { w: BASE_CARD_W, h: BASE_CARD_H };
-          setBaseSizes(projects.map(() => ({ w: first.w, h: first.h })));
+          setBaseSizes(parsed);
         }
       } catch {
         // ignore
@@ -502,8 +500,7 @@ export function CategoryGallery({
       }
 
       setBaseSizes((prev) => {
-        // Keep the deck uniform-size: resizing one card resizes them all.
-        return prev.map(() => ({ w: newW, h: newH }));
+        return prev.map((s, j) => (j === r.idx ? { w: newW, h: newH } : s));
       });
 
       // Only update position when a left or top handle is active
