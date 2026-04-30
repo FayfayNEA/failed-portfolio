@@ -12,7 +12,7 @@ const projects: GalleryProject[] = [
   {
     slug: "vagabond",
     title: "Vagabond Radio",
-    description: "vagabond radio",
+    description: "visual identity and art direction for an underground radio station",
     year: "2025",
     coverImage:
       "https://framerusercontent.com/images/rKvch1GkMbOWLcefYnDSdybGUq4.png",
@@ -21,7 +21,7 @@ const projects: GalleryProject[] = [
   {
     slug: "lighthouse",
     title: "Glitter Lighthouse",
-    description: "a glitter lighthouse",
+    description: "rebranded a historic new england lighthouse and brought its identity to life",
     year: "2023",
     coverImage:
       "https://framerusercontent.com/images/CAdSAOIPp6DwaYBc7lHBWEZBNk0.png",
@@ -30,7 +30,7 @@ const projects: GalleryProject[] = [
   {
     slug: "spiral",
     title: "Spiral",
-    description: "a swirling set design",
+    description: "spatial branding and set design for an immersive rotating installation",
     year: "2026",
     coverImage:
       "https://framerusercontent.com/images/DEKAt5ypvDK9UvA3LPNiXGUeV0.png",
@@ -39,7 +39,7 @@ const projects: GalleryProject[] = [
   {
     slug: "cool",
     title: "Cool.",
-    description: "cool. tshirts",
+    description: "a minimalist streetwear brand built around one word",
     year: "2026",
     coverImage:
       "https://framerusercontent.com/images/qd8g1zZZPiPsVtwm0mF7FUgHib4.png",
@@ -48,7 +48,7 @@ const projects: GalleryProject[] = [
   {
     slug: "bonemachine",
     title: "BoneMachine",
-    description: "hand-printed band merch",
+    description: "hand-screen-printed merch translating a band's raw energy into a wearable identity",
     year: "2020",
     coverImage:
       "/bonemachine/Screenshot 2026-01-28 173317.png",

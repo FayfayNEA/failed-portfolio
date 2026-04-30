@@ -657,13 +657,13 @@ export function CategoryGallery({
                     </div>
                   </div>
                 </div>
-                <p className="mt-3 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
-                  {project.description}
-                  <span className="mx-1.5 font-light text-zinc-400">·</span>
-                  {project.year}
-                </p>
-                <p className="mt-1 font-mono text-[0.95rem] font-normal tracking-tight text-zinc-900">
+                <p className="mt-3 font-mono text-[0.95rem] font-normal tracking-tight text-zinc-900">
                   {project.title}
+                  <span className="mx-1.5 font-light text-zinc-400">·</span>
+                  <span className="text-[10px] tracking-[0.06em] text-zinc-400">{project.year}</span>
+                </p>
+                <p className="mt-1 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
+                  {project.description}
                 </p>
               </Link>
             </li>
@@ -825,6 +825,22 @@ export function CategoryGallery({
                   />
                 </div>
               </div>
+
+              {/* Title + description below card */}
+              <p
+                className="pointer-events-none mt-2 select-none font-mono font-normal tracking-tight text-zinc-900 truncate"
+                style={{ fontSize: titleFontSize, width: cardW }}
+              >
+                {project.title}
+                <span className="mx-1 font-light text-zinc-400">·</span>
+                <span className="text-zinc-400">{project.year}</span>
+              </p>
+              <p
+                className="pointer-events-none mt-0.5 select-none font-mono tracking-[0.06em] text-zinc-500 truncate"
+                style={{ fontSize: descFontSize, width: cardW }}
+              >
+                {project.description}
+              </p>
             </div>
           );
         })}

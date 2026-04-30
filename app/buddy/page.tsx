@@ -307,8 +307,8 @@ export default function BuddyPage() {
           Buddy
         </h1>
 
-        <p className="mb-8 font-mono text-[11px] tracking-[0.06em] text-zinc-500">
-          captured group conversations as real-time images and diagrams
+        <p className="mb-8 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+          a handheld llm device that captured group conversations as real-time images and diagrams
         </p>
 
         {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}

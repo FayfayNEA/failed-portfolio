@@ -400,20 +400,14 @@ export function ManualProjectPage({
           className={cn(
             "font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
             "font-extralight max-[1000px]:block min-[1001px]:hidden",
-            description ? "mb-2 mt-0" : "mb-8 mt-0"
+            "mb-8 mt-0"
           )}
         >
           {title}
         </h1>
 
-        {description && (
-          <p className="mb-8 font-mono text-[11px] tracking-[0.06em] text-zinc-500">
-            {description}
-          </p>
-        )}
-
         {hero && (
-          <div className={cn(heroSpacing === "none" ? "mb-0" : "mb-14", "w-full")}>
+          <div className={cn(heroSpacing === "none" ? "mb-0" : (description ? "mb-4" : "mb-14"), "w-full")}>
             {hero.kind === "video" ? (
               <div className="flex justify-center">
                 <div
@@ -517,6 +511,12 @@ export function ManualProjectPage({
               </div>
             )}
           </div>
+        )}
+
+        {description && (
+          <p className="mb-12 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+            {description}
+          </p>
         )}
 
         {metaCells.length > 0 && (

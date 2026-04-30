@@ -12,7 +12,7 @@ const projects: GalleryProject[] = [
   {
     slug: "venice",
     title: "Venice Pavilion",
-    description: "a project in venice",
+    description: "awarded top project at the venice biennale 2025",
     year: "2025",
     coverImage:
       "https://framerusercontent.com/images/HL1ELAt4La6b4g71kQ2glWHA7Yk.png?width=2725&height=2044",
@@ -24,7 +24,7 @@ const projects: GalleryProject[] = [
   {
     slug: "the-other",
     title: "The Other",
-    description: "the architecture of other",
+    description: "exploring the architecture of otherness and spatial identity",
     year: "2025",
     coverImage:
       "https://framerusercontent.com/images/EXJyfxkNEc9CeYLBNbMyBKX2jyo.png",
@@ -33,7 +33,7 @@ const projects: GalleryProject[] = [
   {
     slug: "tiny-home",
     title: "Tiny Home",
-    description: "a very tiny home",
+    description: "a compact dwelling designed to maximize livability in minimal square footage",
     year: "2026",
     coverImage:
       "https://framerusercontent.com/images/WV7DQ5qHriMXRViKYOfKPf3mU.jpg?width=1536&height=952",
@@ -45,7 +45,7 @@ const projects: GalleryProject[] = [
   {
     slug: "buddhist",
     title: "Buddhist Pavilion",
-    description: "a buddhist pavilion",
+    description: "a backyard pavilion bridging buddhist spatial tradition with contemporary architecture",
     year: "2026",
     coverImage:
       "https://framerusercontent.com/images/g9lxBwTvLeVzbGb9MZYAGzdiJgY.jpg?width=5400&height=3600",
@@ -57,7 +57,7 @@ const projects: GalleryProject[] = [
   {
     slug: "villain-home",
     title: "Villain Home",
-    description: "a poison home",
+    description: "a dramatic residential concept inspired by the aesthetics of the antagonist",
     year: "2023",
     coverImage:
       "https://framerusercontent.com/images/z2Le2qNS73xhaqzUlkqG2jC8.png?width=2570&height=1708",
@@ -68,7 +68,7 @@ const projects: GalleryProject[] = [
   {
     slug: "mindful-path",
     title: "Mindful Path",
-    description: "algae-driven biofabrication",
+    description: "algae-driven biofabrication for sustainable spatial intervention",
     year: "2024",
     coverColor: "transparent",
     coverImageClassName: "scale-[1]",

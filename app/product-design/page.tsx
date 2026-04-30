@@ -12,7 +12,7 @@ const projects: GalleryProject[] = [
   {
     slug: "eidolon",
     title: "Eidolon",
-    description: "a visually interactive ai agent",
+    description: "created a visual ai agent to help users trust automation",
     year: "2026",
     coverColor: "transparent",
     labelGlassTint: "moss",
@@ -26,7 +26,7 @@ const projects: GalleryProject[] = [
   {
     slug: "buddy",
     title: "Buddy",
-    description: "a design best friend",
+    description: "captured group conversations as real-time images and diagrams",
     year: "2026",
     coverColor: "transparent",
     coverImageClassName: "scale-[1.2]",
@@ -47,7 +47,7 @@ const projects: GalleryProject[] = [
   {
     slug: "etrade",
     title: "E*Trade",
-    description: "redesigning a financial trading platform",
+    description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",
     year: "2026",
     coverColor: "transparent",
     coverImageClassName: "scale-[1.1]",
@@ -60,7 +60,7 @@ const projects: GalleryProject[] = [
   {
     slug: "nightterrors",
     title: "N1ghtterrors",
-    description: "an edgy clothing line",
+    description: "a website designed to capture the essence of n1ghtterrors",
     year: "2024",
     coverImage:
       "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",
@@ -69,7 +69,7 @@ const projects: GalleryProject[] = [
   {
     slug: "jahn",
     title: "JAHN",
-    description: "a website for an architect",
+    description: "designed a portfolio faithful to helmut jahn's design language",
     year: "2023",
     coverImage:
       "/jahn/jahn image.jpg",
