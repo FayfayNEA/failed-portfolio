@@ -7,7 +7,7 @@ const SLUG = "etrade";
 const CATEGORY = "product-design";
 
 const TITLE = "E*Trade";
-const DESCRIPTION = "Redesigning a trading platform to modernize clunky UI and speed up trades.";
+const DESCRIPTION = "redesigned a financial trading platform to reduce cognitive load and speed up trades";
 const HERO = "https://framerusercontent.com/images/NvG3dp6QgMIWgEFMHXnQsAmc3lc.png";
 /** Local encode: video-only (no audio). */
 const HERO_VIDEO = "/etrade/hero.mp4";

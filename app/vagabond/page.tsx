@@ -5,7 +5,7 @@ import { ProjectGalleryRow } from "@/components/project-gallery-row";
 const SLUG = "vagabond";
 const CATEGORY = "branding";
 const TITLE = "Vagabond Radio";
-const DESCRIPTION = "Visual identity and art direction for an underground independent radio station.";
+const DESCRIPTION = "visual identity and art direction for an underground radio station";
 const HERO = "https://framerusercontent.com/images/rKvch1GkMbOWLcefYnDSdybGUq4.png?width=3952&height=1692";
 
 export const metadata: Metadata = {

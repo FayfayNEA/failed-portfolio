@@ -9,7 +9,7 @@ import { getContentBySlug } from "@/lib/content";
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
 
 const TITLE       = "Eidolon";
-const DESCRIPTION = "Creating a visual-driven AI agent to help users trust AI agents.";
+const DESCRIPTION = "created a visual ai agent to help users trust automation";
 /** Local encode: video-only (no audio). */
 const HERO_IMAGE = "/eidolon/hero.mp4";
 const CHALLENGE   = "Design the internet for when it is 98% AI and 2% human.";

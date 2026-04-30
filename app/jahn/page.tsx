@@ -6,7 +6,7 @@ const SLUG = "jahn";
 const CATEGORY = "product-design";
 
 const TITLE = "JAHN";
-const DESCRIPTION = "Designing a portfolio site true to Helmut Jahn's design language.";
+const DESCRIPTION = "designed a portfolio faithful to helmut jahn's design language";
 const HERO = "/jahn/jahn image.jpg";
 const HERO_VIDEO = "/jahn/jahn.mp4";
 

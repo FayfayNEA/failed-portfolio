@@ -5,7 +5,7 @@ const SLUG = "spiral";
 const CATEGORY = "branding";
 
 const TITLE = "The Spiral";
-const DESCRIPTION = "Spatial branding and set design for an immersive rotating installation.";
+const DESCRIPTION = "spatial branding and set design for an immersive rotating installation";
 const HERO = "https://framerusercontent.com/images/DEKAt5ypvDK9UvA3LPNiXGUeV0.png?width=800&height=1000";
 
 const GALLERY_IMAGES = [

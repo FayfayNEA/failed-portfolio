@@ -399,15 +399,15 @@ export function ManualProjectPage({
         <h1
           className={cn(
             "font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
-            "font-extralight",
-            description ? "mb-3 mt-0" : "mb-8 mt-0"
+            "font-extralight max-[1000px]:block min-[1001px]:hidden",
+            description ? "mb-2 mt-0" : "mb-8 mt-0"
           )}
         >
           {title}
         </h1>
 
         {description && (
-          <p className="mb-8 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+          <p className="mb-8 font-mono text-[11px] tracking-[0.06em] text-zinc-500">
             {description}
           </p>
         )}

@@ -8,7 +8,7 @@ const SLUG = "nightterrors";
 const CATEGORY = "product-design";
 
 const TITLE = "N1ghtterrors";
-const DESCRIPTION = "Design a website that captures the essence of N1ghtterrors clothing line. ";
+const DESCRIPTION = "a website designed to capture the essence of n1ghtterrors";
 const HERO = "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg";
 
 // ── Engineering diagram constants (matching Buddy pattern) ───────────────────

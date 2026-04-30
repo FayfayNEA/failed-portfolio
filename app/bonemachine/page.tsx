@@ -6,7 +6,7 @@ const SLUG = "bonemachine";
 const CATEGORY = "branding";
 
 const TITLE = "Bonemachine";
-const DESCRIPTION = "Hand-screen-printed band merch translating raw punk energy into a wearable identity.";
+const DESCRIPTION = "hand-screen-printed merch translating a band's raw energy into a wearable identity";
 const HERO = "/bonemachine/Screenshot 2026-01-28 173317.png";
 
 export const metadata: Metadata = {

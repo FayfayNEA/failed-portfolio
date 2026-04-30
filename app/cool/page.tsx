@@ -6,7 +6,7 @@ const SLUG = "cool";
 const CATEGORY = "branding";
 
 const TITLE = "COOL.";
-const DESCRIPTION = "A minimalist streetwear brand centered on the social power of a single word.";
+const DESCRIPTION = "a minimalist streetwear brand built around one word";
 const HERO = "https://framerusercontent.com/images/qd8g1zZZPiPsVtwm0mF7FUgHib4.png?width=1366&height=768";
 
 export const metadata: Metadata = {
