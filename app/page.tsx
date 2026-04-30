@@ -5,6 +5,7 @@ const FEATURED = [
   {
     href: "/buddy",
     title: "Buddy",
+    description: "captured group conversations as real-time images and diagrams",
     category: "Product Design",
     year: "2026",
     image: "/coverimages/buddy.png",
@@ -13,6 +14,7 @@ const FEATURED = [
   {
     href: "/work/fither",
     title: "Fither",
+    description: "understanding dithers with ai",
     category: "Product Design",
     year: "2026",
     image: "/fither/assets/organic_dot_field.png",
@@ -21,6 +23,7 @@ const FEATURED = [
   {
     href: "/etrade",
     title: "E*Trade",
+    description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",
     category: "Product Design",
     year: "2026",
     image: "/coverimages/etrade.png",
@@ -29,6 +32,7 @@ const FEATURED = [
   {
     href: "/eidolon",
     title: "Eidolon",
+    description: "created a visual ai agent to help users trust automation",
     category: "Product Design",
     year: "2026",
     image: "/coverimages/eidolon.png",
@@ -37,6 +41,7 @@ const FEATURED = [
   {
     href: "/jahn",
     title: "JAHN",
+    description: "designed a portfolio faithful to helmut jahn's design language",
     category: "Product Design",
     year: "2023",
     image: "/jahn/jahn%20image.jpg",
@@ -45,6 +50,7 @@ const FEATURED = [
   {
     href: "/nightterrors",
     title: "N1ghtterrors",
+    description: "a website designed to capture the essence of n1ghtterrors",
     category: "Product Design",
     year: "2025",
     image:
@@ -157,6 +163,9 @@ export default function Home() {
                 </p>
                 <p className="mt-1 font-mono text-[0.95rem] font-normal tracking-tight text-zinc-900">
                   {item.title}
+                </p>
+                <p className="mt-1 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
+                  {item.description}
                 </p>
               </Link>
             </li>
