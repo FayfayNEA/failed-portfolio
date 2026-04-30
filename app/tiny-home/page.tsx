@@ -5,6 +5,7 @@ const SLUG = "tiny-home";
 const CATEGORY = "architecture";
 
 const TITLE = "Tiny Home";
+const DESCRIPTION = "a modest homesteading prototype: small dwellings on large workable plots for self-sufficiency";
 const HERO = "https://framerusercontent.com/images/WV7DQ5qHriMXRViKYOfKPf3mU.jpg?width=1536&height=952";
 
 /** Original Framer set (carousel order), then `public/tinyhome/` uploads. */
@@ -37,9 +38,18 @@ export default function TinyHomePage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
+      descriptionClassName="mb-[20px]"
+      heroSpacing="none"
+      mobileHeading="title"
       slug={SLUG}
       category={CATEGORY}
-      hero={{ kind: "image", src: HERO, alt: "Tiny Home cover", layout: "tall" }}
+      hero={{
+        kind: "carousel",
+        images: [HERO],
+        alt: "Tiny Home",
+        layout: "tall",
+      }}
       challengeSummary="Re-imagine Paradise as a self-sufficient farming community through modest homes and workable land."
       meta={{ timeline: "One Week, 2026", roles: ["Designer"], team: ["Ben Politowicz", "Failenn Aselta"] }}
       sections={[

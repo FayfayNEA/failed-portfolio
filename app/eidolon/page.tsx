@@ -33,6 +33,7 @@ export default async function EidolonPage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
+      descriptionClassName="text-center"
       slug="eidolon"
       category="product-design"
       hero={{ kind: "video", src: HERO_IMAGE }}

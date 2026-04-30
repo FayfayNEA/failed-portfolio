@@ -6,6 +6,7 @@ const SLUG = "the-other";
 const CATEGORY = "architecture";
 
 const TITLE = "The Architecture of Other";
+const DESCRIPTION = "an inward-turning modernism: redefining growth as empathy through radicalized form";
 const HERO = "https://framerusercontent.com/images/EXJyfxkNEc9CeYLBNbMyBKX2jyo.png";
 
 const GALLERY_IMAGES = [
@@ -50,6 +51,8 @@ export default function TheOtherPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
+      mobileHeading="description"
       slug={SLUG}
       category={CATEGORY}
       hero={{

@@ -5,6 +5,7 @@ const SLUG = "villain-home";
 const CATEGORY = "architecture";
 
 const TITLE = "Villain Home";
+const DESCRIPTION = "a CO₂-absorbing lair that turns architecture into a hostile organism";
 const HERO = "https://framerusercontent.com/images/z2Le2qNS73xhaqzUlkqG2jC8.png?width=2570&height=1708";
 const GALLERY_IMAGES = [
   "https://framerusercontent.com/images/ombD0ZMEycPMTyVAZBoDRiIhbRU.png?width=2740&height=1946",
@@ -29,9 +30,16 @@ export default function VillainHomePage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
+      mobileHeading="title"
       slug={SLUG}
       category={CATEGORY}
-      hero={{ kind: "image", src: HERO, alt: "Villain Home cover", layout: "tall" }}
+      hero={{
+        kind: "carousel",
+        images: [HERO],
+        alt: "Villain Home",
+        layout: "tall",
+      }}
       challengeSummary="To create a villainous lair for the DC villain,  Poison Ivy."
       meta={{ timeline: "One Year, 2023", roles: ["Designer"], team: ["Failenn Aselta"] }}
       sections={[

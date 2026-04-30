@@ -6,6 +6,7 @@ const SLUG = "venice";
 const CATEGORY = "architecture";
 
 const TITLE = "Venice Pavilion";
+const DESCRIPTION = "lightweight ETFE pavilion that hovers, breathes, and cultivates a pollinator greenhouse";
 const HERO = "https://framerusercontent.com/images/HL1ELAt4La6b4g71kQ2glWHA7Yk.png?width=2725&height=2044";
 
 const GALLERY_IMAGES = [
@@ -60,16 +61,16 @@ export default function VenicePage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
+      mobileHeading="description"
       slug={SLUG}
       category={CATEGORY}
       hero={{
         kind: "carousel",
-        images: [HERO, GALLERY_IMAGES[1], GALLERY_IMAGES[0]],
+        images: [HERO, GALLERY_IMAGES[1], GALLERY_IMAGES[2]],
         alt: "Venice Pavilion",
         layout: "tall",
       }}
-      heroTallSize="smaller"
-      heroImageZoom
       challengeSummary="Create a lightweight ETFE pavilion that hovers, breathes, and cultivates a pollinator greenhouse."
       meta={{
         timeline: "One Year, 2025",

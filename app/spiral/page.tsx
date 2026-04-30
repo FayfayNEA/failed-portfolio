@@ -28,11 +28,15 @@ export default function SpiralPage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
+      mobileHeading="title"
       slug={SLUG}
       category={CATEGORY}
-      hero={{ kind: "image", src: HERO, alt: "The Spiral cover", layout: "tall" }}
-      heroTallSize="smaller"
-      heroTallFrame="tall"
+      hero={{
+        kind: "carousel",
+        images: [HERO],
+        alt: "The Spiral",
+        layout: "tall",
+      }}
       challengeSummary="Create runway suspense: reveal each look through distortion, then snap to clarity."
       meta={{
         timeline: "Three Days, 2025",

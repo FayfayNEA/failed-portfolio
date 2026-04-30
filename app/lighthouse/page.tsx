@@ -25,6 +25,7 @@ export default function LighthousePage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
+      mobileHeading="description"
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "Peck Ledge Lighthouse cover" }}

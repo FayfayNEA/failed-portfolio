@@ -19,6 +19,7 @@ export default function CoolPage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
+      mobileHeading="description"
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "COOL. cover" }}

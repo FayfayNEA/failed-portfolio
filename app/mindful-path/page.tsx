@@ -6,6 +6,7 @@ const SLUG = "mindful-path";
 const CATEGORY = "architecture";
 
 const TITLE = "Mindful Path";
+const DESCRIPTION = "algae-driven biofabrication building that binds ecology, production, and restoration";
 const HERO = "https://framerusercontent.com/images/KB2soWzjj8zMRIVagSmKF4Ei38.png";
 
 const GALLERY_IMAGES = [
@@ -58,15 +59,16 @@ export default function MindfulPathPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
+      mobileHeading="title"
       slug={SLUG}
       category={CATEGORY}
       hero={{
-        kind: "image",
-        src: GALLERY_IMAGES[3],
+        kind: "carousel",
+        images: [GALLERY_IMAGES[3]],
         alt: "Mindful Path",
         layout: "tall",
       }}
-      heroTallSize="smaller"
       challengeSummary="Design an algae-driven biofabrication building that binds ecology, production, and restoration."
       meta={{ timeline: "Four Months, 2024", roles: ["Designer"], team: ["Aurora Vernocchi", "Failenn Aselta"] }}
       sections={[

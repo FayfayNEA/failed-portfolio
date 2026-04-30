@@ -25,9 +25,17 @@ export default function BuddhistPage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
+      descriptionClassName="mb-[20px]"
+      heroSpacing="none"
+      mobileHeading="title"
       slug={SLUG}
       category={CATEGORY}
-      hero={{ kind: "image", src: HERO, alt: "DNKL Pavilion cover", layout: "tall" }}
+      hero={{
+        kind: "carousel",
+        images: [HERO],
+        alt: "DNKL Pavilion",
+        layout: "tall",
+      }}
       challengeSummary="Design a backyard pavilion that shares a gutter line and stays under $10k."
       meta={{ timeline: "Six Months, 2025", roles: ["Designer"], team: ["Failenn Aselta"] }}
       sections={[

@@ -62,10 +62,28 @@ export type ManualProjectPageProps = {
   slug: string;
   category: string;
   hero?: Hero;
+  /** If true, remove the small horizontal padding that normally protects hero media on mobile. */
+  heroNoSidePadding?: boolean;
+  /**
+   * Controls the visible top heading on small screens (desktop title lives in the sidebar).
+   * - `title`: show the project title.
+   * - `description`: hide the visible title and show the description instead.
+   */
+  mobileHeading?: "title" | "description";
+  /**
+   * Where to place the one-line description relative to the hero.
+   * - `above`: normal flow, above the media.
+   * - `overlay`: positioned over the media, does not add vertical height.
+   */
+  descriptionPlacement?: "above" | "overlay";
   /** Optional content rendered directly under the hero block. */
   heroBelow?: ReactNode;
   /** Optional styling for the hero frame (e.g. liquid glass on select pages). */
   heroFrameVariant?: "default" | "liquid";
+  /** Remove rounded corners / shadow / ring from hero images. */
+  heroImageFrameless?: boolean;
+  /** Extra classes on the description paragraph (e.g. "mb-2" for tighter spacing, "text-center"). */
+  descriptionClassName?: string;
   /** Optional sizing for the hero media. */
   heroSize?: "default" | "wide";
   /**
@@ -100,12 +118,14 @@ function HeroCarousel({
   layout,
   tallSize = "default",
   imageZoom = false,
+  noSidePadding = false,
 }: {
   images: string[];
   alt?: string;
   layout?: "tall" | "compact" | "full";
   tallSize?: "default" | "smaller" | "tiny";
   imageZoom?: boolean;
+  noSidePadding?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const n = images.length;
@@ -120,22 +140,38 @@ function HeroCarousel({
   const sizeClass =
     layout === "tall"
       ? tallSize === "tiny"
-        ? "max-h-[min(52svh,620px)] max-w-[min(860px,calc(100vw-1.5rem))]"
+        ? cn(
+            "max-h-[min(52svh,620px)]",
+            noSidePadding ? "max-w-none w-full" : "max-w-[min(860px,100vw)]"
+          )
         : tallSize === "smaller"
-          ? "max-h-[min(70svh,840px)] max-w-[min(1100px,calc(100vw-1.5rem))]"
-          : "h-[min(100svh,1200px)] max-w-[min(1600px,calc(100vw-1.5rem))]"
+          ? cn(
+              "max-h-[min(70svh,840px)]",
+              noSidePadding ? "max-w-none w-full" : "max-w-[min(1100px,100vw)]"
+            )
+          : cn(
+              "max-h-[min(100svh,1200px)]",
+              noSidePadding ? "max-w-none w-full" : "max-w-[min(1600px,100vw)]"
+            )
       : layout === "full"
         ? "aspect-video"
-        : "aspect-video max-w-[min(1280px,calc(100vw-1.5rem))]";
+        : cn(
+            // If it's a single-image hero in a non-tall slot, don't force a 16:9 box (it creates
+            // visible top/bottom "padding" for extra-wide images like Vagabond Radio).
+            n === 1 ? "h-auto" : "aspect-video",
+            noSidePadding ? "max-w-none w-full" : "max-w-[min(1280px,100vw)]"
+          );
 
   const cardClass = "rounded-2xl shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]";
 
+  const mediaHeightClass = layout === "tall" ? "h-auto" : n === 1 ? "h-auto" : "h-full";
+
   const imgClass = imageZoom
-    ? "object-contain w-full h-full scale-[1.1]"
-    : cn(cardClass, "object-contain w-full", sizeClass);
+    ? cn("object-contain block w-full min-w-full scale-[1.1]", mediaHeightClass)
+    : cn(cardClass, "object-contain block w-full min-w-full", mediaHeightClass, sizeClass);
 
   const heroNavBtn = cn(
-    "absolute top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
+    "absolute top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
     "border-[0.5px] border-white/15 bg-black/35 text-white/90",
     "shadow-[0_10px_30px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.12)]",
     "backdrop-blur-xl backdrop-saturate-150",
@@ -175,35 +211,57 @@ function HeroCarousel({
       )}
 
       {/* Prev / Next buttons */}
-      <button
-        onClick={prev}
-        aria-label="Previous image"
-        className={cn(heroNavBtn, "left-3")}
-      >
-        ‹
-      </button>
-      <button
-        onClick={next}
-        aria-label="Next image"
-        className={cn(heroNavBtn, "right-3")}
-      >
-        ›
-      </button>
+      {n > 1 && (
+        <>
+          <button
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              prev();
+            }}
+            aria-label="Previous image"
+            className={cn(heroNavBtn, "left-3")}
+          >
+            ‹
+          </button>
+          <button
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              next();
+            }}
+            aria-label="Next image"
+            className={cn(heroNavBtn, "right-3")}
+          >
+            ›
+          </button>
+        </>
+      )}
 
       {/* Dot indicators */}
-      <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
-        {images.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setIndex(i)}
-            aria-label={`Go to image ${i + 1}`}
-            className={cn(
-              "h-1.5 rounded-full transition-all",
-              i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
-            )}
-          />
-        ))}
-      </div>
+      {n > 1 && (
+        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              aria-label={`Go to image ${i + 1}`}
+              className={cn(
+                "h-1.5 rounded-full transition-all",
+                i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
+              )}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -343,6 +401,8 @@ export function ManualProjectPage({
   slug,
   category,
   hero,
+  heroNoSidePadding = false,
+  mobileHeading = "title",
   heroBelow,
   heroFrameVariant = "default",
   heroSize = "default",
@@ -352,6 +412,8 @@ export function ManualProjectPage({
   heroImageZoom = false,
   surfaceClassName,
   showGrain = true,
+  descriptionClassName,
+  descriptionPlacement = "above",
   challengeSummary,
   meta,
   sections,
@@ -396,24 +458,38 @@ export function ManualProjectPage({
           <CaseBreadcrumb segments={breadcrumb} />
         </div>
 
-        <h1
-          className={cn(
-            "font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
-            "font-extralight max-[1000px]:block min-[1001px]:hidden",
-            "mb-8 mt-0"
-          )}
-        >
-          {title}
-        </h1>
+        <h1 className="sr-only">{title}</h1>
+        {mobileHeading === "title" ? (
+          <p
+            className={cn(
+              "font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
+              "font-extralight max-[1000px]:block min-[1001px]:hidden",
+              "mb-8 mt-0"
+            )}
+          >
+            {title}
+          </p>
+        ) : (
+          description && (
+            <p className="mb-8 mt-0 block font-mono text-[clamp(1.05rem,2.2vw,1.4rem)] font-light leading-[1.25] tracking-[-0.02em] text-zinc-700 min-[1001px]:hidden">
+              {description}
+            </p>
+          )
+        )}
 
         {hero && (
-          <div className={cn(heroSpacing === "none" ? "mb-0" : "mb-14", "w-full")}>
-            {/* Description above all non-video hero types (full-width → left edge aligns naturally) */}
-            {description && hero.kind !== "video" && (
-              <p className="mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600">
-                {description}
-              </p>
+          <div
+            className={cn(
+              heroSpacing === "none" ? "mb-0" : "mb-14",
+              "w-full",
+              // On small screens the page adds horizontal padding (`px-3`). When a case wants
+              // hero media flush to the viewport, allow the hero block to bleed out of that gutter.
+              heroNoSidePadding &&
+                (!("layout" in hero) || hero.layout !== "full") &&
+                "max-[1000px]:-mx-3 max-[1000px]:w-[calc(100%+1.5rem)]"
             )}
+          >
+            {/* Description should align to the hero media's left edge (not the full page). */}
             {hero.kind === "video" ? (
               <div className="flex justify-center">
                 <div
@@ -426,7 +502,12 @@ export function ManualProjectPage({
                 >
                   {/* Description inside video's own container so it aligns with the video's left edge */}
                   {description && (
-                    <p className="mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600">
+                    <p
+                      className={cn(
+                        "mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                        descriptionClassName
+                      )}
+                    >
                       {description}
                     </p>
                   )}
@@ -464,19 +545,93 @@ export function ManualProjectPage({
                 </div>
               </div>
             ) : hero.kind === "video-carousel" ? (
-              <HeroVideoCarousel
-                videos={hero.videos}
-                size={hero.size ?? heroSize}
-                controls={hero.controls ?? false}
-              />
+              <div className="flex justify-center">
+                <div
+                  className={cn(
+                    "w-full",
+                    (hero.size ?? heroSize) === "wide"
+                      ? "max-w-[min(1280px,calc(100vw-1.5rem))]"
+                      : "max-w-[min(880px,calc(100vw-1.5rem))]"
+                  )}
+                >
+                  {description && (
+                    <p
+                      className={cn(
+                        "mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                        descriptionClassName
+                      )}
+                    >
+                      {description}
+                    </p>
+                  )}
+                  <HeroVideoCarousel
+                    videos={hero.videos}
+                    size={hero.size ?? heroSize}
+                    controls={hero.controls ?? false}
+                  />
+                </div>
+              </div>
             ) : hero.kind === "carousel" ? (
-              <HeroCarousel
-                images={hero.images}
-                alt={hero.alt}
-                layout={hero.layout}
-                tallSize={heroTallSize}
-                imageZoom={heroImageZoom}
-              />
+              <div
+                className={cn(
+                  hero.layout === "tall" ? "flex justify-center" : "w-full",
+                  hero.layout === "full" &&
+                    "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]"
+                )}
+              >
+                <div
+                  className={cn(
+                    hero.layout === "tall" && (heroNoSidePadding ? "w-full" : "w-fit"),
+                    hero.layout !== "full" &&
+                      hero.layout !== "tall" &&
+                      "mx-auto w-full max-w-[min(1280px,calc(100vw-1.5rem))]",
+                    hero.layout === "tall" &&
+                      (heroTallSize === "tiny"
+                        ? heroNoSidePadding
+                          ? "max-w-[min(860px,100vw)]"
+                          : "max-w-[min(860px,calc(100vw-1.5rem))]"
+                        : heroTallSize === "smaller"
+                          ? heroNoSidePadding
+                            ? "max-w-[min(1100px,100vw)]"
+                            : "max-w-[min(1100px,calc(100vw-1.5rem))]"
+                          : heroNoSidePadding
+                            ? "max-w-[min(1600px,100vw)]"
+                            : "max-w-[min(1600px,calc(100vw-1.5rem))]"),
+                    hero.layout === "tall" && "mx-auto"
+                  )}
+                >
+                  {description && descriptionPlacement === "above" && (
+                    <p
+                      className={cn(
+                        "mb-6 text-left font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                        descriptionClassName
+                      )}
+                    >
+                      {description}
+                    </p>
+                  )}
+                  <div className={cn(descriptionPlacement === "overlay" && "relative")}>
+                    {description && descriptionPlacement === "overlay" && (
+                      <p
+                        className={cn(
+                          "absolute left-0 top-0 z-10 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                          descriptionClassName
+                        )}
+                      >
+                        {description}
+                      </p>
+                    )}
+                    <HeroCarousel
+                      images={hero.images}
+                      alt={hero.alt}
+                      layout={hero.layout}
+                      tallSize={heroTallSize}
+                      imageZoom={heroImageZoom}
+                      noSidePadding={heroNoSidePadding}
+                    />
+                  </div>
+                </div>
+              </div>
             ) : (
               <div
                 className={cn(
@@ -491,29 +646,155 @@ export function ManualProjectPage({
                     "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]"
                 )}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={hero.src}
-                  alt={hero.alt}
-                  fetchPriority="high"
-                  className={cn(
-                    "rounded-2xl shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]",
-                    hero.layout === "tall"
-                      ? heroTallSize === "tiny"
-                        ? "mx-auto block max-h-[min(52svh,620px)] w-full max-w-[min(860px,calc(100vw-1.5rem))] object-contain object-center"
-                        : heroTallSize === "smaller"
-                          ? "mx-auto block max-h-[min(70svh,840px)] w-full max-w-[min(1100px,calc(100vw-1.5rem))] object-contain object-center"
-                          : "mx-auto block h-[min(100svh,1200px)] w-full max-w-[min(1600px,calc(100vw-1.5rem))] object-contain object-center"
-                      : hero.layout === "full"
-                        ? "h-[min(52svh,560px)] w-full max-w-none object-cover"
-                        : cn(
-                            "aspect-video h-auto w-full object-cover",
-                            hero.layout === "compact"
-                              ? "mx-auto max-w-[min(880px,calc(100vw-1.5rem))]"
+                {description && descriptionPlacement === "above" && (
+                  <div
+                    className={cn(
+                      hero.layout === "tall" ? "flex justify-center" : "w-full",
+                      hero.layout === "full" &&
+                        "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]"
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        hero.layout === "tall" && "w-fit",
+                        hero.layout !== "full" && hero.layout !== "tall" && "w-full",
+                        hero.layout !== "full" &&
+                          hero.layout !== "tall" &&
+                          (hero.layout === "compact"
+                            ? "max-w-[min(880px,calc(100vw-1.5rem))]"
+                            : "max-w-[min(1280px,calc(100vw-1.5rem))]"),
+                        hero.layout === "tall" &&
+                          (heroTallSize === "tiny"
+                            ? heroNoSidePadding
+                              ? "max-w-[min(860px,100vw)]"
+                              : "max-w-[min(860px,calc(100vw-1.5rem))]"
+                            : heroTallSize === "smaller"
+                              ? heroNoSidePadding
+                                ? "max-w-[min(1100px,100vw)]"
+                                : "max-w-[min(1100px,calc(100vw-1.5rem))]"
+                              : heroNoSidePadding
+                                ? "max-w-[min(1600px,100vw)]"
+                                : "max-w-[min(1600px,calc(100vw-1.5rem))]"),
+                        hero.layout !== "full" && "mx-auto"
+                      )}
+                    >
+                      <p
+                        className={cn(
+                          "mb-6 text-left font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                          descriptionClassName
+                        )}
+                      >
+                        {description}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {descriptionPlacement === "overlay" ? (
+                  <div
+                    className={cn(
+                      "relative",
+                      hero.layout === "tall" &&
+                        (heroTallSize === "tiny"
+                          ? heroNoSidePadding
+                            ? "mx-auto w-full max-w-[min(860px,100vw)]"
+                            : "mx-auto w-full max-w-[min(860px,calc(100vw-1.5rem))]"
+                          : heroTallSize === "smaller"
+                            ? heroNoSidePadding
+                              ? "mx-auto w-full max-w-[min(1100px,100vw)]"
+                              : "mx-auto w-full max-w-[min(1100px,calc(100vw-1.5rem))]"
+                            : heroNoSidePadding
+                              ? "mx-auto w-full max-w-[min(1600px,100vw)]"
+                              : "mx-auto w-full max-w-[min(1600px,calc(100vw-1.5rem))]"),
+                      hero.layout !== "full" &&
+                        hero.layout !== "tall" &&
+                        cn(
+                          "mx-auto w-full",
+                          hero.layout === "compact"
+                            ? heroNoSidePadding
+                              ? "max-w-[min(880px,100vw)]"
+                              : "max-w-[min(880px,calc(100vw-1.5rem))]"
+                            : heroNoSidePadding
+                              ? "max-w-[min(1280px,100vw)]"
                               : "max-w-[min(1280px,calc(100vw-1.5rem))]"
-                          )
-                  )}
-                />
+                        )
+                    )}
+                  >
+                    {description && (
+                      <p
+                        className={cn(
+                          "absolute left-0 top-0 z-10 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                          descriptionClassName
+                        )}
+                      >
+                        {description}
+                      </p>
+                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={hero.src}
+                      alt={hero.alt}
+                      fetchPriority="high"
+                      className={cn(
+                        "w-full rounded-2xl object-contain object-center shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]",
+                        hero.layout === "tall"
+                          ? heroTallSize === "tiny"
+                            ? "block max-h-[min(52svh,620px)]"
+                            : heroTallSize === "smaller"
+                              ? "block max-h-[min(70svh,840px)]"
+                              : "block h-[min(100svh,1200px)]"
+                          : hero.layout === "full"
+                            ? "h-[min(52svh,560px)] max-w-none object-cover"
+                            : "aspect-video h-auto object-cover"
+                      )}
+                    />
+                  </div>
+                ) : (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={hero.src}
+                    alt={hero.alt}
+                    fetchPriority="high"
+                    className={cn(
+                      "rounded-2xl shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]",
+                      hero.layout === "tall"
+                        ? heroTallSize === "tiny"
+                          ? cn(
+                              "mx-auto block max-h-[min(52svh,620px)] w-auto object-contain object-center",
+                              heroNoSidePadding
+                                ? "max-w-[min(860px,100vw)]"
+                                : "max-w-[min(860px,calc(100vw-1.5rem))]"
+                            )
+                          : heroTallSize === "smaller"
+                            ? cn(
+                                "mx-auto block max-h-[min(70svh,840px)] w-auto object-contain object-center",
+                                heroNoSidePadding
+                                  ? "max-w-[min(1100px,100vw)]"
+                                  : "max-w-[min(1100px,calc(100vw-1.5rem))]"
+                              )
+                            : cn(
+                                "mx-auto block h-[min(100svh,1200px)] w-auto object-contain object-center",
+                                heroNoSidePadding
+                                  ? "max-w-[min(1600px,100vw)]"
+                                  : "max-w-[min(1600px,calc(100vw-1.5rem))]"
+                              )
+                        : hero.layout === "full"
+                          ? "h-[min(52svh,560px)] w-full max-w-none object-cover"
+                          : cn(
+                              "aspect-video h-auto w-full object-cover",
+                              hero.layout === "compact"
+                                ? cn(
+                                    "mx-auto",
+                                    heroNoSidePadding
+                                      ? "max-w-[min(880px,100vw)]"
+                                      : "max-w-[min(880px,calc(100vw-1.5rem))]"
+                                  )
+                                : heroNoSidePadding
+                                  ? "max-w-[min(1280px,100vw)]"
+                                  : "max-w-[min(1280px,calc(100vw-1.5rem))]"
+                            )
+                    )}
+                  />
+                )}
               </div>
             )}
 

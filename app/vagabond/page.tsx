@@ -18,10 +18,15 @@ export default function VagabondPage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
+      mobileHeading="description"
       slug={SLUG}
       category={CATEGORY}
-      hero={{ kind: "image", src: HERO, alt: "Vagabond Radio cover", layout: "tall" }}
-      heroTallSize="smaller"
+      hero={{
+        kind: "carousel",
+        images: [HERO],
+        alt: "Vagabond Radio",
+        layout: "compact",
+      }}
       challengeSummary="Understand how to tell another person's story and ask invigorating questions. "
       meta={{ timeline: "Six Months, 2025", roles: ["Designer"], team: ["Failenn Aselta"] }}
       sections={[
