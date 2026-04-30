@@ -410,7 +410,7 @@ export function ManualProjectPage({
           <div className={cn(heroSpacing === "none" ? "mb-0" : "mb-14", "w-full")}>
             {/* Description above all non-video hero types (full-width → left edge aligns naturally) */}
             {description && hero.kind !== "video" && (
-              <p className="mb-4 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+              <p className="mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600">
                 {description}
               </p>
             )}
@@ -426,7 +426,7 @@ export function ManualProjectPage({
                 >
                   {/* Description inside video's own container so it aligns with the video's left edge */}
                   {description && (
-                    <p className="mb-4 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+                    <p className="mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600">
                       {description}
                     </p>
                   )}
