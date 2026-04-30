@@ -26,7 +26,7 @@ const projects: GalleryProject[] = [
   {
     slug: "buddy",
     title: "Buddy",
-    description: "captured group conversations as real-time images and diagrams",
+    description: "created a llm which captures group conversations as real-time images and diagrams",
     year: "2026",
     coverColor: "transparent",
     coverImageClassName: "scale-[1.2]",

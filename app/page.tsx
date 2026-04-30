@@ -5,7 +5,7 @@ const FEATURED = [
   {
     href: "/buddy",
     title: "Buddy",
-    description: "captured group conversations as real-time images and diagrams",
+    description: "created a llm which captures group conversations as real-time images and diagrams",
     category: "Product Design",
     year: "2026",
     image: "/coverimages/buddy.png",
