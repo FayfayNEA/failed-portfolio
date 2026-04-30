@@ -5,6 +5,7 @@ const SLUG = "spiral";
 const CATEGORY = "branding";
 
 const TITLE = "The Spiral";
+const DESCRIPTION = "Spatial branding and set design for an immersive rotating installation.";
 const HERO = "https://framerusercontent.com/images/DEKAt5ypvDK9UvA3LPNiXGUeV0.png?width=800&height=1000";
 
 const GALLERY_IMAGES = [
@@ -26,6 +27,7 @@ export default function SpiralPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "The Spiral cover", layout: "tall" }}

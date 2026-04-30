@@ -73,6 +73,7 @@ export default function NightterrorsPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{

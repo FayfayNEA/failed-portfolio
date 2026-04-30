@@ -5,6 +5,7 @@ const SLUG = "buddhist";
 const CATEGORY = "architecture";
 
 const TITLE = "DNKL Pavilion";
+const DESCRIPTION = "A backyard meditation pavilion bridging Buddhist spatial tradition with contemporary architecture.";
 const HERO = "https://framerusercontent.com/images/g9lxBwTvLeVzbGb9MZYAGzdiJgY.jpg?width=5400&height=3600";
 
 const GALLERY_IMAGES = [
@@ -23,6 +24,7 @@ export default function BuddhistPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "DNKL Pavilion cover", layout: "tall" }}

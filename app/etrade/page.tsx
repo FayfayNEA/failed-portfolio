@@ -21,6 +21,7 @@ export default function EtradePage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "video", src: HERO_VIDEO }}

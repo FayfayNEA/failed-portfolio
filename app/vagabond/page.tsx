@@ -5,6 +5,7 @@ import { ProjectGalleryRow } from "@/components/project-gallery-row";
 const SLUG = "vagabond";
 const CATEGORY = "branding";
 const TITLE = "Vagabond Radio";
+const DESCRIPTION = "Visual identity and art direction for an underground independent radio station.";
 const HERO = "https://framerusercontent.com/images/rKvch1GkMbOWLcefYnDSdybGUq4.png?width=3952&height=1692";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function VagabondPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "Vagabond Radio cover", layout: "tall" }}

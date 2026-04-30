@@ -19,6 +19,7 @@ export default function JahnPage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "video-carousel", videos: [HERO_VIDEO], size: "wide", controls: true }}

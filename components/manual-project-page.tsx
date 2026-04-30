@@ -57,6 +57,8 @@ export type ManualProjectSection = {
 
 export type ManualProjectPageProps = {
   title: string;
+  /** One-line project summary shown directly below the title. */
+  description?: string;
   slug: string;
   category: string;
   hero?: Hero;
@@ -337,6 +339,7 @@ function Divider() {
 
 export function ManualProjectPage({
   title,
+  description,
   slug,
   category,
   hero,
@@ -395,12 +398,19 @@ export function ManualProjectPage({
 
         <h1
           className={cn(
-            "mb-8 mt-0 font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
-            "font-extralight"
+            "font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
+            "font-extralight",
+            description ? "mb-3 mt-0" : "mb-8 mt-0"
           )}
         >
           {title}
         </h1>
+
+        {description && (
+          <p className="mb-8 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+            {description}
+          </p>
+        )}
 
         {hero && (
           <div className={cn(heroSpacing === "none" ? "mb-0" : "mb-14", "w-full")}>

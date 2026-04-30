@@ -6,6 +6,7 @@ const SLUG = "bonemachine";
 const CATEGORY = "branding";
 
 const TITLE = "Bonemachine";
+const DESCRIPTION = "Hand-screen-printed band merch translating raw punk energy into a wearable identity.";
 const HERO = "/bonemachine/Screenshot 2026-01-28 173317.png";
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function BoneMachinePage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "BoneMachine cover" }}

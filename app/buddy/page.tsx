@@ -300,11 +300,15 @@ export default function BuddyPage() {
         <h1
           className={cn(
             rosario.className,
-            "mb-8 mt-0 text-[clamp(2.75rem,4.8vw,4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-zinc-950"
+            "mb-3 mt-0 text-[clamp(2.75rem,4.8vw,4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-zinc-950"
           )}
         >
           Buddy
         </h1>
+
+        <p className="mb-8 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+          A handheld LLM device that captures group conversations as real-time visual diagrams.
+        </p>
 
         {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">

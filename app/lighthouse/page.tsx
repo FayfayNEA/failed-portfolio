@@ -5,6 +5,7 @@ const SLUG = "lighthouse";
 const CATEGORY = "branding";
 
 const TITLE = "Peck Ledge Lighthouse";
+const DESCRIPTION = "Rebranding and restoring the visual identity of a historic New England lighthouse.";
 const HERO = "https://framerusercontent.com/images/CAdSAOIPp6DwaYBc7lHBWEZBNk0.png?width=3102&height=2070";
 
 const GALLERY_IMAGES = [
@@ -23,6 +24,7 @@ export default function LighthousePage() {
   return (
     <ManualProjectPage
       title={TITLE}
+      description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "Peck Ledge Lighthouse cover" }}
