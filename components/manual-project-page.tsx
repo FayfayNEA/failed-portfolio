@@ -407,7 +407,13 @@ export function ManualProjectPage({
         </h1>
 
         {hero && (
-          <div className={cn(heroSpacing === "none" ? "mb-0" : (description ? "mb-4" : "mb-14"), "w-full")}>
+          <div className={cn(heroSpacing === "none" ? "mb-0" : "mb-14", "w-full")}>
+            {/* Description above all non-video hero types (full-width → left edge aligns naturally) */}
+            {description && hero.kind !== "video" && (
+              <p className="mb-4 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+                {description}
+              </p>
+            )}
             {hero.kind === "video" ? (
               <div className="flex justify-center">
                 <div
@@ -418,6 +424,12 @@ export function ManualProjectPage({
                       : "max-w-[min(520px,88vw)] sm:max-w-[min(580px,86vw)] md:max-w-[min(640px,84vw)]"
                   )}
                 >
+                  {/* Description inside video's own container so it aligns with the video's left edge */}
+                  {description && (
+                    <p className="mb-4 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
+                      {description}
+                    </p>
+                  )}
                   <div
                     className={cn(
                       "relative overflow-hidden rounded-2xl",
@@ -511,12 +523,6 @@ export function ManualProjectPage({
               </div>
             )}
           </div>
-        )}
-
-        {description && (
-          <p className="mb-12 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-400">
-            {description}
-          </p>
         )}
 
         {metaCells.length > 0 && (
