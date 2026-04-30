@@ -826,21 +826,6 @@ export function CategoryGallery({
                 </div>
               </div>
 
-              {/* Title + description below card */}
-              <p
-                className="pointer-events-none mt-2 select-none font-mono font-normal tracking-tight text-zinc-900 truncate"
-                style={{ fontSize: titleFontSize, width: cardW }}
-              >
-                {project.title}
-                <span className="mx-1 font-light text-zinc-400">·</span>
-                <span className="text-zinc-400">{project.year}</span>
-              </p>
-              <p
-                className="pointer-events-none mt-0.5 select-none font-mono tracking-[0.06em] text-zinc-500 truncate"
-                style={{ fontSize: descFontSize, width: cardW }}
-              >
-                {project.description}
-              </p>
             </div>
           );
         })}
