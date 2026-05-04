@@ -26,20 +26,22 @@ const FOLDER_STRIPS: {
   label: string;
   /** horizontal center % */
   center: string;
+  /** desktop folder width (% of hero container) */
+  desktopWidth: string;
+  /** mobile folder width (px) */
+  mobileWidth: string;
+  /** individual desktop scale */
+  desktopScale: number;
 }[] = [
-  { href: "/branding", label: "Branding", center: "calc(40% - 30px)" },
-  {
-    href: "/product-design",
-    label: "Product design",
-    center: "50%",
-  },
-  { href: "/architecture", label: "Architecture", center: "calc(60% + 30px)" },
+  { href: "/branding",      label: "Branding",      center: "calc(40% - 30px)", desktopWidth: "6%",    mobileWidth: "30px", desktopScale: 0.95 },
+  { href: "/product-design",label: "Product design", center: "50%",             desktopWidth: "8.5%",  mobileWidth: "44px", desktopScale: 0.8  },
+  { href: "/architecture",  label: "Architecture",   center: "calc(60% + 30px)", desktopWidth: "6%",    mobileWidth: "30px", desktopScale: 0.95 },
 ];
 
 export default function WorkPage() {
   return (
-    <div className="flex min-h-full flex-col overflow-x-hidden bg-transparent text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]">
-      <main className="flex flex-1 flex-col px-4 py-6 md:px-8 md:py-12">
+    <div className="flex min-h-full flex-col overflow-x-hidden bg-transparent text-zinc-900 [font-family:var(--font-geist-mono),ui-monospace,monospace]">
+      <main className="flex flex-1 flex-col px-4 py-4 md:px-8 md:py-3">
         <div className="flex w-full flex-1 flex-col items-center justify-center max-md:min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]">
         {/* Mobile: custom hero + vertical folder stack */}
         <div className="w-full md:hidden">
@@ -67,7 +69,7 @@ export default function WorkPage() {
                   )}
                   aria-label={f.label}
                 >
-                  <div className="relative w-[44px] drop-shadow-[0_10px_22px_rgba(0,0,0,0.35)]">
+                  <div className="relative drop-shadow-[0_10px_22px_rgba(0,0,0,0.35)]" style={{ width: f.mobileWidth }}>
                     <Image
                       src={FOLDER_ICON}
                       alt=""
@@ -105,14 +107,14 @@ export default function WorkPage() {
 
         {/* Desktop: original CRT hero + horizontal folder strips */}
         <div className="hidden w-full md:block">
-          <div className="relative mx-auto w-full max-w-[min(900px,96vw)]">
+          <div className="relative w-full max-w-[min(1200px,86vw)] -mt-5" style={{ marginLeft: "30px", marginRight: "5px" }}>
+            <div className="relative w-full" style={{ aspectRatio: "1670 / 1264", maxHeight: "min(85dvh, 1100px)" }}>
             <Image
               src={WORK_HERO}
               alt="Work console: metallic computer with screen"
-              width={1670}
-              height={1264}
-              className="relative z-0 h-auto w-full object-contain"
-              sizes="(max-width: 960px) 94vw, 920px"
+              fill
+              className="object-contain"
+              sizes="(max-width: 960px) 94vw, 1200px"
               priority
               draggable={false}
             />
@@ -120,12 +122,11 @@ export default function WorkPage() {
             {FOLDER_STRIPS.map((f) => (
               <div
                 key={f.href}
-                className={cn(
-                  "absolute z-20 top-[calc(37%+30px)] w-[8%]"
-                )}
+                className="absolute z-20 top-[calc(37%+40px)]"
                 style={{
                   left: f.center,
-                  transform: "translate(-50%, -50%)",
+                  width: f.desktopWidth,
+                  transform: `translate(-50%, -50%) scale(${f.desktopScale})`,
                 }}
               >
                 <Link
@@ -175,12 +176,13 @@ export default function WorkPage() {
                 </Link>
               </div>
             ))}
+            </div>{/* end aspect-ratio wrapper */}
           </div>
         </div>
 
         <div
           role="note"
-          className="mx-auto mt-3 w-full max-w-md border-t border-zinc-300/80 pt-3 md:mt-4 md:pt-3.5"
+          className="mx-auto mt-2 w-full max-w-md border-t border-zinc-300/80 pt-2 md:mt-2 md:pt-2"
           aria-label="Click folders on the screen to open categories"
         >
           <p className="text-center text-[11px] leading-snug text-zinc-500 md:text-[12px] md:leading-relaxed">

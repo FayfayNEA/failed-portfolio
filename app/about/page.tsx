@@ -11,7 +11,7 @@ const PORTRAIT_SRC =
 
 export default function AboutPage() {
   return (
-    <div className="min-h-full bg-transparent text-zinc-900 [font-family:var(--font-geist-sans),ui-sans-serif,system-ui,sans-serif]">
+    <div className="min-h-full bg-transparent text-zinc-900 [font-family:var(--font-geist-mono),ui-monospace,monospace]">
       <main className="relative mx-auto max-w-6xl px-5 pb-28 pt-24 md:px-10 md:pb-36 md:pt-40">
         <div className="md:flex md:justify-end">
           <div className="relative z-[1] grid w-full max-w-none gap-12 text-center max-[639px]:translate-x-0 translate-x-[40px] md:max-w-[min(100%,50rem)] md:-translate-x-[25px] md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-10 md:text-left min-[790px]:-translate-x-[65px] lg:-translate-x-[75px] lg:max-w-[min(100%,54rem)] lg:gap-12 xl:max-w-[min(100%,58rem)] xl:gap-14 2xl:gap-16">
