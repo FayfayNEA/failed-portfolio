@@ -576,7 +576,7 @@ export default function BuddyPage() {
                 <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
                   {heading}
                 </p>
-                <p className="text-[0.85rem] leading-relaxed text-violet-950">{body}</p>
+                <p className="text-[0.85rem] font-medium leading-relaxed text-violet-950">{body}</p>
               </div>
             ))}
           </div>

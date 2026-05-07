@@ -438,7 +438,7 @@ export default async function EidolonPage() {
                       <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/85">
                         Key learning — Anthropomorphic trust
                       </p>
-                      <p className="text-[0.85rem] leading-relaxed text-lime-950">
+                      <p className="text-[0.85rem] font-medium leading-relaxed text-lime-950">
                         Illustrating the agent as a gold, Buddha-like character made its intent feel calmer and more legible—using embodiment to borrow trust without hiding the machine.
                       </p>
                     </div>
@@ -547,7 +547,7 @@ export default async function EidolonPage() {
                     <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
                       1
                     </span>
-                    <p className="text-[0.9rem] leading-[1.65] text-lime-950">
+                    <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950">
                       Advocacy must be structural: the interface should actively protect users from persuasion, not merely explain it.
                     </p>
                   </div>
@@ -555,7 +555,7 @@ export default async function EidolonPage() {
                     <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
                       2
                     </span>
-                    <p className="text-[0.9rem] leading-[1.65] text-lime-950">
+                    <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950">
                       Cognitive load reduction needs evidence: design decisions should be grounded in fluency research, not intuition alone.
                     </p>
                   </div>
@@ -563,7 +563,7 @@ export default async function EidolonPage() {
                     <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
                       3
                     </span>
-                    <p className="text-[0.9rem] leading-[1.65] text-lime-950">
+                    <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950">
                       Agentic systems must surface reasoning: trust comes from observable actions and legible intent, not output polish.
                     </p>
                   </div>

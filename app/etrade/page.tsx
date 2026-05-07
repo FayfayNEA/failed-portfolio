@@ -282,7 +282,7 @@ export default function EtradePage() {
                     <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#0F8EC7]">
                       Key Learning — {topic}
                     </p>
-                    <p className="text-[0.85rem] leading-relaxed text-sky-950">{body}</p>
+                    <p className="text-[0.85rem] font-medium leading-relaxed text-sky-950">{body}</p>
                   </div>
                 ))}
               </div>

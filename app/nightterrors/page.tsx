@@ -232,7 +232,7 @@ export default function NightterrorsPage() {
                     <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
                       {heading}
                     </p>
-                    <p className="text-[0.85rem] leading-relaxed text-zinc-800">{body}</p>
+                    <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
                   </div>
                 ))}
               </div>
@@ -286,7 +286,7 @@ export default function NightterrorsPage() {
                     <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
                       {heading}
                     </p>
-                    <p className="text-[0.85rem] leading-relaxed text-zinc-800">{body}</p>
+                    <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
                   </div>
                 ))}
               </div>
@@ -355,7 +355,7 @@ export default function NightterrorsPage() {
                     <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
                       {heading}
                     </p>
-                    <p className="text-[0.85rem] leading-relaxed text-zinc-800">{body}</p>
+                    <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
                   </div>
                 ))}
               </div>
