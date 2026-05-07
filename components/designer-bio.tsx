@@ -6,11 +6,14 @@ export function DesignerBio() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight * 0.4);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const gallery = document.getElementById("product-design");
+    if (!gallery) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setScrolled(entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(gallery);
+    return () => observer.disconnect();
   }, []);
 
   return (
