@@ -149,7 +149,7 @@ const METADATA_ROWS = [
   { label: "Timeline", value: "2 weeks" },
   {
     label: "Role",
-    value: "Full Stack Engineer\nProduct Designer\nHardware Engineer\nIndustrial Designer",
+    value: "Frontend — React\nBackend — FastAPI / Linux\nProduct Designer\nHardware Engineer\nIndustrial Designer",
   },
   { label: "Team", value: "Failenn Aselta" },
   {
