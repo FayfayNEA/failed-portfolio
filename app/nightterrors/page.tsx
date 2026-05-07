@@ -188,7 +188,7 @@ export default function NightterrorsPage() {
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 User Feedback
               </h2>
-              <p className="mb-6 max-w-[640px] text-[0.85rem] leading-relaxed text-zinc-500">
+              <p className="mb-6 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
                 Created with Google Sheets and Napkin.ai
               </p>
 
@@ -247,7 +247,7 @@ export default function NightterrorsPage() {
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Pseudocode &amp; Code for Checking Stock
               </h2>
-              <p className="mb-8 max-w-[640px] text-[0.85rem] leading-relaxed text-zinc-500">
+              <p className="mb-8 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
                 Made with Mermaid.js and Vanilla HTML/CSS + JavaScript
               </p>
 
