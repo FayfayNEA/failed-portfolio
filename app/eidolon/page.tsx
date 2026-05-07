@@ -122,6 +122,7 @@ export default async function EidolonPage() {
                     photo: "/eidolon/cindy.png",
                     age: "75",
                     role: "Retiree",
+                    photoCaption: "Portrait generated with Gemini",
                     bullets: [
                       'Significant difficulty grasping the mechanics and utility of AI agents amidst a rapidly shifting technological landscape.',
                       "A deep longing for consistency and stability in a world that feels increasingly volatile due to constant digital evolution.",
@@ -133,6 +134,7 @@ export default async function EidolonPage() {
                     photo: "/eidolon/ashleigh.png",
                     age: "22",
                     role: "Tech Enthusiast",
+                    photoCaption: "Portrait generated with Gemini",
                     bullets: [
                       'Significant concern regarding the accuracy of AI-generated information and the potential for "hallucinations" in critical planning.',
                       "A persistent desire for greater transparency to bridge the gap between AI outputs and a clear understanding of how the technology actually works.",
@@ -143,9 +145,6 @@ export default async function EidolonPage() {
                 hmw="How might we improve trust in AI and decrease cognitive load?"
                 hmw-answer="By developing agents that not only showcase their interactions visually but clean up interfaces to make the web simpler."
               />
-              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Profile photos generated with Gemini
-              </p>
             </>
           ),
         },

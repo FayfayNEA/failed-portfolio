@@ -24,6 +24,8 @@ type Persona = {
   description?: string;
   /** Buddy-style list (dots); when present, shown instead of `description`. */
   bullets?: string[];
+  /** Small italic credit shown inside the card below the role (e.g. "Generated with Gemini"). */
+  photoCaption?: string;
 };
 
 type PersonaCardsProps = {
@@ -239,6 +241,11 @@ export function PersonaCards({
                     )}
                   >
                     {p.role}
+                  </p>
+                )}
+                {p.photoCaption && (
+                  <p className="mt-3 font-sans text-[0.65rem] italic leading-snug text-zinc-400">
+                    {p.photoCaption}
                   </p>
                 )}
               </div>

@@ -118,6 +118,7 @@ export default function EtradePage() {
                     photo: "/etrade/participant.png",
                     age: "28",
                     role: "Active Trader",
+                    photoCaption: "Portrait generated with Gemini",
                     bullets: [
                       "Overwhelmed by dense UI clutter and competing signals.",
                       "Struggles to compare data quickly when timing matters.",
@@ -130,9 +131,6 @@ export default function EtradePage() {
                 hmw="How might we improve user retention and reduce trading errors?"
                 hmw-answer="By increasing a trader's speed through decreasing cognitive load."
               />
-              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Profile photo made with Gemini
-              </p>
 
               <ProjectGalleryRow
                 images={[
