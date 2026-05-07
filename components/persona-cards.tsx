@@ -358,9 +358,9 @@ export function PersonaCards({
           <p
             className={cn(
               isKeycards
-                ? "max-w-3xl text-[0.95rem] font-normal leading-relaxed text-zinc-950"
+                ? "max-w-3xl text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-zinc-950"
                 : cn(
-                    "relative max-w-3xl text-[0.95rem] font-normal leading-relaxed",
+                    "relative max-w-3xl text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em]",
                     isBlack
                       ? "text-white"
                       : isLime
