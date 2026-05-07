@@ -53,7 +53,14 @@ export default function JahnPage() {
                 The Rundown
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                Design a portfolio site that stays true to Helmut Jahn&apos;s design language.
+                The Jahn Studio site functions as the digital identity and portfolio for the
+                internationally recognized architecture practice Jahn, showcasing their global work
+                and design philosophy. The site highlights major built and conceptual projects
+                across regions and typologies, communicates the studio&apos;s legacy of integrated,
+                innovative design, and presents its collaborative culture, leadership, and ideas in
+                a clear, engaging format. It also serves as a hub for news, sustainability
+                initiatives, and contact pathways, inviting visitors to explore the firm&apos;s
+                impact on cities and communities worldwide.
               </p>
             </>
           ),

@@ -54,7 +54,13 @@ export default async function EidolonPage() {
                 The Rundown
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                Design the internet for when it is 98% AI and 2% human.
+                What happens when the internet is no longer human-navigated, but optimized for
+                machine-to-machine interaction? Some users may prefer direct, human-led engagement
+                and remain skeptical of automation, while others may welcome AI assistance. The
+                future internet will likely be a hybrid space, allowing individuals to choose how
+                much control they delegate and how much they retain. Eidolon uses AI as a visual
+                tool to not only showcase its actions, but to make it an easier place for those who
+                fear its new shape.
               </p>
               <div className="relative z-[1] px-4 py-6 md:px-10 md:py-8 lg:px-12 lg:py-10">
                 <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
