@@ -532,7 +532,7 @@ export default function BuddyPage() {
             System Creation
           </h2>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-6 max-w-[640px]">
-            Stack architecture and session flow diagrams generated from Mermaid.js code authored in Python.
+            Stack architecture and session flow diagrams.
           </p>
 
           <div className="mb-4 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start md:justify-center md:gap-x-16 lg:gap-x-20">
