@@ -487,6 +487,47 @@ export default function BuddyPage() {
             </div>
           </div>
 
+          <div className="mt-8">
+            <h3 className="mb-4 text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-zinc-950">
+              Possible Solutions
+            </h3>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {[
+                {
+                  n: "01",
+                  title: "AI Visual Generation",
+                  body: "Translate spoken words into real-time images and diagrams via LLM — giving every idea a visual anchor the whole room can react to immediately.",
+                  stat: "65%",
+                  statLabel: "more information retained when visuals accompany verbal communication.",
+                },
+                {
+                  n: "02",
+                  title: "Structured Transcription",
+                  body: "Auto-transcribe and summarize meetings with timestamped decisions, action items, and open questions — making the agreed-upon record impossible to misremember.",
+                  stat: "47%",
+                  statLabel: "of workers say they rarely or never have a clear record of what was decided in meetings.",
+                },
+                {
+                  n: "03",
+                  title: "Shared Digital Canvas",
+                  body: "Real-time collaborative whiteboards (Miro, FigJam) let teams draw, annotate, and vote together — reducing the gap between what one person imagines and what another builds.",
+                  stat: "3×",
+                  statLabel: "more likely to feel aligned post-meeting when a shared visual artifact was used.",
+                },
+              ].map(({ n, title, body, stat, statLabel }) => (
+                <div key={n} className="flex flex-col gap-3 rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
+                  <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-violet-500/80">{n}</span>
+                  <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
+                  <p className="text-[0.78rem] leading-relaxed text-violet-950/70">{body}</p>
+                  <div className="mt-auto pt-3 border-t border-violet-200/50">
+                    <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-violet-600">{stat}</p>
+                    <p className="mt-1 text-[0.68rem] leading-snug text-violet-900/60">{statLabel}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div id="how-might-we" className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8 scroll-mt-24">
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
               How Might We
