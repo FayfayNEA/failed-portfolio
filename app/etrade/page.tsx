@@ -187,6 +187,12 @@ export default function EtradePage() {
           ),
         },
         {
+          id: "how-might-we",
+          label: "HOW MIGHT WE",
+          navOnly: true,
+          content: null,
+        },
+        {
           id: "the-solution",
           label: "THE SOLUTION",
           content: (

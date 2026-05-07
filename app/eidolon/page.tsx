@@ -197,6 +197,12 @@ export default async function EidolonPage() {
           ),
         },
         {
+          id: "how-might-we",
+          label: "HOW MIGHT WE",
+          navOnly: true,
+          content: null,
+        },
+        {
           id: "solution",
           label: "THE SOLUTION",
           content: (

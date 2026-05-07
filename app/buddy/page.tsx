@@ -26,6 +26,7 @@ const SECTIONS = [
   { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "project-overview", label: "PROJECT OVERVIEW" },
   { id: "the-research", label: "THE RESEARCH" },
+  { id: "how-might-we", label: "HOW MIGHT WE" },
   { id: "the-solution", label: "THE SOLUTION" },
   { id: "engineering", label: "ENGINEERING" },
   { id: "iterations", label: "ITERATIONS" },
@@ -468,7 +469,7 @@ export default function BuddyPage() {
             </div>
           </div>
 
-          <div className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8">
+          <div id="how-might-we" className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8 scroll-mt-24">
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
               How Might We
             </p>

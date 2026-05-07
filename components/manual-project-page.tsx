@@ -53,6 +53,8 @@ export type ManualProjectSection = {
   id: string;
   label: string;
   content: ReactNode;
+  /** When true, adds a nav entry but does not render a <section> wrapper. */
+  navOnly?: boolean;
 };
 
 export type ManualProjectPageProps = {
@@ -833,15 +835,19 @@ export function ManualProjectPage({
           </>
         )}
 
-        {sections.map((s, idx) => (
-          <Fragment key={s.id}>
-            <section id={s.id} className="scroll-mt-24">
-              <SectionLabel>{s.label}</SectionLabel>
-              {s.content}
-            </section>
-            {idx < sections.length - 1 && <Divider />}
-          </Fragment>
-        ))}
+        {sections.map((s, idx) => {
+          if (s.navOnly) return <Fragment key={s.id} />;
+          const hasMoreVisible = sections.slice(idx + 1).some((n) => !n.navOnly);
+          return (
+            <Fragment key={s.id}>
+              <section id={s.id} className="scroll-mt-24">
+                <SectionLabel>{s.label}</SectionLabel>
+                {s.content}
+              </section>
+              {hasMoreVisible && <Divider />}
+            </Fragment>
+          );
+        })}
       </main>
     </div>
   );

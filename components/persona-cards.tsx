@@ -312,6 +312,7 @@ export function PersonaCards({
       {/* How Might We */}
       {hmw && (
         <div
+          id="how-might-we"
           className={cn(
             isKeycards ? keyCardClass : "relative overflow-hidden rounded-2xl p-6 ring-1",
             !isKeycards &&

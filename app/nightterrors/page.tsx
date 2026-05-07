@@ -294,6 +294,12 @@ export default function NightterrorsPage() {
           ),
         },
         {
+          id: "how-might-we",
+          label: "HOW MIGHT WE",
+          navOnly: true,
+          content: null,
+        },
+        {
           id: "gallery",
           label: "GALLERY",
           content: (
