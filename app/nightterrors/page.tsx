@@ -94,7 +94,7 @@ export default function NightterrorsPage() {
           </a>
         </div>
       }
-      challengeSummary="Ship a clothing line end-to-end — product, brand, and digital experience."
+      challengeSummary="N1ghtterrors unique and raw style needs a website which further speaks to the brand collective it has created."
       meta={{
         timeline: "3 years",
         roles: [
@@ -122,7 +122,7 @@ export default function NightterrorsPage() {
           content: (
             <>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                Ship a clothing line end-to-end — product, brand, and digital experience.
+                Design and ship a website for a clothing line that speaks to its edgy essence.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
                 N1ghtterrors emerged in response to a call to reintroduce provocation design

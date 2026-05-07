@@ -36,7 +36,7 @@ export default function JahnPage() {
           </a>
         </div>
       }
-      challengeSummary="Design a portfolio site that stays true to Helmut Jahn's design language."
+      challengeSummary="Helmut Jahn's firm has a strong and iconic legacy but their website barely shows the work."
       meta={{
         timeline: "2 Months",
         roles: ["Designer"],
