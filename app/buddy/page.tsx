@@ -396,7 +396,7 @@ export default function BuddyPage() {
           
 
           <h2 className="mb-6 max-w-[min(44rem,100%)] text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
-            <span className="tabular-nums text-violet-600">53%</span>
+            <span className="tabular-nums text-violet-600">80%</span>
             {" of designers waste time dealing with miscommunications."}
           </h2>
 
