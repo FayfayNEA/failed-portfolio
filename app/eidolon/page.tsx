@@ -116,16 +116,16 @@ export default async function EidolonPage() {
               <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
                   {
-                    stat: "72%",
-                    body: "of consumers say they don't trust AI to make decisions without human oversight. (Edelman Trust Barometer, 2023)",
+                    stat: "65%",
+                    body: "of young adults report stress directly tied to the rise of AI — with 53% experiencing increased fatigue and 48% increased headaches from digital overwhelm.",
                   },
                   {
-                    stat: "85%",
-                    body: "of AI projects fail to scale — most due to user adoption issues rooted in trust deficits and opaque interfaces. (Gartner, 2022)",
+                    stat: "81%",
+                    body: "of Americans are concerned about their data and privacy when using AI-powered services — the core barrier standing between users and agentic adoption.",
                   },
                   {
-                    stat: "62%",
-                    body: "of users have abandoned an AI tool because they couldn't understand what it was doing or why. (Nielsen Norman Group, 2023)",
+                    stat: "25%",
+                    body: "projected decrease in traditional search engine volume by 2026 as AI-driven agents take over — the web is already shifting beneath us.",
                   },
                 ].map(({ stat, body }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
@@ -173,24 +173,24 @@ export default async function EidolonPage() {
                 {[
                   {
                     n: "01",
-                    title: "Explainable AI (XAI)",
-                    body: "Make AI reasoning visible — show what it saw, what it considered, and why it chose a path. Transparency is the fastest route to trust.",
-                    stat: "94%",
-                    statLabel: "of users report higher trust when an AI explains its reasoning. (DARPA XAI Program)",
+                    title: "AI Toggle Permission Gate",
+                    body: "Let users choose — human mode or agent mode. Strips UI noise and heavy HTML for Cindy; opens a high-speed MCP stream for Ashleigh. One site, two realities.",
+                    stat: "20%",
+                    statLabel: "higher task accuracy for older users when interface noise is removed and a single predictable path is preserved.",
                   },
                   {
                     n: "02",
-                    title: "Progressive Onboarding",
-                    body: "Introduce AI features in stages rather than all at once. Gradual exposure reduces cognitive overload and lets users build confidence before complexity increases.",
-                    stat: "3×",
-                    statLabel: "higher feature adoption when AI tools are introduced progressively rather than all at once. (Nielsen Norman Group)",
+                    title: "Negotiation Canvas",
+                    body: "A 3D workspace where Ashleigh watches the AI argue on her behalf in real time — branching decisions, live handshakes, and data she can verify before anything is final.",
+                    stat: "22×",
+                    statLabel: "more memorable when information is delivered as a narrative or story rather than raw data.",
                   },
                   {
                     n: "03",
-                    title: "Human-in-the-Loop",
-                    body: "Preserve user agency at critical moments. Let the AI suggest, not decide — keeping humans in control reduces anxiety and increases long-term adoption.",
-                    stat: "68%",
-                    statLabel: "of users feel more comfortable with AI when they retain final decision-making authority. (MIT Media Lab)",
+                    title: "Haptic Authorization Gate",
+                    body: "For large decisions — money, data, identity — the agent pauses and hands control back. A physical swipe or gesture confirms the action, keeping humans the final authority.",
+                    stat: "46%",
+                    statLabel: "of young adults feel overwhelmed by time online and actively want more analog moments in their day.",
                   },
                 ].map(({ n, title, body, stat, statLabel }) => (
                   <div key={n} className="flex flex-col gap-3 rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
