@@ -154,6 +154,7 @@ export default function NightterrorsPage() {
                     photo: "/nightterrors/Gemini_Generated_Image_r1bx8xr1bx8xr1bx.png",
                     age: "21",
                     role: "Environmental Studies Student",
+                    photoCaption: "Portrait generated with Gemini",
                     bullets: [
                       "The site feels intentionally chaotic, but key controls (menu vs cart) aren’t equally discoverable.",
                       "The typeface matches the brand, yet long reading moments become tiring without clearer hierarchy.",
@@ -177,6 +178,9 @@ export default function NightterrorsPage() {
                 alt="N1ghtterrors inspiration collage"
                 className="mx-auto my-8 block w-full max-w-[min(920px,calc(100vw-1.5rem))] rounded-2xl object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
               />
+              <p className="-mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Created with Photoshop
+              </p>
               
 
               <div className="my-14 h-px w-full bg-zinc-200/50" />
@@ -185,7 +189,7 @@ export default function NightterrorsPage() {
                 User Feedback
               </h2>
               <p className="mb-6 max-w-[640px] text-[0.85rem] leading-relaxed text-zinc-500">
-                Diagrams created with Gemini and Google Sheets
+                Created with Google Sheets and Napkin.ai
               </p>
 
               <ProjectGalleryRow
@@ -244,8 +248,7 @@ export default function NightterrorsPage() {
                 Pseudocode &amp; Code for Checking Stock
               </h2>
               <p className="mb-8 max-w-[640px] text-[0.85rem] leading-relaxed text-zinc-500">
-                Diagram created with Gemini code for Figma Mermaid Plugin &nbsp;·&nbsp; Code created
-                with Vanilla HTML &amp; CSS and Node.js
+                Made with Mermaid.js
               </p>
 
               {/* Diagrams — mirroring Buddy's flex layout */}
@@ -326,6 +329,9 @@ export default function NightterrorsPage() {
                 slidePadding="tight"
                 className="mx-auto my-0 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
               />
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Taken with Fujifilm XT-30
+              </p>
             </>
           ),
         },
@@ -371,6 +377,9 @@ export default function NightterrorsPage() {
                 slidePadding="tight"
                 className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
               />
+              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Taken with Canon Rebel
+              </p>
             </>
           ),
         },

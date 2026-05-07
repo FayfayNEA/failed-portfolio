@@ -81,6 +81,7 @@ export default function JahnPage() {
                     photo: "/jahn/Gemini_Generated_Image_7mke7u7mke7u7mke.png",
                     age: "58",
                     role: "Real Estate Developer",
+                    photoCaption: "Portrait generated with Gemini",
                     bullets: [
                       "Can’t quickly filter the portfolio to residential work (too much scanning, not enough signal).",
                       "Project pages bury the specifics he cares about: scope, scale, location, and outcomes.",
