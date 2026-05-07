@@ -6,13 +6,20 @@ export function DesignerBio() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const gallery = document.getElementById("product-design");
-    if (!gallery) return;
+    const collage = document.getElementById("home-collage");
+    if (!collage) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setScrolled(entry.isIntersecting),
+      ([entry]) => {
+        // fade out once collage has scrolled fully above the viewport
+        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+          setScrolled(true);
+        } else {
+          setScrolled(false);
+        }
+      },
       { threshold: 0 }
     );
-    observer.observe(gallery);
+    observer.observe(collage);
     return () => observer.disconnect();
   }, []);
 

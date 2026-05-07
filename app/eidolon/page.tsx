@@ -108,10 +108,33 @@ export default async function EidolonPage() {
           label: "THE RESEARCH",
           content: (
             <>
-              <h2 className="mb-6 max-w-[min(44rem,100%)] text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
+              <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
                 <span className="tabular-nums text-lime-600">80%</span>
                 {" of U.S. adults are concerned about the future of AI."}
               </h2>
+
+              <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  {
+                    stat: "72%",
+                    body: "of consumers say they don't trust AI to make decisions without human oversight. (Edelman Trust Barometer, 2023)",
+                  },
+                  {
+                    stat: "85%",
+                    body: "of AI projects fail to scale — most due to user adoption issues rooted in trust deficits and opaque interfaces. (Gartner, 2022)",
+                  },
+                  {
+                    stat: "62%",
+                    body: "of users have abandoned an AI tool because they couldn't understand what it was doing or why. (Nielsen Norman Group, 2023)",
+                  },
+                ].map(({ stat, body }) => (
+                  <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
+                    <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
+                    <p className="text-[0.78rem] leading-relaxed text-lime-950/75">{body}</p>
+                  </div>
+                ))}
+              </div>
+
               <PersonaCards
                 accent="lime"
                 rightColumnHeading="Frustrations"
@@ -145,6 +168,42 @@ export default async function EidolonPage() {
                 hmw="How might we improve trust in AI and decrease cognitive load?"
                 hmw-answer="By developing agents that not only showcase their interactions visually but clean up interfaces to make the web simpler."
               />
+
+              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  {
+                    n: "01",
+                    title: "Explainable AI (XAI)",
+                    body: "Make AI reasoning visible — show what it saw, what it considered, and why it chose a path. Transparency is the fastest route to trust.",
+                    stat: "94%",
+                    statLabel: "of users report higher trust when an AI explains its reasoning. (DARPA XAI Program)",
+                  },
+                  {
+                    n: "02",
+                    title: "Progressive Onboarding",
+                    body: "Introduce AI features in stages rather than all at once. Gradual exposure reduces cognitive overload and lets users build confidence before complexity increases.",
+                    stat: "3×",
+                    statLabel: "higher feature adoption when AI tools are introduced progressively rather than all at once. (Nielsen Norman Group)",
+                  },
+                  {
+                    n: "03",
+                    title: "Human-in-the-Loop",
+                    body: "Preserve user agency at critical moments. Let the AI suggest, not decide — keeping humans in control reduces anxiety and increases long-term adoption.",
+                    stat: "68%",
+                    statLabel: "of users feel more comfortable with AI when they retain final decision-making authority. (MIT Media Lab)",
+                  },
+                ].map(({ n, title, body, stat, statLabel }) => (
+                  <div key={n} className="flex flex-col gap-3 rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
+                    <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-lime-600/80">{n}</span>
+                    <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
+                    <p className="text-[0.78rem] leading-relaxed text-lime-950/70">{body}</p>
+                    <div className="mt-auto border-t border-lime-200/50 pt-3">
+                      <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-lime-600">{stat}</p>
+                      <p className="mt-1 text-[0.68rem] leading-snug text-lime-900/60">{statLabel}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </>
           ),
         },

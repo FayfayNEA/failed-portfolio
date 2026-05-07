@@ -1,79 +1,29 @@
-import Image from "next/image";
-import Link from "next/link";
+import { CategoryGallery } from "@/components/category-gallery";
+import type { GalleryProject } from "@/components/category-gallery";
+import { CaseBreadcrumb } from "@/components/case-breadcrumb";
+import { DesignerBio } from "@/components/designer-bio";
 
-const FEATURED = [
-  {
-    href: "/buddy",
-    title: "Buddy",
-    description: "created a llm which captures group conversations as real-time images and diagrams",
-    category: "Product Design",
-    year: "2026",
-    image: "/coverimages/buddy.png",
-    alt: "Buddy project thumbnail",
-  },
-  {
-    href: "/work/fither",
-    title: "Fither",
-    description: "understanding dithers with ai",
-    category: "Product Design",
-    year: "2026",
-    image: "/fither/assets/organic_dot_field.png",
-    alt: "Fither project thumbnail",
-  },
-  {
-    href: "/etrade",
-    title: "E*Trade",
-    description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",
-    category: "Product Design",
-    year: "2026",
-    image: "/coverimages/etrade.png",
-    alt: "E*Trade project thumbnail",
-  },
-  {
-    href: "/eidolon",
-    title: "Eidolon",
-    description: "created a visual ai agent to help users trust automation",
-    category: "Product Design",
-    year: "2026",
-    image: "/coverimages/eidolon.png",
-    alt: "Eidolon project thumbnail",
-  },
-  {
-    href: "/jahn",
-    title: "JAHN",
-    description: "designed a portfolio faithful to helmut jahn's design language",
-    category: "Product Design",
-    year: "2023",
-    image: "/jahn/jahn%20image.jpg",
-    alt: "JAHN project thumbnail",
-  },
-  {
-    href: "/nightterrors",
-    title: "N1ghtterrors",
-    description: "a website designed to capture the essence of n1ghtterrors",
-    category: "Product Design",
-    year: "2025",
-    image:
-      "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",
-    alt: "N1ghtterrors project thumbnail",
-  },
-] as const;
+const PROJECTS: GalleryProject[] = [
+  { slug: "eidolon",      title: "Eidolon",      description: "created a visual ai agent to help users trust automation",                                   year: "2026", coverColor: "transparent", labelGlassTint: "moss", coverImageClassName: "scale-[.9]",  coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/eidolon.png",                                              href: "/eidolon" },
+  { slug: "buddy",        title: "Buddy",        description: "created a llm which captures group conversations as real-time images and diagrams",            year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.2]", coverImageFit: "contain",                       coverImage: "/coverimages/buddy.png",                                                href: "/buddy" },
+  { slug: "fither",       title: "Fither",       description: "understanding dithers with ai",                                                               year: "2026",                                                                                                                                      coverImage: "/fither/assets/organic_dot_field.png",                                 href: "/work/fither" },
+  { slug: "etrade",       title: "E*Trade",      description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",         year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.1]", coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/etrade.png",                                              href: "/etrade" },
+  { slug: "nightterrors", title: "N1ghtterrors", description: "a website designed to capture the essence of n1ghtterrors",                                   year: "2024",                                                                                                                                      coverImage: "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",  href: "/nightterrors" },
+  { slug: "jahn",         title: "JAHN",         description: "designed a portfolio faithful to helmut jahn's design language",                              year: "2023",                                                                                                                                      coverImage: "/jahn/jahn image.jpg",                                                 href: "/jahn" },
+];
 
 export default function Home() {
   return (
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
-      {/* Home is full-bleed (nav floats). Offset collage so it doesn't sit under nav. */}
-      <div className="relative min-h-0 w-full overflow-hidden pt-[5rem] md:pt-[5rem]">
-        {/* Gradient masks — blend away the hard overflow-hidden clip edges */}
+      <DesignerBio />
+
+      {/* Collage iframe */}
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[5rem] md:pt-[5rem]">
+        {/* Gradient masks */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[8rem]"
           style={{ background: "linear-gradient(to bottom, #e8e8e8 62%, transparent)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-16"
-          style={{ background: "linear-gradient(to top, #e8e8e8 0%, transparent 100%)" }}
         />
         <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-5rem)]">
           <iframe
@@ -82,103 +32,29 @@ export default function Home() {
             title="Failenn Aselta - Home"
           />
         </div>
+
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6"
+          style={{ background: "linear-gradient(to top, #e8e8e8 0%, transparent 100%)" }}
+        />
       </div>
 
       <section
-        className="relative bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed] px-4 py-8 sm:bg-transparent sm:[background-image:none] md:px-8 md:py-20"
-        aria-label="Selected work"
+        id="product-design"
+        className="flex h-[calc(100dvh-4rem)] flex-col overflow-hidden md:h-[calc(100dvh-5rem)]"
+        aria-label="Product Design work"
       >
-        {/* Mobile-only hint — explains the collage map above */}
-        <p className="mb-8 text-center font-mono text-[9px] font-semibold tracking-[0.06em] text-zinc-400 sm:hidden">
-          tap map objects to explore ↑
-        </p>
-
-        <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10">
-          {FEATURED.map((item, idx) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="group block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-400"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-visible">
-                  {/* Visual-only resize handles (non-interactive) — live outside the clipped frame. */}
-                  <div className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100">
-                    {[
-                      "top-[-6px] left-[-6px]",
-                      "top-[-6px] left-1/2 -translate-x-1/2",
-                      "top-[-6px] right-[-6px]",
-                      "top-1/2 -translate-y-1/2 left-[-6px]",
-                      "top-1/2 -translate-y-1/2 right-[-6px]",
-                      "bottom-[-6px] left-[-6px]",
-                      "bottom-[-6px] left-1/2 -translate-x-1/2",
-                      "bottom-[-6px] right-[-6px]",
-                    ].map((pos) => (
-                      <span
-                        key={pos}
-                        className={`absolute h-3 w-3 rounded-[2px] bg-white ${pos}`}
-                        style={{ border: "1.5px solid #3a6148" }}
-                        aria-hidden
-                      />
-                    ))}
-                  </div>
-
-                  <div
-                    className={[
-                      "absolute inset-0 overflow-hidden rounded-none",
-                      "border-[0.5px] border-white/55 ring-1 ring-black/[0.06]",
-                      "shadow-[0_22px_70px_-44px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.55)]",
-                      "bg-white/[0.22] backdrop-blur-lg backdrop-saturate-[1.35]",
-                    ].join(" ")}
-                  >
-                    {/* Liquid surface tint + edge highlight */}
-                    <div
-                      className="pointer-events-none absolute inset-0"
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.46) 0%, rgba(255,255,255,0.12) 40%, rgba(114,140,105,0.10) 100%)",
-                      }}
-                      aria-hidden
-                    />
-                    {/* Work-page style selection outline (no drag/resize on home). */}
-                    <div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 [box-shadow:inset_0_0_0_1.5px_#3a6148]" />
-                    <div className="absolute inset-2.5 overflow-hidden sm:inset-3 md:inset-3.5">
-                      <Image
-                        src={item.image}
-                        alt={item.alt}
-                        fill
-                        quality={80}
-                        priority={idx < 3}
-                        fetchPriority={idx < 3 ? "high" : "auto"}
-                        loading={idx < 3 ? "eager" : "lazy"}
-                        sizes="(max-width: 640px) min(92vw, 420px), (max-width: 1024px) min(46vw, 400px), min(28vw, 360px)"
-                        className="object-contain object-center"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-3 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
-                  {item.category}
-                  <span className="mx-1.5 font-light text-zinc-400">·</span>
-                  {item.year}
-                </p>
-                <p className="mt-1 font-mono text-[0.95rem] font-normal tracking-tight text-zinc-900">
-                  {item.title}
-                </p>
-                <p className="mt-1 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
-                  {item.description}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mx-auto mt-14 flex justify-center md:mt-16">
-          <Link
-            href="/work"
-            className="border-[0.5px] border-zinc-900 bg-transparent px-5 py-2.5 font-mono text-[10px] tracking-[0.06em] text-zinc-900 transition-colors duration-200 hover:bg-zinc-900 hover:text-[#e8e8e8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
-          >
-            see all work →
-          </Link>
+        <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:px-12">
+          <CaseBreadcrumb
+            segments={[
+              { label: "work", href: "/work" },
+              { label: "product-design" },
+            ]}
+          />
+        </div>
+        <div className="min-h-0 flex-1">
+          <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design" />
         </div>
       </section>
     </main>
