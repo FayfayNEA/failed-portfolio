@@ -204,6 +204,11 @@ const BIBLIOGRAPHY = [
     href: "https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=2610&context=open_access_theses",
     linkText: "docs.lib.purdue.edu",
   },
+  {
+    cite: 'Shakeri, H., and Khalilzadeh, M. "Analysis of Project Failure Factors and Their Impact on Project Performance." Heliyon, 2020.',
+    href: "https://doi.org/10.1016/j.heliyon.2020.e04430",
+    linkText: "doi.org/10.1016/j.heliyon.2020.e04430",
+  },
 ];
 
 /* ---------- tiny helpers ---------- */
@@ -402,7 +407,7 @@ export default function BuddyPage() {
 
           <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {[
-              { stat: "57%", body: "of projects fail due to a breakdown in communication, not technical skill." },
+              { stat: "70%", body: "of projects experience miscommunication as a significant factor in failure. (Shakeri & Khalilzadeh, 2020)" },
               { stat: "7.5hrs", body: "lost per designer per week clarifying what was already discussed in a meeting." },
               { stat: "$62.4M", body: "lost annually by large organizations to miscommunication — most of it invisible." },
             ].map(({ stat, body }) => (
@@ -413,7 +418,7 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <div className="relative flex w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35">
+          <div className="relative mx-auto flex w-full max-w-[min(40rem,100%)] flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:max-w-[min(44rem,100%)]">
             <div
               className="pointer-events-none absolute inset-0 bg-white/50 backdrop-blur-xl"
               aria-hidden
@@ -693,7 +698,7 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 max-w-[580px]">
+          <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 w-full">
             For the next iteration: anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
           </p>
         </section>
