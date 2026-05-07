@@ -400,6 +400,19 @@ export default function BuddyPage() {
             {" of designers waste time dealing with miscommunications."}
           </h2>
 
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {[
+              { stat: "57%", body: "of projects fail due to a breakdown in communication, not technical skill." },
+              { stat: "7.5hrs", body: "lost per designer per week clarifying what was already discussed in a meeting." },
+              { stat: "$62.4M", body: "lost annually by large organizations to miscommunication — most of it invisible." },
+            ].map(({ stat, body }) => (
+              <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
+                <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
+                <p className="text-[0.78rem] leading-relaxed text-violet-950/75">{body}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="relative mx-auto flex w-full max-w-[min(40rem,100%)] flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:max-w-[min(44rem,100%)]">
             <div
               className="pointer-events-none absolute inset-0 bg-white/50 backdrop-blur-xl"
@@ -491,8 +504,8 @@ export default function BuddyPage() {
           <h2 className="font-mono font-medium text-[1.6rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Conversations Made Visual
           </h2>
-          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 max-w-[560px]">
-            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making ideas tangible before they are forgotten.
+          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 max-w-3xl">
+            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making abstract ideas tangible before they slip away. Rather than relying on memory or meeting notes, every concept discussed gets locked into a visual artifact that the whole team can see, reference, and build on. The result is a shared source of truth that persists long after the conversation ends, closing the gap between what was said and what was actually understood.
           </p>
 
           <SectionLabel>Early Drawings</SectionLabel>
