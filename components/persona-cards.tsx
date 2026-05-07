@@ -311,85 +311,29 @@ export function PersonaCards({
 
       {/* How Might We */}
       {hmw && (
-        <div
-          id="how-might-we"
-          className={cn(
-            isKeycards ? keyCardClass : "relative overflow-hidden rounded-2xl p-6 ring-1",
-            !isKeycards &&
-              (isBlack
-                ? "bg-zinc-950/70 ring-black/35"
-                : isLime
-                  ? "bg-lime-500/[0.08] ring-lime-400/40"
-                  : isSky || isEtrade
-                    ? "bg-[#0F8EC7]/[0.08] ring-[#0F8EC7]/35"
-                    : "bg-violet-500/[0.08] ring-violet-300/35")
-          )}
-        >
-          {!isKeycards && isBlack && (
-            <>
-              <div
-                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-white/[0.03] to-transparent"
-                aria-hidden
-              />
-              <div
-                className="pointer-events-none absolute inset-0 backdrop-blur-xl backdrop-saturate-150"
-                aria-hidden
-              />
-            </>
-          )}
-          <p
-            className={cn(
-              isKeycards
-                ? keyHeadingClass
-                : cn(
-                    "relative mb-3 font-mono text-[9px] uppercase tracking-[0.18em]",
-                    isBlack
-                      ? "text-white/60"
-                      : isLime
-                        ? "text-lime-800/90"
-                        : isSky || isEtrade
-                          ? "text-[#0F8EC7]"
-                          : "text-violet-700/85"
-                  )
-            )}
-          >
+        <div id="how-might-we" className={cn("mt-10 scroll-mt-24", isKeycards && keyCardClass)}>
+          <p className={cn("mb-3 font-mono text-[9px] uppercase tracking-[0.18em]", isKeycards ? keyHeadingClass : "text-[#A0A0A0]")}>
             How Might We
           </p>
-          <p
-            className={cn(
-              isKeycards
-                ? "max-w-3xl text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-zinc-950"
-                : cn(
-                    "relative max-w-3xl text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em]",
-                    isBlack
-                      ? "text-white"
-                      : isLime
-                        ? "text-lime-950"
-                        : isSky || isEtrade
-                          ? "text-sky-950"
-                          : "text-violet-950"
-                  )
-            )}
-          >
+          <p className={cn(
+            "text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em]",
+            isKeycards
+              ? "text-zinc-950"
+              : isBlack
+                ? "text-white"
+                : "text-zinc-950"
+          )}>
             {hmw}
           </p>
           {hmwAnswer && (
-            <p
-              className={cn(
-                isKeycards
-                  ? "mt-3 text-[0.8rem] leading-relaxed text-zinc-600"
-                  : cn(
-                      "relative mt-3 text-[0.8rem] leading-relaxed",
-                      isBlack
-                        ? "text-white/70"
-                        : isLime
-                          ? "text-lime-900/75"
-                          : isSky || isEtrade
-                            ? "text-sky-900/75"
-                            : "text-violet-800/70"
-                    )
-              )}
-            >
+            <p className={cn(
+              "mt-4 text-[0.85rem] leading-relaxed",
+              isKeycards
+                ? "text-zinc-600"
+                : isBlack
+                  ? "text-white/70"
+                  : "text-zinc-500"
+            )}>
               {hmwAnswer}
             </p>
           )}
