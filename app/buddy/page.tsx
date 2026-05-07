@@ -209,6 +209,16 @@ const BIBLIOGRAPHY = [
     href: "https://doi.org/10.1016/j.heliyon.2020.e04430",
     linkText: "doi.org/10.1016/j.heliyon.2020.e04430",
   },
+  {
+    cite: 'Mroz, J. E., et al. "Do Meeting Agendas Facilitate or Impede Team Effectiveness?" International Journal of Construction Supply Chain Management, 2018. University of Nebraska Omaha.',
+    href: "https://digitalcommons.unomaha.edu",
+    linkText: "digitalcommons.unomaha.edu",
+  },
+  {
+    cite: 'Armour, S. "Poor Communication Costs Companies $62.4 Million a Year." International Journal of Construction Supply Chain Management, 2019.',
+    href: "https://doi.org/10.14424/ijcscm902019-94-106",
+    linkText: "doi.org/10.14424/ijcscm902019-94-106",
+  },
 ];
 
 /* ---------- tiny helpers ---------- */
@@ -408,8 +418,8 @@ export default function BuddyPage() {
           <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {[
               { stat: "70%", body: "of projects experience miscommunication as a significant factor in failure. (Shakeri & Khalilzadeh, 2020)" },
-              { stat: "7.5hrs", body: "lost per designer per week clarifying what was already discussed in a meeting." },
-              { stat: "$62.4M", body: "lost annually by large organizations to miscommunication — most of it invisible." },
+              { stat: "6–23hrs", body: "spent per week in meetings — employees average 6hrs, managers up to 23hrs — with $213B lost annually to ineffective meetings alone. (Mroz et al., 2018)" },
+              { stat: "$62.4M", body: "lost per year by large organizations due to miscommunication — a recurring cost most teams never see coming. (Armour, 2019)" },
             ].map(({ stat, body }) => (
               <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
                 <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
