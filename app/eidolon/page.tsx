@@ -573,6 +573,9 @@ export default async function EidolonPage() {
               </p>
 
               <div className="mx-auto mt-6 -mb-4 w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
+                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+                  Spritesheet
+                </p>
                 <div className="rounded-2xl border-[0.5px] border-zinc-200/70 bg-white p-3 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06] sm:p-4 md:p-5">
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -619,6 +622,9 @@ export default async function EidolonPage() {
                     />
                   </div>
                 </div>
+                <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                  Made with Gemini
+                </p>
               </div>
             </>
           ),
