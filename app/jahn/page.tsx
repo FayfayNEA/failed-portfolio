@@ -178,7 +178,7 @@ export default function JahnPage() {
                         <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-sky-800/70">
                           {card.title}
                         </p>
-                        <p className="text-[0.9rem] leading-[1.65] text-sky-950/80">{card.body}</p>
+                        <p className="text-[0.9rem] font-medium leading-[1.65] text-sky-950/80">{card.body}</p>
                       </div>
                     </div>
                   </li>
