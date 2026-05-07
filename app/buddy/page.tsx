@@ -395,7 +395,7 @@ export default function BuddyPage() {
           <SectionLabel>The Research</SectionLabel>
           
 
-          <h2 className="mb-6 max-w-[min(44rem,100%)] text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
+          <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
             <span className="tabular-nums text-violet-600">80%</span>
             {" of designers waste time dealing with miscommunications."}
           </h2>
@@ -413,7 +413,7 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <div className="relative mx-auto flex w-full max-w-[min(40rem,100%)] flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:max-w-[min(44rem,100%)]">
+          <div className="relative flex w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35">
             <div
               className="pointer-events-none absolute inset-0 bg-white/50 backdrop-blur-xl"
               aria-hidden
@@ -504,7 +504,7 @@ export default function BuddyPage() {
           <h2 className="font-mono font-medium text-[1.6rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Conversations Made Visual
           </h2>
-          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 max-w-3xl">
+          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 w-full">
             Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making abstract ideas tangible before they slip away. Rather than relying on memory or meeting notes, every concept discussed gets locked into a visual artifact that the whole team can see, reference, and build on. The result is a shared source of truth that persists long after the conversation ends, closing the gap between what was said and what was actually understood.
           </p>
 
