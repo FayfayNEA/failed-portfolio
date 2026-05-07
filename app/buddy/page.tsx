@@ -473,7 +473,7 @@ export default function BuddyPage() {
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
               How Might We
             </p>
-            <p className="max-w-3xl text-[0.95rem] font-normal leading-relaxed text-violet-950 sm:text-[1.02rem]">
+            <p className="max-w-3xl text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-violet-950">
               Improve group communication by clarifying ideas visually through real-time LLM image generation?
             </p>
             <p className="mt-3 max-w-3xl text-[0.8rem] leading-relaxed text-violet-800/70">
