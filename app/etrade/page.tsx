@@ -25,6 +25,11 @@ export default function EtradePage() {
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "video", src: HERO_VIDEO }}
+      heroBelow={
+        <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+          Interactive Figma prototype
+        </p>
+      }
       heroFrameVariant="liquid"
       heroSize="wide"
       challengeSummary="Reduce cognitive load so traders move faster — and make fewer costly mistakes."
@@ -91,6 +96,9 @@ export default function EtradePage() {
                   </p>
                 </div>
               </div>
+              <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Made with Napkin.ai and Figma
+              </p>
             </>
           ),
         },
@@ -122,6 +130,9 @@ export default function EtradePage() {
                 hmw="How might we improve user retention and reduce trading errors?"
                 hmw-answer="By increasing a trader's speed through decreasing cognitive load."
               />
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Profile photo made with Gemini
+              </p>
 
               <ProjectGalleryRow
                 images={[
@@ -136,6 +147,9 @@ export default function EtradePage() {
                 slidePadding="tight"
                 className="mx-auto my-10 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
               />
+              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                E*Trade marked up with Figma
+              </p>
             </>
           ),
         },
@@ -168,6 +182,9 @@ export default function EtradePage() {
                 slidePadding="tight"
                 className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
               />
+              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Images from TradingView, Webull and Interactive Brokers
+              </p>
             </>
           ),
         },
@@ -212,6 +229,9 @@ export default function EtradePage() {
                   </div>
                 </div>
               </div>
+              <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Hand-drawn sketches
+              </p>
 
               <div className="mt-12">
                 <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
@@ -233,6 +253,9 @@ export default function EtradePage() {
                 slidePadding="tight"
                 className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
               />
+              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Figma mockups
+              </p>
               <div className="mx-auto mt-8 max-w-[min(56rem,100%)] space-y-4">
                 {[
                   {
@@ -280,6 +303,9 @@ export default function EtradePage() {
                   slidePadding="tight"
                   className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
                 />
+                <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                  Mockups created with Figma
+                </p>
               </div>
             </>
           ),
