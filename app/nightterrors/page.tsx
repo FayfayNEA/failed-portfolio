@@ -125,16 +125,7 @@ export default function NightterrorsPage() {
                 The Rundown
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                N1ghtterrors emerged in response to a call to reintroduce provocation design
-                culture. Conceived as a clothing line rooted in the idea of sublimity, the project
-                explores psychological extremes through narrative-driven graphics. Each garment
-                presents a visual meditation on unseen instability, juxtaposing figures such as
-                Donald Trump and Joe Biden with allegorical references to Lucifer. The imagery
-                examines themes of power, duality, ascent, and collapse, prompting reflection on
-                broader questions surrounding civilization and collective ambition. Rather than
-                prescribing a singular interpretation, N1ghtterrors invites viewers to confront
-                their own perceptions. The work ultimately asks not what is depicted, but what the
-                audience chooses to see.
+                Ship a clothing line end-to-end — product, brand, and digital experience.
               </p>
             </>
           ),

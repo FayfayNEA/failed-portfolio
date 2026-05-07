@@ -49,10 +49,7 @@ export default function EtradePage() {
                 The Rundown
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                A simple UI with a low cognitive load is essential to a trading platform. E*Trade&apos;s
-                UI has constant complaints from users of site usability; many users are now
-                switching to more modern platforms because small mistakes are costing them millions.
-
+                Reduce cognitive load so traders move faster — and make fewer costly mistakes.
               </p>
 
               <h2 className="mt-10 mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
