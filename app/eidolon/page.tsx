@@ -37,6 +37,11 @@ export default async function EidolonPage() {
       slug="eidolon"
       category="product-design"
       hero={{ kind: "video", src: HERO_IMAGE }}
+      heroBelow={
+        <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+          Interactive Figma prototype
+        </p>
+      }
       challengeSummary={CHALLENGE}
       meta={METADATA}
       sections={[
@@ -92,6 +97,9 @@ export default async function EidolonPage() {
                   </div>
                 </div>
               </div>
+              <p className="-mt-2 mb-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Created with Illustrator
+              </p>
             </>
           ),
         },
@@ -135,6 +143,9 @@ export default async function EidolonPage() {
                 hmw="How might we improve trust in AI and decrease cognitive load?"
                 hmw-answer="By developing agents that not only showcase their interactions visually but clean up interfaces to make the web simpler."
               />
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Profile photos generated with Gemini
+              </p>
             </>
           ),
         },
@@ -180,6 +191,9 @@ export default async function EidolonPage() {
                   className="my-0 w-full"
                 />
               </div>
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Images pulled from Claude, ChatGPT, Gemini, Apple Checkout and Google
+              </p>
             </>
           ),
         },
@@ -220,6 +234,9 @@ export default async function EidolonPage() {
                   />
                 </div>
               </div>
+              <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Hand-drawn sketches
+              </p>
 
               <div className="mt-14">
                 <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
@@ -281,6 +298,10 @@ export default async function EidolonPage() {
                   />
                 </div>
 
+                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                  Figma mockups
+                </p>
+
                 <div className="mx-auto mt-8 grid w-full max-w-[min(1100px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
                   <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                     <div
@@ -328,6 +349,9 @@ export default async function EidolonPage() {
                     </div>
                   </div>
                 </div>
+                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                  Gemini diagrams
+                </p>
 
                 <div className="mt-14">
                   <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
@@ -359,6 +383,9 @@ export default async function EidolonPage() {
                       </div>
                     </div>
                   </div>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                    Napkin.ai diagram
+                  </p>
 
                   <div className="mx-auto mt-6 w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
                     <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
@@ -397,6 +424,9 @@ export default async function EidolonPage() {
                       </div>
                     </div>
                   </div>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                    Generated with Gemini
+                  </p>
 
                   <div className="mt-6">
                     <div className="rounded-xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
@@ -449,6 +479,9 @@ export default async function EidolonPage() {
                       className="my-0 w-full"
                     />
                   </div>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                    Figma mockups
+                  </p>
                 </div>
               </div>
             </>
@@ -479,6 +512,9 @@ export default async function EidolonPage() {
                   </div>
                 </div>
               </div>
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Google Cloud Service with AI Studio and Antigravity
+              </p>
             </>
           ),
         },
