@@ -215,6 +215,21 @@ const BIBLIOGRAPHY = [
     linkText: "digitalcommons.unomaha.edu",
   },
   {
+    cite: 'Medina, J. "Brain Rules: 12 Principles for Surviving and Thriving at Work, Home, and School." Picture Superiority Effect — verbal-only retention: 10% after 3 days; visual + verbal: 65%. Boston University Center for Teaching & Learning.',
+    href: "https://www.bu.edu/ctl/guides/visual-learning/",
+    linkText: "bu.edu/ctl/guides/visual-learning",
+  },
+  {
+    cite: 'Drexel University. "The Impact of Too Many Meetings." Research highlighting that 47% of employees view meetings as a waste of time, with missing follow-up notes cited as the #1 cause of unproductive meetings.',
+    href: "https://drexel.edu",
+    linkText: "drexel.edu",
+  },
+  {
+    cite: 'American Psychological Association. Organizational & agile collaboration research: teams using shared visual boards are 3× more likely to align on complex workflows; 93% of workers report virtual whiteboards as highly effective.',
+    href: "https://www.apa.org",
+    linkText: "apa.org",
+  },
+  {
     cite: 'Armour, S. "Poor Communication Costs Companies $62.4 Million a Year." International Journal of Construction Supply Chain Management, 2019.',
     href: "https://doi.org/10.14424/ijcscm902019-94-106",
     linkText: "doi.org/10.14424/ijcscm902019-94-106",
@@ -503,23 +518,23 @@ export default function BuddyPage() {
                 {
                   n: "01",
                   title: "AI Visual Generation",
-                  body: "Translate spoken words into real-time images and diagrams via LLM — giving every idea a visual anchor the whole room can react to immediately.",
+                  body: "Translate spoken words into real-time images and diagrams — anchoring every idea visually so the whole room reacts to the same thing. Verbal-only recall drops to 10% after three days; pair it with a visual and retention jumps to 65%. (Picture Superiority Effect, Medina)",
                   stat: "65%",
-                  statLabel: "more information retained when visuals accompany verbal communication.",
+                  statLabel: "retention when verbal information is paired with a visual — vs. 10% for words alone. (Medina / Boston University)",
                 },
                 {
                   n: "02",
                   title: "Structured Transcription",
-                  body: "Auto-transcribe and summarize meetings with timestamped decisions, action items, and open questions — making the agreed-upon record impossible to misremember.",
+                  body: "Auto-transcribe and summarize meetings with timestamped decisions, action items, and open questions. The #1 reason meetings fail is the lack of follow-up notes — forcing teams into secondary meetings just to reconstruct what was decided. (Drexel University)",
                   stat: "47%",
-                  statLabel: "of workers say they rarely or never have a clear record of what was decided in meetings.",
+                  statLabel: "of employees say meetings are an outright waste of time, directly tied to missing decision records. (Drexel University)",
                 },
                 {
                   n: "03",
                   title: "Shared Digital Canvas",
-                  body: "Real-time collaborative whiteboards (Miro, FigJam) let teams draw, annotate, and vote together — reducing the gap between what one person imagines and what another builds.",
+                  body: "Real-time collaborative whiteboards let teams draw, annotate, and vote together — eliminating the brainstorm vacuum. Teams using shared visual boards are 3× more likely to align on and scale complex workflows, and 93% of workers report virtual whiteboards are highly effective at keeping ideas from getting lost. (APA)",
                   stat: "3×",
-                  statLabel: "more likely to feel aligned post-meeting when a shared visual artifact was used.",
+                  statLabel: "more likely to align on complex workflows when using a shared visual board, with 93% citing effectiveness. (APA)",
                 },
               ].map(({ n, title, body, stat, statLabel }) => (
                 <div key={n} className="flex flex-col gap-3 rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
