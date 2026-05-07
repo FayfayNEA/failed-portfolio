@@ -117,15 +117,15 @@ export default async function EidolonPage() {
                 {[
                   {
                     stat: "65%",
-                    body: "of young adults report stress directly tied to the rise of AI — with 53% experiencing increased fatigue and 48% increased headaches from digital overwhelm.",
+                    body: "of young adults report stress tied to AI — 53% report increased fatigue, 48% increased headaches. (APA, 2023)",
                   },
                   {
                     stat: "81%",
-                    body: "of Americans are concerned about their data and privacy when using AI-powered services — the core barrier standing between users and agentic adoption.",
+                    body: "of Americans are concerned about data and privacy when using AI services. (Pew Research Center, 2023)",
                   },
                   {
                     stat: "25%",
-                    body: "projected decrease in traditional search engine volume by 2026 as AI-driven agents take over — the web is already shifting beneath us.",
+                    body: "projected drop in traditional search volume by 2026 as AI agents take over navigation. (Gartner, 2024)",
                   },
                 ].map(({ stat, body }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
@@ -147,9 +147,9 @@ export default async function EidolonPage() {
                     role: "Retiree",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      'Significant difficulty grasping the mechanics and utility of AI agents amidst a rapidly shifting technological landscape.',
-                      "A deep longing for consistency and stability in a world that feels increasingly volatile due to constant digital evolution.",
-                      "A strong personal preference for human-led processes and a reluctance to surrender control or reliance to automated systems.",
+                      "Can't keep up with AI agents in a landscape that changes weekly.",
+                      "Craves stability — the digital world feels volatile and threatening.",
+                      "Prefers human-led processes and won't hand control to automated systems.",
                     ],
                   },
                   {
@@ -159,14 +159,12 @@ export default async function EidolonPage() {
                     role: "Tech Enthusiast",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      'Significant concern regarding the accuracy of AI-generated information and the potential for "hallucinations" in critical planning.',
-                      "A persistent desire for greater transparency to bridge the gap between AI outputs and a clear understanding of how the technology actually works.",
-                      "The mental tax of wanting to streamline personal tasks (like vacations and social media) while feeling forced to double-check AI work for errors.",
+                      "Worries AI will hallucinate on critical tasks like bookings or purchases.",
+                      "Wants to see how AI reaches its conclusions — the black box kills trust.",
+                      "Loves the speed AI offers but exhausted by double-checking everything it does.",
                     ],
                   },
                 ])}
-                hmw="How might we improve trust in AI and decrease cognitive load?"
-                hmw-answer="By developing agents that not only showcase their interactions visually but clean up interfaces to make the web simpler."
               />
 
               <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -174,23 +172,23 @@ export default async function EidolonPage() {
                   {
                     n: "01",
                     title: "AI Toggle Permission Gate",
-                    body: "Let users choose — human mode or agent mode. Strips UI noise and heavy HTML for Cindy; opens a high-speed MCP stream for Ashleigh. One site, two realities.",
+                    body: "Let users choose — human mode or agent mode. One site, two realities.",
                     stat: "20%",
-                    statLabel: "higher task accuracy for older users when interface noise is removed and a single predictable path is preserved.",
+                    statLabel: "higher task accuracy for older users when interface noise is removed. (Nielsen Norman Group)",
                   },
                   {
                     n: "02",
                     title: "Negotiation Canvas",
-                    body: "A 3D workspace where Ashleigh watches the AI argue on her behalf in real time — branching decisions, live handshakes, and data she can verify before anything is final.",
+                    body: "A 3D workspace where Ashleigh watches the AI argue on her behalf — live handshakes and data verified before anything is final.",
                     stat: "22×",
-                    statLabel: "more memorable when information is delivered as a narrative or story rather than raw data.",
+                    statLabel: "more memorable when information is delivered as a story rather than raw data. (Cognitive Psychology, Bruner)",
                   },
                   {
                     n: "03",
                     title: "Haptic Authorization Gate",
-                    body: "For large decisions — money, data, identity — the agent pauses and hands control back. A physical swipe or gesture confirms the action, keeping humans the final authority.",
+                    body: "For money, data, or identity — the agent pauses and hands control back via a physical swipe.",
                     stat: "46%",
-                    statLabel: "of young adults feel overwhelmed by time online and actively want more analog moments in their day.",
+                    statLabel: "of young adults want more analog moments in their day and less screen time. (APA, 2023)",
                   },
                 ].map(({ n, title, body, stat, statLabel }) => (
                   <div key={n} className="flex flex-col gap-3 rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
@@ -203,6 +201,18 @@ export default async function EidolonPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div id="how-might-we" className="mt-16 scroll-mt-24">
+                <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
+                  How Might We
+                </p>
+                <p className="text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
+                  Improve trust in AI and decrease cognitive load?
+                </p>
+                <p className="mt-4 text-[0.85rem] leading-relaxed text-zinc-500">
+                  By developing agents that showcase their interactions visually and clean up interfaces to make the web simpler.
+                </p>
               </div>
             </>
           ),
