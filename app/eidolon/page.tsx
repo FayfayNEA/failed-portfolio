@@ -53,7 +53,7 @@ export default async function EidolonPage() {
               <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
                 Design an app which creates an easily digestible AI internet for everyone.
               </h2>
-              <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+              <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
                 What happens when the internet is no longer human-navigated, but optimized for
                 machine-to-machine interaction? Some users may prefer direct, human-led engagement
                 and remain skeptical of automation, while others may welcome AI assistance. The
@@ -222,7 +222,7 @@ export default async function EidolonPage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+              <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
                 The low-fidelity iteration of this project was developed efficiently, as interface
                 conventions within AI platforms and video game systems are well established and
                 supported by substantial research. I conducted comprehensive analysis of current
@@ -338,44 +338,6 @@ export default async function EidolonPage() {
                   />
                 </div>
 
-                <div className="mx-auto mt-4 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-                  <ProjectGalleryRow
-                    images={[
-                      encodeURI("/eidolon/screen 1 of manual.png"),
-                      encodeURI("/eidolon/screen 2 of manual.png"),
-                      encodeURI("/eidolon/screen 3 of manual.png"),
-                      encodeURI("/eidolon/screen 4 of manual.png"),
-                    ]}
-                    theme="lime"
-                    glassVariant="liquid"
-                    frameSize="phone"
-                    slideImageFit="contain"
-                    slidePadding="default"
-                    className="my-0 w-full"
-                  />
-
-                  <ProjectGalleryRow
-                    images={[
-                      encodeURI("/eidolon/screen 1 of automatic.png"),
-                      encodeURI("/eidolon/screen 2 of automatic.png"),
-                      encodeURI("/eidolon/screen 3 of automatic.png"),
-                      encodeURI("/eidolon/screen 4 of automatic.png"),
-                      encodeURI("/eidolon/screen 5 of automatic.png"),
-                      encodeURI("/eidolon/screen 6 of automatic.png"),
-                    ]}
-                    theme="lime"
-                    glassVariant="liquid"
-                    frameSize="phone"
-                    slideImageFit="contain"
-                    slidePadding="default"
-                    className="my-0 w-full"
-                  />
-                </div>
-
-                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                  Figma mockups
-                </p>
-
                 <div className="mx-auto mt-8 grid w-full max-w-[min(1100px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
                   <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                     <div
@@ -427,6 +389,44 @@ export default async function EidolonPage() {
                   Gemini diagrams
                 </p>
 
+                <div className="mx-auto mt-4 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
+                  <ProjectGalleryRow
+                    images={[
+                      encodeURI("/eidolon/screen 1 of manual.png"),
+                      encodeURI("/eidolon/screen 2 of manual.png"),
+                      encodeURI("/eidolon/screen 3 of manual.png"),
+                      encodeURI("/eidolon/screen 4 of manual.png"),
+                    ]}
+                    theme="lime"
+                    glassVariant="liquid"
+                    frameSize="phone"
+                    slideImageFit="contain"
+                    slidePadding="default"
+                    className="my-0 w-full"
+                  />
+
+                  <ProjectGalleryRow
+                    images={[
+                      encodeURI("/eidolon/screen 1 of automatic.png"),
+                      encodeURI("/eidolon/screen 2 of automatic.png"),
+                      encodeURI("/eidolon/screen 3 of automatic.png"),
+                      encodeURI("/eidolon/screen 4 of automatic.png"),
+                      encodeURI("/eidolon/screen 5 of automatic.png"),
+                      encodeURI("/eidolon/screen 6 of automatic.png"),
+                    ]}
+                    theme="lime"
+                    glassVariant="liquid"
+                    frameSize="phone"
+                    slideImageFit="contain"
+                    slidePadding="default"
+                    className="my-0 w-full"
+                  />
+                </div>
+
+                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                  Figma mockups
+                </p>
+
                 <div className="mt-14">
                   <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                     Character Creation
@@ -436,32 +436,7 @@ export default async function EidolonPage() {
                   </p>
                   
 
-                  <div className="mx-auto w-full max-w-[min(800px,calc(100vw-1.5rem))]">
-                    <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.06]">
-                      <div
-                        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                        aria-hidden
-                      />
-                      <div
-                        className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                        aria-hidden
-                      />
-                      <div className="relative p-4 sm:p-5 md:p-6">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={encodeURI("/eidolon/items (5).png")}
-                          alt="Character creation diagram"
-                          className="w-full rounded-xl bg-white object-contain"
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                    Napkin.ai diagram
-                  </p>
-
-                  <div className="mx-auto mt-6 w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
+                  <div className="mx-auto w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
                     <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                       <div
                         className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
@@ -500,6 +475,31 @@ export default async function EidolonPage() {
                   </div>
                   <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
                     Generated with Gemini
+                  </p>
+
+                  <div className="mx-auto mt-6 w-full max-w-[min(800px,calc(100vw-1.5rem))]">
+                    <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.06]">
+                      <div
+                        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
+                        aria-hidden
+                      />
+                      <div
+                        className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
+                        aria-hidden
+                      />
+                      <div className="relative p-4 sm:p-5 md:p-6">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={encodeURI("/eidolon/items (5).png")}
+                          alt="Character creation diagram"
+                          className="w-full rounded-xl bg-white object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                    Napkin.ai diagram
                   </p>
 
                   <div className="mt-6">
@@ -642,7 +642,7 @@ export default async function EidolonPage() {
               <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
                 Ethical considerations
               </p>
-              <p className="max-w-[min(52rem,100%)] text-left text-[0.95rem] leading-[1.75] text-zinc-600">
+              <p className="w-full text-left text-[0.95rem] leading-[1.75] text-zinc-600">
                 This project situates itself within broader debates in AI ethics, acknowledging that contemporary AI systems continue to raise concerns around surveillance capitalism, algorithmic manipulation, opaque decision-making, and concentrated data power. Rather than assuming AI is inherently neutral or benevolent, the proposal recognizes its potential to subtly influence user behavior and prioritize commercial interests. In response, it introduces a dual-agent framework as a structural safety network, where a personal AI advocates for the user by monitoring persuasive tactics, limiting unnecessary data exchange, and making algorithmic influence visible through a protective interface layer. By embedding safeguards directly into the system’s architecture, the project argues that trust in AI must be constructed through transparency, distributed control, and user autonomy, not convenience alone.
               </p>
 
