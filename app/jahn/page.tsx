@@ -50,7 +50,7 @@ export default function JahnPage() {
           content: (
             <>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                The Rundown
+                Design a portfolio site that stays true to Helmut Jahn&apos;s design language.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
                 The Jahn Studio site functions as the digital identity and portfolio for the

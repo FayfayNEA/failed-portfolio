@@ -51,7 +51,7 @@ export default async function EidolonPage() {
           content: (
             <>
               <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                The Rundown
+                Design the internet for when it is 98% AI and 2% human.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
                 What happens when the internet is no longer human-navigated, but optimized for

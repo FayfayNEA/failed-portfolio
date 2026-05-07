@@ -355,7 +355,7 @@ export default function BuddyPage() {
         <section id="project-overview" className="scroll-mt-24">
           <SectionLabel>Project Overview</SectionLabel>
           <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-            The Rundown
+            Design a product that helps people communicate.
           </h2>
           <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
             Buddy seeks to resolve the disconnect of working in groups, by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It utilizes rapid prototyping, electronics, and full-stack software development to create a product that preserves conversations through a visual history of conversations and saves valuable concepts from being lost to misarticulation.

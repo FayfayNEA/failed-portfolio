@@ -122,7 +122,7 @@ export default function NightterrorsPage() {
           content: (
             <>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                The Rundown
+                Ship a clothing line end-to-end — product, brand, and digital experience.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
                 N1ghtterrors emerged in response to a call to reintroduce provocation design
