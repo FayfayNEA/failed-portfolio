@@ -11,7 +11,7 @@ export function CaseChallengeDisclosure({
   className,
 }: CaseChallengeDisclosureProps) {
   return (
-    <div className={cn("max-w-[640px]", className)}>
+    <div className={cn("max-w-[min(860px,100%)]", className)}>
       <p className="mb-6 font-sans text-[10px] font-normal uppercase tracking-[0.18em] text-[#A0A0A0]">
         The challenge
       </p>
