@@ -101,7 +101,7 @@ export default function NightterrorsPage() {
           "Photographer",
           "Videographer",
           "UX",
-          "Software Developer",
+          "Full Stack Engineer",
           "Product Designer",
           "Printer",
           "Graphics",
