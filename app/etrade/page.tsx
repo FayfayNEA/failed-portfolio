@@ -32,7 +32,7 @@ export default function EtradePage() {
       }
       heroFrameVariant="liquid"
       heroSize="wide"
-      challengeSummary="51% of users struggle with E*Trade's old interface, the heavy UI and overwhelming information causes trading errors."
+      challengeSummary="51% of users struggle with E*Trade's old interface."
       meta={{
         timeline: "1 week",
         roles: ["Full Stack Engineer", "Product Designer"],
