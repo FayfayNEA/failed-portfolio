@@ -137,6 +137,9 @@ export default function JahnPage() {
                   </div>
                 ))}
               </div>
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Generated with Gemini
+              </p>
             </>
           ),
         },
