@@ -28,8 +28,8 @@ const SECTIONS = [
   { id: "the-research", label: "THE RESEARCH" },
   { id: "the-solution", label: "THE SOLUTION" },
   { id: "engineering", label: "ENGINEERING" },
-  { id: "hardware", label: "HARDWARE" },
   { id: "iterations", label: "ITERATIONS" },
+  { id: "hardware", label: "HARDWARE" },
   { id: "final-product", label: "FINAL PRODUCT" },
   { id: "considerations", label: "CONSIDERATIONS" },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
@@ -235,33 +235,40 @@ function CodeBlock({ code, className }: { code: string; className?: string }) {
 }
 
 /** Wide frame with watercolour background; video inset like a gallery hero. */
-function IterationVideoFrame({ src }: { src: string }) {
+function IterationVideoFrame({ src, caption }: { src: string; caption?: string }) {
   return (
-    <div
-      className={cn(
-        "relative w-full overflow-hidden rounded-xl",
-        "border-[3px] border-violet-200/80 shadow-[0_24px_72px_-24px_rgba(76,29,149,0.36)] ring-1 ring-violet-400/50"
-      )}
-    >
-      <img
-        src={BUDDY_PROCESS_CLIPS_BG}
-        alt=""
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
-        aria-hidden
-      />
+    <figure className="w-full">
       <div
-        className="pointer-events-none absolute inset-0 z-[1] bg-white/[0.06]"
-        aria-hidden
-      />
-      <div className="relative z-[2] flex justify-center px-2.5 py-5 md:px-[14px] md:py-6">
-        <AutoPlayVideo
-          src={src}
-          poster={BUDDY_PROCESS_CLIPS_BG}
-          controls
-          className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"
+        className={cn(
+          "relative w-full overflow-hidden rounded-xl",
+          "border-[3px] border-violet-200/80 shadow-[0_24px_72px_-24px_rgba(76,29,149,0.36)] ring-1 ring-violet-400/50"
+        )}
+      >
+        <img
+          src={BUDDY_PROCESS_CLIPS_BG}
+          alt=""
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+          aria-hidden
         />
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] bg-white/[0.06]"
+          aria-hidden
+        />
+        <div className="relative z-[2] flex justify-center px-2.5 py-5 md:px-[14px] md:py-6">
+          <AutoPlayVideo
+            src={src}
+            poster={BUDDY_PROCESS_CLIPS_BG}
+            controls
+            className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"
+          />
+        </div>
       </div>
-    </div>
+      {caption && (
+        <figcaption className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
   );
 }
 
@@ -375,6 +382,9 @@ export default function BuddyPage() {
               </div>
             </div>
           </div>
+          <p className="-mt-4 mb-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Diagrams made with Napkin.ai and Figma
+          </p>
         </section>
 
         <Divider />
@@ -430,6 +440,9 @@ export default function BuddyPage() {
                 </p>
                 <p className="text-[0.72rem] leading-snug text-zinc-600 md:text-[0.75rem]">
                   Product Designer
+                </p>
+                <p className="mt-3 font-sans text-[0.65rem] italic leading-snug text-zinc-400">
+                  Portrait generated with Gemini
                 </p>
               </div>
 
@@ -504,6 +517,9 @@ export default function BuddyPage() {
               />
             </div>
           </div>
+          <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Hand-drawn sketches
+          </p>
         </section>
 
         <Divider />
@@ -516,10 +532,10 @@ export default function BuddyPage() {
             System Creation
           </h2>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-6 max-w-[640px]">
-            Stack architecture and session flow diagrams produced with Gemini-assisted Mermaid in Figma.
+            Stack architecture and session flow diagrams generated from Mermaid.js code authored in Python.
           </p>
 
-          <div className="mb-12 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start md:justify-center md:gap-x-16 lg:gap-x-20">
+          <div className="mb-4 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start md:justify-center md:gap-x-16 lg:gap-x-20">
             <div className="flex w-full justify-center md:w-auto md:max-w-[min(280px,42vw)]">
               <div className="w-full max-w-[min(100%,260px)] sm:max-w-[min(100%,300px)]">
                 <ImageLightbox
@@ -541,6 +557,9 @@ export default function BuddyPage() {
               />
             </div>
           </div>
+          <p className="mb-12 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Diagrams made with Mermaid.js (rendered from Python)
+          </p>
 
           <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
             <CodeBlock code={CODE_SYSTEM_PROMPT} className="my-0 h-full min-h-0" />
@@ -559,6 +578,30 @@ export default function BuddyPage() {
                 <p className="text-[0.85rem] leading-relaxed text-violet-950">{body}</p>
               </div>
             ))}
+          </div>
+        </section>
+
+        <Divider />
+
+        {/* ITERATIONS */}
+        <section id="iterations" className="scroll-mt-24">
+          <SectionLabel>Iterations</SectionLabel>
+          <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
+            Process clips
+          </h2>
+          <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-8 max-w-[580px]">
+            Early motion studies and build iterations captured during the project.
+          </p>
+
+          <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] space-y-12">
+            <IterationVideoFrame
+              src="/buddy/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4"
+              caption="First iteration — prototyped in Figma"
+            />
+            <IterationVideoFrame
+              src="/buddy/antoher.mp4"
+              caption="Second iteration — running locally, built with React and FastAPI"
+            />
           </div>
         </section>
 
@@ -590,24 +633,6 @@ export default function BuddyPage() {
               frameSize="compact"
               className="my-0 min-w-0"
             />
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ITERATIONS */}
-        <section id="iterations" className="scroll-mt-24">
-          <SectionLabel>Iterations</SectionLabel>
-          <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
-            Process clips
-          </h2>
-          <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-8 max-w-[580px]">
-            Early motion studies and build iterations captured during the project.
-          </p>
-
-          <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] space-y-12">
-            <IterationVideoFrame src="/buddy/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4" />
-            <IterationVideoFrame src="/buddy/antoher.mp4" />
           </div>
         </section>
 
