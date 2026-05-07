@@ -248,7 +248,7 @@ export default function NightterrorsPage() {
                 Pseudocode &amp; Code for Checking Stock
               </h2>
               <p className="mb-8 max-w-[640px] text-[0.85rem] leading-relaxed text-zinc-500">
-                Made with Mermaid.js
+                Made with Mermaid.js and Vanilla HTML/CSS + JavaScript
               </p>
 
               {/* Diagrams — mirroring Buddy's flex layout */}
