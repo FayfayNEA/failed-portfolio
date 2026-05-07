@@ -12,7 +12,7 @@ const TITLE       = "Eidolon";
 const DESCRIPTION = "created a visual ai agent to help users trust automation";
 /** Local encode: video-only (no audio). */
 const HERO_IMAGE = "/eidolon/hero.mp4";
-const CHALLENGE   = "Design the internet for when it is 98% AI and 2% human.";
+const CHALLENGE   = "Most people worry about what the internet will look like when it becomes 98% AI and 2% human. How do we design it without causing confusion?";
 
 const METADATA = {
   timeline: "1 week",
@@ -51,7 +51,7 @@ export default async function EidolonPage() {
           content: (
             <>
               <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                Design the internet for when it is 98% AI and 2% human.
+                Design an app which creates an easily digestible AI internet for everyone.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
                 What happens when the internet is no longer human-navigated, but optimized for
