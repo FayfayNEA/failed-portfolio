@@ -535,7 +535,7 @@ export default function BuddyPage() {
             </div>
           </div>
 
-          <div id="how-might-we" className="mt-10 scroll-mt-24">
+          <div id="how-might-we" className="mt-16 scroll-mt-24">
             <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
               How Might We
             </p>

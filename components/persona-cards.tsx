@@ -311,7 +311,7 @@ export function PersonaCards({
 
       {/* How Might We */}
       {hmw && (
-        <div id="how-might-we" className={cn("mt-10 scroll-mt-24", isKeycards && keyCardClass)}>
+        <div id="how-might-we" className={cn("mt-16 scroll-mt-24", isKeycards && keyCardClass)}>
           <p className={cn("mb-3 font-mono text-[9px] uppercase tracking-[0.18em]", isKeycards ? keyHeadingClass : "text-[#A0A0A0]")}>
             How Might We
           </p>
