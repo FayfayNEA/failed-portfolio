@@ -498,9 +498,6 @@ export default function BuddyPage() {
           </div>
 
           <div className="mt-8">
-            <h3 className="mb-4 text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-zinc-950">
-              Possible Solutions
-            </h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               {[
                 {
@@ -538,14 +535,14 @@ export default function BuddyPage() {
             </div>
           </div>
 
-          <div id="how-might-we" className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8 scroll-mt-24">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
+          <div id="how-might-we" className="mt-10 scroll-mt-24">
+            <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
               How Might We
             </p>
-            <p className="max-w-3xl text-[clamp(1rem,1.8vw,1.2rem)] font-medium leading-[1.25] tracking-[-0.02em] text-violet-950">
+            <p className="text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
               Improve group communication by clarifying ideas visually through real-time LLM image generation?
             </p>
-            <p className="mt-3 max-w-3xl text-[0.8rem] leading-relaxed text-violet-800/70">
+            <p className="mt-4 text-[0.85rem] leading-relaxed text-zinc-500">
               By implementing a technology that helps clarify ideas visually through LLM image generation.
             </p>
           </div>
