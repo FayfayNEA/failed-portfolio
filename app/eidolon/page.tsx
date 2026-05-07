@@ -147,9 +147,8 @@ export default async function EidolonPage() {
                     role: "Retiree",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      "Can't keep up with AI agents in a landscape that changes weekly.",
-                      "Craves stability — the digital world feels volatile and threatening.",
-                      "Prefers human-led processes and won't hand control to automated systems.",
+                      "Can't keep up with AI — the landscape changes too fast.",
+                      "Craves stability; won't hand control to automated systems.",
                     ],
                   },
                   {
@@ -159,9 +158,8 @@ export default async function EidolonPage() {
                     role: "Tech Enthusiast",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      "Worries AI will hallucinate on critical tasks like bookings or purchases.",
-                      "Wants to see how AI reaches its conclusions — the black box kills trust.",
-                      "Loves the speed AI offers but exhausted by double-checking everything it does.",
+                      "Fears hallucination on high-stakes tasks — the black box kills trust.",
+                      "Loves AI speed but exhausted by double-checking everything it does.",
                     ],
                   },
                 ])}
