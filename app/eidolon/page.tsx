@@ -523,7 +523,7 @@ export default async function EidolonPage() {
                     Mockups created with Figma
                   </p>
 
-                  <div className="space-y-16">
+                  <div className="space-y-6">
                     {[
                       {
                         img: "/eidolon/dr1.png",
@@ -556,28 +556,51 @@ export default async function EidolonPage() {
                     ].map(({ img, label, heading, body, flip }) => (
                       <div
                         key={label}
-                        className={`flex flex-col gap-8 md:flex-row md:items-center md:gap-12${flip ? " md:flex-row-reverse" : ""}`}
+                        className={[
+                          "relative overflow-hidden rounded-2xl",
+                          "border-[0.5px] border-lime-200/70 bg-gradient-to-br from-lime-500/[0.05] via-transparent to-transparent",
+                          "p-8 md:p-10",
+                          "flex flex-col gap-8 md:gap-14",
+                          flip ? "md:flex-row-reverse" : "md:flex-row",
+                          "md:items-center",
+                        ].join(" ")}
                       >
+                        {/* Watermark number */}
+                        <span
+                          aria-hidden
+                          className={[
+                            "pointer-events-none absolute top-3 select-none",
+                            "font-mono text-[6rem] font-black leading-none text-lime-400/[0.12]",
+                            flip ? "right-5" : "left-5",
+                          ].join(" ")}
+                        >
+                          {label}
+                        </span>
+
                         {/* Phone image */}
-                        <div className="mx-auto w-full max-w-[min(260px,calc(100vw-3rem))] shrink-0">
+                        <div className="relative mx-auto w-full max-w-[min(220px,calc(100vw-4rem))] shrink-0">
+                          {/* lime glow */}
+                          <div className="absolute inset-0 -z-10 translate-y-6 scale-90 rounded-[2rem] bg-lime-300/30 blur-2xl" />
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={img}
                             alt={`Reasoning for design — ${label}`}
-                            className="w-full rounded-[2rem] border-[0.5px] border-zinc-200/70 object-contain shadow-[0_18px_55px_-24px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.05]"
+                            className="relative w-full rounded-[2rem] border-[0.5px] border-lime-200/60 object-contain shadow-[0_20px_50px_-16px_rgba(0,0,0,0.18)]"
                             loading="lazy"
                           />
                         </div>
 
                         {/* Text */}
-                        <div className="min-w-0 flex-1">
-                          <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/70">
+                        <div className="relative min-w-0 flex-1">
+                          {/* accent rule */}
+                          <div className="mb-4 h-px w-8 rounded-full bg-lime-400/70" />
+                          <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-lime-600/80">
                             {label}
                           </p>
-                          <h3 className="mb-4 text-[1.15rem] font-medium leading-snug tracking-[-0.02em] text-zinc-950">
+                          <h3 className="mb-5 text-[1.15rem] font-medium leading-snug tracking-[-0.025em] text-zinc-950">
                             {heading}
                           </h3>
-                          <p className="text-[0.85rem] leading-[1.75] text-zinc-500">{body}</p>
+                          <p className="text-[0.84rem] leading-[1.8] text-zinc-500">{body}</p>
                         </div>
                       </div>
                     ))}
