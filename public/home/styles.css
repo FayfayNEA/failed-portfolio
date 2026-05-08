@@ -77,8 +77,8 @@ body {
 /* Lower-right on the map (design space); scales with the scene */
 .bird-catcher {
   position: absolute;
-  right: 1.25rem;
-  bottom: calc(5.5rem - 30px);
+  left: 110px;
+  top: 171px;
   z-index: 8;
   padding: 0;
   margin: 0;
@@ -121,18 +121,18 @@ body {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: max(0.45rem, env(safe-area-inset-bottom, 0px));
+  bottom: max(2.5rem, env(safe-area-inset-bottom, 0px));
   z-index: 28;
-  width: min(22rem, calc(100% - 1.25rem));
+  width: min(56rem, calc(100% - 1.25rem));
   pointer-events: none;
   margin: 0;
   padding: 0 0.5rem;
   text-align: center;
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: clamp(11px, 1.55vmin, 13px);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: 1.4;
+  font-size: clamp(12px, 1.7vmin, 14px);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 1.45;
   color: #0a0a0a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -236,7 +236,56 @@ body {
   pointer-events: auto;
   cursor: default;
   opacity: 5;
-  clip-path: inset(2px); 
+  clip-path: inset(2px);
+}
+
+/* Waterfall animation overlay — same position as spatial-bg, clipped to water strip */
+.spatial-bg-water {
+  /* River + waterfall mask (desktop). Tuned to match the marked region. */
+  clip-path: polygon(
+    50% 40%,
+    44% 37%,
+    55% 37%,
+    63% 39%,
+    69% 38%,
+    73% 40%,
+    76% 39%,
+    78% 41%,
+    80% 30%,
+    83% 18%,
+    95% 8%,
+    90% 7%,
+    92% 10%,
+    88% 25%,
+    85% 45%,
+    70% 45%,
+    86% 45%,
+    80% 30%,
+    79% 45%,
+    76% 45%,
+    71% 45%,
+    64% 50%,
+    58% 55%,
+    60% 57%,
+    50% 45%
+  );
+  filter: url(#water-ripple);
+  z-index: 1;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* On mobile the whole background is the waterfall */
+.spatial-bg--mobile.spatial-bg-water {
+  clip-path: inset(2px);
+}
+
+.water-filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* `waterfall.png` on narrow viewports — smaller than desktop bg (~0.3 less scale) */
@@ -274,26 +323,106 @@ body {
   user-select: none;
 }
 
+/* Sword cursor applied to <html> when monster is attackable — overrides all child cursors */
+html.monster-sword-cursor,
+html.monster-sword-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cline x1='4' y1='4' x2='25' y2='25' stroke='%23d0d0d0' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='14' y1='10' x2='10' y2='14' stroke='%23d4af37' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='25' y1='25' x2='30' y2='30' stroke='%238b4513' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E") 4 4, crosshair !important;
+}
+
+/* ── Nether portal monster ───────────────────────────────────────────────── */
+.portal-monster {
+  position: absolute;
+  z-index: 100003;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+  transform-origin: bottom center;
+  will-change: transform, opacity, filter;
+}
+
+/* cursor set via JS on portal anchor when attackable */
+
+.portal-monster.is-dismissed {
+  animation: portalMonsterDismiss 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  pointer-events: none;
+  transform-origin: bottom center;
+}
+
+@keyframes portalMonsterDismiss {
+  0%   { opacity: 1;   transform: translateY(0px)  scale(1)    rotate(0deg);  filter: brightness(3); }
+  10%  { opacity: 1;   transform: translateY(0px)  scale(1.04) rotate(8deg);  filter: brightness(1); }
+  55%  { opacity: 1;   transform: translateY(10px) scale(0.97) rotate(70deg); filter: brightness(1); }
+  80%  { opacity: 0.7; transform: translateY(16px) scale(0.93) rotate(88deg); filter: brightness(1); }
+  100% { opacity: 0;   transform: translateY(20px) scale(0.90) rotate(90deg); filter: brightness(1); }
+}
+
+.portal-monster.is-emerging {
+  animation: portalMonsterEmerge 780ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes portalMonsterEmerge {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.92);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+}
+
+.portal-monster-bubble {
+  position: absolute;
+  z-index: 100004;
+  pointer-events: none;
+  opacity: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #ffffff;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: clamp(0.55rem, 0.95vmin, 0.7rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  padding: 0.1rem 0.15rem;
+  border-radius: 0;
+  text-shadow:
+    0 0 1px rgba(0,0,0,0.9),
+    0 0 8px rgba(0,0,0,0.75),
+    0 1px 3px rgba(0,0,0,0.95);
+}
+
+.portal-monster-bubble.is-emerging {
+  animation: portalMonsterEmerge 780ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
 .bird-catch-bubble {
   position: absolute;
   left: 50%;
   bottom: calc(100% + 14px);
   transform: translateX(-50%);
-  /* Prefer wider (flatter) bubbles, but never overflow viewport */
   min-width: min(18rem, calc(100vw - 1.5rem));
   max-width: min(40rem, calc(100vw - 1.5rem));
-  padding: 0.35rem 0.95rem;
-  background: #ffffff;
-  color: #0a0a0a;
-  border: 2px solid #0a0a0a;
-  border-radius: 0.65rem;
+  padding: 0.1rem 0.15rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #ffffff;
   font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: clamp(0.62rem, 1.5vmin, 0.78rem);
+  font-size: clamp(0.55rem, 0.95vmin, 0.7rem);
   font-weight: 600;
   line-height: 1.2;
   text-align: center;
-  letter-spacing: 0.03em;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 0 1px rgba(0,0,0,0.9),
+    0 0 8px rgba(0,0,0,0.75),
+    0 1px 3px rgba(0,0,0,0.95);
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
@@ -303,20 +432,6 @@ body {
 .bird-catch-bubble.is-visible {
   opacity: 1;
   visibility: visible;
-}
-
-/* little tail */
-.bird-catch-bubble::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -7px;
-  transform: translateX(-50%) rotate(45deg);
-  width: 10px;
-  height: 10px;
-  background: #ffffff;
-  border-right: 2px solid #0a0a0a;
-  border-bottom: 2px solid #0a0a0a;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -482,6 +597,133 @@ body {
   animation-play-state: paused;
 }
 
+/* ── Tablet projector beams (hover) ───────────────────────────────────────── */
+.tablet-beams {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100003;
+  overflow: visible;
+}
+
+.tablet-beam {
+  position: absolute;
+  width: 280px;
+  height: 220px;
+  transform-origin: 0% 50%;
+  opacity: 0;
+  filter: blur(0.25px);
+  will-change: transform, opacity, filter;
+  animation: tabletBeamPulse 1.65s ease-in-out infinite;
+  /* soft cone */
+  clip-path: polygon(0 50%, 100% 10%, 100% 90%);
+  background: radial-gradient(
+    circle at 18% 50%,
+    rgba(120, 255, 160, 0.34) 0%,
+    rgba(120, 255, 160, 0.2) 28%,
+    rgba(120, 255, 160, 0.0) 72%
+  );
+  mix-blend-mode: screen;
+}
+
+.tablet-beam.beam-2 {
+  animation-delay: -0.55s;
+  opacity: 0.22;
+  filter: blur(0.6px);
+}
+
+.tablet-beam.beam-3 {
+  animation-delay: -1.05s;
+  opacity: 0.16;
+  filter: blur(0.9px);
+}
+
+@keyframes tabletBeamPulse {
+  0%,
+  100% {
+    opacity: 0.14;
+    transform: scaleX(0.92) scaleY(0.95);
+  }
+  50% {
+    opacity: 0.46;
+    transform: scaleX(1.02) scaleY(1.05);
+  }
+}
+
+/* Vertical donate beam + text above the green tablet */
+.tablet-donate-beam {
+  position: absolute;
+  /* left/bottom set by JS to align with green screen area */
+  transform: translateX(-50%);
+  width: 32px;
+  height: 70px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(80,180,0,0.45) 0%, rgba(80,180,0,0.0) 100%);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%);
+  mix-blend-mode: screen;
+  animation: donateBeamPulse 1.5s ease-in-out infinite;
+  z-index: 100003;
+}
+
+.tablet-donate-text {
+  position: absolute;
+  /* left/bottom set by JS to align with green screen area */
+  transform: translateX(-50%);
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 100004;
+  animation: donateTextPulse 1.5s ease-in-out infinite;
+
+  /* Green liquid glass */
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: rgba(55, 120, 0, 0.97);
+  backdrop-filter: blur(18px) saturate(200%);
+  -webkit-backdrop-filter: blur(18px) saturate(200%);
+  border: 1.5px solid rgba(120, 220, 30, 0.9);
+  box-shadow:
+    0 2px 14px rgba(80, 180, 0, 0.55),
+    0 0 32px rgba(80, 180, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.tablet-donate-text:hover {
+  background: rgba(65, 140, 0, 1);
+  box-shadow:
+    0 4px 20px rgba(80, 180, 0, 0.7),
+    0 0 44px rgba(80, 180, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tablet-donate-text:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+@keyframes donateBeamPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+@keyframes donateTextPulse {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 5px #00b43c, 0 0 14px #00b43c, 0 0 28px #008c2e; }
+  50%       { opacity: 1;   text-shadow: 0 0 8px #00b43c, 0 0 22px #00b43c, 0 0 44px #008c2e, 0 0 70px #006622; }
+}
+
 /* Music notes floating upward above the radio */
 .radio-music-note {
   position: absolute;
@@ -525,7 +767,7 @@ body {
   position: absolute;
   width: 100%;
   height: auto;
-  z-index: 2;
+  z-index: 3;
   cursor: pointer;
   transition: transform 0.3s ease, filter 0.3s ease;
   user-select: none;
@@ -857,6 +1099,16 @@ body {
   }
 }
 
+@keyframes bill-fall {
+  0%   { transform: translateY(0)     translateX(0)             rotate(0deg);              opacity: 1; }
+  65%  { opacity: 1; }
+  100% { transform: translateY(var(--fallY, 100px)) translateX(var(--wobble)) rotate(var(--rotate,15deg)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes bill-fall { 100% { opacity: 0; } }
+}
+
 /* Persistent label under each asset — hidden on hover-capable devices, shown on touch */
 .asset-label {
   position: absolute;
@@ -883,3 +1135,52 @@ body {
     display: block;
   }
 }
+
+/* ── Collage nav tags — mirror the top nav bar as tactile scene objects ── */
+.collage-nav-tag {
+  position: absolute;
+  z-index: 25;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  background: rgba(255, 255, 255, 0.82);
+  border: 0.5px solid rgba(0, 0, 0, 0.13);
+  padding: 4px 9px;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.10),
+    0 0.5px 0 rgba(255, 255, 255, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  backdrop-filter: blur(6px) saturate(130%);
+  -webkit-backdrop-filter: blur(6px) saturate(130%);
+  transition: background 0.14s ease, box-shadow 0.14s ease, transform 0.14s ease;
+}
+
+.collage-nav-tag:hover {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.13),
+    0 0.5px 0 rgba(255, 255, 255, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: rotate(var(--nav-rotate, 0deg)) scale(1.07);
+}
+
+.collage-nav-tag:focus-visible {
+  outline: 2px solid #0a0a0a;
+  outline-offset: 3px;
+}
+
+@media (hover: none) {
+  .collage-nav-tag {
+    font-size: 12px;
+    padding: 6px 13px;
+  }
+}
+
+

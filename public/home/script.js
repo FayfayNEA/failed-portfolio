@@ -36,7 +36,7 @@ const renderedPersistentLabels = new Set();
 
 const portfolioAssets = [
   { name: "Jaguar", filename: "panther reflection.png", link: "about", hoverLabel: "About" },
-  { name: "Rocks_Foliage", filename: "rock with leaves.png", link: "jahn", hoverLabel: "Jahn" },
+  { name: "Rocks_Foliage", filename: "glowing tablet.png", noLink: true },
   {
     name: "Concrete_Block",
     filename: "colored block.png",
@@ -56,21 +56,17 @@ const portfolioAssets = [
     hoverLabel: "Work"
   },
   { name: "Radio", filename: "radio color.png", link: "contact", hoverLabel: "Contact" },
-  { name: "Orb", filename: "orb.png", link: "buddy", hoverLabel: "Buddy" },
-  { name: "Screen_Tablet", filename: "glowing tablet.png", link: "eidolon", hoverLabel: "Eidolon" },
-  {
-    name: "Nether_Portal",
-    filename: "nether portal.png",
-    link: "nightterrors",
-    hoverLabel: "Nightterrors"
-  },
-  { name: "Money_Tree", filename: "colored money tree.png", link: "etrade", hoverLabel: "E-Trade" }
+  { name: "Orb", filename: "orb.png", cursorFollow: true },
+  { name: "Screen_Tablet", filename: "glowing tablet.png", noLink: true },
+  { name: "Nether_Portal", filename: "nether portal.png", noLink: true },
+  { name: "Money_Tree", filename: "colored money tree.png", noLink: true }
 ];
 
 // Jaguar, Rocks_Foliage, Concrete_Block, Large_Tree, Computer2, Radio, Orb, Screen_Tablet, Nether_Portal, Money_Tree
 const sceneLayout = [
   { top: 290, left: 537, width: 132 },
-  { top: 389, left: 666, width: 80 },
+  // Rocks_Foliage (now the green tablet): align scale with Screen_Tablet + nudge down.
+  { top: 409, left: 666, width: 180 },
   { top: 256, left: 653, width: 109 },
   { top: 126, left: 648, width: 230 },
   { top: 265, left: 718, width: 70 },
@@ -107,15 +103,8 @@ function shouldDeferAmbientFx(widthPx) {
   return isMobileViewportWidth(w);
 }
 
-function applyDonatePosition(widthPx) {
-  const w =
-    Number.isFinite(widthPx) && widthPx > 0
-      ? widthPx
-      : viewport?.clientWidth || window.innerWidth;
-  const m = isMobileViewportWidth(w);
-  donateBtn.style.left = `${DONATE_SCENE_LEFT_PX + (m ? MOBILE_DONATE_LEFT_NUDGE_PX : 0)}px`;
-  donateBtn.style.top = `${DONATE_SCENE_TOP_PX + (m ? MOBILE_DONATE_TOP_NUDGE_PX : 0)}px`;
-  donateBtn.style.bottom = "auto";
+function applyDonatePosition(_widthPx) {
+  // donate button removed; no-op kept for call-site compatibility
 }
 
 function effectiveSceneLayoutForWidth(widthPx) {
@@ -216,11 +205,9 @@ const TUCAN_GLOBAL_COUNT_KEY = "tucan-global-catches";
 const BIRD_FLIGHT_DURATION_SEC = 8;
 const BIRD_FLIGHT_END_MS = Math.round(BIRD_FLIGHT_DURATION_SEC * 1000) + 180;
 
-function globalTucanCountUrl(action) {
-  const ns = encodeURIComponent(TUCAN_GLOBAL_COUNT_NS);
-  const key = encodeURIComponent(TUCAN_GLOBAL_COUNT_KEY);
-  return `https://api.countapi.xyz/${action}/${ns}/${key}`;
-}
+// Counter backed by /api/tucan (Next.js route → Upstash Redis)
+// Falls back to localStorage display if the API is unavailable.
+const TUCAN_API = "/api/tucan";
 
 function parseCountApiValue(data) {
   const v = data?.value;
@@ -230,8 +217,7 @@ function parseCountApiValue(data) {
 
 async function fetchGlobalTucanCount() {
   try {
-    const r = await fetch(globalTucanCountUrl("get"), { cache: "no-store" });
-    if (r.status === 404) return 0;
+    const r = await fetch(TUCAN_API, { cache: "no-store" });
     if (!r.ok) return null;
     const j = await r.json();
     return parseCountApiValue(j);
@@ -242,7 +228,7 @@ async function fetchGlobalTucanCount() {
 
 async function hitGlobalTucanCount() {
   try {
-    const r = await fetch(globalTucanCountUrl("hit"), { cache: "no-store" });
+    const r = await fetch(TUCAN_API, { method: "POST", cache: "no-store" });
     if (!r.ok) return null;
     const j = await r.json();
     return parseCountApiValue(j);
@@ -412,11 +398,13 @@ function startBirdFlightFromBrandingTree() {
   hideBirdSpeechBubble();
   birdCatchConsumedThisFlight = false;
   birdFlightActive = true;
+  // Nudge the whole flight path down slightly (visual alignment).
+  const yNudge = 80;
   const startX = tr.left + tr.width * 0.78;
-  const startY = tr.top + tr.height * 0.2;
+  const startY = tr.top + tr.height * 0.2 + yNudge;
   /* Fly left off-screen (opposite of the old rightward path) */
   const endX = -220;
-  const endY = Math.max(-100, tr.top - 140);
+  const endY = Math.max(-100, tr.top - 140 + yNudge);
 
   if (birdFrameIntervalId !== null) {
     window.clearInterval(birdFrameIntervalId);
@@ -536,6 +524,29 @@ function startTooltipTypewriter(text, pos) {
   }, 52);
 }
 
+/** Type `text` into `el`, replacing its content. Returns a cancel fn. */
+function typeInto(el, text, msPerChar = 52) {
+  // Clear any previous typewriter on this element
+  if (el._typewriterTimer) clearInterval(el._typewriterTimer);
+  el.textContent = "";
+  const caret = document.createElement("span");
+  caret.className = "tooltip-type-caret";
+  caret.textContent = "|";
+  caret.setAttribute("aria-hidden", "true");
+  el.appendChild(caret);
+  let idx = 0;
+  el._typewriterTimer = window.setInterval(() => {
+    idx += 1;
+    el.textContent = text.slice(0, idx);
+    el.appendChild(caret);
+    if (idx >= text.length) {
+      clearInterval(el._typewriterTimer);
+      el._typewriterTimer = null;
+      caret.remove();
+    }
+  }, msPerChar);
+}
+
 function enableBackgroundHoverTooltip() {
   if (!viewport) return;
 
@@ -638,6 +649,27 @@ background.className = "spatial-bg";
 background.alt = "";
 scene.appendChild(background);
 
+// Water ripple overlay — duplicate of background, clipped to waterfall strip
+const waterOverlay = document.createElement("img");
+waterOverlay.className = "spatial-bg spatial-bg-water";
+waterOverlay.alt = "";
+waterOverlay.setAttribute("aria-hidden", "true");
+waterOverlay.draggable = false;
+scene.appendChild(waterOverlay);
+
+// Animate SVG turbulence for the water ripple effect
+const waterTurbulence = document.getElementById("water-turbulence");
+if (waterTurbulence) {
+  let waterPhase = 0;
+  (function tickWater() {
+    waterPhase += 0.007;
+    const bfX = (0.012 + Math.sin(waterPhase * 0.55) * 0.004).toFixed(5);
+    const bfY = (0.038 + Math.sin(waterPhase)        * 0.011).toFixed(5);
+    waterTurbulence.setAttribute("baseFrequency", `${bfX} ${bfY}`);
+    requestAnimationFrame(tickWater);
+  })();
+}
+
 let currentBackgroundVariant = null;
 
 function syncBackgroundImageToViewport(widthPx) {
@@ -649,8 +681,11 @@ function syncBackgroundImageToViewport(widthPx) {
   const next = mobile ? "mobile" : "desktop";
   if (next === currentBackgroundVariant) return;
   currentBackgroundVariant = next;
-  background.src = assetUrl(mobile ? BACKGROUND_MOBILE_FILE : BACKGROUND_DESKTOP_FILE);
+  const src = assetUrl(mobile ? BACKGROUND_MOBILE_FILE : BACKGROUND_DESKTOP_FILE);
+  background.src = src;
   background.classList.toggle("spatial-bg--mobile", mobile);
+  waterOverlay.src = src;
+  waterOverlay.classList.toggle("spatial-bg--mobile", mobile);
 }
 
 function onBackgroundImageLoad() {
@@ -671,30 +706,8 @@ if (background.complete && background.naturalWidth > 0) {
 
 const NETHER_SCENE_INDEX = portfolioAssets.findIndex((a) => a.name === "Nether_Portal");
 
-const donateBtn = document.createElement("a");
-donateBtn.id = "donate-btn";
-donateBtn.className = "donate-btn";
-donateBtn.href = "https://www.junglekeepers.org/cameras/remote-lake";
-donateBtn.target = "_top";
-donateBtn.textContent = "DONATE";
-applyDonatePosition(viewport.clientWidth || window.innerWidth);
-scene.appendChild(donateBtn);
 
-const birdCatchPanel = document.createElement("div");
-birdCatchPanel.id = "bird-catcher";
-birdCatchPanel.className = "bird-catcher";
-birdCatchPanel.setAttribute("aria-live", "polite");
-birdCatchPanel.setAttribute("aria-label", "Catch the bird — total catches worldwide");
-const birdCatchLine = document.createElement("p");
-birdCatchLine.className = "bird-catcher__line";
-birdCatchLine.appendChild(document.createTextNode("how many people caught the tucan?: "));
-const birdCatchCountEl = document.createElement("span");
-birdCatchCountEl.id = "bird-catch-count";
-birdCatchCountEl.textContent = "…";
-birdCatchLine.appendChild(birdCatchCountEl);
-void refreshGlobalTucanCountDisplay();
-birdCatchPanel.appendChild(birdCatchLine);
-scene.appendChild(birdCatchPanel);
+
 
 /** Ambient dust is pretty on desktop, but it’s a lot of animated DOM on mobile CPUs. */
 let dustLayer = null;
@@ -722,6 +735,28 @@ leavesRoot.className = "ambient-leaves-root";
 
 /** Populated in buildAmbientLeaves — repositioned on mobile in applySceneLayoutForViewportWidth */
 const leafZoneMeta = [];
+
+function addEidolonGreenTabletScreen(anchor) {
+  // Reuse the same green screen overlay used by the tablet asset.
+  const img = document.createElement("img");
+  img.src = assetUrl(SCREEN_TABLET_OVERLAY_FILENAME);
+  img.alt = "";
+  img.setAttribute("aria-hidden", "true");
+  img.draggable = false;
+  img.style.cssText =
+    "position:absolute;" +
+    "pointer-events:none;" +
+    "left:8%;" +
+    "top:12%;" +
+    "width:68%;" +
+    "height:auto;" +
+    "opacity:0.72;" +
+    "mix-blend-mode:screen;" +
+    "filter:saturate(1.15) brightness(1.1);" +
+    "transform:rotate(-6deg);" +
+    "z-index:9;";
+  anchor.appendChild(img);
+}
 
 function drawImageCover(context, image, canvasWidth, canvasHeight) {
   const imgW = image.naturalWidth || image.width;
@@ -948,6 +983,8 @@ function addRadioMusicNotes(anchor) {
 
 const sceneAssetAnchors = [];
 let netherPortalOverlayEl = null;
+let backTabletAnchorEl = null;
+let netherPortalAnchorEl = null;
 
 function syncNetherPortalOverlayPosition(widthPx) {
   if (!netherPortalOverlayEl) return;
@@ -960,12 +997,17 @@ function syncNetherPortalOverlayPosition(widthPx) {
   netherPortalOverlayEl.style.left = `${m ? NETHER_PORTAL_OVERLAY_LEFT_MOBILE_PX : NETHER_PORTAL_OVERLAY_LEFT_DESKTOP_PX}px`;
 }
 
+let orbAnchorEl = null;
+
 portfolioAssets.forEach((asset, index) => {
-  const anchor = document.createElement("a");
+  const isLinked = !asset.noLink && !asset.cursorFollow;
+  const anchor = isLinked ? document.createElement("a") : document.createElement("div");
   anchor.className = "asset-link";
-  anchor.href = asset.href ?? `${SITE_PATH_PREFIX}/${asset.link}`;
-  anchor.target = "_top";
-  anchor.setAttribute("aria-label", `${asset.name} — ${asset.hoverLabel ?? asset.link}`);
+  if (isLinked) {
+    anchor.href = asset.href ?? `${SITE_PATH_PREFIX}/${asset.link}`;
+    anchor.target = "_top";
+    anchor.setAttribute("aria-label", `${asset.name} — ${asset.hoverLabel ?? asset.link}`);
+  }
   anchor.style.zIndex =
     asset.name === "Orb"
       ? "35"
@@ -976,6 +1018,12 @@ portfolioAssets.forEach((asset, index) => {
   applyCoordinates(anchor, sceneLayout[index], viewport.clientWidth || window.innerWidth);
   if (asset.name === "Large_Tree") anchor.id = "branding-tree-anchor";
   if (asset.name === "Radio") anchor.classList.add("asset-link--radio-tilt");
+  if (asset.name === "Screen_Tablet") {
+    // Keep the slot so indices/layout stay stable, but hide the front-facing tablet.
+    anchor.style.display = "none";
+    anchor.style.pointerEvents = "none";
+  }
+  if (asset.name === "Rocks_Foliage") backTabletAnchorEl = anchor;
 
   if (topOnlySwayAssets.has(asset.name)) {
     anchor.classList.add("has-top-only-sway");
@@ -992,6 +1040,7 @@ portfolioAssets.forEach((asset, index) => {
     topImage.style.animationDelay = `-${(Math.random() * 5).toFixed(2)}s`;
     anchor.appendChild(baseImage);
     anchor.appendChild(topImage);
+
   } else {
     const image = document.createElement("img");
     image.className = "asset-image";
@@ -1016,6 +1065,7 @@ portfolioAssets.forEach((asset, index) => {
 
     if (asset.name === "Nether_Portal") {
       anchor.id = "nether-portal-anchor";
+      netherPortalAnchorEl = anchor;
       anchor.style.opacity = "0.9";
       netherPortalOverlayEl = attachStaticPulseOverlay(
         anchor,
@@ -1026,68 +1076,681 @@ portfolioAssets.forEach((asset, index) => {
       );
       syncNetherPortalOverlayPosition(viewport.clientWidth || window.innerWidth);
     } else if (asset.name === "Screen_Tablet") {
+      if (anchor.style.display === "none") {
+        // hidden slot (keep indices stable)
+      } else {
       attachStaticPulseOverlay(anchor, SCREEN_TABLET_OVERLAY_FILENAME, -8, 2, .3);
+      }
     }
   }
 
   if (asset.name === "Radio") addRadioMusicNotes(anchor);
-  if (asset.name === "Orb") {
-    const pause = () => anchor.classList.add("orb-motion-paused");
-    const resume = () => anchor.classList.remove("orb-motion-paused");
-    anchor.addEventListener("mouseenter", pause);
-    anchor.addEventListener("mouseleave", resume);
-    anchor.addEventListener("focus", pause);
-    anchor.addEventListener("blur", resume);
-  }
+  if (asset.name === "Orb") orbAnchorEl = anchor;
 
-  const hoverTitle = asset.hoverLabel ?? asset.link;
-  anchor.addEventListener("mouseenter", (event) => startTooltipTypewriterOwned("asset", hoverTitle, event));
-  anchor.addEventListener("mousemove", (event) => {
-    if (tooltip.classList.contains("visible")) setTooltipPosition(event);
-  });
-  anchor.addEventListener("mouseleave", dismissTooltip);
-  anchor.addEventListener("focus", () => {
-    const rect = anchor.getBoundingClientRect();
-    startTooltipTypewriterOwned("asset", hoverTitle, { clientX: rect.left + rect.width / 2, clientY: rect.top });
-  });
-  anchor.addEventListener("blur", dismissTooltip);
+  const hoverTitle = asset.hoverLabel ?? asset.link ?? null;
+  if (hoverTitle) {
+    anchor.addEventListener("mouseenter", (event) => startTooltipTypewriterOwned("asset", hoverTitle, event));
+    anchor.addEventListener("mousemove", (event) => {
+      if (tooltip.classList.contains("visible")) setTooltipPosition(event);
+    });
+    anchor.addEventListener("mouseleave", dismissTooltip);
+    anchor.addEventListener("focus", () => {
+      const rect = anchor.getBoundingClientRect();
+      startTooltipTypewriterOwned("asset", hoverTitle, { clientX: rect.left + rect.width / 2, clientY: rect.top });
+    });
+    anchor.addEventListener("blur", dismissTooltip);
 
-  const normalizedLabel = String(hoverTitle ?? "").trim().toLowerCase();
-  const shouldSkipPersistentLabel =
-    normalizedLabel === "work" && renderedPersistentLabels.has(normalizedLabel);
+    const normalizedLabel = String(hoverTitle).trim().toLowerCase();
+    const shouldSkipPersistentLabel =
+      normalizedLabel === "work" && renderedPersistentLabels.has(normalizedLabel);
 
-  const labelEl = document.createElement("span");
-  labelEl.className = "asset-label";
-  labelEl.textContent = hoverTitle;
-  labelEl.setAttribute("aria-hidden", "true");
-  // Nudge the generic "Work" label so it doesn't collide with the cheetah.
-  if (normalizedLabel === "work") {
-    labelEl.style.transform = "translateX(-50%) translateX(26px)";
-  }
-  if (!shouldSkipPersistentLabel) {
-    renderedPersistentLabels.add(normalizedLabel);
-    anchor.appendChild(labelEl);
-  }
+    const labelEl = document.createElement("span");
+    labelEl.className = "asset-label";
+    labelEl.textContent = hoverTitle;
+    labelEl.setAttribute("aria-hidden", "true");
+    if (normalizedLabel === "work") {
+      labelEl.style.transform = "translateX(-50%) translateX(26px)";
+    }
+    if (!shouldSkipPersistentLabel) {
+      renderedPersistentLabels.add(normalizedLabel);
+      anchor.appendChild(labelEl);
+    }
 
-  // Position label just below the image once its height is known.
-  // Anchor height collapses to 0 (all images are position:absolute), so
-  // top:100% would land at the anchor's top — we must set top explicitly.
-  const firstImg = anchor.querySelector("img");
-  if (firstImg) {
-    const placeLabel = () => {
-      const h = firstImg.offsetHeight || firstImg.getBoundingClientRect().height;
-      if (h > 0) labelEl.style.top = `${h + 4}px`;
-    };
-    if (firstImg.complete && firstImg.naturalHeight > 0) {
-      requestAnimationFrame(placeLabel);
-    } else {
-      firstImg.addEventListener("load", placeLabel, { once: true });
+    // Position label just below the image once its height is known.
+    const firstImg = anchor.querySelector("img");
+    if (firstImg) {
+      const placeLabel = () => {
+        const h = firstImg.offsetHeight || firstImg.getBoundingClientRect().height;
+        if (h > 0) labelEl.style.top = `${h + 4}px`;
+      };
+      if (firstImg.complete && firstImg.naturalHeight > 0) {
+        requestAnimationFrame(placeLabel);
+      } else {
+        firstImg.addEventListener("load", placeLabel, { once: true });
+      }
     }
   }
 
   scene.appendChild(anchor);
   sceneAssetAnchors.push(anchor);
 });
+
+// ── Nether portal: monster emerges on hover ─────────────────────────────────
+(function setupNetherPortalMonster() {
+  if (!netherPortalAnchorEl) return;
+
+  const SWORD_CURSOR = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cline x1='4' y1='4' x2='25' y2='25' stroke='%23d0d0d0' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='14' y1='10' x2='10' y2='14' stroke='%23d4af37' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='25' y1='25' x2='30' y2='30' stroke='%238b4513' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E\") 4 4, crosshair";
+
+  const monster = document.createElement("img");
+  monster.className = "portal-monster";
+  monster.src = "/monsterman.png";
+  monster.alt = "";
+  monster.setAttribute("aria-hidden", "true");
+  monster.draggable = false;
+  monster.style.pointerEvents = "none";
+
+  const bubble = document.createElement("div");
+  bubble.className = "portal-monster-bubble";
+
+  scene.appendChild(monster);
+  scene.appendChild(bubble);
+
+  let cooldown = false;
+  let attackable = false;
+  let textPhase2Timer = null;
+
+  const positionMonster = () => {
+    const pr = netherPortalAnchorEl.getBoundingClientRect();
+    const sr = scene.getBoundingClientRect();
+    const x = pr.left - sr.left + pr.width * 0.5;
+    const w = Math.max(30, pr.width * 0.45);
+    const estimatedH = w * 1.5;
+    const y = pr.top - sr.top + pr.height * 0.5 - estimatedH;
+    monster.style.left = `${x - w / 2 - 12}px`;
+    monster.style.top = `${y - 20}px`;
+    monster.style.width = `${w}px`;
+    monster.style.height = "auto";
+    const bw = 220;
+    bubble.style.left = `${x - bw / 2}px`;
+    bubble.style.top = `${y - 36}px`;
+    bubble.style.width = `${bw}px`;
+  };
+
+  // Viewport-space hit test — getBoundingClientRect is transform-aware, matches clientX/Y exactly
+  // Pad the rect so clicking near the edge/center all register
+  const isOverMonster = (clientX, clientY) => {
+    const mr = monster.getBoundingClientRect();
+    if (mr.width < 1) return false;
+    const pad = mr.width * 0.25; // 25% padding on all sides
+    return clientX >= mr.left - pad && clientX <= mr.right  + pad &&
+           clientY >= mr.top  - pad && clientY <= mr.bottom + pad;
+  };
+
+  const dismiss = () => {
+    attackable = false;
+    if (textPhase2Timer) { clearTimeout(textPhase2Timer); textPhase2Timer = null; }
+    document.documentElement.classList.remove("monster-sword-cursor");
+    bubble.style.opacity = "0";
+    bubble.classList.remove("is-emerging");
+    // Swap to the dead image as soon as the hit registers
+    monster.src = "/monsterman2.png";
+    // Strip ALL classes + inline opacity first so is-dismissed starts fresh
+    monster.classList.remove("is-emerging", "is-attackable", "is-dismissed");
+    monster.style.opacity = ""; // let animation control opacity
+    void monster.offsetWidth;   // force reflow — animation restarts from keyframe 0
+    monster.classList.add("is-dismissed");
+    window.setTimeout(() => {
+      monster.classList.remove("is-dismissed");
+      monster.style.opacity = "0";
+      // Reset back to the live image for the next emergence
+      monster.src = "/monsterman.png";
+      bubble.style.opacity = "";
+      cooldown = false;
+    }, 920);
+  };
+
+  // Capture phase fires before scene drag handlers — safe to stopPropagation
+  document.addEventListener("pointerdown", (e) => {
+    if (!attackable) return;
+    if (!isOverMonster(e.clientX, e.clientY)) return;
+    e.stopPropagation();
+    dismiss();
+  }, { capture: true });
+
+  // Sword cursor: show whenever hovering over portal OR monster area
+  const setSwordCursor = (e) => {
+    const overPortal = netherPortalAnchorEl.contains(e.target) ||
+                       netherPortalAnchorEl === e.target;
+    const overMonster = attackable && isOverMonster(e.clientX, e.clientY);
+    document.documentElement.classList.toggle("monster-sword-cursor", overPortal || overMonster);
+  };
+  document.addEventListener("pointermove", setSwordCursor, { capture: true });
+  netherPortalAnchorEl.addEventListener("pointerleave", () => {
+    if (!attackable) document.documentElement.classList.remove("monster-sword-cursor");
+  });
+
+  const emerge = () => {
+    if (cooldown || attackable) return;
+    cooldown = true;
+    positionMonster();
+    monster.classList.remove("is-emerging", "is-dismissed", "is-attackable");
+    bubble.classList.remove("is-emerging");
+    void monster.offsetWidth;
+    monster.classList.add("is-emerging");
+    bubble.classList.add("is-emerging");
+
+    // Two-phase typewriter text
+    const msg1 = "Quick! He is going to attack!";
+    const msg2 = "Attack him back!";
+    typeInto(bubble, msg1, 48);
+    textPhase2Timer = window.setTimeout(() => {
+      typeInto(bubble, msg2, 48);
+      textPhase2Timer = null;
+    }, msg1.length * 48 + 2000);
+
+    window.setTimeout(() => {
+      monster.style.opacity = "1";
+      monster.classList.add("is-attackable");
+      attackable = true;
+      cooldown = false;
+    }, 820);
+  };
+
+  netherPortalAnchorEl.addEventListener("pointerenter", (e) => {
+    if (e.pointerType === "touch") return;
+    emerge();
+  });
+  netherPortalAnchorEl.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "touch") return;
+    emerge();
+  });
+})();
+
+// ── Back tablet: hover projector beams ───────────────────────────────────────
+(function setupBackTabletBeams() {
+  if (!backTabletAnchorEl) return;
+
+  // Make the tablet open the donate page on click.
+  backTabletAnchorEl.style.cursor = "pointer";
+  backTabletAnchorEl.style.zIndex = "100002";
+  backTabletAnchorEl.style.pointerEvents = "auto";
+  backTabletAnchorEl.addEventListener("click", () => {
+    window.open("https://www.junglekeepers.org/donate", "_blank", "noopener,noreferrer");
+  });
+
+  let beamsEl = null;
+  let donateBeamEl = null;
+  let donateTextEl = null;
+
+  const mount = () => {
+    if (beamsEl) return;
+    const img =
+      backTabletAnchorEl.querySelector("img.asset-image-base") ||
+      backTabletAnchorEl.querySelector("img.asset-image") ||
+      backTabletAnchorEl.querySelector("img");
+    if (!img) return;
+
+    const r = img.getBoundingClientRect();
+    if (r.width < 2 || r.height < 2) return;
+
+    beamsEl = document.createElement("div");
+    beamsEl.className = "tablet-beams";
+    beamsEl.setAttribute("aria-hidden", "true");
+    beamsEl.style.left = "0px";
+    beamsEl.style.top = "0px";
+    beamsEl.style.width = `${r.width}px`;
+    beamsEl.style.height = `${r.height}px`;
+    // z-index intentionally left to CSS (100003) so beam sits in front of tablet image
+
+    // Fraction of tablet image where the green screen sits (tune these to move the beam)
+    const BEAM_LEFT_FRAC   = 0.37; // 0 = left edge, 1 = right edge of tablet image
+    const BEAM_BOTTOM_FRAC = 0.75; // beam origin halfway up the tablet — lower half sinks into asset
+    const beamLeft   = `${(BEAM_LEFT_FRAC   * 100).toFixed(1)}%`;
+    const beamBottom = `${(BEAM_BOTTOM_FRAC * 100).toFixed(1)}%`;
+
+    // Vertical DONATE! beam projecting straight up.
+    donateBeamEl = document.createElement("div");
+    donateBeamEl.className = "tablet-donate-beam";
+    donateBeamEl.setAttribute("aria-hidden", "true");
+    donateBeamEl.style.left   = beamLeft;
+    donateBeamEl.style.bottom = beamBottom;
+    beamsEl.appendChild(donateBeamEl);
+
+    donateTextEl = document.createElement("a");
+    donateTextEl.className = "tablet-donate-text";
+    donateTextEl.style.left   = beamLeft;
+    donateTextEl.style.bottom = `calc(${beamBottom} + 52px)`;
+    donateTextEl.href = "https://www.junglekeepers.org/donate";
+    donateTextEl.target = "_blank";
+    donateTextEl.rel = "noopener noreferrer";
+    donateTextEl.textContent = "DONATE!";
+    beamsEl.appendChild(donateTextEl);
+
+    backTabletAnchorEl.style.position = "absolute";
+    backTabletAnchorEl.style.height = `${r.height}px`;
+    backTabletAnchorEl.appendChild(beamsEl);
+  };
+
+  let dismissTimer = null;
+
+  const unmount = () => {
+    if (!beamsEl) return;
+    beamsEl.remove();
+    beamsEl = null;
+    donateBeamEl = null;
+    donateTextEl = null;
+  };
+
+  const scheduleDismiss = () => {
+    clearTimeout(dismissTimer);
+    dismissTimer = setTimeout(unmount, 10000);
+  };
+
+  backTabletAnchorEl.addEventListener("pointerenter", (e) => {
+    if (e.pointerType === "touch") return;
+    mount();
+    scheduleDismiss();
+  });
+
+  backTabletAnchorEl.addEventListener("pointerleave", (e) => {
+    if (e.pointerType === "touch") return;
+    scheduleDismiss();
+  });
+
+  backTabletAnchorEl.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "touch") return;
+    mount();
+    scheduleDismiss();
+  });
+})();
+
+// ── Orb trail — follows cursor; drop/pick-up via glass circle ────────────────
+(function setupOrbCursorFollow() {
+  if (!orbAnchorEl) return;
+  orbAnchorEl.style.display = "none";
+
+  // Glass circle — visual drop-zone, no overflow clip (nodes live in scene)
+  const CIRCLE_R  = 36;
+  // Moved to where the (old) front-facing green tablet used to live.
+  const CIRCLE_CX = 630;
+  const CIRCLE_CY = 540;
+
+  const orbCircle = document.createElement("div");
+  orbCircle.setAttribute("aria-label", "Drop or pick up orb here");
+  orbCircle.style.cssText = `
+    position:absolute;
+    left:${CIRCLE_CX - CIRCLE_R}px;
+    top:${CIRCLE_CY - CIRCLE_R}px;
+    width:${CIRCLE_R * 2}px;
+    height:${CIRCLE_R * 2}px;
+    border-radius:50%;
+    z-index:22;
+    cursor:crosshair;
+    pointer-events:auto;
+    background:rgba(255,255,255,0.10);
+    backdrop-filter:blur(14px) saturate(150%);
+    -webkit-backdrop-filter:blur(14px) saturate(150%);
+    border:0.5px solid rgba(255,255,255,0.55);
+    box-shadow:0 4px 24px rgba(0,0,0,0.07),inset 0 1px 0 rgba(255,255,255,0.6);
+    transition:border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  `;
+  scene.appendChild(orbCircle);
+
+  const TRAIL = [[28,0.92],[22,0.75],[17,0.58],[13,0.42],[9,0.28],[6,0.16]];
+  const LERP  = 0.13;
+
+  // Nodes live in the scene so they can roam freely
+  const nodes = TRAIL.map(([w, opacity]) => {
+    const el = document.createElement("div");
+    el.style.cssText = `position:absolute;width:${w}px;pointer-events:none;z-index:35;opacity:${opacity};left:${CIRCLE_CX - w/2}px;top:${CIRCLE_CY - w/2}px;`;
+    const img = document.createElement("img");
+    img.src = assetUrl("orb.png");
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.style.cssText = "position:absolute;width:100%;height:auto;pointer-events:none;";
+    el.appendChild(img);
+    scene.appendChild(el);
+    return { el, w, cx: CIRCLE_CX - w/2, cy: CIRCLE_CY - w/2 };
+  });
+
+  let tx = CIRCLE_CX, ty = CIRCLE_CY;
+  let rafRunning = false;
+  let orbDropped  = false; // true = resting in circle, not following cursor
+
+  function viewportToScene(clientX, clientY) {
+    const sr = scene.getBoundingClientRect();
+    if (sr.width < 1) return null;
+    return {
+      x: (clientX - sr.left) / sr.width  * DESIGN_WIDTH,
+      y: (clientY - sr.top)  / sr.height * DESIGN_HEIGHT,
+    };
+  }
+
+  function isOverCircle(clientX, clientY) {
+    const cr = orbCircle.getBoundingClientRect();
+    if (cr.width < 1) return false;
+    const dx = clientX - (cr.left + cr.width / 2);
+    const dy = clientY - (cr.top  + cr.height / 2);
+    return Math.sqrt(dx*dx + dy*dy) <= cr.width / 2;
+  }
+
+  function setDroppedStyle(dropped) {
+    orbCircle.style.borderColor = dropped
+      ? "rgba(180,255,60,0.85)"
+      : "rgba(255,255,255,0.55)";
+    orbCircle.style.boxShadow = dropped
+      ? "0 0 28px 6px rgba(80,180,0,0.38), 0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.6)"
+      : "0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.6)";
+    orbCircle.style.background = dropped
+      ? "rgba(60,160,20,0.12)"
+      : "rgba(255,255,255,0.10)";
+  }
+
+  function orbRAF() {
+    let moving = false;
+    nodes.forEach((node, i) => {
+      const tX = i === 0 ? tx : nodes[i-1].cx + nodes[i-1].w/2;
+      const tY = i === 0 ? ty : nodes[i-1].cy + nodes[i-1].w/2;
+      const dL = tX - node.w/2, dT = tY - node.w/2;
+      node.cx += (dL - node.cx) * LERP;
+      node.cy += (dT - node.cy) * LERP;
+      node.el.style.left = `${node.cx}px`;
+      node.el.style.top  = `${node.cy}px`;
+      if (Math.abs(dL - node.cx) > 0.2 || Math.abs(dT - node.cy) > 0.2) moving = true;
+    });
+    if (moving) requestAnimationFrame(orbRAF);
+    else rafRunning = false;
+  }
+
+  function startRAF() { if (!rafRunning) { rafRunning = true; requestAnimationFrame(orbRAF); } }
+
+  // Hover glow — yellow tint on enter, reset on leave (unless dropped)
+  orbCircle.addEventListener("pointerenter", (e) => {
+    if (e.pointerType === "touch") return;
+    if (!orbDropped) {
+      orbCircle.style.borderColor = "rgba(100,200,40,0.75)";
+      orbCircle.style.boxShadow = "0 0 18px 4px rgba(80,180,0,0.28), 0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.6)";
+    }
+  });
+  orbCircle.addEventListener("pointerleave", (e) => {
+    if (e.pointerType === "touch") return;
+    setDroppedStyle(orbDropped); // restore correct state on leave
+  });
+
+  // Toggle drop state each time cursor enters the circle
+  orbCircle.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "touch") return;
+    orbDropped = !orbDropped;
+    setDroppedStyle(orbDropped);
+    if (orbDropped) {
+      // Snap target to circle centre so orb drifts home when cursor leaves
+      tx = CIRCLE_CX; ty = CIRCLE_CY;
+    }
+    startRAF();
+  });
+
+  viewport.addEventListener("pointermove", (e) => {
+    if (e.pointerType === "touch") return;
+    if (orbDropped) {
+      // While dropped: only follow cursor if it's inside the circle
+      if (isOverCircle(e.clientX, e.clientY)) {
+        const pos = viewportToScene(e.clientX, e.clientY);
+        if (pos) { tx = pos.x; ty = pos.y; }
+      }
+      // Outside circle while dropped → target stays, orb rests
+    } else {
+      // Free: follow cursor everywhere
+      const pos = viewportToScene(e.clientX, e.clientY);
+      if (pos) { tx = pos.x; ty = pos.y; }
+    }
+    startRAF();
+  });
+
+  // Snap orb back to circle centre when cursor leaves the circle while dropped
+  orbCircle.addEventListener("pointerleave", () => {
+    if (orbDropped) { tx = CIRCLE_CX; ty = CIRCLE_CY; startRAF(); }
+  });
+
+  // When cursor leaves the whole scene
+  viewport.addEventListener("pointerleave", () => {
+    if (!orbDropped) { tx = CIRCLE_CX; ty = CIRCLE_CY; startRAF(); }
+  });
+})();
+
+// ── Money tree: bitmap dollar bills rain down, settle, and pile upward ──
+(function setupMoneyTreePile() {
+  const treeIdx = portfolioAssets.findIndex((a) => a.name === "Money_Tree");
+  const treeEl  = sceneAssetAnchors[treeIdx];
+  if (!treeEl) return;
+
+  const MONEY_IMAGES = [
+    `${ASSET_PATH}money1.png`,
+    `${ASSET_PATH}money2.png`,
+    `${ASSET_PATH}money3.png`,
+    `${ASSET_PATH}money4.png`,
+    `${ASSET_PATH}money5.png`,
+  ];
+
+  const pickMoneyImage = () => MONEY_IMAGES[Math.floor(Math.random() * MONEY_IMAGES.length)];
+
+  let spawnInterval = null;
+  let pileCount     = 0;
+  let hoverStartMs  = 0;
+  let bubbleTimer   = null;
+  let bubblePhase   = 0; // 0=wow, 1=almost, 2=rich (persists across hover sessions)
+
+  // Pile container lives directly in scene so bills extend above the tree
+  const pileEl = document.createElement("div");
+  pileEl.setAttribute("aria-hidden", "true");
+  pileEl.style.cssText = "position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:48;overflow:visible;";
+  scene.appendChild(pileEl);
+
+  // Same font treatment as the tucan UI bubble.
+  const richBubble = document.createElement("div");
+  richBubble.className = "bird-catch-bubble";
+  richBubble.setAttribute("aria-hidden", "true");
+  richBubble.textContent = "Wow money..";
+  richBubble.style.maxWidth = "min(18rem, calc(100vw - 1.5rem))";
+  richBubble.style.minWidth = "min(10rem, calc(100vw - 1.5rem))";
+  richBubble.style.padding = "0.28rem 0.7rem";
+  richBubble.style.fontSize = "clamp(0.55rem, 0.95vmin, 0.7rem)";
+  treeEl.appendChild(richBubble);
+
+  function setRichBubbleVisible(visible) {
+    if (visible) {
+      richBubble.classList.add("is-visible");
+      richBubble.setAttribute("aria-hidden", "false");
+    } else {
+      richBubble.classList.remove("is-visible");
+      richBubble.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  let lastBubbleText = "";
+  function updateRichBubble() {
+    const elapsed = Date.now() - hoverStartMs;
+    const timePhase = elapsed >= 14000 ? 2 : elapsed >= 7000 ? 1 : 0;
+    const phase = Math.max(bubblePhase, timePhase);
+    let text;
+    if (phase >= 2) {
+      text = "YOU'RE RICH!";
+      bubblePhase = 2;
+    } else if (phase === 1) {
+      text = "You're almost rich.";
+    } else {
+      text = "Wow money..";
+    }
+    if (text !== lastBubbleText) {
+      lastBubbleText = text;
+      typeInto(richBubble, text, 52);
+    }
+  }
+
+  const BILL_W = 15;
+  const BILL_H = 9;
+  const GAP    = 1;
+
+  function getTreeMetrics() {
+    // Anchor height can include the persistent label below the image.
+    // For pile alignment, use the actual rendered image height as the "base".
+    const img = treeEl.querySelector("img");
+    const w = treeEl.offsetWidth || 150;
+    const top = treeEl.offsetTop;
+    const left = treeEl.offsetLeft;
+    const imgH = (img && (img.offsetHeight || img.getBoundingClientRect().height)) || treeEl.offsetHeight || 240;
+    return { treeLeft: left, treeTop: top, treeW: w, treeH: imgH, treeBase: top + imgH };
+  }
+
+  function addPileBillSized(wIn, hIn, srcIn) {
+    const { treeLeft, treeW, treeBase } = getTreeMetrics();
+
+    // Build a loose mound (like leaves) instead of a rigid grid.
+    const center = treeLeft + treeW * 0.55;
+    const radius = Math.max(28, treeW * 0.72);
+    const settleScale = 0.9 + Math.random() * 0.9; // slightly larger settled pile pieces
+    const pileBoost = 1.15; // make the pile read fuller than the fall
+    const w = Math.max(10, Math.round((wIn ?? BILL_W) * (wIn ? pileBoost : settleScale)));
+    const h = Math.max(7, Math.round((hIn ?? BILL_H) * (hIn ? pileBoost : settleScale)));
+    const src = srcIn ?? pickMoneyImage();
+    const randN = () => {
+      // Box–Muller
+      const u = Math.max(1e-6, Math.random());
+      const v = Math.max(1e-6, Math.random());
+      return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+    };
+
+    const xRaw = center + randN() * (radius * 0.28);
+    const xMin = treeLeft - treeW * 0.12;
+    const xMax = treeLeft + treeW - w + treeW * 0.12;
+    const x = Math.min(xMax, Math.max(xMin, xRaw));
+
+    const dx = Math.abs(x - center);
+    const falloff = Math.max(0, 1 - (dx / radius) * (dx / radius));
+    // Global pile grows as more bills settle; cap so it doesn't climb forever.
+    const globalRise = Math.min(300, pileCount * 0.52);
+    const moundRise = globalRise * falloff;
+    const y = treeBase - h - moundRise + (Math.random() - 0.5) * 6;
+
+    if (y < -(BILL_H * 2)) return; // past top of scene — stop
+
+    const wrap = document.createElement("div");
+    wrap.setAttribute("aria-hidden", "true");
+    wrap.style.cssText =
+      "position:absolute;" +
+      "left:" + Math.round(x) + "px;" +
+      "top:" + Math.round(y) + "px;" +
+      "width:" + Math.round(w) + "px;" +
+      "height:auto;" +
+      "pointer-events:none;z-index:46;" +
+      "will-change:transform;" +
+      "transform:rotate(" + ((Math.random() - 0.5) * 22).toFixed(2) + "deg);" +
+      "opacity:" + (0.88 + Math.random() * 0.12).toFixed(2) + ";" +
+      "filter:saturate(1.05) contrast(1.02);";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.draggable = false;
+    img.style.cssText =
+      "display:block;" +
+      "width:100%;" +
+      "height:auto;" +
+      "filter:hue-rotate(-14deg) saturate(1.22) contrast(1.18) brightness(1.08) drop-shadow(0 1px 1px rgba(0,0,0,0.22));" +
+      "image-rendering:auto;" +
+      "pointer-events:none;";
+
+    wrap.appendChild(img);
+    pileEl.appendChild(wrap);
+    pileCount++;
+  }
+
+  function addPileBill() {
+    addPileBillSized();
+  }
+
+  function spawnBill() {
+    const { treeLeft, treeTop, treeW, treeBase } = getTreeMetrics();
+    // Falling bills: slightly larger so the bitmap detail reads.
+    const fallScale = 0.72 + Math.random() * 0.85;
+    const w      = Math.max(14, Math.round(22 * fallScale));
+    const h      = w;
+    const src    = pickMoneyImage();
+    const startXPx = treeLeft + Math.random() * Math.max(1, treeW - w);
+    // Spawn near the bottom edge of the tree (so it reads like bills/leaves shedding into a pile).
+    // Start higher up on the tree so the fall reads like a canopy shedding.
+    const startYPx = treeBase - Math.max(34, Math.round((treeBase - treeTop) * 0.88));
+    const wobble = (Math.random() - 0.5) * 22;
+    const dur    = 0.34 + Math.random() * 0.22;
+    const rotate = (Math.random() - 0.5) * 28;
+    const fallY  = Math.max(40, Math.round((treeBase - startYPx) + (BILL_H * 0.9)));
+
+    const wrap = document.createElement("div");
+    wrap.setAttribute("aria-hidden", "true");
+    // Snap to whole pixels so sub-pixel interpolation can't blur the image
+    const snapX = Math.round(startXPx);
+    const snapY = Math.round(startYPx);
+    const snapW = Math.round(w);
+    wrap.style.cssText =
+      "position:absolute;" +
+      "left:" + snapX + "px;" +
+      "top:" + snapY + "px;" +
+      "width:" + snapW + "px;" +
+      "height:auto;" +
+      "pointer-events:none;z-index:49;" +
+      "will-change:transform;" +
+      "animation:bill-fall " + dur + "s ease-in forwards;" +
+      "--wobble:" + wobble + "px;--rotate:" + rotate + "deg;--fallY:" + fallY + "px;";
+
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    img.draggable = false;
+    img.style.cssText =
+      "display:block;" +
+      "width:100%;" +
+      "height:auto;" +
+      "filter:hue-rotate(-28deg) saturate(1.18) brightness(1.05);" +
+      "image-rendering:auto;" +
+      "pointer-events:none;";
+
+    wrap.appendChild(img);
+    pileEl.appendChild(wrap);
+    window.setTimeout(() => {
+      wrap.remove();
+      // Settle into the pile with the same size as the falling bill.
+      addPileBillSized(w, h, src);
+    }, dur * 1000 + 30);
+  }
+
+  function start() {
+    if (spawnInterval != null) return;
+    hoverStartMs = Date.now();
+    spawnInterval = window.setInterval(spawnBill, 90);
+    updateRichBubble();
+    setRichBubbleVisible(true);
+    if (bubbleTimer == null) {
+      bubbleTimer = window.setInterval(updateRichBubble, 220);
+    }
+  }
+
+  function stop() {
+    if (spawnInterval == null) return;
+    window.clearInterval(spawnInterval);
+    spawnInterval = null;
+    if (bubbleTimer != null) {
+      window.clearInterval(bubbleTimer);
+      bubbleTimer = null;
+    }
+    // If user leaves and comes back, advance to the next message.
+    if (bubblePhase < 2) bubblePhase += 1;
+    setRichBubbleVisible(false);
+  }
+
+  treeEl.addEventListener("mouseenter", start);
+  treeEl.addEventListener("mouseleave", stop);
+})();
 
 function applySceneLayoutForViewportWidth(widthPx) {
   const layout = effectiveSceneLayoutForWidth(widthPx);
@@ -1279,7 +1942,6 @@ function initResponsiveMap() {
 }
 // Run immediately, but let the observer handle the live server delays
 initResponsiveMap();
-enableBackgroundHoverTooltip();
 window.addEventListener("load", () => requestAnimationFrame(refreshSceneScale), { once: true });
 window.addEventListener("pageshow", () => requestAnimationFrame(refreshSceneScale));
 
@@ -1292,4 +1954,6 @@ window.addEventListener("pageshow", () => requestAnimationFrame(refreshSceneScal
   };
   requestAnimationFrame(pump);
 }
+
+
 
