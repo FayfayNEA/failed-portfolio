@@ -207,6 +207,15 @@ export default function EtradePage() {
                 </p>
               </div>
 
+              <div className="mt-14">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
+                  Site Walkthrough
+                </p>
+                <h2 className="mb-8 text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
+                  Comments
+                </h2>
+              </div>
+
               <ProjectGalleryRow
                 images={[
                   "https://framerusercontent.com/images/NvG3dp6QgMIWgEFMHXnQsAmc3lc.png?width=2189&height=1107",
