@@ -188,13 +188,10 @@ export default async function EidolonPage() {
                     stat: "46%",
                     statLabel: "of young adults want more analog control in their day. (APA, 2023)",
                   },
-                ].map(({ title, stat, statLabel }) => (
-                  <div key={title} className="flex flex-col gap-5 rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
-                    <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
-                    <div className="mt-auto pt-2">
-                      <p className="font-mono text-[0.95rem] font-medium leading-none tracking-[-0.02em] text-lime-600">{stat}</p>
-                      <p className="mt-1.5 text-[0.68rem] leading-snug text-lime-900/60">{statLabel}</p>
-                    </div>
+                ].map(({ stat, statLabel }) => (
+                  <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
+                    <p className="mb-3 font-mono text-[0.95rem] font-medium leading-none tracking-[-0.02em] text-lime-600">{stat}</p>
+                    <p className="text-[0.78rem] leading-relaxed text-lime-950/75">{statLabel}</p>
                   </div>
                 ))}
               </div>
