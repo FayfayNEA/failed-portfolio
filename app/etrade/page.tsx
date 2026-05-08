@@ -401,9 +401,15 @@ export default function EtradePage() {
                     {
                       img: "https://framerusercontent.com/images/04T1ZRgOFetSOdaMNQrxd7s1Pc.png?width=2427&height=1687",
                       label: "03",
-                      heading: "Design decision heading",
+                      heading: "Collapsible UI, colour-first data, and eliminating fat-finger errors",
                       points: [
-                        { lead: "Key point", detail: "Research rationale goes here." },
+                        { lead: "Collapsible sidebar enables Gaze Lock — +12% speed", detail: "Removing sidebar chrome lets traders lock focus on the chart and data that matter, increasing execution speed by 12% (eScholarship)." },
+                        { lead: "Easily accessible, live-updating information", detail: "Key metrics surface and refresh in place so traders absorb changes instantly without navigating away or breaking focus." },
+                        { lead: "Buttons larger than 44×44px eliminate fat-finger errors", detail: "Touch targets at or above Apple's minimum recommendation ensure precision actions — buy, sell, confirm — land correctly under pressure." },
+                        { lead: "Reduced clutter = 26% more trading efficiency", detail: "A cleaner interface with fewer competing elements measurably improves the quality and speed of trade decisions (eTufts)." },
+                        { lead: "6 data elements per view = 20% better decisions", detail: "Limiting the visible dataset to six elements at a time keeps working memory from overloading, improving decision accuracy by 20%." },
+                        { lead: "Colour processed faster than shape (SMU)", detail: "The brain reads colour before it reads form — so status, risk, and action states use colour as their primary signal, not icons alone." },
+                        { lead: "Visual data mapping improves trading outcomes", detail: "Representing data spatially and graphically — not just numerically — helps traders pattern-match faster and act with more confidence (University of Waterloo)." },
                       ],
                     },
                   ]}
