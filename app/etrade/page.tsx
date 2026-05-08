@@ -341,7 +341,7 @@ export default function EtradePage() {
                   },
                   {
                     topic: "Reading pattern vs. trading reality",
-                    body: "General UX research assumes an F-shaped scan (left first); dense trading dashboards often pull attention to the lower-left during analysis.",
+                    body: "Research shows that users undergo an F-shaped scan of the page, so important and initial information should sit on the left-hand side of the page, not the right.",
                   },
                   {
                     topic: "Icon rail placement",
