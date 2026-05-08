@@ -702,7 +702,7 @@ export default async function EidolonPage() {
                 </div>
               </div>
               <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Google Cloud Service with AI Studio and Antigravity
+                React 19 · Vite 6 · Tailwind CSS 4 · Motion · Gemini 3 Flash Preview · Google Cloud Run
               </p>
             </>
           ),
