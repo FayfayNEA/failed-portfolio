@@ -387,9 +387,15 @@ export default function EtradePage() {
                     {
                       img: "https://framerusercontent.com/images/ovRwBKR7bj9hKUmPVDdF0DkVjKw.png?width=1963&height=1198",
                       label: "02",
-                      heading: "Design decision heading",
+                      heading: "Visual hierarchy, contrast, and stress-reduction by design",
                       points: [
-                        { lead: "Key point", detail: "Research rationale goes here." },
+                        { lead: "Visual hierarchy speeds traders up by 40%", detail: "Deliberate information layering guides the eye to what matters first, resulting in a 40% speed increase for traders (Design Index)." },
+                        { lead: "Trading icon always in reach", detail: "The primary action icon stays persistently visible so a trader never loses time searching for it mid-decision." },
+                        { lead: "90% contrast on the buy button", detail: "High luminance contrast between the CTA and its background reduces hesitation and improves precision under time pressure (JNeurosci)." },
+                        { lead: "Red reduces panic sales by 30%", detail: "Strategic use of red as a friction signal rather than a default danger colour slows impulsive selling behaviour (SMU)." },
+                        { lead: "Humanist fonts + tabular figures cut errors by 3.1%", detail: "Tabular lining numerals align data vertically; combined with humanist type, task error drops measurably (MIT)." },
+                        { lead: "Icons over text to reduce clutter", detail: "Visual icons communicate state and action without adding cognitive load from words, keeping the interface clean and scannable." },
+                        { lead: "High-stress UI raises revenge trading risk by 22%", detail: "Calmer colour palettes and reduced visual noise directly lower the chance of emotionally driven re-entry trades (NIH)." },
                       ],
                     },
                     {
