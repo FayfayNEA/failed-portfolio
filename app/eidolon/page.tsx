@@ -618,42 +618,11 @@ export default async function EidolonPage() {
           ),
         },
         {
-          id: "video",
-          label: "FINAL PRODUCT",
-          content: (
-            <>
-              <div className="mx-auto w-full max-w-[min(640px,calc(100vw-1.5rem))]">
-                <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                  <div
-                    className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                    aria-hidden
-                  />
-                  <div
-                    className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                    aria-hidden
-                  />
-                  <div className="relative p-3 sm:p-4 md:p-5">
-                    <AutoPlayVideo
-                      controls
-                      muted
-                      className="h-[min(92dvh,960px)] w-full rounded-xl bg-black/[0.02] object-contain ring-1 ring-black/[0.06]"
-                      src="/eidolon/final-product.mp4"
-                    />
-                  </div>
-                </div>
-              </div>
-              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Google Cloud Service with AI Studio and Antigravity
-              </p>
-            </>
-          ),
-        },
-        {
           id: "engineering",
           label: "ENGINEERING",
           content: (
             <>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:[&>*:last-child]:col-start-2">
                 {[
                   {
                     category: "Frontend",
@@ -701,6 +670,37 @@ export default async function EidolonPage() {
                   </div>
                 ))}
               </div>
+            </>
+          ),
+        },
+        {
+          id: "video",
+          label: "FINAL PRODUCT",
+          content: (
+            <>
+              <div className="mx-auto w-full max-w-[min(640px,calc(100vw-1.5rem))]">
+                <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
+                  <div
+                    className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
+                    aria-hidden
+                  />
+                  <div
+                    className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
+                    aria-hidden
+                  />
+                  <div className="relative p-3 sm:p-4 md:p-5">
+                    <AutoPlayVideo
+                      controls
+                      muted
+                      className="h-[min(92dvh,960px)] w-full rounded-xl bg-black/[0.02] object-contain ring-1 ring-black/[0.06]"
+                      src="/eidolon/final-product.mp4"
+                    />
+                  </div>
+                </div>
+              </div>
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Google Cloud Service with AI Studio and Antigravity
+              </p>
             </>
           ),
         },
