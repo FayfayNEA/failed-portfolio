@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
       {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[5rem] md:pt-[5rem]">
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[2rem] md:pt-[2rem]">
         {/* Gradient masks */}
         <div
           aria-hidden
