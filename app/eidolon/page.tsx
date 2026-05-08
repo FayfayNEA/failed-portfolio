@@ -529,31 +529,48 @@ export default async function EidolonPage() {
                         img: "/eidolon/dr1.png",
                         label: "01",
                         heading: "Color and type tuned for neurological calm",
-                        body: "The accent green wasn't an aesthetic whim — NIH research ties green tones to measurable cortisol reduction and lower resting heart rate, and a Melbourne study shows it helps the brain reset between cognitively demanding tasks (NIH Environ Health Prev Med). Montserrat was chosen because its rounded letterforms create warmth without sacrificing legibility (WGS); the absence of a true geometric sans keeps the interface feeling modern rather than clinical. Pure white was removed from every surface — Harvard research links high-contrast white backgrounds to increased visual fatigue — so the off-white canvas stays easy on the eye across long sessions.",
+                        points: [
+                          { lead: "Green reduces cortisol", detail: "NIH research ties green tones to lower cortisol and resting heart rate; a Melbourne study shows it helps the brain reset between cognitively demanding tasks." },
+                          { lead: "Montserrat for warmth & legibility", detail: "Rounded letterforms signal approachability (WGS). The humanist sans keeps the interface modern without feeling clinical." },
+                          { lead: "No pure white", detail: "Harvard links high-contrast pure white to increased visual fatigue. The off-white canvas reduces eye strain across long sessions." },
+                        ],
                         flip: false,
                       },
                       {
                         img: "/eidolon/dr2.png",
                         label: "02",
                         heading: "A game HUD, not a dashboard — narrative over data",
-                        body: "Video game interfaces earn trust through story: Stanford research shows information framed as narrative is 22× more memorable than raw data alone. Eidolon leans into this — the agent's actions unfold as a quest the user can follow, not a log they have to parse. A persistent, recognizable profile element keeps the user spatially anchored no matter where they are in the flow. The muted, low-saturation background is deliberate: IxDF research links low-color environments to reduced cognitive load, which frees attention for the AI's reasoning rather than the chrome around it. MIT's ambient intelligence work also informed the decision to minimize screen-demanding interactions — the interface surfaces only what's needed, when it's needed.",
+                        points: [
+                          { lead: "Information as story: 22× more memorable", detail: "Stanford research shows narrative framing outperforms raw data recall by a factor of 22." },
+                          { lead: "Persistent profile for spatial anchoring", detail: "A constantly visible user element keeps people oriented no matter how deep into the agent flow they go." },
+                          { lead: "Low-color background reduces cognitive load", detail: "IxDF research links muted, low-saturation backgrounds to reduced mental overhead, freeing focus for the AI's reasoning." },
+                          { lead: "Ambient intelligence minimises screen dependency", detail: "MIT's ambient intelligence work informed the decision to surface only what's needed, when it's needed." },
+                        ],
                         flip: true,
                       },
                       {
                         img: "/eidolon/dr3.png",
                         label: "03",
                         heading: "Multi-sensory confirmation — a signature the AI can't forge",
-                        body: "Research across Egan, Foxe, O'Connell, Kelly, and Ramirez consistently shows that engaging haptic, auditory, and visual channels simultaneously accelerates decision-making and makes the memory of that action more durable. High-stakes transactions in Eidolon require a physical gesture unique to the user — closer to a handwritten signature than a button tap — because only human movement can authorize them; the AI agent is explicitly locked out. The color palette reinforces the moment: a slight green tint keeps the baseline calm while a purple accent creates enough contrast to signal that something consequential is happening, without tipping into alarm.",
+                        points: [
+                          { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Egan, Foxe, O'Connell, Kelly, and Ramirez show multi-channel input accelerates decision-making and improves recall." },
+                          { lead: "A gesture only humans can make", detail: "High-stakes transactions require a physical swipe unique to the user. The AI agent is explicitly locked out of large actions." },
+                          { lead: "Green tint + purple for meaningful contrast", detail: "Baseline calm from the green; purple as an accent signals consequence without triggering alarm." },
+                        ],
                         flip: false,
                       },
                       {
                         img: "/eidolon/dr4.png",
                         label: "04",
                         heading: "Human and AI solving problems together — trust through shared agency",
-                        body: "When Eidolon's agent hits uncertainty it expresses it visibly — hesitation, not false confidence. Ma, Hao, Wang, and Khynevych found that AI systems displaying human-like confusion are met with significantly more user forgiveness when they fail, because the error feels honest rather than opaque. Mayer, Karny, Ayoub, Song, Tian, Pari, and Styvers extend this further: users who feel genuinely in control of an AI system end up respecting it more, not less. MIT research on consumer-AI interaction adds a third layer — when users are active participants rather than passive recipients, the biases they project onto AI outputs measurably decrease. Eidolon is designed around all three: the agent shows its reasoning, the human authorizes every consequential step, and the interface treats the pairing as a collaboration.",
+                        points: [
+                          { lead: "AI shows confusion → users forgive more", detail: "Ma, Hao, Wang, and Khynevych found that AI expressing uncertainty is met with significantly more forgiveness when it fails." },
+                          { lead: "User control → users respect AI more", detail: "Mayer, Karny, Ayoub, Song, Tian, Pari, and Styvers: genuine user agency leads to higher long-term trust in the system." },
+                          { lead: "Active participation → less bias", detail: "MIT research shows consumers who interact with AI rather than passively receive it project fewer biases onto its outputs." },
+                        ],
                         flip: true,
                       },
-                    ].map(({ img, label, heading, body, flip }) => (
+                    ].map(({ img, label, heading, points, flip }) => (
                       <div
                         key={label}
                         className={[
@@ -597,10 +614,19 @@ export default async function EidolonPage() {
                           <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-lime-600/80">
                             {label}
                           </p>
-                          <h3 className="mb-5 text-[1.15rem] font-medium leading-snug tracking-[-0.025em] text-zinc-950">
+                          <h3 className="mb-6 text-[1.15rem] font-medium leading-snug tracking-[-0.025em] text-zinc-950">
                             {heading}
                           </h3>
-                          <p className="text-[0.84rem] leading-[1.8] text-zinc-500">{body}</p>
+                          <ul className="space-y-4">
+                            {points.map(({ lead, detail }) => (
+                              <li key={lead} className="border-t border-lime-200/50 pt-4 first:border-t-0 first:pt-0">
+                                <p className="mb-1 text-[0.82rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
+                                  {lead}
+                                </p>
+                                <p className="text-[0.78rem] leading-[1.7] text-zinc-500">{detail}</p>
+                              </li>
+                            ))}
+                          </ul>
                         </div>
                       </div>
                     ))}
