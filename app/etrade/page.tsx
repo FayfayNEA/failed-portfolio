@@ -327,7 +327,7 @@ export default function EtradePage() {
                 </h2>
               </div>
               <BeforeAfterSlider
-                before="https://framerusercontent.com/images/YSPA18zJk946sR2NYuLbAaN8aI.png?width=1444&height=1028"
+                before="/etrade/wireframe1.png"
                 after="https://framerusercontent.com/images/VUDH0FuU7W2ms48ioo9nOoeiI.png?width=1440&height=1024"
                 beforeLabel="Wireframe 1"
                 afterLabel="Wireframe 2"
