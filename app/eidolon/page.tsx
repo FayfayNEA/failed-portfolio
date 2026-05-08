@@ -5,6 +5,7 @@ import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { AutoPlayVideo } from "@/components/autoplay-video";
 import { ImageLightbox } from "@/components/image-lightbox";
+import { ReasoningPanels } from "@/components/reasoning-panels";
 import { getContentBySlug } from "@/lib/content";
 
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
@@ -523,114 +524,49 @@ export default async function EidolonPage() {
                     Mockups created with Figma
                   </p>
 
-                  <div className="space-y-6">
-                    {[
-                      {
-                        img: "/eidolon/dr1.png",
-                        label: "01",
-                        heading: "Color and type tuned for neurological calm",
-                        points: [
-                          { lead: "Green reduces cortisol", detail: "NIH research ties green tones to lower cortisol and resting heart rate; a Melbourne study shows it helps the brain reset between cognitively demanding tasks." },
-                          { lead: "Montserrat for warmth & legibility", detail: "Rounded letterforms signal approachability (WGS). The humanist sans keeps the interface modern without feeling clinical." },
-                          { lead: "No pure white", detail: "Harvard links high-contrast pure white to increased visual fatigue. The off-white canvas reduces eye strain across long sessions." },
-                        ],
-                        flip: false,
-                      },
-                      {
-                        img: "/eidolon/dr2.png",
-                        label: "02",
-                        heading: "A game HUD, not a dashboard — narrative over data",
-                        points: [
-                          { lead: "Information as story: 22× more memorable", detail: "Stanford research shows narrative framing outperforms raw data recall by a factor of 22." },
-                          { lead: "Persistent profile for spatial anchoring", detail: "A constantly visible user element keeps people oriented no matter how deep into the agent flow they go." },
-                          { lead: "Low-color background reduces cognitive load", detail: "IxDF research links muted, low-saturation backgrounds to reduced mental overhead, freeing focus for the AI's reasoning." },
-                          { lead: "Ambient intelligence minimises screen dependency", detail: "MIT's ambient intelligence work informed the decision to surface only what's needed, when it's needed." },
-                        ],
-                        flip: true,
-                      },
-                      {
-                        img: "/eidolon/dr3.png",
-                        label: "03",
-                        heading: "Multi-sensory confirmation — a signature the AI can't forge",
-                        points: [
-                          { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Egan, Foxe, O'Connell, Kelly, and Ramirez show multi-channel input accelerates decision-making and improves recall." },
-                          { lead: "A gesture only humans can make", detail: "High-stakes transactions require a physical swipe unique to the user. The AI agent is explicitly locked out of large actions." },
-                          { lead: "Green tint + purple for meaningful contrast", detail: "Baseline calm from the green; purple as an accent signals consequence without triggering alarm." },
-                        ],
-                        flip: false,
-                      },
-                      {
-                        img: "/eidolon/dr4.png",
-                        label: "04",
-                        heading: "Human and AI solving problems together — trust through shared agency",
-                        points: [
-                          { lead: "AI shows confusion → users forgive more", detail: "Ma, Hao, Wang, and Khynevych found that AI expressing uncertainty is met with significantly more forgiveness when it fails." },
-                          { lead: "User control → users respect AI more", detail: "Mayer, Karny, Ayoub, Song, Tian, Pari, and Styvers: genuine user agency leads to higher long-term trust in the system." },
-                          { lead: "Active participation → less bias", detail: "MIT research shows consumers who interact with AI rather than passively receive it project fewer biases onto its outputs." },
-                        ],
-                        flip: true,
-                      },
-                    ].map(({ img, label, heading, points, flip }) => (
-                      <div
-                        key={label}
-                        className={[
-                          "relative overflow-hidden rounded-2xl",
-                          "border-[0.5px] border-lime-200/70 bg-gradient-to-br from-lime-500/[0.05] via-transparent to-transparent",
-                          "p-8 md:p-10",
-                          "flex flex-col gap-8 md:gap-14",
-                          flip ? "md:flex-row-reverse" : "md:flex-row",
-                          "md:items-center",
-                        ].join(" ")}
-                      >
-                        {/* Watermark number */}
-                        <span
-                          aria-hidden
-                          className={[
-                            "pointer-events-none absolute top-3 select-none",
-                            "font-mono text-[6rem] font-black leading-none text-lime-400/[0.12]",
-                            flip ? "right-5" : "left-5",
-                          ].join(" ")}
-                        >
-                          {label}
-                        </span>
-
-                        {/* Phone image */}
-                        <div className="relative mx-auto w-full max-w-[min(220px,calc(100vw-4rem))] shrink-0">
-                          {/* lime glow */}
-                          <div className="absolute inset-0 -z-10 translate-y-6 scale-90 rounded-[2rem] bg-lime-300/30 blur-2xl" />
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={img}
-                            alt={`Reasoning for design — ${label}`}
-                            className="relative w-full rounded-[2rem] border-[0.5px] border-lime-200/60 object-contain shadow-[0_20px_50px_-16px_rgba(0,0,0,0.18)]"
-                            loading="lazy"
-                          />
-                        </div>
-
-                        {/* Text */}
-                        <div className="relative min-w-0 flex-1">
-                          {/* accent rule */}
-                          <div className="mb-4 h-px w-8 rounded-full bg-lime-400/70" />
-                          <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-lime-600/80">
-                            {label}
-                          </p>
-                          <h3 className="mb-6 text-[1.15rem] font-medium leading-snug tracking-[-0.025em] text-zinc-950">
-                            {heading}
-                          </h3>
-                          <ul className="space-y-4">
-                            {points.map(({ lead, detail }) => (
-                              <li key={lead} className="border-t border-lime-200/50 pt-4 first:border-t-0 first:pt-0">
-                                <p className="mb-1 text-[0.82rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
-                                  {lead}
-                                </p>
-                                <p className="text-[0.78rem] leading-[1.7] text-zinc-500">{detail}</p>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <ReasoningPanels panels={[
+                    {
+                      img: "/eidolon/dr1.png",
+                      label: "01",
+                      heading: "Color and type tuned for neurological calm",
+                      points: [
+                        { lead: "Green reduces cortisol", detail: "NIH research ties green tones to lower cortisol and resting heart rate; a Melbourne study shows it helps the brain reset between cognitively demanding tasks." },
+                        { lead: "Montserrat for warmth & legibility", detail: "Rounded letterforms signal approachability (WGS). The humanist sans keeps the interface modern without feeling clinical." },
+                        { lead: "No pure white", detail: "Harvard links high-contrast pure white to increased visual fatigue. The off-white canvas reduces eye strain across long sessions." },
+                      ],
+                    },
+                    {
+                      img: "/eidolon/dr2.png",
+                      label: "02",
+                      heading: "A game HUD, not a dashboard — narrative over data",
+                      points: [
+                        { lead: "Information as story: 22× more memorable", detail: "Stanford research shows narrative framing outperforms raw data recall by a factor of 22." },
+                        { lead: "Persistent profile for spatial anchoring", detail: "A constantly visible user element keeps people oriented no matter how deep into the agent flow they go." },
+                        { lead: "Low-color background reduces cognitive load", detail: "IxDF research links muted, low-saturation backgrounds to reduced mental overhead, freeing focus for the AI's reasoning." },
+                        { lead: "Ambient intelligence minimises screen dependency", detail: "MIT's ambient intelligence work informed the decision to surface only what's needed, when it's needed." },
+                      ],
+                    },
+                    {
+                      img: "/eidolon/dr3.png",
+                      label: "03",
+                      heading: "Multi-sensory confirmation — a signature the AI can't forge",
+                      points: [
+                        { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Egan, Foxe, O'Connell, Kelly, and Ramirez show multi-channel input accelerates decision-making and improves recall." },
+                        { lead: "A gesture only humans can make", detail: "High-stakes transactions require a physical swipe unique to the user. The AI agent is explicitly locked out of large actions." },
+                        { lead: "Green tint + purple for meaningful contrast", detail: "Baseline calm from the green; purple as an accent signals consequence without triggering alarm." },
+                      ],
+                    },
+                    {
+                      img: "/eidolon/dr4.png",
+                      label: "04",
+                      heading: "Human and AI solving problems together — trust through shared agency",
+                      points: [
+                        { lead: "AI shows confusion → users forgive more", detail: "Ma, Hao, Wang, and Khynevych found that AI expressing uncertainty is met with significantly more forgiveness when it fails." },
+                        { lead: "User control → users respect AI more", detail: "Mayer, Karny, Ayoub, Song, Tian, Pari, and Styvers: genuine user agency leads to higher long-term trust in the system." },
+                        { lead: "Active participation → less bias", detail: "MIT research shows consumers who interact with AI rather than passively receive it project fewer biases onto its outputs." },
+                      ],
+                    },
+                  ]} />
 
                   <div className="mx-auto mt-16 w-full max-w-[min(520px,calc(100vw-1.5rem))]">
                     <ProjectGalleryRow
