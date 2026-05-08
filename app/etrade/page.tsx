@@ -337,7 +337,7 @@ export default function EtradePage() {
                 {[
                   {
                     topic: "Wireframe baseline",
-                    body: "Mid-Fi Wireframe 2 was chosen as the baseline for its right-side icon bar, giving clear hierarchy before iteration.",
+                    body: "Wireframe 1 was chosen as the baseline.",
                   },
                   {
                     topic: "Reading pattern vs. trading reality",
@@ -345,7 +345,7 @@ export default function EtradePage() {
                   },
                   {
                     topic: "Icon rail placement",
-                    body: "The icon bar moved left to match that behavior so watchlist and customization stay in the fastest path.",
+                    body: "The icon bar was placed on the right-hand side of the page — research shows traders tend to \"gaze lock\" onto important information in the bottom-right when making a trading decision. Due to traders failing 20% of the time because of behavioural mishaps, the AI agent sits in the bottom-left to surface critical data while reminding them of their patterns.",
                   },
                 ].map(({ topic, body }) => (
                   <div
