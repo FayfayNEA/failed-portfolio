@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback } from "react";
 
 interface BeforeAfterSliderProps {
   before: string;
@@ -27,11 +27,9 @@ export function BeforeAfterSlider({
   const updateFromEvent = useCallback((clientX: number) => {
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
-    const pct = clamp(((clientX - rect.left) / rect.width) * 100, 2, 98);
-    setPosition(pct);
+    setPosition(clamp(((clientX - rect.left) / rect.width) * 100, 2, 98));
   }, []);
 
-  // Pointer events (covers mouse + touch)
   const onPointerDown = (e: React.PointerEvent) => {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragging.current = true;
@@ -41,11 +39,8 @@ export function BeforeAfterSlider({
     if (!dragging.current) return;
     updateFromEvent(e.clientX);
   };
-  const onPointerUp = () => {
-    dragging.current = false;
-  };
+  const onPointerUp = () => { dragging.current = false; };
 
-  // Keyboard nudge on the handle
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft")  setPosition((p) => clamp(p - 1, 2, 98));
     if (e.key === "ArrowRight") setPosition((p) => clamp(p + 1, 2, 98));
@@ -65,7 +60,7 @@ export function BeforeAfterSlider({
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerUp}
     >
-      {/* After image — full width, behind */}
+      {/* After image — full size, sits beneath */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={after}
@@ -75,21 +70,16 @@ export function BeforeAfterSlider({
         loading="lazy"
       />
 
-      {/* Before image — clipped to left portion */}
-      <div
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-        style={{ width: `${position}%` }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={before}
-          alt={beforeLabel}
-          className="absolute inset-0 h-full object-contain"
-          style={{ width: containerRef.current?.offsetWidth ?? "100%" }}
-          draggable={false}
-          loading="lazy"
-        />
-      </div>
+      {/* Before image — same size, clipped via clip-path so it never resizes */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={before}
+        alt={beforeLabel}
+        className="absolute inset-0 h-full w-full object-contain"
+        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
+        draggable={false}
+        loading="lazy"
+      />
 
       {/* Divider line */}
       <div
@@ -100,18 +90,18 @@ export function BeforeAfterSlider({
       {/* Drag handle */}
       <div
         role="slider"
-        aria-label="Compare before and after"
+        aria-label="Compare wireframes"
         aria-valuenow={Math.round(position)}
         aria-valuemin={2}
         aria-valuemax={98}
         tabIndex={0}
         onKeyDown={onKeyDown}
         className={[
-          "absolute z-20 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "h-10 w-10 rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.25)]",
-          "flex items-center justify-center gap-1",
+          "pointer-events-none absolute top-1/2 z-20",
+          "-translate-x-1/2 -translate-y-1/2",
+          "flex h-10 w-10 items-center justify-center",
+          "rounded-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.25)]",
           "ring-1 ring-black/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-500",
-          "pointer-events-none",
         ].join(" ")}
         style={{ left: `${position}%` }}
       >
