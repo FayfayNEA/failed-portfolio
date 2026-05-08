@@ -181,14 +181,13 @@ export default function EtradePage() {
                     stat: "15%",
                     statLabel: "cortisol reduction from rounded geometry. (SMU / MIT AgeLab)",
                   },
-                ].map(({ n, title, body, stat, statLabel }) => (
+                ].map(({ n, title, stat, statLabel }) => (
                   <div
                     key={n}
                     className="flex flex-col gap-3 rounded-2xl bg-[#0F8EC7]/[0.06] p-5 ring-1 ring-[#0F8EC7]/30"
                   >
                     <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-[#0F8EC7]/80">{n}</span>
                     <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
-                    <p className="text-[0.78rem] leading-relaxed text-sky-950/70">{body}</p>
                     <div className="mt-auto pt-3">
                       <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-[#0F8EC7]">{stat}</p>
                       <p className="mt-1 text-[0.68rem] leading-snug text-sky-900/60">{statLabel}</p>
