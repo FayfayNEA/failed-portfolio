@@ -574,6 +574,41 @@ export default async function EidolonPage() {
                       </div>
                     ))}
                   </div>
+
+                  <div className="mx-auto mt-16 w-full max-w-[min(520px,calc(100vw-1.5rem))]">
+                    <ProjectGalleryRow
+                      images={[
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 123952.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124040.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124046.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124058.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124113.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124124.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125858.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125917.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125948.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130207.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130218.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130315.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130406.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130422.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130518.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130530.png"),
+                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130543.png"),
+                      ]}
+                      theme="lime"
+                      glassVariant="liquid"
+                      frameSize="phone"
+                      phoneHeight="short"
+                      navSize="sm"
+                      slideImageFit="contain"
+                      slidePadding="default"
+                      className="my-0 w-full"
+                    />
+                  </div>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                    Figma mockups
+                  </p>
                 </div>
               </div>
             </>
