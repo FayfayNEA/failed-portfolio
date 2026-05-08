@@ -18,7 +18,13 @@ const METADATA = {
   timeline: "1 week",
   roles:    ["Full Stack Engineer", "Product Designer"],
   team:     ["Failenn Aselta"],
-  tools:    ["Figma", "Gemini", "Sitch", "Google AI Studio", "React", "Tailwind"],
+  tools:    [
+    "React 19 · Vite 6 · TypeScript",
+    "Tailwind CSS 4 · Motion · Lucide",
+    "Gemini 3 Flash Preview · Google AI Studio",
+    "Google Cloud Run · Express",
+    "Figma",
+  ],
 };
 
 // ───────────────────────────────────────────────────────────────────────────────
