@@ -190,7 +190,7 @@ export default async function EidolonPage() {
                   },
                 ].map(({ stat, statLabel }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
-                    <p className="mb-3 font-mono text-[0.95rem] font-medium leading-none tracking-[-0.02em] text-lime-600">{stat}</p>
+                    <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
                     <p className="text-[0.78rem] leading-relaxed text-lime-950/75">{statLabel}</p>
                   </div>
                 ))}
