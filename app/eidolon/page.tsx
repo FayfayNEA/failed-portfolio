@@ -526,28 +526,28 @@ export default async function EidolonPage() {
                   <div className="space-y-16">
                     {[
                       {
-                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 123952.png"),
+                        img: "/eidolon/dr1.png",
                         label: "01",
                         heading: "Design decision heading",
                         body: "Research rationale goes here.",
                         flip: false,
                       },
                       {
-                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130207.png"),
+                        img: "/eidolon/dr2.png",
                         label: "02",
                         heading: "Design decision heading",
                         body: "Research rationale goes here.",
                         flip: true,
                       },
                       {
-                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130422.png"),
+                        img: "/eidolon/dr3.png",
                         label: "03",
                         heading: "Design decision heading",
                         body: "Research rationale goes here.",
                         flip: false,
                       },
                       {
-                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130543.png"),
+                        img: "/eidolon/dr4.png",
                         label: "04",
                         heading: "Design decision heading",
                         body: "Research rationale goes here.",
