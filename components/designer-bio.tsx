@@ -3,20 +3,13 @@
 import { useEffect, useState } from "react";
 
 export function DesignerBio() {
-  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const collage = document.getElementById("home-collage");
     if (!collage) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        // fade out once collage has scrolled fully above the viewport
-        if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-          setScrolled(true);
-        } else {
-          setScrolled(false);
-        }
-      },
+      ([entry]) => setVisible(entry.isIntersecting),
       { threshold: 0 }
     );
     observer.observe(collage);
@@ -32,9 +25,9 @@ export function DesignerBio() {
         "font-mono max-w-[300px]",
         "transition-opacity duration-500 ease-in-out",
         "cursor-default select-none",
-        scrolled
-          ? "opacity-0 pointer-events-none"
-          : "opacity-25 hover:opacity-90",
+        visible
+          ? "opacity-25 hover:opacity-90"
+          : "opacity-0 pointer-events-none",
       ].join(" ")}
     >
       <p className="m-0 text-[11px] leading-[1.7] text-zinc-700">
