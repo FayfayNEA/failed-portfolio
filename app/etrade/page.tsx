@@ -3,6 +3,7 @@ import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { BeforeAfterSlider } from "@/components/before-after-slider";
+import { ReasoningPanels } from "@/components/reasoning-panels";
 
 const SLUG = "etrade";
 const CATEGORY = "product-design";
@@ -367,22 +368,36 @@ export default function EtradePage() {
                 <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
                   Mockups created with Figma
                 </p>
-                <ProjectGalleryRow
-                  images={[
-                    "https://framerusercontent.com/images/HhDpOLCsi5D912qkGVvTagSM2U.png?width=2206&height=1433",
-                    "https://framerusercontent.com/images/ovRwBKR7bj9hKUmPVDdF0DkVjKw.png?width=1963&height=1198",
-                    "https://framerusercontent.com/images/04T1ZRgOFetSOdaMNQrxd7s1Pc.png?width=2427&height=1687",
-                  ]}
+                <ReasoningPanels
                   theme="sky"
-                  glassVariant="liquid"
-                  frameSize="medium"
-                  slideImageFit="contain"
-                  slidePadding="tight"
-                  className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
+                  imageSize="laptop"
+                  panels={[
+                    {
+                      img: "https://framerusercontent.com/images/HhDpOLCsi5D912qkGVvTagSM2U.png?width=2206&height=1433",
+                      label: "01",
+                      heading: "Design decision heading",
+                      points: [
+                        { lead: "Key point", detail: "Research rationale goes here." },
+                      ],
+                    },
+                    {
+                      img: "https://framerusercontent.com/images/ovRwBKR7bj9hKUmPVDdF0DkVjKw.png?width=1963&height=1198",
+                      label: "02",
+                      heading: "Design decision heading",
+                      points: [
+                        { lead: "Key point", detail: "Research rationale goes here." },
+                      ],
+                    },
+                    {
+                      img: "https://framerusercontent.com/images/04T1ZRgOFetSOdaMNQrxd7s1Pc.png?width=2427&height=1687",
+                      label: "03",
+                      heading: "Design decision heading",
+                      points: [
+                        { lead: "Key point", detail: "Research rationale goes here." },
+                      ],
+                    },
+                  ]}
                 />
-                <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                  Mockups created with Figma
-                </p>
               </div>
             </>
           ),
