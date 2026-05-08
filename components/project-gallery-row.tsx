@@ -130,9 +130,9 @@ export function ProjectGalleryRow({
           )
       : isLiquidLime
         ? cn(
-            "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
-            "bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
-            "ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125"
+            "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-lime-200/60",
+            "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(132,204,22,0.28),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+            "ring-1 ring-lime-300/50 backdrop-blur-2xl backdrop-saturate-125"
           )
         : isLiquidViolet
           ? cn(

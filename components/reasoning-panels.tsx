@@ -37,7 +37,7 @@ export function ReasoningPanels({ panels }: ReasoningPanelsProps) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.12 }}
-          className="relative grid grid-cols-1 gap-8 overflow-hidden rounded-2xl border-[0.5px] border-lime-200/80 bg-gradient-to-br from-lime-500/[0.14] via-lime-500/[0.05] to-transparent p-8 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start sm:gap-10 md:p-10"
+          className="relative grid grid-cols-1 gap-8 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 p-8 shadow-[0_8px_32px_-16px_rgba(132,204,22,0.18),inset_0_1px_0_0_rgba(255,255,255,0.55)] backdrop-blur-xl backdrop-saturate-110 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start sm:gap-10 md:p-10"
         >
           {/* Big background number */}
           <span
