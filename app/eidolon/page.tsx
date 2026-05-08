@@ -622,6 +622,9 @@ export default async function EidolonPage() {
           label: "ENGINEERING",
           content: (
             <>
+              <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
+                A slice of Eidolon was built out to play around with current AI image generation skills, while the internet isn&apos;t ready for a new face, AI is.
+              </p>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:[&>*:last-child]:col-start-2">
                 {[
                   {
