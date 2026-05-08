@@ -8,14 +8,19 @@ export function DesignerBio() {
   useEffect(() => {
     const collage = document.getElementById("home-collage");
     if (!collage) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setScrolled(!entry.isIntersecting && entry.boundingClientRect.top < 0);
-      },
-      { threshold: 0 }
-    );
-    observer.observe(collage);
-    return () => observer.disconnect();
+
+    const update = () => {
+      // Hide once the collage's bottom edge has scrolled above the viewport.
+      setScrolled(collage.getBoundingClientRect().bottom <= 0);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   return (
