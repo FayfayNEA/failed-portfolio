@@ -27,7 +27,7 @@ export function DesignerBio() {
     <div
       className={[
         "pointer-events-auto fixed z-[99]",
-        "hidden md:block",
+        "hidden xl:block",
         "bottom-6 left-[6rem]",
         "font-mono max-w-[300px]",
         "transition-opacity duration-500 ease-in-out",
