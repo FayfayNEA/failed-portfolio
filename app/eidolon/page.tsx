@@ -4,6 +4,7 @@ import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { AutoPlayVideo } from "@/components/autoplay-video";
+import { ImageLightbox } from "@/components/image-lightbox";
 import { getContentBySlug } from "@/lib/content";
 
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
@@ -715,15 +716,12 @@ export default async function EidolonPage() {
 
               <div className="mb-12 grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
                 <div className="min-w-0">
-                  <div className="rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/eidolon/table1.png"
-                      alt="Table 1"
-                      className="w-full rounded-2xl bg-white object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
-                      loading="lazy"
-                    />
-                  </div>
+                  <ImageLightbox
+                    src="/eidolon/table1.png"
+                    alt="Table 1"
+                    wrapperClassName="block"
+                    imgClassName="w-full rounded-2xl bg-white object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
+                  />
                 </div>
 
                 <div className="min-w-0 space-y-4">
@@ -754,7 +752,7 @@ export default async function EidolonPage() {
                 </div>
               </div>
 
-              <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+              <p className="mb-3 mt-20 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
                 Ethical considerations
               </p>
               <p className="w-full text-left text-[0.95rem] leading-[1.75] text-zinc-600">
