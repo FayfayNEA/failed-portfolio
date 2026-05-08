@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
@@ -7,6 +7,7 @@ import { ImageLightbox } from "@/components/image-lightbox";
 import { AutoPlayVideo } from "@/components/autoplay-video";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { ProjectSurface } from "@/components/project-surface";
+import { ScrollSection } from "@/components/scroll-section";
 import { cn } from "@/lib/cn";
 
 const BUDDY_BREADCRUMB = buildProjectBreadcrumb("buddy", "product-design");
@@ -19,7 +20,7 @@ const rosario = Rosario({
 export const metadata: Metadata = {
   title: "Buddy",
   description:
-    "Failenn Aselta — Buddy, a handheld LLM stenographer for group communication.",
+    "Failenn Aselta â€” Buddy, a handheld LLM stenographer for group communication.",
 };
 
 const SECTIONS = [
@@ -36,7 +37,7 @@ const SECTIONS = [
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
 
-/** Former ALL_GALLERY items 7–8 moved to the front of the hardware strip. */
+/** Former ALL_GALLERY items 7â€“8 moved to the front of the hardware strip. */
 const HARDWARE_GALLERY = [
   "https://framerusercontent.com/images/B9GkX7orORDgH2rQotIt6DptFT8.jpg?width=6240&height=3512",
   "https://framerusercontent.com/images/eshLNiiuNozrxDvWyO6uDH3xLzI.jpg?width=6240&height=3512",
@@ -74,7 +75,7 @@ const BUDDY_RESEARCH_LENS_SRC =
     "Why Teams Struggle to Design and Invest Together - visual selection (1) 1.png"
   );
 
-/** Process clips section — watercolour frame behind iteration videos. */
+/** Process clips section â€” watercolour frame behind iteration videos. */
 const BUDDY_PROCESS_CLIPS_BG = "/buddy/process-clips-bg.png";
 
 /** Thumbnail chrome for System Creation diagram lightboxes. */
@@ -84,7 +85,7 @@ const BUDDY_SYSTEM_DIAGRAM_IMG_CLASS =
 const BUDDY_SYSTEM_DIAGRAM_LIGHTBOX_WRAP = cn("overflow-hidden !rounded-2xl");
 
 /**
- * Rounded edges on thumbnails — `!` beats `ImageLightbox` default `rounded-3xl`
+ * Rounded edges on thumbnails â€” `!` beats `ImageLightbox` default `rounded-3xl`
  * so corners stay visibly filleted with `object-contain`.
  */
 const EARLY_DRAWING_FILLET =
@@ -149,26 +150,26 @@ const METADATA_ROWS = [
   { label: "Timeline", value: "2 weeks" },
   {
     label: "Role",
-    value: "Frontend — React\nBackend — FastAPI / Linux\nProduct Designer\nHardware Engineer\nIndustrial Designer",
+    value: "Frontend â€” React\nBackend â€” FastAPI / Linux\nProduct Designer\nHardware Engineer\nIndustrial Designer",
   },
   { label: "Team", value: "Failenn Aselta" },
   {
     label: "Tools",
-    value: "Figma · Cursor · Gemini\nRaspberry Pi · React\nFastAPI · Linux",
+    value: "Figma Â· Cursor Â· Gemini\nRaspberry Pi Â· React\nFastAPI Â· Linux",
   },
 ];
 
 const KEY_LEARNINGS = [
   {
-    heading: "Key Learning — LLM Persona",
+    heading: "Key Learning â€” LLM Persona",
     body: "Had to clearly define the LLM's persona, ultimately assigning it the role of a Visual Assistant for the cleanest outputs.",
   },
   {
-    heading: "Key Learning — Image Generation",
+    heading: "Key Learning â€” Image Generation",
     body: "A major technical hurdle was training the model to generate proper images without relying on explicit keywords.",
   },
   {
-    heading: "Key Learning — Session Export",
+    heading: "Key Learning â€” Session Export",
     body: "Engineered a session-commit function that dynamically zips all generated assets and transcripts into a universal PDF. Transformed a transient AI conversation into a professional leave-behind artifact.",
   },
 ];
@@ -184,7 +185,7 @@ const REFLECTIONS = [
   },
   {
     n: "3",
-    text: "Permanence is a feature. The session export — turning a transient conversation into a downloadable artifact — changed how people understood the product entirely.",
+    text: "Permanence is a feature. The session export â€” turning a transient conversation into a downloadable artifact â€” changed how people understood the product entirely.",
   },
 ];
 
@@ -215,7 +216,7 @@ const BIBLIOGRAPHY = [
     linkText: "digitalcommons.unomaha.edu",
   },
   {
-    cite: 'Medina, J. "Brain Rules: 12 Principles for Surviving and Thriving at Work, Home, and School." Picture Superiority Effect — verbal-only retention: 10% after 3 days; visual + verbal: 65%. Boston University Center for Teaching & Learning.',
+    cite: 'Medina, J. "Brain Rules: 12 Principles for Surviving and Thriving at Work, Home, and School." Picture Superiority Effect â€” verbal-only retention: 10% after 3 days; visual + verbal: 65%. Boston University Center for Teaching & Learning.',
     href: "https://www.bu.edu/ctl/guides/visual-learning/",
     linkText: "bu.edu/ctl/guides/visual-learning",
   },
@@ -225,7 +226,7 @@ const BIBLIOGRAPHY = [
     linkText: "drexel.edu",
   },
   {
-    cite: 'American Psychological Association. Organizational & agile collaboration research: teams using shared visual boards are 3× more likely to align on complex workflows; 93% of workers report virtual whiteboards as highly effective.',
+    cite: 'American Psychological Association. Organizational & agile collaboration research: teams using shared visual boards are 3Ã— more likely to align on complex workflows; 93% of workers report virtual whiteboards as highly effective.',
     href: "https://www.apa.org",
     linkText: "apa.org",
   },
@@ -334,7 +335,7 @@ export default function BuddyPage() {
           <CaseBreadcrumb segments={BUDDY_BREADCRUMB} />
         </div>
 
-        {/* Title — Rosario; top aligns with sidebar breadcrumb */}
+        {/* Title â€” Rosario; top aligns with sidebar breadcrumb */}
         <h1
           className={cn(
             rosario.className,
@@ -345,7 +346,7 @@ export default function BuddyPage() {
           Buddy
         </h1>
 
-        {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}
+        {/* Hero video â€” 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">
           <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">
             <p className="mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600">
@@ -359,7 +360,7 @@ export default function BuddyPage() {
           </div>
         </div>
 
-        {/* Metadata grid — Timeline, Role, Team, Tools */}
+        {/* Metadata grid â€” Timeline, Role, Team, Tools */}
         <div className="mb-14 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10">
           {METADATA_ROWS.map(({ label, value }) => (
             <div key={label}>
@@ -375,14 +376,14 @@ export default function BuddyPage() {
 
         <Divider />
 
-        <section id="the-challenge" className="scroll-mt-24">
+        <ScrollSection id="the-challenge">
           <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* PROJECT OVERVIEW */}
-        <section id="project-overview" className="scroll-mt-24">
+        <ScrollSection id="project-overview">
           <SectionLabel>Project Overview</SectionLabel>
           <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
             Design a handheld device which generates real time visuals of conversation.
@@ -416,12 +417,12 @@ export default function BuddyPage() {
           <p className="-mt-4 mb-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Diagrams made with Napkin.ai and Figma
           </p>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
-        {/* THE RESEARCH — problems/solutions diagrams first, participant + HMW below */}
-        <section id="the-research" className="scroll-mt-24">
+        {/* THE RESEARCH â€” problems/solutions diagrams first, participant + HMW below */}
+        <ScrollSection id="the-research">
           <SectionLabel>The Research</SectionLabel>
           
 
@@ -433,7 +434,7 @@ export default function BuddyPage() {
           <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {[
               { stat: "70%", body: "of projects fail due to miscommunication. (Shakeri & Khalilzadeh, 2020)" },
-              { stat: "6–23hrs", body: "spent weekly in meetings; $213B lost annually to ineffective ones. (Mroz et al., 2018)" },
+              { stat: "6â€“23hrs", body: "spent weekly in meetings; $213B lost annually to ineffective ones. (Mroz et al., 2018)" },
               { stat: "$62.4M", body: "lost per year by large orgs to miscommunication. (Armour, 2019)" },
             ].map(({ stat, body }) => (
               <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
@@ -459,7 +460,7 @@ export default function BuddyPage() {
                     className="pointer-events-none absolute -left-3 top-[20%] select-none text-[15px] leading-none text-violet-400/90"
                     aria-hidden
                   >
-                    ✦
+                    âœ¦
                   </span>
                   <span
                     className="pointer-events-none absolute -right-3 top-[20%] select-none text-[15px] leading-none text-fuchsia-400/85"
@@ -527,13 +528,13 @@ export default function BuddyPage() {
                   title: "Structured Transcription",
                   body: "Timestamped decisions and action items stop alignment drift.",
                   stat: "47%",
-                  statLabel: "say meetings waste time — tied to missing decision records. (Drexel)",
+                  statLabel: "say meetings waste time â€” tied to missing decision records. (Drexel)",
                 },
                 {
                   n: "03",
                   title: "Shared Digital Canvas",
                   body: "Draw, annotate, and vote together in real time.",
-                  stat: "3×",
+                  stat: "3Ã—",
                   statLabel: "more likely to align using a shared visual board. (APA)",
                 },
               ].map(({ stat, statLabel, body }) => (
@@ -557,19 +558,19 @@ export default function BuddyPage() {
               By implementing a technology that helps clarify ideas visually through LLM image generation.
             </p>
           </div>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* THE SOLUTION */}
-        <section id="the-solution" className="scroll-mt-24">
+        <ScrollSection id="the-solution">
           <SectionLabel>The Solution</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.6rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Conversations Made Visual
           </h2>
           <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 w-full">
-            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making abstract ideas tangible before they slip away. Rather than relying on memory or meeting notes, every concept discussed gets locked into a visual artifact that the whole team can see, reference, and build on. The result is a shared source of truth that persists long after the conversation ends, closing the gap between what was said and what was actually understood.
+            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram â€” making abstract ideas tangible before they slip away. Rather than relying on memory or meeting notes, every concept discussed gets locked into a visual artifact that the whole team can see, reference, and build on. The result is a shared source of truth that persists long after the conversation ends, closing the gap between what was said and what was actually understood.
           </p>
 
           <SectionLabel>Early Drawings</SectionLabel>
@@ -581,7 +582,7 @@ export default function BuddyPage() {
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-0.jpg"
-                alt="Early Buddy sketches — low-fi exploration"
+                alt="Early Buddy sketches â€” low-fi exploration"
                 imgClassName={EARLY_DRAWING_IMG_CLASS}
                 wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
               />
@@ -589,7 +590,7 @@ export default function BuddyPage() {
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-1.jpg"
-                alt="Early Buddy sketches — refinement toward high-fidelity"
+                alt="Early Buddy sketches â€” refinement toward high-fidelity"
                 imgClassName={EARLY_DRAWING_IMG_CLASS}
                 wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
               />
@@ -598,12 +599,12 @@ export default function BuddyPage() {
           <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Hand-drawn sketches
           </p>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* ENGINEERING */}
-        <section id="engineering" className="scroll-mt-24">
+        <ScrollSection id="engineering">
           <SectionLabel>Engineering</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
@@ -657,12 +658,12 @@ export default function BuddyPage() {
               </div>
             ))}
           </div>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* ITERATIONS */}
-        <section id="iterations" className="scroll-mt-24">
+        <ScrollSection id="iterations">
           <SectionLabel>Iterations</SectionLabel>
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Process clips
@@ -674,26 +675,26 @@ export default function BuddyPage() {
           <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] space-y-12">
             <IterationVideoFrame
               src="/buddy/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4"
-              caption="First iteration — prototyped in Figma"
+              caption="First iteration â€” prototyped in Figma"
             />
             <IterationVideoFrame
               src="/buddy/antoher.mp4"
-              caption="Second iteration — running locally, built with React and FastAPI"
+              caption="Second iteration â€” running locally, built with React and FastAPI"
             />
           </div>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* HARDWARE */}
-        <section id="hardware" className="scroll-mt-24">
+        <ScrollSection id="hardware">
           <SectionLabel>Hardware</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Progress Photos
           </h2>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-8">
-            Building the physical enclosure on a Raspberry Pi — hardware constraints forced architectural clarity that cloud deployment never would have.
+            Building the physical enclosure on a Raspberry Pi â€” hardware constraints forced architectural clarity that cloud deployment never would have.
           </p>
 
           <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
@@ -712,12 +713,12 @@ export default function BuddyPage() {
               className="my-0 min-w-0"
             />
           </div>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* FINAL PRODUCT */}
-        <section id="final-product" className="scroll-mt-24">
+        <ScrollSection id="final-product">
           <SectionLabel>Final Product</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-8">
@@ -735,12 +736,12 @@ export default function BuddyPage() {
               className="my-0"
             />
           </div>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* CONSIDERATIONS */}
-        <section id="considerations" className="scroll-mt-24">
+        <ScrollSection id="considerations">
           <SectionLabel>Considerations</SectionLabel>
 
           <div className="space-y-4 mb-12">
@@ -760,12 +761,12 @@ export default function BuddyPage() {
           <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 w-full">
             For the next iteration: anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
           </p>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
         {/* BIBLIOGRAPHY */}
-        <section id="bibliography" className="scroll-mt-24">
+        <ScrollSection id="bibliography">
           <SectionLabel>Bibliography</SectionLabel>
           <div className="rounded-2xl bg-zinc-100/60 p-6 ring-1 ring-black/[0.05]">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400 mb-5">
@@ -790,17 +791,15 @@ export default function BuddyPage() {
               ))}
             </ul>
           </div>
-        </section>
+        </ScrollSection>
 
         <Divider />
 
-        {/* VIDEO */}
-        <section id="video" className="scroll-mt-24">
-        
-        </section>
 
       </main>
       </div>
     </ProjectSurface>
   );
 }
+
+
