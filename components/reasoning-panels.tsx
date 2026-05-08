@@ -37,8 +37,16 @@ export function ReasoningPanels({ panels }: ReasoningPanelsProps) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.12 }}
-          className="grid grid-cols-1 gap-8 rounded-2xl border-[0.5px] border-lime-200/80 bg-gradient-to-br from-lime-500/[0.07] via-lime-500/[0.02] to-transparent p-8 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start sm:gap-10 md:p-10"
+          className="relative grid grid-cols-1 gap-8 overflow-hidden rounded-2xl border-[0.5px] border-lime-200/80 bg-gradient-to-br from-lime-500/[0.14] via-lime-500/[0.05] to-transparent p-8 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start sm:gap-10 md:p-10"
         >
+          {/* Big background number */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -bottom-4 -right-2 select-none font-mono text-[8rem] font-black leading-none text-lime-400/[0.18]"
+          >
+            {panel.label}
+          </span>
+
           {/* Image column */}
           <motion.div
             variants={fadeUp(0.06)}
@@ -48,12 +56,6 @@ export function ReasoningPanels({ panels }: ReasoningPanelsProps) {
             className="relative mx-auto w-full max-w-[160px] sm:mx-0"
           >
             <div className="absolute inset-0 -z-10 translate-y-4 scale-90 rounded-[1.75rem] bg-lime-300/30 blur-xl" />
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -bottom-2 -right-1 select-none font-mono text-[4rem] font-black leading-none text-lime-400/[0.22]"
-            >
-              {panel.label}
-            </span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={panel.img}
