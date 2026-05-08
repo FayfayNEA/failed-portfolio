@@ -69,7 +69,7 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             "bg-white/40 backdrop-blur-xl backdrop-saturate-110",
             `shadow-[0_8px_32px_-16px_${t.shadow},inset_0_1px_0_0_rgba(255,255,255,0.55)]`,
             isLaptop
-              ? "grid grid-cols-1 gap-8 p-8 md:p-10"
+              ? "grid grid-cols-1 gap-8 p-8 md:grid-cols-[minmax(0,400px)_1fr] md:items-start md:gap-10 md:p-10"
               : "grid grid-cols-1 gap-8 p-8 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start sm:gap-10 md:p-10",
           ].join(" ")}
         >

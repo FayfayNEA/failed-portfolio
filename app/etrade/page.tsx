@@ -375,9 +375,13 @@ export default function EtradePage() {
                     {
                       img: "https://framerusercontent.com/images/HhDpOLCsi5D912qkGVvTagSM2U.png?width=2206&height=1433",
                       label: "01",
-                      heading: "Design decision heading",
+                      heading: "F-theory layout, humanist type, and an AI behavioural coach",
                       points: [
-                        { lead: "Key point", detail: "Research rationale goes here." },
+                        { lead: "F-Theory page logic", detail: "Critical information is anchored left and top, following natural F-shaped eye movement so traders locate data before they consciously look for it." },
+                        { lead: "Humanist fonts cut glance time by 10.6%", detail: "Roboto and similar humanist sans-serifs reduce the time spent reading a data point, directly improving reaction speed (MIT)." },
+                        { lead: "Rounded edges reduce cortisol by 15%", detail: "Soft geometry draws the eye inward and lowers stress response compared to sharp corners, keeping traders calmer under pressure (NIH)." },
+                        { lead: "Customisation for individual strategies", detail: "Traders can rearrange panels to match their own workflow, reducing cognitive friction and supporting different trading styles." },
+                        { lead: "Trading is 80% behavioural", detail: "An embedded AI agent that tracks and surfaces behavioural patterns gives the trader a mirror — and a measurable edge over their own impulses." },
                       ],
                     },
                     {
