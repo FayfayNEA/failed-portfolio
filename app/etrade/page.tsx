@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
+import { BeforeAfterSlider } from "@/components/before-after-slider";
 
 const SLUG = "etrade";
 const CATEGORY = "product-design";
@@ -312,28 +313,17 @@ export default function EtradePage() {
               </p>
 
               <div className="mt-12">
-                <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                <h2 className="mb-6 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
                   Mid-fi wireframes
                 </h2>
-                <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                  Figma Mockups 
-                </p>
               </div>
-              <ProjectGalleryRow
-                images={[
-                  "https://framerusercontent.com/images/YSPA18zJk946sR2NYuLbAaN8aI.png?width=1444&height=1028",
-                  "https://framerusercontent.com/images/VUDH0FuU7W2ms48ioo9nOoeiI.png?width=1440&height=1024",
-                ]}
-                theme="sky"
-                glassVariant="liquid"
-                frameSize="medium"
-                slideImageFit="contain"
-                slidePadding="tight"
-                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
+              <BeforeAfterSlider
+                before="https://framerusercontent.com/images/YSPA18zJk946sR2NYuLbAaN8aI.png?width=1444&height=1028"
+                after="https://framerusercontent.com/images/VUDH0FuU7W2ms48ioo9nOoeiI.png?width=1440&height=1024"
+                beforeLabel="Wireframe 1"
+                afterLabel="Wireframe 2"
+                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))] aspect-[1444/1028]"
               />
-              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Figma mockups
-              </p>
               <div className="mx-auto mt-8 max-w-[min(56rem,100%)] space-y-4">
                 {[
                   {

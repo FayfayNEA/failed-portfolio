@@ -18,7 +18,7 @@ export default function Home() {
       <DesignerBio />
 
       {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[2rem] md:pt-[2rem]">
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[3rem] md:pt-[3rem]">
         {/* Gradient masks */}
         <div
           aria-hidden
