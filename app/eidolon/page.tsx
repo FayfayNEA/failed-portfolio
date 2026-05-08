@@ -117,15 +117,15 @@ export default async function EidolonPage() {
                 {[
                   {
                     stat: "65%",
-                    body: "of young adults report stress tied to AI — 53% report increased fatigue, 48% increased headaches. (APA, 2023)",
+                    body: "of young adults report AI-related stress — fatigue and headaches are common. (APA, 2023)",
                   },
                   {
                     stat: "81%",
-                    body: "of Americans are concerned about data and privacy when using AI services. (Pew Research Center, 2023)",
+                    body: "of Americans are concerned about data privacy with AI. (Pew Research, 2023)",
                   },
                   {
                     stat: "25%",
-                    body: "projected drop in traditional search volume by 2026 as AI agents take over navigation. (Gartner, 2024)",
+                    body: "projected drop in traditional search by 2026 as AI agents take over. (Gartner, 2024)",
                   },
                 ].map(({ stat, body }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
@@ -170,23 +170,23 @@ export default async function EidolonPage() {
                   {
                     n: "01",
                     title: "AI Toggle Permission Gate",
-                    body: "Let users choose — human mode or agent mode. One site, two realities.",
+                    body: "Human mode or agent mode — one site, two realities.",
                     stat: "20%",
-                    statLabel: "higher task accuracy for older users when interface noise is removed. (Nielsen Norman Group)",
+                    statLabel: "higher task accuracy when interface noise is removed. (NNg)",
                   },
                   {
                     n: "02",
                     title: "Negotiation Canvas",
-                    body: "A 3D workspace where Ashleigh watches the AI argue on her behalf — live handshakes and data verified before anything is final.",
+                    body: "Watch the AI negotiate live — every decision verified before it's final.",
                     stat: "22×",
-                    statLabel: "more memorable when information is delivered as a story rather than raw data. (Cognitive Psychology, Bruner)",
+                    statLabel: "more memorable as a story vs. raw data. (Bruner)",
                   },
                   {
                     n: "03",
                     title: "Haptic Authorization Gate",
-                    body: "For money, data, or identity — the agent pauses and hands control back via a physical swipe.",
+                    body: "Money or identity actions require a physical swipe to confirm.",
                     stat: "46%",
-                    statLabel: "of young adults want more analog moments in their day and less screen time. (APA, 2023)",
+                    statLabel: "of young adults want more analog control in their day. (APA, 2023)",
                   },
                 ].map(({ n, title, body, stat, statLabel }) => (
                   <div key={n} className="flex flex-col gap-3 rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">

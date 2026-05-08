@@ -189,7 +189,7 @@ export default function EtradePage() {
                     <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-[#0F8EC7]/80">{n}</span>
                     <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
                     <p className="text-[0.78rem] leading-relaxed text-sky-950/70">{body}</p>
-                    <div className="mt-auto border-t border-sky-200/50 pt-3">
+                    <div className="mt-auto pt-3">
                       <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-[#0F8EC7]">{stat}</p>
                       <p className="mt-1 text-[0.68rem] leading-snug text-sky-900/60">{statLabel}</p>
                     </div>

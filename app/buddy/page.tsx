@@ -432,9 +432,9 @@ export default function BuddyPage() {
 
           <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {[
-              { stat: "70%", body: "of projects experience miscommunication as a significant factor in failure. (Shakeri & Khalilzadeh, 2020)" },
-              { stat: "6–23hrs", body: "spent per week in meetings — employees average 6hrs, managers up to 23hrs — with $213B lost annually to ineffective meetings alone. (Mroz et al., 2018)" },
-              { stat: "$62.4M", body: "lost per year by large organizations due to miscommunication — a recurring cost most teams never see coming. (Armour, 2019)" },
+              { stat: "70%", body: "of projects fail due to miscommunication. (Shakeri & Khalilzadeh, 2020)" },
+              { stat: "6–23hrs", body: "spent weekly in meetings; $213B lost annually to ineffective ones. (Mroz et al., 2018)" },
+              { stat: "$62.4M", body: "lost per year by large orgs to miscommunication. (Armour, 2019)" },
             ].map(({ stat, body }) => (
               <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
                 <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
@@ -518,23 +518,23 @@ export default function BuddyPage() {
                 {
                   n: "01",
                   title: "AI Visual Generation",
-                  body: "Anchor every spoken idea with a visual so the whole room reacts to the same thing. Verbal-only recall drops to 10% after three days.",
+                  body: "Anchor ideas visually so the whole room reacts to the same thing.",
                   stat: "65%",
-                  statLabel: "retention when verbal information is paired with a visual — vs. 10% for words alone. (Medina / Boston University)",
+                  statLabel: "retention paired with a visual vs. 10% for words alone. (Medina / BU)",
                 },
                 {
                   n: "02",
                   title: "Structured Transcription",
-                  body: "Timestamped decisions and action items prevent alignment drift. The #1 reason meetings fail is missing follow-up notes.",
+                  body: "Timestamped decisions and action items stop alignment drift.",
                   stat: "47%",
-                  statLabel: "of employees say meetings are an outright waste of time, directly tied to missing decision records. (Drexel University)",
+                  statLabel: "say meetings waste time — tied to missing decision records. (Drexel)",
                 },
                 {
                   n: "03",
                   title: "Shared Digital Canvas",
-                  body: "Draw, annotate, and vote together in real time — eliminating the brainstorm vacuum where ideas go unbuilt.",
+                  body: "Draw, annotate, and vote together in real time.",
                   stat: "3×",
-                  statLabel: "more likely to align on complex workflows when using a shared visual board, with 93% citing effectiveness. (APA)",
+                  statLabel: "more likely to align using a shared visual board. (APA)",
                 },
               ].map(({ n, title, body, stat, statLabel }) => (
                 <div key={n} className="flex flex-col gap-3 rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
