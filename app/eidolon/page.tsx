@@ -535,8 +535,8 @@ export default async function EidolonPage() {
                       {
                         img: "/eidolon/dr2.png",
                         label: "02",
-                        heading: "Design decision heading",
-                        body: "Research rationale goes here.",
+                        heading: "A game HUD, not a dashboard — narrative over data",
+                        body: "Video game interfaces earn trust through story: Stanford research shows information framed as narrative is 22× more memorable than raw data alone. Eidolon leans into this — the agent's actions unfold as a quest the user can follow, not a log they have to parse. A persistent, recognizable profile element keeps the user spatially anchored no matter where they are in the flow. The muted, low-saturation background is deliberate: IxDF research links low-color environments to reduced cognitive load, which frees attention for the AI's reasoning rather than the chrome around it. MIT's ambient intelligence work also informed the decision to minimize screen-demanding interactions — the interface surfaces only what's needed, when it's needed.",
                         flip: true,
                       },
                       {
