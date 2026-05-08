@@ -515,40 +515,65 @@ export default async function EidolonPage() {
                     Mockups created with Figma
                   </p>
 
-                  <div className="mx-auto w-full max-w-[min(520px,calc(100vw-1.5rem))]">
-                    <ProjectGalleryRow
-                      images={[
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 123952.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124040.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124046.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124058.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124113.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124124.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125858.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125917.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125948.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130207.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130218.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130315.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130406.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130422.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130518.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130530.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130543.png"),
-                      ]}
-                      theme="lime"
-                      glassVariant="liquid"
-                      frameSize="phone"
-                      phoneHeight="short"
-                      navSize="sm"
-                      slideImageFit="contain"
-                      slidePadding="default"
-                      className="my-0 w-full"
-                    />
+                  <div className="space-y-16">
+                    {[
+                      {
+                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 123952.png"),
+                        label: "01",
+                        heading: "Design decision heading",
+                        body: "Research rationale goes here.",
+                        flip: false,
+                      },
+                      {
+                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130207.png"),
+                        label: "02",
+                        heading: "Design decision heading",
+                        body: "Research rationale goes here.",
+                        flip: true,
+                      },
+                      {
+                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130422.png"),
+                        label: "03",
+                        heading: "Design decision heading",
+                        body: "Research rationale goes here.",
+                        flip: false,
+                      },
+                      {
+                        img: encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130543.png"),
+                        label: "04",
+                        heading: "Design decision heading",
+                        body: "Research rationale goes here.",
+                        flip: true,
+                      },
+                    ].map(({ img, label, heading, body, flip }) => (
+                      <div
+                        key={label}
+                        className={`flex flex-col gap-8 md:flex-row md:items-center md:gap-12${flip ? " md:flex-row-reverse" : ""}`}
+                      >
+                        {/* Phone image */}
+                        <div className="mx-auto w-full max-w-[min(260px,calc(100vw-3rem))] shrink-0">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={img}
+                            alt={`Reasoning for design — ${label}`}
+                            className="w-full rounded-[2rem] border-[0.5px] border-zinc-200/70 object-contain shadow-[0_18px_55px_-24px_rgba(0,0,0,0.22)] ring-1 ring-black/[0.05]"
+                            loading="lazy"
+                          />
+                        </div>
+
+                        {/* Text */}
+                        <div className="min-w-0 flex-1">
+                          <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/70">
+                            {label}
+                          </p>
+                          <h3 className="mb-4 text-[1.15rem] font-medium leading-snug tracking-[-0.02em] text-zinc-950">
+                            {heading}
+                          </h3>
+                          <p className="text-[0.85rem] leading-[1.75] text-zinc-500">{body}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                    Figma mockups
-                  </p>
                 </div>
               </div>
             </>
