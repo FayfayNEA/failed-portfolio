@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 import { useState, useCallback } from "react";
+import { motion } from "framer-motion";
 import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { ProjectSurface } from "@/components/project-surface";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
@@ -387,9 +388,15 @@ function HeroVideoCarousel({
 
 function SectionLabel({ children }: { children: ReactNode }) {
   return (
-    <p className="mb-6 font-sans text-[10px] font-normal uppercase tracking-[0.18em] text-[#A0A0A0]">
+    <motion.p
+      initial={{ opacity: 0, x: -8 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      className="mb-6 font-sans text-[10px] font-normal uppercase tracking-[0.18em] text-[#A0A0A0]"
+    >
       {children}
-    </p>
+    </motion.p>
   );
 }
 
@@ -840,10 +847,17 @@ export function ManualProjectPage({
           const hasMoreVisible = sections.slice(idx + 1).some((n) => !n.navOnly);
           return (
             <Fragment key={s.id}>
-              <section id={s.id} className="scroll-mt-24">
+              <motion.section
+                id={s.id}
+                className="scroll-mt-24"
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.04 }}
+                transition={{ type: "spring", stiffness: 320, damping: 32, mass: 1 }}
+              >
                 <SectionLabel>{s.label}</SectionLabel>
                 {s.content}
-              </section>
+              </motion.section>
               {hasMoreVisible && <Divider />}
             </Fragment>
           );
