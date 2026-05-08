@@ -32,7 +32,7 @@ export default function EtradePage() {
       }
       heroFrameVariant="liquid"
       heroSize="wide"
-      challengeSummary="51% of users struggle with E*Trade's old interface."
+      challengeSummary="Redesign E*Trade for a swing trader while keeping the old edge."
       meta={{
         timeline: "1 week",
         roles: ["Full Stack Engineer", "Product Designer"],
@@ -48,11 +48,12 @@ export default function EtradePage() {
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Design E*Trade to a modern standard with clean UI, lower cognitive load and an AI to help with behavioral errors.
               </h2>
-              <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                A simple UI with a low cognitive load is essential to a trading platform. E*Trade&apos;s
-                UI has constant complaints from users of site usability; many users are now
-                switching to more modern platforms because small mistakes are costing them millions.
-
+              <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
+                E*Trade has constant complaints from users about site usability — many are now
+                switching to more modern platforms like TradingView, Webull, and Interactive
+                Brokers. Users cite a lack of control and an inability to see multiple data points
+                at once. To retain and attract new clients, E*Trade needs to address these concerns
+                while implementing tools that match modern trading workflows.
               </p>
 
               <h2 className="mt-10 mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
@@ -107,30 +108,114 @@ export default function EtradePage() {
           label: "RESEARCH",
           content: (
             <>
-              <h2 className="mb-6 max-w-[min(44rem,100%)] text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
+              <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
                 <span className="tabular-nums text-sky-600">70%</span>
                 {" of E*Trade users struggle with the site's UI."}
               </h2>
+
+              {/* 3 problem stat cards */}
+              <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  {
+                    stat: "22%",
+                    label: "more likely to panic sell or revenge trade under high UI stress",
+                    source: "Visual Voyage Study",
+                  },
+                  {
+                    stat: "26%",
+                    label: "increase in trader efficiency when display clutter is removed",
+                    source: "Tufte's / NIH, 2023",
+                  },
+                  {
+                    stat: "54%",
+                    label: "more successful trades achieved with better UX design",
+                    source: "The Design Index",
+                  },
+                ].map(({ stat, label, source }) => (
+                  <div
+                    key={stat}
+                    className="rounded-xl bg-[#0F8EC7]/[0.07] p-5 ring-1 ring-[#0F8EC7]/20"
+                  >
+                    <p className="mb-1 font-mono text-[2rem] font-black leading-none tabular-nums text-[#0F8EC7]">
+                      {stat}
+                    </p>
+                    <p className="text-[0.78rem] font-medium leading-snug text-sky-950">{label}</p>
+                    <p className="mt-1 text-[0.68rem] leading-snug text-[#0F8EC7]/60">{source}</p>
+                  </div>
+                ))}
+              </div>
+
               <PersonaCards
                 personas={JSON.stringify([
                   {
                     name: "Hannah Goodman",
                     photo: "/etrade/participant.png",
                     age: "28",
-                    role: "Active Trader",
+                    role: "Retail Swing Trader · 100K–1M in Assets",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      "Overwhelmed by dense UI clutter and competing signals.",
-                      "Struggles to compare data quickly when timing matters.",
-                      "Misses crucial trade windows because the workflow is slow and confusing.",
+                      "Misses critical trade windows — the cluttered UI is too slow to navigate.",
+                      "Can't compare stocks side by side; losing ground to cleaner platforms.",
                     ],
                   },
                 ])}
                 accent="etrade"
                 rightColumnHeading="Frustrations"
-                hmw="How might we improve user retention and reduce trading errors?"
-                hmw-answer="By increasing a trader's speed through decreasing cognitive load."
               />
+
+              {/* 3 solution stat cards */}
+              <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  {
+                    num: "01",
+                    heading: "Command Sidebar",
+                    stat: "60% faster execution",
+                    body: "Fitts's Law 44px hit-states, F-pattern sidebar, and visual hierarchy cut clicks to trade.",
+                    source: "Fitts's Law / Nielsen Norman Group",
+                  },
+                  {
+                    num: "02",
+                    heading: "Glass-Box AI Agent",
+                    stat: "55% faster reaction time",
+                    body: "90% luminance contrast and a logic-anchored agent with confidence scores mitigate revenge trading.",
+                    source: "Visual Finance SMU / The Design Index",
+                  },
+                  {
+                    num: "03",
+                    heading: "Clinical Typography",
+                    stat: "15% cortisol reduction",
+                    body: "8–12px rounded edges lower stress; humanist tabular fonts cut glance time by 10.6%.",
+                    source: "SMU / MIT AgeLab",
+                  },
+                ].map(({ num, heading, stat, body, source }) => (
+                  <div
+                    key={num}
+                    className="rounded-xl bg-[#0F8EC7]/[0.07] p-5 ring-1 ring-[#0F8EC7]/20"
+                  >
+                    <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-[#0F8EC7]/70">
+                      {num} — {heading}
+                    </p>
+                    <p className="mb-2 font-mono text-[1.35rem] font-black leading-none tabular-nums text-[#0F8EC7]">
+                      {stat}
+                    </p>
+                    <p className="text-[0.78rem] font-medium leading-snug text-sky-950">{body}</p>
+                    <p className="mt-1 text-[0.68rem] leading-snug text-[#0F8EC7]/60">{source}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* HMW */}
+              <div id="how-might-we" className="mt-16 scroll-mt-24">
+                <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
+                  How Might We
+                </p>
+                <p className="text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
+                  Improve user retention by 40%?
+                </p>
+                <p className="mt-4 text-[0.85rem] leading-relaxed text-zinc-500">
+                  By increasing a swing trader&apos;s success through speed, decisiveness, and cognitive clarity by at least 10%.
+                </p>
+              </div>
 
               <ProjectGalleryRow
                 images={[
