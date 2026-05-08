@@ -118,29 +118,23 @@ export default function EtradePage() {
                 {[
                   {
                     stat: "22%",
-                    label: "more likely to panic sell or revenge trade under high UI stress",
-                    source: "Visual Voyage Study",
+                    body: "more likely to panic sell or revenge trade under high UI stress (Visual Voyage Study)",
                   },
                   {
                     stat: "26%",
-                    label: "increase in trader efficiency when display clutter is removed",
-                    source: "Tufte's / NIH, 2023",
+                    body: "increase in trader efficiency when display clutter is removed (Tufte's / NIH, 2023)",
                   },
                   {
                     stat: "54%",
-                    label: "more successful trades achieved with better UX design",
-                    source: "The Design Index",
+                    body: "more successful trades achieved with better UX design (The Design Index)",
                   },
-                ].map(({ stat, label, source }) => (
+                ].map(({ stat, body }) => (
                   <div
                     key={stat}
-                    className="rounded-xl bg-[#0F8EC7]/[0.07] p-5 ring-1 ring-[#0F8EC7]/20"
+                    className="rounded-2xl bg-[#0F8EC7]/[0.06] p-5 ring-1 ring-[#0F8EC7]/30"
                   >
-                    <p className="mb-1 font-mono text-[2rem] font-black leading-none tabular-nums text-[#0F8EC7]">
-                      {stat}
-                    </p>
-                    <p className="text-[0.78rem] font-medium leading-snug text-sky-950">{label}</p>
-                    <p className="mt-1 text-[0.68rem] leading-snug text-[#0F8EC7]/60">{source}</p>
+                    <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-[#0F8EC7]">{stat}</p>
+                    <p className="text-[0.78rem] leading-relaxed text-sky-950/75">{body}</p>
                   </div>
                 ))}
               </div>
@@ -167,39 +161,38 @@ export default function EtradePage() {
               <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
                   {
-                    num: "01",
-                    heading: "Command Sidebar",
-                    stat: "60% faster execution",
+                    n: "01",
+                    title: "Command Sidebar",
                     body: "Fitts's Law 44px hit-states, F-pattern sidebar, and visual hierarchy cut clicks to trade.",
-                    source: "Fitts's Law / Nielsen Norman Group",
+                    stat: "60%",
+                    statLabel: "faster execution speed. (Fitts's Law / Nielsen Norman Group)",
                   },
                   {
-                    num: "02",
-                    heading: "Glass-Box AI Agent",
-                    stat: "55% faster reaction time",
+                    n: "02",
+                    title: "Glass-Box AI Agent",
                     body: "90% luminance contrast and a logic-anchored agent with confidence scores mitigate revenge trading.",
-                    source: "Visual Finance SMU / The Design Index",
+                    stat: "55%",
+                    statLabel: "faster reaction time. (Visual Finance SMU / The Design Index)",
                   },
                   {
-                    num: "03",
-                    heading: "Clinical Typography",
-                    stat: "15% cortisol reduction",
+                    n: "03",
+                    title: "Clinical Typography",
                     body: "8–12px rounded edges lower stress; humanist tabular fonts cut glance time by 10.6%.",
-                    source: "SMU / MIT AgeLab",
+                    stat: "15%",
+                    statLabel: "cortisol reduction from rounded geometry. (SMU / MIT AgeLab)",
                   },
-                ].map(({ num, heading, stat, body, source }) => (
+                ].map(({ n, title, body, stat, statLabel }) => (
                   <div
-                    key={num}
-                    className="rounded-xl bg-[#0F8EC7]/[0.07] p-5 ring-1 ring-[#0F8EC7]/20"
+                    key={n}
+                    className="flex flex-col gap-3 rounded-2xl bg-[#0F8EC7]/[0.06] p-5 ring-1 ring-[#0F8EC7]/30"
                   >
-                    <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-[#0F8EC7]/70">
-                      {num} — {heading}
-                    </p>
-                    <p className="mb-2 font-mono text-[1.35rem] font-black leading-none tabular-nums text-[#0F8EC7]">
-                      {stat}
-                    </p>
-                    <p className="text-[0.78rem] font-medium leading-snug text-sky-950">{body}</p>
-                    <p className="mt-1 text-[0.68rem] leading-snug text-[#0F8EC7]/60">{source}</p>
+                    <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-[#0F8EC7]/80">{n}</span>
+                    <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
+                    <p className="text-[0.78rem] leading-relaxed text-sky-950/70">{body}</p>
+                    <div className="mt-auto border-t border-sky-200/50 pt-3">
+                      <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-[#0F8EC7]">{stat}</p>
+                      <p className="mt-1 text-[0.68rem] leading-snug text-sky-900/60">{statLabel}</p>
+                    </div>
                   </div>
                 ))}
               </div>
