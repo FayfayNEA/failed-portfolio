@@ -536,10 +536,11 @@ export default function BuddyPage() {
                   stat: "3×",
                   statLabel: "more likely to align using a shared visual board. (APA)",
                 },
-              ].map(({ stat, statLabel }) => (
+              ].map(({ stat, statLabel, body }) => (
                 <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
                   <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
-                  <p className="text-[0.78rem] leading-relaxed text-violet-950/75">{statLabel}</p>
+                  <p className="mb-2 text-[0.78rem] leading-relaxed text-violet-950/75">{statLabel}</p>
+                  <p className="text-[0.78rem] leading-relaxed text-violet-950/60">{body}</p>
                 </div>
               ))}
             </div>
