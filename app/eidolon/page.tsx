@@ -542,15 +542,15 @@ export default async function EidolonPage() {
                       {
                         img: "/eidolon/dr3.png",
                         label: "03",
-                        heading: "Design decision heading",
-                        body: "Research rationale goes here.",
+                        heading: "Multi-sensory confirmation — a signature the AI can't forge",
+                        body: "Research across Egan, Foxe, O'Connell, Kelly, and Ramirez consistently shows that engaging haptic, auditory, and visual channels simultaneously accelerates decision-making and makes the memory of that action more durable. High-stakes transactions in Eidolon require a physical gesture unique to the user — closer to a handwritten signature than a button tap — because only human movement can authorize them; the AI agent is explicitly locked out. The color palette reinforces the moment: a slight green tint keeps the baseline calm while a purple accent creates enough contrast to signal that something consequential is happening, without tipping into alarm.",
                         flip: false,
                       },
                       {
                         img: "/eidolon/dr4.png",
                         label: "04",
-                        heading: "Design decision heading",
-                        body: "Research rationale goes here.",
+                        heading: "Human and AI solving problems together — trust through shared agency",
+                        body: "When Eidolon's agent hits uncertainty it expresses it visibly — hesitation, not false confidence. Ma, Hao, Wang, and Khynevych found that AI systems displaying human-like confusion are met with significantly more user forgiveness when they fail, because the error feels honest rather than opaque. Mayer, Karny, Ayoub, Song, Tian, Pari, and Styvers extend this further: users who feel genuinely in control of an AI system end up respecting it more, not less. MIT research on consumer-AI interaction adds a third layer — when users are active participants rather than passive recipients, the biases they project onto AI outputs measurably decrease. Eidolon is designed around all three: the agent shows its reasoning, the human authorizes every consequential step, and the interface treats the pairing as a collaboration.",
                         flip: true,
                       },
                     ].map(({ img, label, heading, body, flip }) => (
