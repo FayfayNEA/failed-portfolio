@@ -119,7 +119,7 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             </h3>
             <ul className="space-y-3">
               {panel.points.map(({ lead, detail }) => (
-                <li key={lead} className={`border-t ${t.divider} pt-3 first:border-t-0 first:pt-0`}>
+                <li key={lead}>
                   <p className="mb-0.5 text-[0.78rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
                     {lead}
                   </p>
