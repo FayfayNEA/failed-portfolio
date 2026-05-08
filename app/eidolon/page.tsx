@@ -643,6 +643,62 @@ export default async function EidolonPage() {
           ),
         },
         {
+          id: "engineering",
+          label: "ENGINEERING",
+          content: (
+            <>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {[
+                  {
+                    category: "Frontend",
+                    items: [
+                      { name: "React 19", detail: "Single Page Application" },
+                      { name: "Vite 6", detail: "Build tool" },
+                      { name: "TypeScript", detail: "Type-safe code" },
+                    ],
+                  },
+                  {
+                    category: "Styling & Animation",
+                    items: [
+                      { name: "Tailwind CSS 4", detail: "Utility-first styling" },
+                      { name: "Motion", detail: "Character transitions & UI effects" },
+                      { name: "Lucide React", detail: "Interface icons" },
+                    ],
+                  },
+                  {
+                    category: "AI Integration",
+                    items: [
+                      { name: "Gemini 3 Flash Preview", detail: "@google/genai SDK" },
+                      { name: "Dynamic AI Logic", detail: "Dialogue & state transitions — Idle, Walking, Talking" },
+                    ],
+                  },
+                  {
+                    category: "Infrastructure",
+                    items: [
+                      { name: "Google Cloud Run", detail: "Hosted via AI Studio Build" },
+                      { name: "Express", detail: "Backend support layer" },
+                    ],
+                  },
+                ].map(({ category, items }) => (
+                  <div key={category} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
+                    <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/70">
+                      {category}
+                    </p>
+                    <ul className="space-y-3">
+                      {items.map(({ name, detail }) => (
+                        <li key={name}>
+                          <p className="text-[0.85rem] font-medium leading-snug text-zinc-950">{name}</p>
+                          <p className="text-[0.72rem] leading-snug text-zinc-500">{detail}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
           id: "considerations",
           label: "CONSIDERATIONS",
           content: (
