@@ -578,7 +578,6 @@ export default async function EidolonPage() {
                   <div className="mx-auto mt-16 w-full max-w-[min(520px,calc(100vw-1.5rem))]">
                     <ProjectGalleryRow
                       images={[
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 123952.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124040.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124046.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124058.png"),
@@ -587,14 +586,11 @@ export default async function EidolonPage() {
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125858.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125917.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125948.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130207.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130218.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130315.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130406.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130422.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130518.png"),
                         encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130530.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130543.png"),
                       ]}
                       theme="lime"
                       glassVariant="liquid"
@@ -603,6 +599,7 @@ export default async function EidolonPage() {
                       navSize="sm"
                       slideImageFit="contain"
                       slidePadding="default"
+                      enableLightbox
                       className="my-0 w-full"
                     />
                   </div>

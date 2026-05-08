@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useId, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { cn } from "@/lib/cn";
@@ -45,6 +46,8 @@ type ProjectGalleryRowProps = {
   dotStyle?: "pill" | "dots" | "track";
   /** For `frameSize="phone"`: reduce max height slightly. */
   phoneHeight?: "tall" | "short";
+  /** When true, clicking the current slide opens a full-screen lightbox. */
+  enableLightbox?: boolean;
 };
 
 export function ProjectGalleryRow({
@@ -59,13 +62,28 @@ export function ProjectGalleryRow({
   showDots = true,
   dotStyle = "pill",
   phoneHeight = "tall",
+  enableLightbox = false,
 }: ProjectGalleryRowProps) {
   const uid = useId().replace(/:/g, "");
   const layoutScopeId = `pg-scope-${uid}`;
   const pillLayoutId = `pg-pill-${uid}`;
 
   const [index, setIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const n = images.length;
+
+  // Lock scroll when lightbox is open
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightboxOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.documentElement.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightboxOpen]);
   const slideIndex = n === 0 ? 0 : ((index % n) + n) % n;
 
   const go = useCallback((dir: -1 | 1) => {
@@ -458,12 +476,14 @@ export function ProjectGalleryRow({
                     loading="eager"
                     decoding="async"
                     fetchPriority="high"
-                    className={
+                    className={cn(
                       slideImageFit === "cover"
                         ? "h-full w-full object-cover"
-                        : "max-h-full max-w-full object-contain"
-                    }
+                        : "max-h-full max-w-full object-contain",
+                      enableLightbox && "cursor-zoom-in"
+                    )}
                     draggable={false}
+                    onClick={enableLightbox ? () => setLightboxOpen(true) : undefined}
                   />
                 </motion.div>
               </AnimatePresence>
@@ -568,6 +588,34 @@ export function ProjectGalleryRow({
           </div>
         )}
       </div>
+
+      {/* Lightbox portal */}
+      {enableLightbox && lightboxOpen && typeof document !== "undefined" && createPortal(
+        <div
+          className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          onClick={() => setLightboxOpen(false)}
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={images[index]}
+            alt=""
+            className="max-h-[92dvh] max-w-[92dvw] object-contain"
+            draggable={false}
+            onClick={(e) => e.stopPropagation()}
+          />
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+            aria-label="Close lightbox"
+          >
+            ✕
+          </button>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
