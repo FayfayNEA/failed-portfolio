@@ -528,8 +528,8 @@ export default async function EidolonPage() {
                       {
                         img: "/eidolon/dr1.png",
                         label: "01",
-                        heading: "Design decision heading",
-                        body: "Research rationale goes here.",
+                        heading: "Color and type tuned for neurological calm",
+                        body: "The accent green wasn't an aesthetic whim — NIH research ties green tones to measurable cortisol reduction and lower resting heart rate, and a Melbourne study shows it helps the brain reset between cognitively demanding tasks (NIH Environ Health Prev Med). Montserrat was chosen because its rounded letterforms create warmth without sacrificing legibility (WGS); the absence of a true geometric sans keeps the interface feeling modern rather than clinical. Pure white was removed from every surface — Harvard research links high-contrast white backgrounds to increased visual fatigue — so the off-white canvas stays easy on the eye across long sessions.",
                         flip: false,
                       },
                       {
