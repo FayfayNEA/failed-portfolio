@@ -1,6 +1,7 @@
 import { CategoryGallery } from "@/components/category-gallery";
 import type { GalleryProject } from "@/components/category-gallery";
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
+import { DesignerBio } from "@/components/designer-bio";
 
 const PROJECTS: GalleryProject[] = [
   { slug: "eidolon",      title: "Eidolon",      description: "created a visual ai agent to help users trust automation",                                   year: "2026", coverColor: "transparent", labelGlassTint: "moss", coverImageClassName: "scale-[.9]",  coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/eidolon.png",                                              href: "/eidolon" },
@@ -14,6 +15,8 @@ const PROJECTS: GalleryProject[] = [
 export default function Home() {
   return (
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
+      <DesignerBio />
+
       {/* Collage iframe */}
       <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[2rem] md:pt-[2rem]">
         {/* Gradient masks */}
