@@ -113,7 +113,7 @@ export default async function EidolonPage() {
                 {" of U.S. adults are concerned about the future of AI."}
               </h2>
 
-              <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
                 {[
                   {
                     stat: "65%",
@@ -128,8 +128,8 @@ export default async function EidolonPage() {
                     body: "projected drop in traditional search by 2026 as AI agents take over. (Gartner, 2024)",
                   },
                 ].map(({ stat, body }) => (
-                  <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
-                    <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
+                  <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
+                    <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
                     <p className="text-[0.78rem] leading-relaxed text-lime-950/75">{body}</p>
                   </div>
                 ))}
@@ -165,7 +165,7 @@ export default async function EidolonPage() {
                 ])}
               />
 
-              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
                 {[
                   {
                     n: "01",
@@ -188,13 +188,12 @@ export default async function EidolonPage() {
                     stat: "46%",
                     statLabel: "of young adults want more analog control in their day. (APA, 2023)",
                   },
-                ].map(({ n, title, stat, statLabel }) => (
-                  <div key={n} className="flex flex-col gap-3 rounded-2xl bg-lime-500/[0.06] p-5 ring-1 ring-lime-300/30">
-                    <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-lime-600/80">{n}</span>
+                ].map(({ title, stat, statLabel }) => (
+                  <div key={title} className="flex flex-col gap-5 rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
                     <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
-                    <div className="mt-auto pt-3">
-                      <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-lime-600">{stat}</p>
-                      <p className="mt-1 text-[0.68rem] leading-snug text-lime-900/60">{statLabel}</p>
+                    <div className="mt-auto pt-2">
+                      <p className="font-mono text-[0.95rem] font-medium leading-none tracking-[-0.02em] text-lime-600">{stat}</p>
+                      <p className="mt-1.5 text-[0.68rem] leading-snug text-lime-900/60">{statLabel}</p>
                     </div>
                   </div>
                 ))}

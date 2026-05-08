@@ -430,14 +430,14 @@ export default function BuddyPage() {
             {" of designers waste time dealing with miscommunications."}
           </h2>
 
-          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {[
               { stat: "70%", body: "of projects fail due to miscommunication. (Shakeri & Khalilzadeh, 2020)" },
               { stat: "6–23hrs", body: "spent weekly in meetings; $213B lost annually to ineffective ones. (Mroz et al., 2018)" },
               { stat: "$62.4M", body: "lost per year by large orgs to miscommunication. (Armour, 2019)" },
             ].map(({ stat, body }) => (
-              <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
-                <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
+              <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
+                <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
                 <p className="text-[0.78rem] leading-relaxed text-violet-950/75">{body}</p>
               </div>
             ))}
@@ -513,7 +513,7 @@ export default function BuddyPage() {
           </div>
 
           <div className="mt-8">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               {[
                 {
                   n: "01",
@@ -536,13 +536,12 @@ export default function BuddyPage() {
                   stat: "3×",
                   statLabel: "more likely to align using a shared visual board. (APA)",
                 },
-              ].map(({ n, title, stat, statLabel }) => (
-                <div key={n} className="flex flex-col gap-3 rounded-2xl bg-violet-500/[0.06] p-5 ring-1 ring-violet-300/30">
-                  <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-violet-500/80">{n}</span>
+              ].map(({ title, stat, statLabel }) => (
+                <div key={title} className="flex flex-col gap-5 rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
                   <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
-                  <div className="mt-auto pt-3">
-                    <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-violet-600">{stat}</p>
-                    <p className="mt-1 text-[0.68rem] leading-snug text-violet-900/60">{statLabel}</p>
+                  <div className="mt-auto pt-2">
+                    <p className="font-mono text-[0.95rem] font-medium leading-none tracking-[-0.02em] text-violet-600">{stat}</p>
+                    <p className="mt-1.5 text-[0.68rem] leading-snug text-violet-900/60">{statLabel}</p>
                   </div>
                 </div>
               ))}

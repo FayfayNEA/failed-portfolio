@@ -114,7 +114,7 @@ export default function EtradePage() {
               </h2>
 
               {/* 3 problem stat cards */}
-              <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
                 {[
                   {
                     stat: "22%",
@@ -131,9 +131,9 @@ export default function EtradePage() {
                 ].map(({ stat, body }) => (
                   <div
                     key={stat}
-                    className="rounded-2xl bg-[#0F8EC7]/[0.06] p-5 ring-1 ring-[#0F8EC7]/30"
+                    className="rounded-2xl bg-[#0F8EC7]/[0.06] p-6 ring-1 ring-[#0F8EC7]/30"
                   >
-                    <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-[#0F8EC7]">{stat}</p>
+                    <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-[#0F8EC7]">{stat}</p>
                     <p className="text-[0.78rem] leading-relaxed text-sky-950/75">{body}</p>
                   </div>
                 ))}
@@ -158,7 +158,7 @@ export default function EtradePage() {
               />
 
               {/* 3 solution stat cards */}
-              <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
                 {[
                   {
                     n: "01",
@@ -181,16 +181,15 @@ export default function EtradePage() {
                     stat: "15%",
                     statLabel: "cortisol reduction from rounded geometry. (SMU / MIT AgeLab)",
                   },
-                ].map(({ n, title, stat, statLabel }) => (
+                ].map(({ title, stat, statLabel }) => (
                   <div
-                    key={n}
-                    className="flex flex-col gap-3 rounded-2xl bg-[#0F8EC7]/[0.06] p-5 ring-1 ring-[#0F8EC7]/30"
+                    key={title}
+                    className="flex flex-col gap-5 rounded-2xl bg-[#0F8EC7]/[0.06] p-6 ring-1 ring-[#0F8EC7]/30"
                   >
-                    <span className="font-mono text-[0.65rem] font-medium uppercase tracking-[0.18em] text-[#0F8EC7]/80">{n}</span>
                     <p className="font-medium leading-snug tracking-[-0.01em] text-zinc-950">{title}</p>
-                    <div className="mt-auto pt-3">
-                      <p className="font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-[#0F8EC7]">{stat}</p>
-                      <p className="mt-1 text-[0.68rem] leading-snug text-sky-900/60">{statLabel}</p>
+                    <div className="mt-auto pt-2">
+                      <p className="font-mono text-[0.95rem] font-medium leading-none tracking-[-0.02em] text-[#0F8EC7]">{stat}</p>
+                      <p className="mt-1.5 text-[0.68rem] leading-snug text-sky-900/60">{statLabel}</p>
                     </div>
                   </div>
                 ))}
