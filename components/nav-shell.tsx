@@ -104,7 +104,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
         ))}
       </div>
       {/* Mobile contact footer — replaces icon stack on small screens */}
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-[90] flex items-center justify-around px-6 py-3 border-t border-black/[0.06] bg-white/[0.55] backdrop-blur-xl backdrop-saturate-125">
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-[90] flex items-center justify-around px-6 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] border-t border-black/[0.06] bg-white/[0.55] backdrop-blur-xl backdrop-saturate-125">
         {SOCIAL_BUBBLES.map(({ href, label, icon }) => (
           <a
             key={href}
@@ -129,7 +129,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
           className={cn(
             "relative z-[1] flex min-h-full flex-1 flex-col",
             !fullBleed && "pt-[4rem] md:pt-[5rem]",
-            "pb-[60px] md:pb-0",
+            "pb-[calc(60px+env(safe-area-inset-bottom,0px))] md:pb-0",
             fitherBg && "fither-page-canvas min-h-[100dvh]"
           )}
         >

@@ -46,7 +46,7 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
                 className={cn(
                   "whitespace-nowrap font-mono text-[11px] font-light leading-none tracking-[0.04em]",
                   "text-zinc-400 transition-colors duration-150",
-                  "underline-offset-2 hover:text-zinc-700 hover:underline"
+                  "underline-offset-2 hover:text-zinc-700 hover:underline active:text-zinc-700 active:underline"
                 )}
               >
                 {seg.label}

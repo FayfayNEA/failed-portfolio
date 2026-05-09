@@ -231,7 +231,7 @@ export function ProjectGalleryRow({
     "outline-none",
     "disabled:cursor-not-allowed disabled:opacity-25",
     "focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
-    navSize === "sm" ? "h-7 w-7 text-[14px]" : "h-9 w-9 text-[16px]"
+    navSize === "sm" ? "h-11 w-11 md:h-7 md:w-7 text-[14px]" : "h-11 w-11 md:h-9 md:w-9 text-[16px]"
   );
 
   const inactiveDotClass =
