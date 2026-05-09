@@ -94,7 +94,7 @@ export default function NightterrorsPage() {
           </a>
         </div>
       }
-      challengeSummary="N1ghtterrors unique and raw style needs a website which further speaks to the brand collective it has created."
+      challengeSummary="N1ghtterrors' unique and raw style needs a website that further speaks to the brand collective it has created."
       meta={{
         timeline: "3 years",
         roles: [

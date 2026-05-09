@@ -41,7 +41,7 @@ export default function LighthousePage() {
           label: "PROJECT OVERVIEW",
           content: (
             <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-              A old lighthouse off of Westport beach needed a new vibe for cheap. So, my boss tasked me with bringing it to life.
+              An old lighthouse off Westport beach needed a new vibe on the cheap, so my boss tasked me with bringing it to life.
             </p>
           ),
         },

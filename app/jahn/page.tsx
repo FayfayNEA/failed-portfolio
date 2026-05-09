@@ -36,7 +36,7 @@ export default function JahnPage() {
           </a>
         </div>
       }
-      challengeSummary="Helmut Jahn's firm has a strong and iconic legacy but their website barely shows the work."
+      challengeSummary="Helmut Jahn's firm has a strong and iconic legacy, but their website barely shows the work."
       meta={{
         timeline: "2 Months",
         roles: ["Designer"],

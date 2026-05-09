@@ -363,7 +363,7 @@ export default function EtradePage() {
                 {[
                   {
                     topic: "Wireframe baseline",
-                    body: "The largest change was a simplified UI with less information present at a given moment — research shows more than 8 data points on a page at once overwhelms a user and causes trading errors.",
+                    body: "The largest change was a simplified UI with less information present at any given moment — research shows that more than 8 data points on a page at once overwhelm a user and cause trading errors.",
                   },
                   {
                     topic: "Reading pattern vs. trading reality",

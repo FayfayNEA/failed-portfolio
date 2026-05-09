@@ -386,10 +386,10 @@ export default function BuddyPage() {
         <ScrollSection id="project-overview">
           <SectionLabel>Project Overview</SectionLabel>
           <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-            Design a handheld device which generates real time visuals of conversation.
+            Design a handheld device that generates real-time visuals of conversation.
           </h2>
           <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-            Buddy seeks to resolve the disconnect of working in groups, by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It utilizes rapid prototyping, electronics, and full-stack software development to create a product that preserves conversations through a visual history of conversations and saves valuable concepts from being lost to misarticulation.
+            Buddy resolves the disconnect of group work by acting as an intermediary that captures conversations in real time through LLM-powered image generation. Built with rapid prototyping, electronics, and full-stack software development, it preserves discussions as a visual history and saves valuable concepts from being lost to misarticulation.
           </p>
 
           <div className="relative mb-10 mt-10 flex min-h-[min(42vh,420px)] w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:mt-14 md:min-h-[min(46vh,480px)]">

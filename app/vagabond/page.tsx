@@ -27,7 +27,7 @@ export default function VagabondPage() {
         alt: "Vagabond Radio",
         layout: "compact",
       }}
-      challengeSummary="Understand how to tell another person's story and ask invigorating questions. "
+      challengeSummary="Understand how to tell another person's story and ask invigorating questions."
       meta={{ timeline: "Six Months, 2025", roles: ["Designer"], team: ["Failenn Aselta"] }}
       sections={[
         {

@@ -23,7 +23,7 @@ export default function CoolPage() {
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "COOL. cover" }}
-      challengeSummary="Allow people to connect with others on first impressions . "
+      challengeSummary="Allow people to connect with others on first impressions."
       meta={{ timeline: "Two Months, 2025", team: ["Clara Pakman", "Failenn Aselta"], roles: ["Designer"] }}
       sections={[
         {

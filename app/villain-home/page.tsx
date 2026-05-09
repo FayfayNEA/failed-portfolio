@@ -40,7 +40,7 @@ export default function VillainHomePage() {
         alt: "Villain Home",
         layout: "tall",
       }}
-      challengeSummary="To create a villainous lair for the DC villain,  Poison Ivy."
+      challengeSummary="Create a villainous lair for the DC villain Poison Ivy."
       meta={{ timeline: "One Year, 2023", roles: ["Designer"], team: ["Failenn Aselta"] }}
       sections={[
         {
