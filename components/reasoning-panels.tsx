@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ImageLightbox } from "@/components/image-lightbox";
 
 interface Point {
   lead: string;
@@ -90,18 +91,17 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             className={isLaptop ? "relative w-full" : "relative mx-auto w-full max-w-[160px] sm:mx-0"}
           >
             <div className={`absolute inset-0 -z-10 translate-y-4 scale-90 blur-xl ${t.glow} ${isLaptop ? "rounded-xl" : "rounded-[1.75rem]"}`} />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <ImageLightbox
               src={panel.img}
               alt={`Reasoning for design — ${panel.label}`}
-              className={[
+              wrapperClassName={isLaptop ? "rounded-xl" : "rounded-[1.75rem]"}
+              imgClassName={[
                 "relative w-full object-contain",
                 `border-[0.5px] ${t.border}`,
                 isLaptop
                   ? "rounded-xl shadow-[0_12px_40px_-16px_rgba(0,0,0,0.15)]"
                   : "rounded-[1.75rem] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.18)]",
               ].join(" ")}
-              loading="lazy"
             />
           </motion.div>
 
@@ -117,13 +117,15 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             <h3 className="mb-5 text-[1.05rem] font-semibold leading-snug tracking-[-0.02em] text-zinc-950">
               {panel.heading}
             </h3>
-            <ul className="space-y-3">
+            <ul className={panel.points.length > 4 ? "grid grid-cols-2 gap-x-6 gap-y-3" : "space-y-3"}>
               {panel.points.map(({ lead, detail }) => (
-                <li key={lead}>
-                  <p className="mb-0.5 text-[0.78rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
+                <li key={lead} className="min-w-0">
+                  <p className="mb-0.5 text-[0.76rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
                     {lead}
                   </p>
-                  <p className="text-[0.73rem] leading-[1.65] text-zinc-500">{detail}</p>
+                  <p className="text-[0.71rem] leading-[1.6] text-zinc-500">
+                    {detail}
+                  </p>
                 </li>
               ))}
             </ul>
