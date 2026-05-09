@@ -72,7 +72,6 @@ export function buildProjectBreadcrumb(
   category?: string
 ): BreadcrumbSegment[] {
   const segments: BreadcrumbSegment[] = [
-    { label: "home", href: "/" },
     { label: "work", href: "/work" },
   ];
   if (category) {

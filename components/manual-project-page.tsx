@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import type { ReactNode } from "react";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useLayoutEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { ProjectSurface } from "@/components/project-surface";
@@ -288,13 +288,28 @@ function HeroVideoCarousel({
   );
   const swipe = useCarouselSwipe(goSlide, n > 1);
 
-  const wrapClass =
+  const maxW =
     size === "wide"
-      ? "max-w-[min(1280px,calc(100vw-1.5rem))]"
-      : "max-w-[min(880px,calc(100vw-1.5rem))]";
+      ? "max-w-[min(1280px,96vw)]"
+      : "max-w-[min(880px,96vw)]";
+
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const [lockedW, setLockedW] = useState<number | null>(null);
+
+  // Prevent horizontal layout shift when switching videos with different intrinsic widths
+  // (and slide-specific padding). We lock to the widest measured frame width.
+  useLayoutEffect(() => {
+    const el = frameRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() => {
+      const w = el.getBoundingClientRect().width;
+      setLockedW((prevW) => (prevW == null ? w : Math.max(prevW, w)));
+    });
+    return () => cancelAnimationFrame(id);
+  }, [index]);
 
   const heroNavBtn = cn(
-    "absolute top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
+    "absolute top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
     "border-[0.5px] border-white/15 bg-black/35 text-white/90",
     "shadow-[0_10px_30px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.12)]",
     "backdrop-blur-xl backdrop-saturate-150",
@@ -306,26 +321,35 @@ function HeroVideoCarousel({
     <div className="flex justify-center">
       <div
         className={cn(
-          "relative w-full touch-manipulation touch-pan-y overscroll-x-contain",
-          wrapClass,
+          // "Hug" the video's natural width while staying capped by viewport / max width.
+          "relative w-fit touch-manipulation touch-pan-y overscroll-x-contain",
+          maxW,
           n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing select-none"
         )}
+        style={lockedW == null ? undefined : { width: lockedW }}
         {...swipe}
       >
-        <div className="relative overflow-hidden rounded-2xl">
-          <AutoPlayVideo
-            key={videos[index]}
-            src={videos[index]}
-            controls={controls}
-            muted
-            autoPlay
-            loop
+        <div ref={frameRef} className="relative overflow-hidden rounded-2xl">
+          <div
             className={cn(
-              // no background "card" wrapper — just the media frame
-              "h-auto w-full object-contain",
-              "max-h-[min(92dvh,960px)]"
+              "flex justify-center",
+              // Eidolon hero: video 2 needs a white mat to match video 1 framing.
+              index === 1 && "bg-white px-[30px]"
             )}
-          />
+          >
+            <AutoPlayVideo
+              key={videos[index]}
+              src={videos[index]}
+              controls={controls}
+              muted
+              autoPlay
+              loop
+              className={cn(
+                // Full-height hero feel, but don't stretch the width: let it hug the video aspect ratio.
+                "h-[min(92dvh,960px)] w-auto object-contain"
+              )}
+            />
+          </div>
 
           {/* Beveled edge overlay */}
           <div
@@ -358,15 +382,39 @@ function HeroVideoCarousel({
         {/* Prev / Next buttons */}
         {n > 1 && (
           <>
-            <button onClick={prev} aria-label="Previous video" className={cn(heroNavBtn, "left-3")}>
+            <button
+              onPointerDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                prev();
+              }}
+              aria-label="Previous video"
+              className={cn(heroNavBtn, "left-3")}
+            >
               ‹
             </button>
-            <button onClick={next} aria-label="Next video" className={cn(heroNavBtn, "right-3")}>
+            <button
+              onPointerDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                next();
+              }}
+              aria-label="Next video"
+              className={cn(heroNavBtn, "right-3")}
+            >
               ›
             </button>
 
             {/* Dot indicators */}
-            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+            <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5">
               {videos.map((_, i) => (
                 <button
                   key={i}

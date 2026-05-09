@@ -13,7 +13,7 @@ import { getContentBySlug } from "@/lib/content";
 const TITLE       = "Eidolon";
 const DESCRIPTION = "created a visual ai agent to help users trust automation";
 /** Local encode: video-only (no audio). */
-const HERO_IMAGE = "/eidolon/hero.mp4";
+const HERO_VIDEOS = ["/eidolon/Video Project 1.1.mp4", "/eidolon/video2.mp4"] as const;
 const CHALLENGE   = "Most people worry about what the internet will look like when it becomes 98% AI and 2% human. How do we design it without causing confusion?";
 
 const METADATA = {
@@ -44,7 +44,7 @@ export default async function EidolonPage() {
       descriptionClassName="text-center"
       slug="eidolon"
       category="product-design"
-      hero={{ kind: "video", src: HERO_IMAGE }}
+      hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], size: "wide", controls: true }}
       heroBelow={
         <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
           Interactive Figma prototype
@@ -530,9 +530,9 @@ export default async function EidolonPage() {
                       label: "01",
                       heading: "Color and type tuned for neurological calm",
                       points: [
-                        { lead: "Green reduces cortisol", detail: "NIH research ties green tones to lower cortisol and resting heart rate; a Melbourne study shows it helps the brain reset between cognitively demanding tasks." },
-                        { lead: "Montserrat for warmth & legibility", detail: "Rounded letterforms signal approachability (WGS). The humanist sans keeps the interface modern without feeling clinical." },
-                        { lead: "No pure white", detail: "Harvard links high-contrast pure white to increased visual fatigue. The off-white canvas reduces eye strain across long sessions." },
+                        { lead: "Green reduces cortisol", detail: "Green tones correlate with lower stress and help the brain reset between hard tasks." },
+                        { lead: "Montserrat for warmth & legibility", detail: "Rounded forms feel approachable while staying clean and readable." },
+                        { lead: "No pure white", detail: "Off-white reduces eye fatigue versus harsh pure-white contrast." },
                       ],
                     },
                     {
@@ -540,10 +540,10 @@ export default async function EidolonPage() {
                       label: "02",
                       heading: "A game HUD, not a dashboard — narrative over data",
                       points: [
-                        { lead: "Information as story: 22× more memorable", detail: "Stanford research shows narrative framing outperforms raw data recall by a factor of 22." },
-                        { lead: "Persistent profile for spatial anchoring", detail: "A constantly visible user element keeps people oriented no matter how deep into the agent flow they go." },
-                        { lead: "Low-color background reduces cognitive load", detail: "IxDF research links muted, low-saturation backgrounds to reduced mental overhead, freeing focus for the AI's reasoning." },
-                        { lead: "Ambient intelligence minimises screen dependency", detail: "MIT's ambient intelligence work informed the decision to surface only what's needed, when it's needed." },
+                        { lead: "Information as story: 22× more memorable", detail: "Narrative beats raw data for recall, so the agent explains as a story." },
+                        { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper." },
+                        { lead: "Low-color background reduces cognitive load", detail: "Muted backgrounds reduce mental overhead so reasoning stands out." },
+                        { lead: "Ambient intelligence minimises screen dependency", detail: "Surface only what’s needed, when it’s needed—no constant noise." },
                       ],
                     },
                     {
@@ -551,9 +551,9 @@ export default async function EidolonPage() {
                       label: "03",
                       heading: "Multi-sensory confirmation — a signature the AI can't forge",
                       points: [
-                        { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Egan, Foxe, O'Connell, Kelly, and Ramirez show multi-channel input accelerates decision-making and improves recall." },
-                        { lead: "A gesture only humans can make", detail: "High-stakes transactions require a physical swipe unique to the user. The AI agent is explicitly locked out of large actions." },
-                        { lead: "Green tint + purple for meaningful contrast", detail: "Baseline calm from the green; purple as an accent signals consequence without triggering alarm." },
+                        { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Multi-channel confirmation improves speed and recall for critical actions." },
+                        { lead: "A gesture only humans can make", detail: "High-stakes actions require a human swipe; the agent can’t execute them." },
+                        { lead: "Green tint + purple for meaningful contrast", detail: "Green stays calm; purple marks consequence without panic." },
                       ],
                     },
                     {
@@ -561,9 +561,9 @@ export default async function EidolonPage() {
                       label: "04",
                       heading: "Human and AI solving problems together — trust through shared agency",
                       points: [
-                        { lead: "AI shows confusion → users forgive more", detail: "Ma, Hao, Wang, and Khynevych found that AI expressing uncertainty is met with significantly more forgiveness when it fails." },
-                        { lead: "User control → users respect AI more", detail: "Mayer, Karny, Ayoub, Song, Tian, Pari, and Styvers: genuine user agency leads to higher long-term trust in the system." },
-                        { lead: "Active participation → less bias", detail: "MIT research shows consumers who interact with AI rather than passively receive it project fewer biases onto its outputs." },
+                        { lead: "AI shows confusion → users forgive more", detail: "Visible uncertainty increases forgiveness when the system fails." },
+                        { lead: "User control → users respect AI more", detail: "Real agency builds long-term trust—users steer, AI assists." },
+                        { lead: "Active participation → less bias", detail: "When users interact (not just receive), they project less bias." },
                       ],
                     },
                   ]} />

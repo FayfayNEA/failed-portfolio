@@ -62,7 +62,6 @@ export default function BrandingPage() {
       <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:px-12">
         <CaseBreadcrumb
           segments={[
-            { label: "home", href: "/" },
             { label: "work", href: "/work" },
             { label: "branding" },
           ]}

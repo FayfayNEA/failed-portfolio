@@ -33,9 +33,9 @@ const FOLDER_STRIPS: {
   /** individual desktop scale */
   desktopScale: number;
 }[] = [
-  { href: "/branding",      label: "Branding",      center: "calc(40% - 30px)", desktopWidth: "6%",    mobileWidth: "30px", desktopScale: 0.95 },
-  { href: "/product-design",label: "Product design", center: "50%",             desktopWidth: "8.5%",  mobileWidth: "44px", desktopScale: 0.8  },
-  { href: "/architecture",  label: "Architecture",   center: "calc(60% + 30px)", desktopWidth: "6%",    mobileWidth: "30px", desktopScale: 0.95 },
+  { href: "/branding",       label: "Branding",       center: "35%", desktopWidth: "7.5%",  mobileWidth: "46px", desktopScale: 0.98 },
+  { href: "/#product-design", label: "Product design", center: "50%", desktopWidth: "9.5%",  mobileWidth: "60px", desktopScale: 0.98 },
+  { href: "/architecture",   label: "Architecture",   center: "65%", desktopWidth: "7.5%",  mobileWidth: "46px", desktopScale: 0.98 },
 ];
 
 export default function WorkPage() {
@@ -57,7 +57,7 @@ export default function WorkPage() {
               draggable={false}
             />
 
-            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3.5 pt-10 -translate-y-[50px] translate-x-[9px]">
+            <div className="work-mobile-folders absolute inset-0 z-20 flex flex-col items-center justify-center gap-6 pt-10">
               {FOLDER_STRIPS.map((f) => (
                 <Link
                   key={f.href}
@@ -107,8 +107,11 @@ export default function WorkPage() {
 
         {/* Desktop: original CRT hero + horizontal folder strips */}
         <div className="hidden w-full md:block">
-          <div className="relative w-full max-w-[min(1200px,86vw)] -mt-5" style={{ marginLeft: "30px", marginRight: "5px" }}>
-            <div className="relative w-full" style={{ aspectRatio: "1670 / 1264", maxHeight: "min(85dvh, 1100px)" }}>
+          <div
+            className="relative mx-auto w-full -mt-5"
+            style={{ maxWidth: "min(1200px, 86vw, calc(85dvh * 1.321))" }}
+          >
+            <div className="relative w-full" style={{ aspectRatio: "1670 / 1264" }}>
             <Image
               src={WORK_HERO}
               alt="Work console: metallic computer with screen"
@@ -119,10 +122,11 @@ export default function WorkPage() {
               draggable={false}
             />
 
+            <div className="absolute inset-0 lg:-translate-x-[10px]">
             {FOLDER_STRIPS.map((f) => (
               <div
                 key={f.href}
-                className="absolute z-20 top-[calc(37%+40px)]"
+                className="absolute z-20 top-[calc(40%+15px)] lg:top-[calc(40%+30px)] xl:top-[calc(40%+20px)]"
                 style={{
                   left: f.center,
                   width: f.desktopWidth,
@@ -166,7 +170,8 @@ export default function WorkPage() {
                     />
                     <span
                       className={cn(
-                        "relative whitespace-nowrap text-center font-mono text-[clamp(7px,1.6vw,9px)] font-medium leading-tight tracking-wide",
+                        "relative whitespace-nowrap text-center font-mono text-[clamp(9px,1.85vw,11.5px)] font-medium leading-tight tracking-wide",
+                        "lg:text-[clamp(10px,2.2vw,13px)]",
                         "text-[#111827] drop-shadow-[0_0.5px_0_rgba(255,255,255,0.7)]"
                       )}
                     >
@@ -176,33 +181,34 @@ export default function WorkPage() {
                 </Link>
               </div>
             ))}
+            </div>{/* end folder shift wrapper */}
             </div>{/* end aspect-ratio wrapper */}
           </div>
-        </div>
 
-        <div
-          role="note"
-          className="mx-auto mt-2 w-full max-w-md border-t border-zinc-300/80 pt-2 md:mt-2 md:pt-2"
-          aria-label="Click folders on the screen to open categories"
-        >
-          <p className="text-center text-[11px] leading-snug text-zinc-500 md:text-[12px] md:leading-relaxed">
-            <span className="font-medium text-zinc-600">Click the folders</span> on the screen to
-            open each category. You can also open{" "}
-            <Link
-              href="/work/fither"
-              className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
-            >
-              Fither
-            </Link>{" "}
-            and other work from the{" "}
-            <Link
-              href="/"
-              className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
-            >
-              home map
-            </Link>
-            .
-          </p>
+          <div
+            role="note"
+            className="mx-auto mt-2 w-full max-w-md border-t border-zinc-300/80 pt-2"
+            aria-label="Click folders on the screen to open categories"
+          >
+            <p className="text-center text-[11px] leading-snug text-zinc-500 md:leading-relaxed lg:text-[12px]">
+              <span className="font-medium text-zinc-600">Click the folders</span> on the screen to
+              open each category. You can also open{" "}
+              <Link
+                href="/work/fither"
+                className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
+              >
+                Fither
+              </Link>{" "}
+              and other work from the{" "}
+              <Link
+                href="/"
+                className="text-[#5a6648] underline decoration-[#5a6648]/35 underline-offset-2 hover:text-zinc-900"
+              >
+                home map
+              </Link>
+              .
+            </p>
+          </div>
         </div>
         </div>
       </main>

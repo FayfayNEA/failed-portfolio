@@ -107,13 +107,17 @@ export default function ContactClient() {
     const screen = screenRef.current;
     const content = contentRef.current;
     if (!screen || !content) return;
-    const BASE_WIDTH = 680; // px — natural design width of the overlay
+    const BASE_WIDTH = 780; // px — natural design width of the overlay
     const update = () => {
+      // Width-only scaling: content always fills overlay width (height fits naturally)
       const scale = Math.min(1, screen.clientWidth / BASE_WIDTH);
+      const expandPct = 100 / scale;
+      const offsetPct = (expandPct - 100) / 2;
       content.style.transform = `scale(${scale})`;
-      content.style.transformOrigin = "top left";
-      content.style.width = `${100 / scale}%`;
-      content.style.marginTop = scale < 1 ? `${(1 - scale) * 120}px` : "0px";
+      content.style.transformOrigin = "top center";
+      content.style.width = `${expandPct}%`;
+      content.style.marginLeft = `-${offsetPct}%`;
+      content.style.marginTop = "0px";
     };
     update();
     const ro = new ResizeObserver(update);
@@ -214,9 +218,12 @@ export default function ContactClient() {
 
           {/* ── Desktop: computer image with miniaturised cards on screen ── */}
           <div className="hidden w-full md:block">
-            <div className="relative w-full max-w-[min(1200px,86vw)] -mt-5" style={{ marginLeft: "30px", marginRight: "5px" }}>
-              {/* Aspect-ratio wrapper ensures overlay % always maps to the actual image */}
-              <div className="relative mx-auto w-full" style={{ aspectRatio: "1670 / 1264", maxHeight: "min(85dvh, 1100px)" }}>
+            <div
+              className="relative mx-auto w-full -mt-5"
+              style={{ maxWidth: "min(1200px, 86vw, calc(85dvh * 1.321))" }}
+            >
+              {/* Aspect-ratio wrapper ensures overlay % always maps to the actual image (no letterboxing) */}
+              <div className="relative w-full" style={{ aspectRatio: "1670 / 1264" }}>
               <Image
                 src={WORK_HERO}
                 alt="Contact — retro computer"
@@ -230,7 +237,7 @@ export default function ContactClient() {
               <div
                 ref={screenRef}
                 className="absolute z-20 overflow-hidden"
-                style={{ left: "20.5%", top: "25.7%", width: "53.5%", height: "33.7%", borderRadius: "12px", containerType: "inline-size" }}
+                style={{ left: "22.55%", top: "25.9%", width: "53.5%", height: "33.25%", borderRadius: "14px", containerType: "inline-size" }}
               >
                 {/* FluidSlab clipped to screen */}
                 <div className="absolute inset-0 z-0">
@@ -248,86 +255,98 @@ export default function ContactClient() {
                 </div>
 
                 {/* Card layout — scaled via ResizeObserver to fit overlay width */}
-                <div ref={contentRef} className="relative z-10 flex h-full flex-col justify-center gap-2 p-[4%]">
-                  <div className="grid grid-cols-[1.1fr_0.9fr] gap-2">
+                <div
+                  ref={contentRef}
+                  className="relative z-10 flex h-full flex-col justify-center gap-2 p-[4%] translate-y-[30px]"
+                >
 
-                    {/* Primary card */}
-                    <div className="relative isolate overflow-hidden rounded-2xl border border-white/55 bg-white/[0.08] p-3 shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
-                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.10] to-white/[0.06]" aria-hidden />
-                      <span
-                        className="pointer-events-none absolute inset-0 z-[1] rounded-2xl bg-repeat opacity-[0.10] mix-blend-overlay"
-                        style={{ backgroundImage: OLIVE_CARD_GRAIN_BG, backgroundSize: "180px 180px" }}
-                        aria-hidden
-                      />
-                      <div className="relative z-[2]">
-                        <p className="mb-1 font-mono text-[clamp(8px,1.6cqi,11px)] uppercase tracking-[0.22em] text-zinc-500">Primary</p>
-                        <a href={`mailto:${email}`} className="group relative inline-flex items-center gap-1.5 text-[clamp(10px,2.1cqi,15px)] font-normal text-zinc-950 hover:text-zinc-700">
-                          <span className="relative">
-                            {email}
-                            <span className="pointer-events-none absolute -bottom-0.5 left-0 h-[0.5px] w-full origin-left scale-x-0 bg-zinc-950/35 transition-transform duration-[480ms] group-hover:scale-x-100" />
-                          </span>
-                          <span className="text-zinc-500/80">→</span>
-                        </a>
-                        <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                          <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.34] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.70)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.44]">
-                            <button type="button" onClick={onCopy} className="relative z-[1] inline-flex items-center justify-center bg-transparent px-2.5 py-1 text-[clamp(8px,1.6cqi,11px)] font-medium text-zinc-900">{copyLabel}</button>
-                          </MagneticHoverShell>
-                          <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.22] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.32]">
-                            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="relative z-[1] inline-flex items-center gap-1 bg-transparent px-2.5 py-1 text-[clamp(8px,1.6cqi,11px)] font-medium tracking-[0.08em] text-zinc-900">Resume <span aria-hidden>↗</span></a>
-                          </MagneticHoverShell>
-                        </div>
-                      </div>
-                    </div>
+                    <div className="grid grid-cols-[1.1fr_0.9fr] gap-2">
 
-                    {/* Social card */}
-                    <div className="relative isolate overflow-hidden rounded-2xl border border-white/55 bg-white/[0.07] p-3 shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] ring-1 ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
-                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/26 via-white/[0.10] to-white/[0.04]" aria-hidden />
-                      <div className="relative z-[2]">
-                        <p className="mb-2 font-mono text-[clamp(8px,1.6cqi,11px)] uppercase tracking-[0.22em] text-zinc-500">Elsewhere</p>
-                        <div className="grid grid-cols-1 gap-1.5">
-                          {[
-                            { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", icon: IMG.iconX },
-                            { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", icon: IMG.iconLinkedIn },
-                            { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA", icon: null },
-                          ].map((s) => (
-                            <MagneticHoverShell key={s.href} className="block w-full rounded-xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
-                              <Link href={s.href} target="_blank" rel="noopener noreferrer" className="group flex w-full items-center justify-between rounded-xl px-2 py-1.5">
-                                <div className="min-w-0">
-                                  <p className="font-mono text-[clamp(7px,1.4cqi,9px)] uppercase tracking-[0.18em] text-zinc-500">{s.label}</p>
-                                  <p className="mt-0.5 truncate text-[clamp(9px,1.8cqi,12px)] text-zinc-800">{s.sub}</p>
-                                </div>
-                                {s.icon
-                                  ? <Image src={s.icon} alt="" width={20} height={20} className="h-5 w-5 object-contain opacity-70 group-hover:opacity-100" />
-                                  : <span className="text-[clamp(9px,1.8cqi,12px)] text-zinc-500/80">↗</span>
-                                }
-                              </Link>
+                      {/* Left column: Primary + Spotify */}
+                      <div className="flex flex-col gap-2 min-h-0">
+
+                      {/* Primary card */}
+                      <div className="relative isolate overflow-hidden rounded-2xl border border-white/55 bg-white/[0.08] p-3 shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
+                        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.10] to-white/[0.06]" aria-hidden />
+                        <span
+                          className="pointer-events-none absolute inset-0 z-[1] rounded-2xl bg-repeat opacity-[0.10] mix-blend-overlay"
+                          style={{ backgroundImage: OLIVE_CARD_GRAIN_BG, backgroundSize: "180px 180px" }}
+                          aria-hidden
+                        />
+                        <div className="relative z-[2]">
+                          <p className="mb-1 font-mono text-[clamp(12px,2.4cqi,15px)] uppercase tracking-[0.22em] text-zinc-500">Primary</p>
+                          <a href={`mailto:${email}`} className="group relative inline-flex items-center gap-1.5 text-[clamp(14px,3cqi,20px)] font-normal text-zinc-950 hover:text-zinc-700">
+                            <span className="relative">
+                              {email}
+                              <span className="pointer-events-none absolute -bottom-0.5 left-0 h-[0.5px] w-full origin-left scale-x-0 bg-zinc-950/35 transition-transform duration-[480ms] group-hover:scale-x-100" />
+                            </span>
+                            <span className="text-zinc-500/80">→</span>
+                          </a>
+                          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                            <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.34] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.70)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.44]">
+                              <button type="button" onClick={onCopy} className="relative z-[1] inline-flex items-center justify-center bg-transparent px-2.5 py-1 text-[clamp(12px,2.4cqi,15px)] font-medium text-zinc-900">{copyLabel}</button>
                             </MagneticHoverShell>
-                          ))}
+                            <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.22] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.32]">
+                              <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="relative z-[1] inline-flex items-center gap-1 bg-transparent px-2.5 py-1 text-[clamp(12px,2.4cqi,15px)] font-medium tracking-[0.08em] text-zinc-900">Resume <span aria-hidden>↗</span></a>
+                            </MagneticHoverShell>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Spotify */}
+                      <div>
+                        <p className="mb-1 font-mono text-[clamp(12px,2.4cqi,15px)] uppercase tracking-[0.22em] text-zinc-500">What I&apos;m listening to</p>
+                        <iframe
+                          src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=0"
+                          width="100%"
+                          className="h-[clamp(60px,7vw,90px)] rounded-xl"
+                          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                          loading="lazy"
+                          title="Spotify embed"
+                        />
+                      </div>
+
+                      </div>{/* end left column */}
+
+                      {/* Social card */}
+                      <div className="relative isolate overflow-hidden rounded-2xl border border-white/55 bg-white/[0.07] p-3 shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] ring-1 ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
+                        <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/26 via-white/[0.10] to-white/[0.04]" aria-hidden />
+                        <div className="relative z-[2]">
+                          <p className="mb-2 font-mono text-[clamp(12px,2.4cqi,15px)] uppercase tracking-[0.22em] text-zinc-500">Elsewhere</p>
+                          <div className="grid grid-cols-1 gap-1.5">
+                            {[
+                              { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", icon: IMG.iconX },
+                              { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", icon: IMG.iconLinkedIn },
+                              { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA", icon: null },
+                            ].map((s) => (
+                              <MagneticHoverShell key={s.href} className="block w-full rounded-xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
+                                <Link href={s.href} target="_blank" rel="noopener noreferrer" className="group flex w-full items-center justify-between rounded-xl px-2 py-1.5">
+                                  <div className="min-w-0">
+                                    <p className="font-mono text-[clamp(11px,2.2cqi,13px)] uppercase tracking-[0.18em] text-zinc-500">{s.label}</p>
+                                    <p className="mt-0.5 truncate text-[clamp(13px,2.7cqi,17px)] text-zinc-800">{s.sub}</p>
+                                  </div>
+                                  {s.icon
+                                    ? <Image src={s.icon} alt="" width={20} height={20} className="h-5 w-5 object-contain opacity-70 group-hover:opacity-100" />
+                                    : <span className="text-[clamp(13px,2.7cqi,17px)] text-zinc-500/80">↗</span>
+                                  }
+                                </Link>
+                              </MagneticHoverShell>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Spotify */}
-                  <div className="mt-1">
-                    <p className="mb-1 font-mono text-[clamp(8px,1.6cqi,11px)] uppercase tracking-[0.22em] text-zinc-500">What I&apos;m listening to</p>
-                    <iframe
-                      src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=0"
-                      width="100%"
-                      className="h-[clamp(50px,7vw,90px)] rounded-xl"
-                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                      loading="lazy"
-                      title="Spotify embed"
-                    />
-                  </div>
                 </div>
               </div>
               </div>{/* end aspect-ratio wrapper */}
             </div>
 
-            <p className="mx-auto mt-2 max-w-[76ch] text-center font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
-              Stack — Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
-            </p>
+            <div className="mx-auto mt-2 w-full max-w-md border-t border-zinc-300/80 pt-2">
+              <p className="text-center text-[11px] leading-snug text-zinc-500 md:text-[12px] md:leading-relaxed font-mono uppercase tracking-[0.18em]">
+                Stack — Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
+              </p>
+            </div>
           </div>
 
         </div>
