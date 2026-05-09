@@ -58,7 +58,8 @@ export function BeforeAfterSlider({
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
-      onPointerLeave={onPointerUp}
+      onPointerCancel={onPointerUp}
+      style={{ touchAction: "none" }}
     >
       {/* After image — full size, sits beneath */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

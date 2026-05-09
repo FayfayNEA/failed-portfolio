@@ -608,7 +608,7 @@ export function ProjectGalleryRow({
           <button
             type="button"
             onClick={() => setLightboxOpen(false)}
-            className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
+            className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 active:bg-white/30"
             aria-label="Close lightbox"
           >
             ✕

@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+/* ── Designer bio animations ─────────────────────────────────────────────── */
+@keyframes bio-credit-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+@keyframes bio-headline-in {
+  from { opacity: 0; transform: translateY(10px); letter-spacing: 0.12em; }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes bio-word-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes bio-float {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-3px); }
+}
+
+/* ── Work page: mobile folder column vertical shift ──────────────────────── */
+.work-mobile-folders {
+  transform: translate(9px, -40px);
+}
+@media (max-width: 500px) {
+  .work-mobile-folders {
+    transform: translate(9px, -65px);
+  }
+}
+
 html {
   min-height: 100%;
   height: 100%;
@@ -8,6 +39,19 @@ html {
   background-size: 20px 20px;
   background-attachment: fixed;
   overscroll-behavior-y: none;
+}
+
+/* ── Touch / iOS ─────────────────────────────────────────────────────────── */
+/* Remove 300ms tap delay and the blue flash on iOS */
+a, button, [role="button"], [role="slider"], input, select, textarea, label {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Safe-area bottom inset for notched / Dynamic Island iPhones */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .mb-safe { margin-bottom:  env(safe-area-inset-bottom); }
 }
 
 :root {

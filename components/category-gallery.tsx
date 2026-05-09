@@ -78,6 +78,22 @@ function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
 }
 
+/** Returns true if any two cards overlap each other. */
+function hasOverlap(positions: Pos[], cardW: number, cardH: number): boolean {
+  for (let i = 0; i < positions.length; i++) {
+    for (let j = i + 1; j < positions.length; j++) {
+      const a = positions[i], b = positions[j];
+      if (
+        a.x < b.x + cardW &&
+        a.x + cardW > b.x &&
+        a.y < b.y + cardH &&
+        a.y + cardH > b.y
+      ) return true;
+    }
+  }
+  return false;
+}
+
 function computeInitialPositions({
   containerW,
   containerH,
@@ -129,9 +145,7 @@ function computeInitialPositions({
     const r = Math.floor(i / finalCols);
     const c = i % finalCols;
 
-    // Tiny stagger so it feels less like a strict grid, without causing collisions.
-    const stagger = (r % 2) * 10;
-    const x = clamp(originX + c * (cardW + gapX) + stagger, pad, maxX);
+    const x = clamp(originX + c * (cardW + gapX), pad, maxX);
     const y = clamp(originY + r * (cardH + gapY), pad, maxY);
     return { x, y };
   });
@@ -351,26 +365,29 @@ export function CategoryGallery({
     const ch_ = Math.round(BASE_CARD_H * sc);
 
     // --- positions ---
+    let usedStoredPositions = false;
     const storedPos = localStorage.getItem(storageKey);
     if (storedPos) {
       try {
         const parsed: Pos[] = JSON.parse(storedPos);
         if (Array.isArray(parsed) && parsed.length === projects.length) {
-          setPositions(
-            parsed.map((pos) => ({
-              x: Math.max(0, Math.min(pos.x, cw - cw_ - 8)),
-              y: Math.max(0, Math.min(pos.y, ch - ch_ - 8)),
-            }))
-          );
-          setReady(true);
-          // still fall through to load sizes below
+          const clamped = parsed.map((pos) => ({
+            x: Math.max(0, Math.min(pos.x, cw - cw_ - 8)),
+            y: Math.max(0, Math.min(pos.y, ch - ch_ - 8)),
+          }));
+          // Only use stored positions if they don't overlap after clamping
+          if (!hasOverlap(clamped, cw_, ch_)) {
+            setPositions(clamped);
+            setReady(true);
+            usedStoredPositions = true;
+          }
         }
       } catch {
         // fall through
       }
     }
 
-    if (!storedPos) {
+    if (!usedStoredPositions) {
       const layout = computeInitialGridLayout({
         containerW: cw,
         containerH: ch,
@@ -715,12 +732,12 @@ export function CategoryGallery({
               >
                 {/* Selection border on hover */}
                 <div
-                  className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-150 opacity-0 group-hover:opacity-100"
+                  className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-150 opacity-0 group-hover:opacity-100 group-active:opacity-100"
                   style={{ boxShadow: `inset 0 0 0 1.5px ${SEL_GREEN}` }}
                 />
 
                 {/* Resize handles on hover — outside overflow-hidden so they aren't clipped */}
-                <div className="pointer-events-none absolute inset-0 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                <div className="pointer-events-none absolute inset-0 z-30 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-150">
                   <Handles
                     onMouseDown={(e, handleIdx) => startResize(e, i, handleIdx)}
                   />
