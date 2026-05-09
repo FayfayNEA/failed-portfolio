@@ -33,9 +33,9 @@ const FOLDER_STRIPS: {
   /** individual desktop scale */
   desktopScale: number;
 }[] = [
-  { href: "/branding",       label: "Branding",       center: "35%", desktopWidth: "7.5%",  mobileWidth: "46px", desktopScale: 0.98 },
-  { href: "/#product-design", label: "Product design", center: "50%", desktopWidth: "9.5%",  mobileWidth: "60px", desktopScale: 0.98 },
-  { href: "/architecture",   label: "Architecture",   center: "65%", desktopWidth: "7.5%",  mobileWidth: "46px", desktopScale: 0.98 },
+  { href: "/branding",       label: "Branding",       center: "35%", desktopWidth: "7.5%",  mobileWidth: "38px", desktopScale: 0.98 },
+  { href: "/#product-design", label: "Product design", center: "50%", desktopWidth: "9.5%",  mobileWidth: "50px", desktopScale: 0.98 },
+  { href: "/architecture",   label: "Architecture",   center: "65%", desktopWidth: "7.5%",  mobileWidth: "38px", desktopScale: 0.98 },
 ];
 
 export default function WorkPage() {
@@ -51,13 +51,13 @@ export default function WorkPage() {
               alt="Work console: metallic device with cord"
               width={1024}
               height={1024}
-              className="relative z-0 h-auto w-full object-contain scale-[1.06]"
+              className="relative z-0 h-auto w-full origin-center object-contain scale-x-[1.06] scale-y-[1.22]"
               sizes="(max-width: 520px) 94vw, 520px"
               priority
               draggable={false}
             />
 
-            <div className="work-mobile-folders absolute inset-0 z-20 flex flex-col items-center justify-center gap-6 pt-10">
+            <div className="work-mobile-folders absolute inset-0 z-20 flex flex-col items-center justify-center gap-5 pt-10">
               {FOLDER_STRIPS.map((f) => (
                 <Link
                   key={f.href}

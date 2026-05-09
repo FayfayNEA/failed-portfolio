@@ -1260,10 +1260,15 @@ portfolioAssets.forEach((asset, index) => {
     if (e.pointerType === "touch") return;
     emerge();
   });
-  netherPortalAnchorEl.addEventListener("pointerdown", (e) => {
-    if (e.pointerType !== "touch") return;
+  // Touch: pointerdown OR click — iOS Safari sometimes drops pointerdown inside
+  // iframes / transformed scenes; click is the reliable fallback.
+  const onTouchTrigger = (e) => {
+    if (e.pointerType && e.pointerType !== "touch") return;
     emerge();
-  });
+  };
+  netherPortalAnchorEl.addEventListener("pointerdown", onTouchTrigger);
+  netherPortalAnchorEl.addEventListener("click", onTouchTrigger);
+  netherPortalAnchorEl.addEventListener("touchstart", () => emerge(), { passive: true });
 })();
 
 // ── Back tablet: hover projector beams ───────────────────────────────────────
@@ -1303,7 +1308,10 @@ portfolioAssets.forEach((asset, index) => {
     // z-index intentionally left to CSS (100003) so beam sits in front of tablet image
 
     // Fraction of tablet image where the green screen sits (tune these to move the beam)
-    const BEAM_LEFT_FRAC   = 0.37; // 0 = left edge, 1 = right edge of tablet image
+    // Mobile bumps `BEAM_LEFT_FRAC` rightward — narrow viewports made the donate
+    // pill drift off-tablet to the left.
+    const isMobile = isMobileViewportWidth(viewport?.clientWidth || window.innerWidth);
+    const BEAM_LEFT_FRAC   = isMobile ? 0.55 : 0.37; // 0 = left edge, 1 = right edge of tablet image
     const BEAM_BOTTOM_FRAC = 0.75; // beam origin halfway up the tablet — lower half sinks into asset
     const beamLeft   = `${(BEAM_LEFT_FRAC   * 100).toFixed(1)}%`;
     const beamBottom = `${(BEAM_BOTTOM_FRAC * 100).toFixed(1)}%`;

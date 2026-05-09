@@ -358,8 +358,10 @@ export default async function EidolonPage() {
                       <img
                         src={encodeURI("/eidolon/cindys flow.png")}
                         alt="Cindy flow"
-                        className="w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]"
-                        loading="lazy"
+                        width={568}
+                        height={165}
+                        className="block h-auto w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]"
+                        decoding="async"
                       />
                     </div>
                   </div>
@@ -381,8 +383,10 @@ export default async function EidolonPage() {
                       <img
                         src={encodeURI("/eidolon/ashleighs flow.png")}
                         alt="Ashleigh flow"
-                        className="w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]"
-                        loading="lazy"
+                        width={864}
+                        height={256}
+                        className="block h-auto w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]"
+                        decoding="async"
                       />
                     </div>
                   </div>

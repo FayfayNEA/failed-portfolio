@@ -72,7 +72,7 @@ export default function AboutClient() {
       style={{ opacity: mounted ? 1 : 0 }}
     >
       <main className="relative flex flex-1 flex-col bg-transparent px-4 py-4 md:px-8 md:py-3">
-        <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center max-md:min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]">
+        <div className="relative z-10 flex w-full flex-1 flex-col items-center max-md:justify-start max-md:py-4 md:justify-center md:min-h-[calc(100dvh-5rem)]">
 
           {/* ── Mobile: portrait + stacked text ── */}
           <div className="w-full max-w-[520px] md:hidden">

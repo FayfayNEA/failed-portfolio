@@ -155,7 +155,7 @@ const METADATA_ROWS = [
   { label: "Team", value: "Failenn Aselta" },
   {
     label: "Tools",
-    value: "Figma Â· Cursor Â· Gemini\nRaspberry Pi Â· React\nFastAPI Â· Linux",
+    value: "Figma · Cursor · Gemini\nRaspberry Pi · React\nFastAPI · Linux",
   },
 ];
 
@@ -226,7 +226,7 @@ const BIBLIOGRAPHY = [
     linkText: "drexel.edu",
   },
   {
-    cite: 'American Psychological Association. Organizational & agile collaboration research: teams using shared visual boards are 3Ã— more likely to align on complex workflows; 93% of workers report virtual whiteboards as highly effective.',
+    cite: 'American Psychological Association. Organizational & agile collaboration research: teams using shared visual boards are 3× more likely to align on complex workflows; 93% of workers report virtual whiteboards as highly effective.',
     href: "https://www.apa.org",
     linkText: "apa.org",
   },
@@ -460,12 +460,13 @@ export default function BuddyPage() {
                     className="pointer-events-none absolute -left-3 top-[20%] select-none text-[15px] leading-none text-violet-400/90"
                     aria-hidden
                   >
-                    âœ¦
+                    ✦
                   </span>
                   <span
                     className="pointer-events-none absolute -right-3 top-[20%] select-none text-[15px] leading-none text-fuchsia-400/85"
                     aria-hidden
                   >
+                    ✦
                   </span>
                   <div className="relative h-[7.75rem] w-[7.75rem] overflow-hidden rounded-full bg-violet-600 p-[3px] shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)] ring-2 ring-violet-200/70">
                     <div className="h-full w-full overflow-hidden rounded-full bg-zinc-100">
@@ -534,7 +535,7 @@ export default function BuddyPage() {
                   n: "03",
                   title: "Shared Digital Canvas",
                   body: "Draw, annotate, and vote together in real time.",
-                  stat: "3Ã—",
+                  stat: "3×",
                   statLabel: "more likely to align using a shared visual board. (APA)",
                 },
               ].map(({ stat, statLabel, body }) => (

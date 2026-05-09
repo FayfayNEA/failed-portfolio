@@ -141,6 +141,21 @@ export default function ContactClient() {
     >
       <main ref={pageRef} className="relative flex flex-1 flex-col bg-transparent px-4 py-4 md:px-8 md:py-3">
 
+        {/* ── Mobile: liquid (FluidSlab) ambient background ── */}
+        <div
+          className="pointer-events-none fixed inset-0 z-0 md:hidden"
+          aria-hidden
+        >
+          <FluidSlab
+            className="h-full w-full"
+            intensity={0.55}
+            tint={[0.18, 0.85, 0.32]}
+            tintStrength={0.18}
+            maxPixelRatio={1.25}
+            antialias
+          />
+        </div>
+
         {/* ── Content layer ── */}
         <div className="relative z-10 flex w-full flex-1 flex-col items-center justify-center max-md:min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]">
 
