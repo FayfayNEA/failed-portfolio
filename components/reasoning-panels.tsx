@@ -70,8 +70,8 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             "bg-white/40 backdrop-blur-xl backdrop-saturate-110",
             `shadow-[0_8px_32px_-16px_${t.shadow},inset_0_1px_0_0_rgba(255,255,255,0.55)]`,
             isLaptop
-              ? "grid grid-cols-1 gap-8 p-8 md:grid-cols-[minmax(0,400px)_1fr] md:items-start md:gap-10 md:p-10"
-              : "grid grid-cols-1 gap-8 p-8 sm:grid-cols-[minmax(0,180px)_1fr] sm:items-start sm:gap-10 md:p-10",
+              ? "grid grid-cols-1 gap-6 p-5 sm:p-8 md:grid-cols-[minmax(0,400px)_1fr] md:items-start md:gap-10 md:p-10"
+              : "grid grid-cols-1 gap-6 p-5 sm:grid-cols-[minmax(0,160px)_1fr] sm:items-start sm:gap-8 sm:p-8 md:p-10",
           ].join(" ")}
         >
           {/* Big background number */}
@@ -117,7 +117,7 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             <h3 className="mb-5 text-[1.05rem] font-semibold leading-snug tracking-[-0.02em] text-zinc-950">
               {panel.heading}
             </h3>
-            <ul className={panel.points.length > 4 ? "grid grid-cols-2 gap-x-6 gap-y-3" : "space-y-3"}>
+            <ul className={panel.points.length > 4 ? "grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-6" : "space-y-3"}>
               {panel.points.map(({ lead, detail }) => (
                 <li key={lead} className="min-w-0">
                   <p className="mb-0.5 text-[0.76rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">

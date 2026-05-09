@@ -318,6 +318,31 @@ export default function EtradePage() {
                   </div>
                 </div>
               </div>
+
+              <div className="mx-auto mt-8 max-w-[min(56rem,100%)] space-y-4">
+                {[
+                  {
+                    n: "01",
+                    body: "Three wireframes were drawn to under stand which layout ould bt eh most benfical, a great way to to see what plan to undergo.",
+                  },
+                  {
+                    n: "02",
+                    body: "hte 3rd held more to the tradional etrade layout, while the 2nd moved to modernize a  bit through roudnced edges and less denisty, the first has the most about of bretahing rooms, which resreach states is imoprtant for trading and a different nav bar side.",
+                  },
+                  {
+                    n: "03",
+                    body: "in thend the 1st was chosen with a mix of the 2nd. the thrid has the cleanest layout and most bretahing room, but the side bar seemed cluuter going to the to pand than a consitnant trading button wasn;t preseint in a desirbale spot so i mized the two",
+                  },
+                ].map(({ n, body }) => (
+                  <div key={n} className="rounded-xl bg-[#0F8EC7]/[0.08] p-5 ring-1 ring-[#0F8EC7]/25">
+                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#0F8EC7]">
+                      Key Learning — {n}
+                    </p>
+                    <p className="text-[0.85rem] font-medium leading-relaxed text-sky-950">{body}</p>
+                  </div>
+                ))}
+              </div>
+
               <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
                 Hand-drawn sketches
               </p>
@@ -332,7 +357,7 @@ export default function EtradePage() {
                 after="https://framerusercontent.com/images/VUDH0FuU7W2ms48ioo9nOoeiI.png?width=1440&height=1024"
                 beforeLabel="Wireframe 1"
                 afterLabel="Wireframe 2"
-                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))] aspect-[1444/1028]"
+                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))] min-h-[220px] aspect-[1444/1028]"
               />
               <div className="mx-auto mt-8 max-w-[min(56rem,100%)] space-y-4">
                 {[
@@ -373,43 +398,43 @@ export default function EtradePage() {
                   imageSize="laptop"
                   panels={[
                     {
-                      img: "https://framerusercontent.com/images/HhDpOLCsi5D912qkGVvTagSM2U.png?width=2206&height=1433",
+                      img: "/etrade/et1.png",
                       label: "01",
                       heading: "F-theory layout, humanist type, and an AI behavioural coach",
                       points: [
-                        { lead: "F-Theory page logic", detail: "Critical information is anchored left and top, following natural F-shaped eye movement so traders locate data before they consciously look for it." },
-                        { lead: "Humanist fonts cut glance time by 10.6%", detail: "Roboto and similar humanist sans-serifs reduce the time spent reading a data point, directly improving reaction speed (MIT)." },
-                        { lead: "Rounded edges reduce cortisol by 15%", detail: "Soft geometry draws the eye inward and lowers stress response compared to sharp corners, keeping traders calmer under pressure (NIH)." },
-                        { lead: "Customisation for individual strategies", detail: "Traders can rearrange panels to match their own workflow, reducing cognitive friction and supporting different trading styles." },
-                        { lead: "Trading is 80% behavioural", detail: "An embedded AI agent that tracks and surfaces behavioural patterns gives the trader a mirror — and a measurable edge over their own impulses." },
+                        { lead: "F-Theory page logic", detail: "Critical info stays left/top so traders find data fast without hunting." },
+                        { lead: "Humanist fonts cut glance time by 10.6%", detail: "Humanist sans reduces read-time per data point, improving reaction speed (MIT)." },
+                        { lead: "Rounded edges reduce cortisol by 15%", detail: "Soft geometry lowers stress response versus sharp corners under pressure (NIH)." },
+                        { lead: "Customisation for individual strategies", detail: "Panels can be rearranged to match each trader’s workflow and reduce friction." },
+                        { lead: "Trading is 80% behavioural", detail: "A visible AI coach surfaces patterns to counter impulse-driven mistakes." },
                       ],
                     },
                     {
-                      img: "https://framerusercontent.com/images/ovRwBKR7bj9hKUmPVDdF0DkVjKw.png?width=1963&height=1198",
+                      img: "/etrade/et2.png",
                       label: "02",
                       heading: "Visual hierarchy, contrast, and stress-reduction by design",
                       points: [
-                        { lead: "Visual hierarchy speeds traders up by 40%", detail: "Deliberate information layering guides the eye to what matters first, resulting in a 40% speed increase for traders (Design Index)." },
-                        { lead: "Trading icon always in reach", detail: "The primary action icon stays persistently visible so a trader never loses time searching for it mid-decision." },
-                        { lead: "90% contrast on the buy button", detail: "High luminance contrast between the CTA and its background reduces hesitation and improves precision under time pressure (JNeurosci)." },
-                        { lead: "Red reduces panic sales by 30%", detail: "Strategic use of red as a friction signal rather than a default danger colour slows impulsive selling behaviour (SMU)." },
-                        { lead: "Humanist fonts + tabular figures cut errors by 3.1%", detail: "Tabular lining numerals align data vertically; combined with humanist type, task error drops measurably (MIT)." },
-                        { lead: "Icons over text to reduce clutter", detail: "Visual icons communicate state and action without adding cognitive load from words, keeping the interface clean and scannable." },
-                        { lead: "High-stress UI raises revenge trading risk by 22%", detail: "Calmer colour palettes and reduced visual noise directly lower the chance of emotionally driven re-entry trades (NIH)." },
+                        { lead: "Visual hierarchy speeds traders up by 40%", detail: "Clear layering guides attention to what matters first, improving speed (Design Index)." },
+                        { lead: "Trading icon always in reach", detail: "Primary action stays persistent so traders don’t search mid-decision." },
+                        { lead: "90% contrast on the buy button", detail: "High contrast reduces hesitation and improves precision under time pressure (JNeurosci)." },
+                        { lead: "Red reduces panic sales by 30%", detail: "Use red as intentional friction, not constant alarm, to slow impulsive sells (SMU)." },
+                        { lead: "Humanist fonts + tabular figures cut errors by 3.1%", detail: "Tabular numerals align data; paired with humanist type, errors drop (MIT)." },
+                        { lead: "Icons over text to reduce clutter", detail: "Icons communicate state/action quickly without adding wordy cognitive load." },
+                        { lead: "High-stress UI raises revenge trading risk by 22%", detail: "Lower noise and calmer color reduce emotional re-entry trades (NIH)." },
                       ],
                     },
                     {
-                      img: "https://framerusercontent.com/images/04T1ZRgOFetSOdaMNQrxd7s1Pc.png?width=2427&height=1687",
+                      img: "/etrade/et3.png",
                       label: "03",
                       heading: "Collapsible UI, colour-first data, and eliminating fat-finger errors",
                       points: [
-                        { lead: "Collapsible sidebar enables Gaze Lock — +12% speed", detail: "Removing sidebar chrome lets traders lock focus on the chart and data that matter, increasing execution speed by 12% (eScholarship)." },
-                        { lead: "Easily accessible, live-updating information", detail: "Key metrics surface and refresh in place so traders absorb changes instantly without navigating away or breaking focus." },
-                        { lead: "Buttons larger than 44×44px eliminate fat-finger errors", detail: "Touch targets at or above Apple's minimum recommendation ensure precision actions — buy, sell, confirm — land correctly under pressure." },
-                        { lead: "Reduced clutter = 26% more trading efficiency", detail: "A cleaner interface with fewer competing elements measurably improves the quality and speed of trade decisions (eTufts)." },
-                        { lead: "6 data elements per view = 20% better decisions", detail: "Limiting the visible dataset to six elements at a time keeps working memory from overloading, improving decision accuracy by 20%." },
-                        { lead: "Colour processed faster than shape (SMU)", detail: "The brain reads colour before it reads form — so status, risk, and action states use colour as their primary signal, not icons alone." },
-                        { lead: "Visual data mapping improves trading outcomes", detail: "Representing data spatially and graphically — not just numerically — helps traders pattern-match faster and act with more confidence (University of Waterloo)." },
+                        { lead: "Collapsible sidebar enables Gaze Lock — +12% speed", detail: "Collapsing chrome keeps focus on chart + core data, improving speed (eScholarship)." },
+                        { lead: "Easily accessible, live-updating information", detail: "Key metrics update in place so traders absorb changes without context switching." },
+                        { lead: "Buttons larger than 44×44px eliminate fat-finger errors", detail: "44×44px+ targets make buy/sell/confirm accurate when stress is high." },
+                        { lead: "Reduced clutter = 26% more trading efficiency", detail: "Fewer competing elements improves decision speed and quality (eTufts)." },
+                        { lead: "6 data elements per view = 20% better decisions", detail: "Limit visible data to avoid working-memory overload and boost accuracy." },
+                        { lead: "Colour processed faster than shape (SMU)", detail: "Use color as the primary signal for state, risk, and action (SMU)." },
+                        { lead: "Visual data mapping improves trading outcomes", detail: "Spatial/visual mapping helps pattern-match faster and act with confidence (Waterloo)." },
                       ],
                     },
                   ]}
