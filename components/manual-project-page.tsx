@@ -174,7 +174,7 @@ function HeroCarousel({
     : cn(cardClass, "object-contain block w-full min-w-full", mediaHeightClass, sizeClass);
 
   const heroNavBtn = cn(
-    "absolute top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
+    "absolute top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full",
     "border-[0.5px] border-white/15 bg-black/35 text-white/90",
     "shadow-[0_10px_30px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.12)]",
     "backdrop-blur-xl backdrop-saturate-150",
@@ -251,17 +251,21 @@ function HeroCarousel({
 
       {/* Dot indicators */}
       {n > 1 && (
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+        <div className="absolute bottom-1 left-1/2 flex -translate-x-1/2">
           {images.map((_, i) => (
             <button
               key={i}
               onClick={() => setIndex(i)}
               aria-label={`Go to image ${i + 1}`}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
-              )}
-            />
+              className="flex h-11 w-8 items-center justify-center touch-manipulation focus:outline-none"
+            >
+              <span
+                className={cn(
+                  "block h-1.5 rounded-full transition-all",
+                  i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
+                )}
+              />
+            </button>
           ))}
         </div>
       )}
@@ -309,7 +313,7 @@ function HeroVideoCarousel({
   }, [index]);
 
   const heroNavBtn = cn(
-    "absolute top-1/2 z-20 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full",
+    "absolute top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full",
     "border-[0.5px] border-white/15 bg-black/35 text-white/90",
     "shadow-[0_10px_30px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.12)]",
     "backdrop-blur-xl backdrop-saturate-150",
@@ -414,17 +418,21 @@ function HeroVideoCarousel({
             </button>
 
             {/* Dot indicators */}
-            <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5">
+            <div className="absolute bottom-1 left-1/2 z-20 flex -translate-x-1/2">
               {videos.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
                   aria-label={`Go to video ${i + 1}`}
-                  className={cn(
-                    "h-1.5 rounded-full transition-all",
-                    i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
-                  )}
-                />
+                  className="flex h-11 w-8 items-center justify-center touch-manipulation focus:outline-none"
+                >
+                  <span
+                    className={cn(
+                      "block h-1.5 rounded-full transition-all",
+                      i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
+                    )}
+                  />
+                </button>
               ))}
             </div>
           </>
