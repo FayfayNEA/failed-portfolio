@@ -12,7 +12,7 @@ const projects: GalleryProject[] = [
   {
     slug: "eidolon",
     title: "Eidolon",
-    description: "created a visual ai agent to help users trust automation",
+    description: "created a visual AI agent to help users trust automation",
     year: "2026",
     coverColor: "transparent",
     labelGlassTint: "moss",
@@ -26,7 +26,7 @@ const projects: GalleryProject[] = [
   {
     slug: "buddy",
     title: "Buddy",
-    description: "created a llm which captures group conversations as real-time images and diagrams",
+    description: "created an LLM which captures group conversations as real-time images and diagrams",
     year: "2026",
     coverColor: "transparent",
     coverImageClassName: "scale-[1.2]",

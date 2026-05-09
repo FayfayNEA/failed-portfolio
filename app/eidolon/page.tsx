@@ -11,7 +11,7 @@ import { getContentBySlug } from "@/lib/content";
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
 
 const TITLE       = "Eidolon";
-const DESCRIPTION = "created a visual ai agent to help users trust automation";
+const DESCRIPTION = "created a visual AI agent to help users trust automation";
 /** Local encode: video-only (no audio). */
 const HERO_VIDEOS = ["/eidolon/Video Project 1.1.mp4", "/eidolon/video2.mp4"] as const;
 const CHALLENGE   = "Most people worry about what the internet will look like when it becomes 98% AI and 2% human. How do we design it without causing confusion?";
@@ -227,7 +227,7 @@ export default async function EidolonPage() {
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
                 The low-fidelity iteration of this project was developed efficiently, as interface
                 conventions within AI platforms and video game systems are well established and
-                supported by substantial research. I conducted comprehensive analysis of current
+                supported by substantial research. I conducted a comprehensive analysis of current
                 large language models to inform the layout strategy, synthesizing industry best
                 practices and identifying key strengths to integrate into the design.
               </p>
@@ -547,7 +547,7 @@ export default async function EidolonPage() {
                         { lead: "Information as story: 22× more memorable", detail: "Narrative beats raw data for recall, so the agent explains as a story." },
                         { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper." },
                         { lead: "Low-color background reduces cognitive load", detail: "Muted backgrounds reduce mental overhead so reasoning stands out." },
-                        { lead: "Ambient intelligence minimises screen dependency", detail: "Surface only what’s needed, when it’s needed—no constant noise." },
+                        { lead: "Ambient intelligence minimizes screen dependency", detail: "Surface only what’s needed, when it’s needed—no constant noise." },
                       ],
                     },
                     {

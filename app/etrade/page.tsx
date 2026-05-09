@@ -323,15 +323,15 @@ export default function EtradePage() {
                 {[
                   {
                     n: "01",
-                    body: "Three wireframes were drawn to under stand which layout ould bt eh most benfical, a great way to to see what plan to undergo.",
+                    body: "Three wireframes were drawn to understand which layout would be the most beneficial — a great way to see what plan to undergo.",
                   },
                   {
                     n: "02",
-                    body: "hte 3rd held more to the tradional etrade layout, while the 2nd moved to modernize a  bit through roudnced edges and less denisty, the first has the most about of bretahing rooms, which resreach states is imoprtant for trading and a different nav bar side.",
+                    body: "The 3rd held closer to the traditional E*Trade layout, while the 2nd moved to modernize it a bit through rounded edges and less density. The 1st had the most breathing room, which research states is important for trading, plus a different nav bar side.",
                   },
                   {
                     n: "03",
-                    body: "in thend the 1st was chosen with a mix of the 2nd. the thrid has the cleanest layout and most bretahing room, but the side bar seemed cluuter going to the to pand than a consitnant trading button wasn;t preseint in a desirbale spot so i mized the two",
+                    body: "In the end the 1st was chosen with a mix of the 2nd. The 3rd had the cleanest layout and most breathing room, but the sidebar felt cluttered going to the top, and a consistent trading button wasn't present in a desirable spot — so I mixed the two.",
                   },
                 ].map(({ n, body }) => (
                   <div key={n} className="rounded-xl bg-[#0F8EC7]/[0.08] p-5 ring-1 ring-[#0F8EC7]/25">
@@ -371,7 +371,7 @@ export default function EtradePage() {
                   },
                   {
                     topic: "Icon rail placement",
-                    body: "The icon bar was placed on the right-hand side of the page — research shows traders tend to \"gaze lock\" onto important information in the bottom-right when making a trading decision. Due to traders failing 20% of the time because of behavioural mishaps, the AI agent sits in the bottom-left to surface critical data while reminding them of their patterns.",
+                    body: "The icon bar was placed on the right-hand side of the page — research shows traders tend to \"gaze lock\" onto important information in the bottom-right when making a trading decision. Due to traders failing 20% of the time because of behavioral mishaps, the AI agent sits in the bottom-left to surface critical data while reminding them of their patterns.",
                   },
                 ].map(({ topic, body }) => (
                   <div
@@ -400,13 +400,13 @@ export default function EtradePage() {
                     {
                       img: "/etrade/et1.png",
                       label: "01",
-                      heading: "F-theory layout, humanist type, and an AI behavioural coach",
+                      heading: "F-theory layout, humanist type, and an AI behavioral coach",
                       points: [
                         { lead: "F-Theory page logic", detail: "Critical info stays left/top so traders find data fast without hunting." },
                         { lead: "Humanist fonts cut glance time by 10.6%", detail: "Humanist sans reduces read-time per data point, improving reaction speed (MIT)." },
                         { lead: "Rounded edges reduce cortisol by 15%", detail: "Soft geometry lowers stress response versus sharp corners under pressure (NIH)." },
-                        { lead: "Customisation for individual strategies", detail: "Panels can be rearranged to match each trader’s workflow and reduce friction." },
-                        { lead: "Trading is 80% behavioural", detail: "A visible AI coach surfaces patterns to counter impulse-driven mistakes." },
+                        { lead: "Customization for individual strategies", detail: "Panels can be rearranged to match each trader’s workflow and reduce friction." },
+                        { lead: "Trading is 80% behavioral", detail: "A visible AI coach surfaces patterns to counter impulse-driven mistakes." },
                       ],
                     },
                     {
@@ -426,14 +426,14 @@ export default function EtradePage() {
                     {
                       img: "/etrade/et3.png",
                       label: "03",
-                      heading: "Collapsible UI, colour-first data, and eliminating fat-finger errors",
+                      heading: "Collapsible UI, color-first data, and eliminating fat-finger errors",
                       points: [
                         { lead: "Collapsible sidebar enables Gaze Lock — +12% speed", detail: "Collapsing chrome keeps focus on chart + core data, improving speed (eScholarship)." },
                         { lead: "Easily accessible, live-updating information", detail: "Key metrics update in place so traders absorb changes without context switching." },
                         { lead: "Buttons larger than 44×44px eliminate fat-finger errors", detail: "44×44px+ targets make buy/sell/confirm accurate when stress is high." },
                         { lead: "Reduced clutter = 26% more trading efficiency", detail: "Fewer competing elements improves decision speed and quality (eTufts)." },
                         { lead: "6 data elements per view = 20% better decisions", detail: "Limit visible data to avoid working-memory overload and boost accuracy." },
-                        { lead: "Colour processed faster than shape (SMU)", detail: "Use color as the primary signal for state, risk, and action (SMU)." },
+                        { lead: "Color processed faster than shape (SMU)", detail: "Use color as the primary signal for state, risk, and action (SMU)." },
                         { lead: "Visual data mapping improves trading outcomes", detail: "Spatial/visual mapping helps pattern-match faster and act with confidence (Waterloo)." },
                       ],
                     },
