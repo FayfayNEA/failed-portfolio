@@ -174,7 +174,7 @@ function HeroCarousel({
     : cn(cardClass, "object-contain block w-full min-w-full", mediaHeightClass, sizeClass);
 
   const heroNavBtn = cn(
-    "absolute top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full",
+    "absolute top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full leading-none",
     "border-[0.5px] border-white/15 bg-black/35 text-white/90",
     "shadow-[0_10px_30px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.12)]",
     "backdrop-blur-xl backdrop-saturate-150",
@@ -313,7 +313,7 @@ function HeroVideoCarousel({
   }, [index]);
 
   const heroNavBtn = cn(
-    "absolute top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full",
+    "absolute top-1/2 z-20 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full leading-none",
     "border-[0.5px] border-white/15 bg-black/35 text-white/90",
     "shadow-[0_10px_30px_-14px_rgba(0,0,0,0.55),inset_0_1px_0_0_rgba(255,255,255,0.12)]",
     "backdrop-blur-xl backdrop-saturate-150",
