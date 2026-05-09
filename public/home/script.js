@@ -1139,6 +1139,16 @@ portfolioAssets.forEach((asset, index) => {
 (function setupNetherPortalMonster() {
   if (!netherPortalAnchorEl) return;
 
+  // iOS Safari only fires `click` on a <div> if the browser thinks it's
+  // clickable — the most reliable way is `cursor: pointer` and a
+  // `role="button"`. Also remove the 300ms tap delay.
+  netherPortalAnchorEl.style.cursor = "pointer";
+  netherPortalAnchorEl.style.touchAction = "manipulation";
+  netherPortalAnchorEl.style.webkitTapHighlightColor = "transparent";
+  netherPortalAnchorEl.setAttribute("role", "button");
+  netherPortalAnchorEl.setAttribute("aria-label", "Summon portal monster");
+  netherPortalAnchorEl.setAttribute("tabindex", "0");
+
   const SWORD_CURSOR = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cline x1='4' y1='4' x2='25' y2='25' stroke='%23d0d0d0' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='14' y1='10' x2='10' y2='14' stroke='%23d4af37' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='25' y1='25' x2='30' y2='30' stroke='%238b4513' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E\") 4 4, crosshair";
 
   const monster = document.createElement("img");
@@ -1269,6 +1279,26 @@ portfolioAssets.forEach((asset, index) => {
   netherPortalAnchorEl.addEventListener("pointerdown", onTouchTrigger);
   netherPortalAnchorEl.addEventListener("click", onTouchTrigger);
   netherPortalAnchorEl.addEventListener("touchstart", () => emerge(), { passive: true });
+
+  // Document-level fallback hit-test: if the anchor's actual hit-box is smaller
+  // than the visible portal (because the PNG has transparent padding around the
+  // glow), still trigger emerge() when a tap lands near the portal. Generous
+  // padding accommodates the glow halo / overlay above the anchor.
+  document.addEventListener("pointerdown", (e) => {
+    if (cooldown || attackable) return;
+    const r = netherPortalAnchorEl.getBoundingClientRect();
+    if (r.width < 1) return;
+    const padX = r.width  * 0.35;
+    const padY = r.height * 0.95; // tall pad upward — overlay sits ~78px above anchor
+    if (
+      e.clientX >= r.left  - padX &&
+      e.clientX <= r.right + padX &&
+      e.clientY >= r.top   - padY &&
+      e.clientY <= r.bottom + padY * 0.2
+    ) {
+      emerge();
+    }
+  }, { passive: true });
 })();
 
 // ── Back tablet: hover projector beams ───────────────────────────────────────
@@ -1308,10 +1338,10 @@ portfolioAssets.forEach((asset, index) => {
     // z-index intentionally left to CSS (100003) so beam sits in front of tablet image
 
     // Fraction of tablet image where the green screen sits (tune these to move the beam)
-    // Mobile bumps `BEAM_LEFT_FRAC` rightward — narrow viewports made the donate
-    // pill drift off-tablet to the left.
+    // Mobile pushes both the beam and the DONATE! pill further right because
+    // the back tablet sits to the left of the screen on narrow viewports.
     const isMobile = isMobileViewportWidth(viewport?.clientWidth || window.innerWidth);
-    const BEAM_LEFT_FRAC   = isMobile ? 0.55 : 0.37; // 0 = left edge, 1 = right edge of tablet image
+    const BEAM_LEFT_FRAC   = isMobile ? 0.92 : 0.37; // 0 = left edge, 1 = right edge of tablet image
     const BEAM_BOTTOM_FRAC = 0.75; // beam origin halfway up the tablet — lower half sinks into asset
     const beamLeft   = `${(BEAM_LEFT_FRAC   * 100).toFixed(1)}%`;
     const beamBottom = `${(BEAM_BOTTOM_FRAC * 100).toFixed(1)}%`;

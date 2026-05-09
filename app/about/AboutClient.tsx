@@ -72,7 +72,9 @@ export default function AboutClient() {
       style={{ opacity: mounted ? 1 : 0 }}
     >
       <main className="relative flex flex-1 flex-col bg-transparent px-4 py-4 md:px-8 md:py-3">
-        <div className="relative z-10 flex w-full flex-1 flex-col items-center max-md:justify-start max-md:py-4 md:justify-center md:min-h-[calc(100dvh-5rem)]">
+        {/* On mobile, drop flex-1 so the page sizes to content and the parent
+            document grows / scrolls naturally. Desktop keeps centered CRT. */}
+        <div className="relative z-10 flex w-full flex-col items-center max-md:py-4 max-md:pb-16 md:flex-1 md:justify-center md:min-h-[calc(100dvh-5rem)]">
 
           {/* ── Mobile: portrait + stacked text ── */}
           <div className="w-full max-w-[520px] md:hidden">
