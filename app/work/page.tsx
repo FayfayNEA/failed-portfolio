@@ -45,7 +45,7 @@ export default function WorkPage() {
         <div className="flex w-full flex-1 flex-col items-center justify-center max-md:min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]">
         {/* Mobile: custom hero + vertical folder stack */}
         <div className="w-full md:hidden">
-          <div className="relative mx-auto w-full max-w-[min(520px,94vw)] overflow-hidden">
+          <div className="relative mx-auto w-full max-w-[min(520px,94vw)] py-[11%]">
             <Image
               src="/work/work-mobile.png"
               alt="Work console: metallic device with cord"
