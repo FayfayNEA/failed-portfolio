@@ -112,7 +112,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
             target={href.startsWith("mailto") ? undefined : "_blank"}
             rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
             aria-label={label}
-            className="flex flex-col items-center gap-1 text-[#5a6648]/60 active:text-[#3d4830]"
+            className="flex min-h-[44px] min-w-[44px] flex-col items-center justify-center gap-1 text-[#5a6648]/60 active:text-[#3d4830] active:scale-95 transition-transform duration-75"
           >
             {icon}
             <span className="font-mono text-[8px] tracking-wide">{label}</span>

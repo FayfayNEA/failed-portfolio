@@ -60,14 +60,15 @@ export function ImageLightbox({ src, alt, imgClassName, wrapperClassName, lightB
                 type="button"
                 onClick={close}
                 className={cn(
-                  "mb-3 self-end rounded-md px-2 py-1 font-mono text-[10px] uppercase tracking-[0.16em] outline-none transition focus-visible:ring-1",
+                  "mb-2 self-end flex h-11 w-11 items-center justify-center rounded-full font-mono text-[10px] uppercase tracking-[0.16em] outline-none transition",
+                  "focus-visible:ring-1",
                   lightBg
-                    ? "text-zinc-500 hover:text-zinc-900 focus-visible:ring-zinc-400/40"
-                    : "text-white/80 hover:text-white focus-visible:ring-white/40"
+                    ? "text-zinc-500 hover:text-zinc-900 active:bg-zinc-200/60 focus-visible:ring-zinc-400/40"
+                    : "text-white/80 hover:text-white active:bg-white/20 focus-visible:ring-white/40"
                 )}
                 aria-label="Close"
               >
-                Close
+                ✕
               </button>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

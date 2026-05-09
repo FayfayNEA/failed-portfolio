@@ -39,6 +39,13 @@ export function MobileHamburgerNav() {
 
   useEffect(() => {
     if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
     // iOS Safari: `overflow: hidden` on body can still rubber-band / leave visual artifacts.
     // Lock scroll by fixing the body in place, then restore scroll position on close.
     const scrollY = window.scrollY;

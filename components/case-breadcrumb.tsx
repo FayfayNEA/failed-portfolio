@@ -24,7 +24,7 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
   return (
     <nav
       aria-label="Breadcrumb"
-      className="mb-5 flex min-w-0 flex-wrap items-center gap-x-[3px] gap-y-0.5"
+      className="mb-5 flex min-w-0 flex-wrap items-center gap-x-[3px] gap-y-0.5 overflow-hidden"
     >
       {segments.map((seg, i) => {
         const isLast = i === segments.length - 1;
@@ -44,7 +44,7 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
               <Link
                 href={seg.href}
                 className={cn(
-                  "whitespace-nowrap font-mono text-[11px] font-light leading-none tracking-[0.04em]",
+                  "max-w-[30vw] truncate font-mono text-[11px] font-light leading-none tracking-[0.04em]",
                   "text-zinc-400 transition-colors duration-150",
                   "underline-offset-2 hover:text-zinc-700 hover:underline active:text-zinc-700 active:underline"
                 )}
@@ -54,7 +54,7 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
             ) : (
               <span
                 aria-current={isLast ? "page" : undefined}
-                className="whitespace-nowrap font-mono text-[11px] font-light leading-none tracking-[0.04em] text-zinc-400"
+                className="max-w-[40vw] truncate font-mono text-[11px] font-light leading-none tracking-[0.04em] text-zinc-400"
               >
                 {seg.label}
               </span>

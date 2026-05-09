@@ -540,7 +540,7 @@ export function ProjectGalleryRow({
                           "relative flex items-center justify-center touch-manipulation",
                           dotStyle === "track"
                             ? cn("h-6", navSize === "sm" ? "flex-1 min-w-0" : "flex-1 min-w-0")
-                            : cn("min-w-[18px]", navSize === "sm" ? "h-5" : "h-6")
+                            : cn("min-w-[44px] md:min-w-[18px]", navSize === "sm" ? "h-11 md:h-5" : "h-11 md:h-6")
                         )}
                       >
                         {i === slideIndex ? (

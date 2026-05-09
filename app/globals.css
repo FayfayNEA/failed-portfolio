@@ -101,6 +101,10 @@ body::before {
   html {
     background-attachment: scroll;
   }
+  /* body::before is the iOS overscroll fill layer — also can't use fixed on mobile. */
+  body::before {
+    background-attachment: scroll;
+  }
 }
 
 /* Fither route: match public/fither/style.css body (paper + halftone + vertical wash). */
