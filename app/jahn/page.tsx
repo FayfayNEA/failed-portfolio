@@ -22,7 +22,7 @@ export default function JahnPage() {
       description={DESCRIPTION}
       slug={SLUG}
       category={CATEGORY}
-      hero={{ kind: "video-carousel", videos: [HERO_VIDEO], size: "wide", controls: true }}
+      hero={{ kind: "video-carousel", videos: [HERO_VIDEO], size: "wide", controls: true, landscape: true }}
       heroBelow={
         <div className="flex justify-center">
           <a

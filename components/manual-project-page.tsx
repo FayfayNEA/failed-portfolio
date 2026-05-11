@@ -30,6 +30,11 @@ type Hero =
       size?: "default" | "wide";
       /** If true, show native controls. Defaults to false for hero playback. */
       controls?: boolean;
+      /**
+       * When true, videos fill the carousel width (best for 16:9 / landscape
+       * recordings). Defaults to false (portrait sources like phone mockups).
+       */
+      landscape?: boolean;
     }
   | {
       kind: "image";
@@ -277,10 +282,13 @@ function HeroVideoCarousel({
   videos,
   size = "default",
   controls = false,
+  landscape = false,
 }: {
   videos: string[];
   size?: "default" | "wide";
   controls?: boolean;
+  /** When true, videos fill the carousel width (landscape sources). Defaults to false (portrait). */
+  landscape?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const n = videos.length;
@@ -325,20 +333,22 @@ function HeroVideoCarousel({
     <div className="flex justify-center">
       <div
         className={cn(
-          // "Hug" the video's natural width while staying capped by viewport / max width.
-          "relative w-fit touch-manipulation touch-pan-y overscroll-x-contain",
+          // Portrait: "hug" the video's natural width. Landscape: fill the carousel width
+          // so 16:9 sources don't appear narrow on desktop.
+          "relative touch-manipulation touch-pan-y overscroll-x-contain",
+          landscape ? "w-full" : "w-fit",
           maxW,
           n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing select-none"
         )}
-        style={lockedW == null ? undefined : { width: lockedW }}
+        style={landscape || lockedW == null ? undefined : { width: lockedW }}
         {...swipe}
       >
         <div ref={frameRef} className="relative overflow-hidden rounded-2xl">
           <div
             className={cn(
               "flex justify-center",
-              // Eidolon hero: video 2 needs a white mat to match video 1 framing.
-              index === 1 && "bg-white px-[30px]"
+              // Eidolon hero (portrait only): video 2 needs a white mat to match video 1 framing.
+              !landscape && index === 1 && "bg-white px-[30px]"
             )}
           >
             <AutoPlayVideo
@@ -349,8 +359,11 @@ function HeroVideoCarousel({
               autoPlay
               loop
               className={cn(
-                // Full-height hero feel, but don't stretch the width: let it hug the video aspect ratio.
-                "h-[min(92dvh,960px)] w-auto object-contain"
+                landscape
+                  // Landscape: width-bound, height auto with a generous viewport cap.
+                  ? "h-auto w-full max-h-[min(92dvh,960px)] object-contain"
+                  // Portrait: height-bound, width hugs aspect.
+                  : "h-[min(92dvh,960px)] w-auto object-contain"
               )}
             />
           </div>
@@ -633,6 +646,7 @@ export function ManualProjectPage({
                     videos={hero.videos}
                     size={hero.size ?? heroSize}
                     controls={hero.controls ?? false}
+                    landscape={hero.landscape ?? false}
                   />
                 </div>
               </div>

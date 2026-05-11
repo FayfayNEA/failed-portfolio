@@ -80,6 +80,7 @@ export default function NightterrorsPage() {
         kind: "video-carousel",
         videos: ["/nightterrors/n1ghtterrors%20demo.mp4", "/nightterrors/n1ghtterrors%20demo2.mp4"],
         size: "wide",
+        landscape: true,
       }}
       heroBelow={
         <div className="flex justify-center">
