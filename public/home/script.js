@@ -1180,12 +1180,12 @@ portfolioAssets.forEach((asset, index) => {
     const estimatedH = w * 1.5;
     const y = (pr.top - sr.top + pr.height * 0.5) / sceneScale - estimatedH;
     monster.style.left = `${x - w / 2 - 12}px`;
-    monster.style.top = `${y - 20}px`;
+    monster.style.top = `${y}px`;
     monster.style.width = `${w}px`;
     monster.style.height = "auto";
     const bw = 220;
     bubble.style.left = `${x - bw / 2}px`;
-    bubble.style.top = `${y - 36}px`;
+    bubble.style.top = `${y - 16}px`;
     bubble.style.width = `${bw}px`;
   };
 
@@ -1353,7 +1353,7 @@ portfolioAssets.forEach((asset, index) => {
     // Now that dimensions are in scene-space, 0.37 works at every viewport width.
     const BEAM_LEFT_FRAC   = 0.37; // 0 = left edge, 1 = right edge of tablet image
     const BEAM_BOTTOM_FRAC = 0.75; // beam origin halfway up the tablet — lower half sinks into asset
-    const beamLeft   = `${(BEAM_LEFT_FRAC   * 100).toFixed(1)}%`;
+    const beamLeft   = `calc(${(BEAM_LEFT_FRAC * 100).toFixed(1)}% + 30px)`;
     const beamBottom = `${(BEAM_BOTTOM_FRAC * 100).toFixed(1)}%`;
 
     // Vertical DONATE! beam projecting straight up.
