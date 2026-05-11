@@ -1179,13 +1179,13 @@ portfolioAssets.forEach((asset, index) => {
     const w = Math.max(30, (pr.width * 0.45) / sceneScale);
     const estimatedH = w * 1.5;
     const y = (pr.top - sr.top + pr.height * 0.5) / sceneScale - estimatedH;
-    monster.style.left = `${x - w / 2 - 12}px`;
-    monster.style.top = `${y + 30}px`;
+    monster.style.left = `${x - w / 2 - 7}px`;
+    monster.style.top = `${y + 60}px`;
     monster.style.width = `${w}px`;
     monster.style.height = "auto";
     const bw = 220;
     bubble.style.left = `${x - bw / 2}px`;
-    bubble.style.top = `${y + 14}px`;
+    bubble.style.top = `${y + 44}px`;
     bubble.style.width = `${bw}px`;
   };
 
