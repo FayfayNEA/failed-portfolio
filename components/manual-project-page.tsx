@@ -308,16 +308,26 @@ function HeroVideoCarousel({
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [lockedW, setLockedW] = useState<number | null>(null);
 
-  // Prevent horizontal layout shift when switching videos with different intrinsic widths
-  // (and slide-specific padding). We lock to the widest measured frame width.
+  // Prevent horizontal layout shift when switching videos with different intrinsic widths.
+  // We only lock to a *real* width (> 10 px) so an unloaded video (w-auto → 0) never
+  // freezes the carousel at zero. A ResizeObserver re-fires once the video metadata
+  // arrives and the frame expands to its natural dimensions.
   useLayoutEffect(() => {
     const el = frameRef.current;
     if (!el) return;
-    const id = requestAnimationFrame(() => {
-      const w = el.getBoundingClientRect().width;
-      setLockedW((prevW) => (prevW == null ? w : Math.max(prevW, w)));
-    });
-    return () => cancelAnimationFrame(id);
+
+    const lock = (w: number) => {
+      if (w > 10) setLockedW((prevW) => (prevW == null ? w : Math.max(prevW, w)));
+    };
+
+    const id = requestAnimationFrame(() => lock(el.getBoundingClientRect().width));
+    const ro = new ResizeObserver(([entry]) => lock(entry.contentRect.width));
+    ro.observe(el);
+
+    return () => {
+      cancelAnimationFrame(id);
+      ro.disconnect();
+    };
   }, [index]);
 
   const heroNavBtn = cn(
@@ -335,8 +345,9 @@ function HeroVideoCarousel({
         className={cn(
           // Portrait: "hug" the video's natural width. Landscape: fill the carousel width
           // so 16:9 sources don't appear narrow on desktop.
+          // min-w-[169px] ≈ 300 × 9/16 — prevents a 0-width slot before metadata loads.
           "relative touch-manipulation touch-pan-y overscroll-x-contain",
-          landscape ? "w-full" : "w-fit",
+          landscape ? "w-full" : "w-fit min-w-[169px]",
           maxW,
           n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing select-none"
         )}
