@@ -1172,10 +1172,13 @@ portfolioAssets.forEach((asset, index) => {
   const positionMonster = () => {
     const pr = netherPortalAnchorEl.getBoundingClientRect();
     const sr = scene.getBoundingClientRect();
-    const x = pr.left - sr.left + pr.width * 0.5;
-    const w = Math.max(30, pr.width * 0.45);
+    // getBoundingClientRect returns viewport px (after scene scale transform).
+    // monster/bubble live in scene-space (natural 1024×580 px), so divide by scale.
+    const sceneScale = sr.width / DESIGN_WIDTH;
+    const x = (pr.left - sr.left + pr.width * 0.5) / sceneScale;
+    const w = Math.max(30, (pr.width * 0.45) / sceneScale);
     const estimatedH = w * 1.5;
-    const y = pr.top - sr.top + pr.height * 0.5 - estimatedH;
+    const y = (pr.top - sr.top + pr.height * 0.5) / sceneScale - estimatedH;
     monster.style.left = `${x - w / 2 - 12}px`;
     monster.style.top = `${y - 20}px`;
     monster.style.width = `${w}px`;
@@ -1328,20 +1331,27 @@ portfolioAssets.forEach((asset, index) => {
     const r = img.getBoundingClientRect();
     if (r.width < 2 || r.height < 2) return;
 
+    // beamsEl lives inside backTabletAnchorEl which is in scene-space (1024×580 natural px).
+    // r is in viewport px (after scale transform), so divide by scene scale to get scene-space.
+    const sceneRect = scene.getBoundingClientRect();
+    const sceneScale = sceneRect.width / DESIGN_WIDTH;
+    const anchorRect = backTabletAnchorEl.getBoundingClientRect();
+    const imgSceneLeft = (r.left - anchorRect.left) / sceneScale;
+    const imgSceneW    = r.width  / sceneScale;
+    const imgSceneH    = r.height / sceneScale;
+
     beamsEl = document.createElement("div");
     beamsEl.className = "tablet-beams";
     beamsEl.setAttribute("aria-hidden", "true");
-    beamsEl.style.left = "0px";
-    beamsEl.style.top = "0px";
-    beamsEl.style.width = `${r.width}px`;
-    beamsEl.style.height = `${r.height}px`;
+    beamsEl.style.left   = `${imgSceneLeft}px`;
+    beamsEl.style.top    = "0px";
+    beamsEl.style.width  = `${imgSceneW}px`;
+    beamsEl.style.height = `${imgSceneH}px`;
     // z-index intentionally left to CSS (100003) so beam sits in front of tablet image
 
-    // Fraction of tablet image where the green screen sits (tune these to move the beam)
-    // Mobile pushes both the beam and the DONATE! pill further right because
-    // the back tablet sits to the left of the screen on narrow viewports.
-    const isMobile = isMobileViewportWidth(viewport?.clientWidth || window.innerWidth);
-    const BEAM_LEFT_FRAC   = isMobile ? 0.92 : 0.37; // 0 = left edge, 1 = right edge of tablet image
+    // Fraction of tablet image where the green screen sits.
+    // Now that dimensions are in scene-space, 0.37 works at every viewport width.
+    const BEAM_LEFT_FRAC   = 0.37; // 0 = left edge, 1 = right edge of tablet image
     const BEAM_BOTTOM_FRAC = 0.75; // beam origin halfway up the tablet — lower half sinks into asset
     const beamLeft   = `${(BEAM_LEFT_FRAC   * 100).toFixed(1)}%`;
     const beamBottom = `${(BEAM_BOTTOM_FRAC * 100).toFixed(1)}%`;
