@@ -364,6 +364,18 @@ export function CategoryGallery({
     const cw_ = Math.round(BASE_CARD_W * sc);
     const ch_ = Math.round(BASE_CARD_H * sc);
 
+    // Read stored sizes first so we can check overlap with actual card dimensions.
+    let storedSizes: CardSize[] | null = null;
+    const rawSizes = localStorage.getItem(`${storageKey}-sizes`);
+    if (rawSizes) {
+      try {
+        const parsed: CardSize[] = JSON.parse(rawSizes);
+        if (Array.isArray(parsed) && parsed.length === projects.length) {
+          storedSizes = parsed;
+        }
+      } catch { /* ignore */ }
+    }
+
     // --- positions ---
     let usedStoredPositions = false;
     const storedPos = localStorage.getItem(storageKey);
@@ -375,9 +387,13 @@ export function CategoryGallery({
             x: Math.max(0, Math.min(pos.x, cw - cw_ - 8)),
             y: Math.max(0, Math.min(pos.y, ch - ch_ - 8)),
           }));
-          // Only use stored positions if they don't overlap after clamping
-          if (!hasOverlap(clamped, cw_, ch_)) {
+          // Check overlap using the actual stored card size so large user-resized
+          // cards aren't laid over each other after a viewport change.
+          const checkW = storedSizes ? Math.round((storedSizes[0]?.w ?? BASE_CARD_W) * sc) : cw_;
+          const checkH = storedSizes ? Math.round((storedSizes[0]?.h ?? BASE_CARD_H) * sc) : ch_;
+          if (!hasOverlap(clamped, checkW, checkH)) {
             setPositions(clamped);
+            if (storedSizes) setBaseSizes(storedSizes); // Only restore sizes with positions
             setReady(true);
             usedStoredPositions = true;
           }
@@ -388,29 +404,15 @@ export function CategoryGallery({
     }
 
     if (!usedStoredPositions) {
+      // Fresh grid — ignore any saved sizes; compute a clean fit.
       const layout = computeInitialGridLayout({
         containerW: cw,
         containerH: ch,
         count: projects.length,
       });
       setPositions(layout.positions);
-
-      // First-load: enforce uniform card sizes for the whole deck.
       setBaseSizes(layout.baseSizes);
       setReady(true);
-    }
-
-    // --- sizes ---
-    const storedSizes = localStorage.getItem(`${storageKey}-sizes`);
-    if (storedSizes) {
-      try {
-        const parsed: CardSize[] = JSON.parse(storedSizes);
-        if (Array.isArray(parsed) && parsed.length === projects.length) {
-          setBaseSizes(parsed);
-        }
-      } catch {
-        // ignore
-      }
     }
   }, [isStackLayout, projects, storageKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -447,12 +449,20 @@ export function CategoryGallery({
     const cw_ = Math.round(BASE_CARD_W * sc);
     const ch_ = Math.round(BASE_CARD_H * sc);
 
-    setPositions((prev) =>
-      prev.map((pos) => ({
+    setPositions((prev) => {
+      const clamped = prev.map((pos) => ({
         x: Math.max(0, Math.min(pos.x * (newW / oldW), newW - cw_ - 8)),
         y: Math.max(0, Math.min(pos.y * (newH / oldH), newH - ch_ - 8)),
-      }))
-    );
+      }));
+      // If re-clamping produced overlapping cards, reset to a clean grid layout.
+      if (hasOverlap(clamped, cw_, ch_)) {
+        const layout = computeInitialGridLayout({ containerW: newW, containerH: newH, count: prev.length });
+        // Schedule the size reset outside the state updater.
+        queueMicrotask(() => setBaseSizes(layout.baseSizes));
+        return layout.positions;
+      }
+      return clamped;
+    });
     prevSize.current = { w: newW, h: newH };
   }, [containerSize, isStackLayout, ready]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -598,7 +608,7 @@ export function CategoryGallery({
     return (
       <div
         ref={containerRef}
-        className="h-full w-full touch-pan-y overflow-y-auto overscroll-y-contain px-4 pb-28 pt-5 sm:px-6"
+        className="w-full px-4 pb-28 pt-5 sm:px-6"
       >
         <ul
           className="mx-auto flex max-w-lg flex-col gap-10"

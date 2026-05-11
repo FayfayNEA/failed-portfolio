@@ -24,6 +24,7 @@ export function AutoPlayVideo({
   loop = true,
   autoPlay = true,
   muted = true,
+  preload = "metadata",
 }: {
   src: string;
   className?: string;
@@ -32,6 +33,8 @@ export function AutoPlayVideo({
   loop?: boolean;
   autoPlay?: boolean;
   muted?: boolean;
+  /** How eagerly to fetch video data. Use "auto" for hero/above-fold videos. */
+  preload?: "none" | "metadata" | "auto";
 }) {
   const ref = useRef<HTMLVideoElement | null>(null);
   const [blocked, setBlocked] = useState(false);
@@ -70,7 +73,7 @@ export function AutoPlayVideo({
         loop={loop}
         autoPlay={autoPlay}
         playsInline
-        preload="metadata"
+        preload={preload}
         poster={resolvedPoster}
         onCanPlay={() => {
           if (autoPlay) void tryPlay();

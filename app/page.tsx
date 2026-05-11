@@ -42,7 +42,7 @@ export default function Home() {
 
       <section
         id="product-design"
-        className="mt-[4rem] flex h-[calc(100dvh-4rem)] flex-col overflow-hidden sm:mt-[6rem] md:mt-[10rem] md:h-[calc(100dvh-5rem)]"
+        className="mt-[4rem] flex flex-col sm:mt-[6rem] md:mt-[10rem] lg:h-[calc(100dvh-5rem)] lg:overflow-hidden"
         aria-label="Product Design work"
       >
         <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:px-12">
@@ -53,7 +53,7 @@ export default function Home() {
             ]}
           />
         </div>
-        <div className="min-h-0 flex-1">
+        <div className="lg:min-h-0 lg:flex-1">
           <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design" />
         </div>
       </section>

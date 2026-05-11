@@ -358,6 +358,7 @@ function HeroVideoCarousel({
               muted
               autoPlay
               loop
+              preload="auto"
               className={cn(
                 landscape
                   // Landscape: width-bound, height auto with a generous viewport cap.

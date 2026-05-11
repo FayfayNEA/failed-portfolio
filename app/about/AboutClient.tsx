@@ -91,7 +91,10 @@ export default function AboutClient() {
             </div>
             <LiquidGlassCard className="p-4 sm:p-5">
               <div className="space-y-3.5 text-[13px] leading-[1.62] text-zinc-700">
-              <h1 className="font-mono text-[1.3rem] font-normal text-zinc-900">I&apos;m Faílenn</h1>
+              <h1 className="font-mono text-[1.3rem] font-normal text-zinc-900">
+                I&apos;m Faílenn{" "}
+                <span className="font-light text-[0.9rem] text-zinc-400">(fay-len)</span>
+              </h1>
               <p>
                 My tech journey began early, modding iPhones and selling custom Tumblr themes in middle
                 school. By high school, I was deep into robotics, presenting a thesis on drone
@@ -162,7 +165,8 @@ export default function AboutClient() {
                     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                       <LiquidGlassCard className="flex h-full min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain rounded-[10px] p-[clamp(7px,2.8cqi,14px)] md:rounded-2xl [scrollbar-width:thin]">
                         <h2 className="mb-1 font-mono text-[clamp(13px,3.15cqi,20px)] font-normal leading-tight tracking-[-0.01em] text-zinc-900">
-                          I&apos;m Faílenn
+                          I&apos;m Faílenn{" "}
+                          <span className="font-light text-[0.78em] text-zinc-400">(fay-len)</span>
                         </h2>
                         <div className="min-h-0 space-y-1.5 text-[clamp(8.5px,1.78cqi,12px)] leading-[1.56] text-zinc-700 md:space-y-1.5 md:leading-[1.6]">
                           <p>
