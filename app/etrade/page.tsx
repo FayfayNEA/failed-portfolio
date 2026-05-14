@@ -288,6 +288,150 @@ export default function EtradePage() {
           content: null,
         },
         {
+          id: "ideation",
+          label: "IDEATION",
+          content: (
+            <>
+              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                Three rounds of iteration to find the right information architecture.
+              </h2>
+              <p className="mb-10 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                The core design challenge wasn't visual style — it was reducing the number of decisions a
+                trader has to make per minute. Each iteration tightened the information hierarchy.
+              </p>
+
+              {/* Iteration 1 */}
+              <div className="mb-12">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[#0F8EC7]/70">Iteration 01</p>
+                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
+                  Lo-Fi Sketches — Mapping the trade flow
+                </h3>
+                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
+                  Paper sketches to establish where the order panel, chart, and watchlist should live relative
+                  to each other. Primary question: can a trader execute an order without moving their eyes off
+                  the chart?
+                </p>
+                <div className="mx-auto w-full max-w-[min(720px,100%)]">
+                  <div className="overflow-hidden rounded-2xl bg-white/60 p-4 shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="https://framerusercontent.com/images/VLLZ3Q2rImur14DXJbC20OnL8nQ.png?width=2445&height=1526"
+                      alt="Iteration 1 — lo-fi sketches of trade flow"
+                      className="h-auto w-full object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Iteration 2 */}
+              <div className="mb-12">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[#0F8EC7]/70">Iteration 02</p>
+                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
+                  Mid-Fi Wireframes — Testing the sidebar model
+                </h3>
+                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
+                  Moved to digital wireframes to test a persistent command sidebar vs. the current top-nav
+                  pattern. F-pattern reading research and Fitts&apos;s Law informed the 44px minimum hit-state targets.
+                  Key change: the order entry moved into the sidebar, eliminating a modal.
+                </p>
+                <div className="mx-auto w-full max-w-[min(920px,100%)]">
+                  <div className="grid grid-cols-1 gap-3 overflow-hidden rounded-2xl bg-white/60 p-4 shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] sm:grid-cols-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://framerusercontent.com/images/30OdNU41aVWWCLZ4MsVyeOm6g.png?width=1914&height=946" alt="Mid-fi wireframe — command sidebar" className="h-auto w-full rounded-xl object-contain" loading="lazy" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="https://framerusercontent.com/images/fHR6y8Dq88QZXUqwQfwoM69Zy0w.png?width=1858&height=1062" alt="Mid-fi wireframe — chart and watchlist" className="h-auto w-full rounded-xl object-contain" loading="lazy" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Iteration 3 */}
+              <div className="mb-4">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[#0F8EC7]/70">Iteration 03</p>
+                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
+                  Hi-Fi — Applying clinical typography and the glass-box AI agent
+                </h3>
+                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
+                  Final visual pass: humanist tabular fonts, 8–12px rounded geometry, and the AI confidence
+                  layer. The before/after comparison below shows the cognitive load reduction in practice.
+                </p>
+              </div>
+            </>
+          ),
+        },
+        {
+          id: "user-testing",
+          label: "USER TESTING",
+          content: (
+            <>
+              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                Tested with 4 retail traders across 2 rounds.
+              </h2>
+              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                Round 1 tested the mid-fi wireframes. Round 2 tested the hi-fi prototype. Tasks included:
+                execute a limit order, find a stock on the watchlist, and interpret the AI agent&apos;s
+                recommendation.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    quote: "I actually missed a trade once on the old site because I couldn&apos;t find the order button fast enough. This version — I didn&apos;t have to think about where anything was.",
+                    name: "Marcus",
+                    role: "34 · Swing trader, 3 years",
+                    sentiment: "positive",
+                  },
+                  {
+                    quote: "The AI coach thing is cool but I turned it off after the first day. When I&apos;m in a position, I don&apos;t want anything second-guessing me.",
+                    name: "Derek",
+                    role: "41 · Day trader, 7 years",
+                    sentiment: "critical",
+                  },
+                  {
+                    quote: "Finally I can see my watchlist, the chart, and the order entry on one screen without jumping between tabs. That alone is enough.",
+                    name: "Hannah",
+                    role: "28 · Retail trader, 18 months",
+                    sentiment: "positive",
+                  },
+                  {
+                    quote: "The confidence scores on the AI are the right call. I don&apos;t need it to tell me what to do — I need to see how sure it is. That&apos;s actually useful.",
+                    name: "Priya",
+                    role: "31 · Quantitative trader",
+                    sentiment: "positive",
+                  },
+                ].map(({ quote, name, role, sentiment }) => (
+                  <div
+                    key={name}
+                    className={[
+                      "rounded-2xl p-5 ring-1",
+                      sentiment === "critical"
+                        ? "bg-amber-50/70 ring-amber-200/60"
+                        : "bg-[#0F8EC7]/[0.05] ring-[#0F8EC7]/25",
+                    ].join(" ")}
+                  >
+                    <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-sky-950/80"].join(" ")}>
+                      &ldquo;{quote}&rdquo;
+                    </p>
+                    <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-sky-700/70"].join(" ")}>
+                      {name} &nbsp;·&nbsp; {role}
+                      {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
+                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  The AI agent was polarizing. Power users wanted to disable it; newer traders found it
+                  reassuring. This led to the decision to make it opt-out by default rather than opt-in —
+                  visible to everyone on first load, easily dismissed.
+                </p>
+              </div>
+            </>
+          ),
+        },
+        {
           id: "the-solution",
           label: "THE SOLUTION",
           content: (

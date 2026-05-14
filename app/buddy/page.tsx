@@ -28,6 +28,7 @@ const SECTIONS = [
   { id: "project-overview", label: "PROJECT OVERVIEW" },
   { id: "the-research", label: "THE RESEARCH" },
   { id: "how-might-we", label: "HOW MIGHT WE" },
+  { id: "user-testing", label: "USER TESTING" },
   { id: "the-solution", label: "THE SOLUTION" },
   { id: "engineering", label: "ENGINEERING" },
   { id: "iterations", label: "ITERATIONS" },
@@ -359,6 +360,16 @@ export default function BuddyPage() {
               controls
               className="aspect-video w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
             />
+            <div className="mt-4 flex justify-center">
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-violet-50/80 px-4 py-2 text-[0.85rem] font-medium text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
+              >
+                View Live Prototype <span aria-hidden>↗</span>
+              </a>
+            </div>
           </div>
         </div>
 
@@ -559,6 +570,76 @@ export default function BuddyPage() {
             </p>
             <p className="mt-4 text-[0.85rem] leading-relaxed text-zinc-500">
               By implementing a technology that helps clarify ideas visually through LLM image generation.
+            </p>
+          </div>
+        </ScrollSection>
+
+        <Divider />
+
+        {/* USER TESTING */}
+        <ScrollSection id="user-testing">
+          <SectionLabel>User Testing</SectionLabel>
+          <h2 className={cn("mb-4 text-[1.35rem] font-semibold leading-snug tracking-[-0.025em]", rosario.className)}>
+            Tested across 3 real team environments.
+          </h2>
+          <p className="mb-8 text-[0.95rem] leading-[1.75] text-zinc-600">
+            Sessions ranged from a 45-minute design sprint to a full-day client workshop. The core question:
+            does Buddy change how teams communicate, or does it just record what already happens?
+          </p>
+
+          <div className="space-y-4">
+            {[
+              {
+                quote: "We used it in our Thursday standup and people started talking differently — way more concise. Everyone knew it was being captured in real time so they stopped rambling.",
+                name: "Keisha",
+                role: "29 · Product manager, fintech",
+                sentiment: "positive",
+              },
+              {
+                quote: "Battery died 5 hours into an 8-hour workshop. Really bad timing — we lost everything from the afternoon session.",
+                name: "Tom",
+                role: "52 · Design lead, consultancy",
+                sentiment: "critical",
+              },
+              {
+                quote: "The PDF summary at the end saved me two hours of notes. I sent it straight to the client before the meeting was even over.",
+                name: "Amir",
+                role: "37 · Strategy consultant",
+                sentiment: "positive",
+              },
+              {
+                quote: "I didn&apos;t love having a device on the table. Some people got weird about it. You have to explain it before you put it down.",
+                name: "Lena",
+                role: "33 · Research lead",
+                sentiment: "critical",
+              },
+            ].map(({ quote, name, role, sentiment }) => (
+              <div
+                key={name}
+                className={[
+                  "rounded-2xl p-5 ring-1",
+                  sentiment === "critical"
+                    ? "bg-amber-50/70 ring-amber-200/60"
+                    : "bg-violet-50/50 ring-violet-200/50",
+                ].join(" ")}
+              >
+                <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-violet-950/80"].join(" ")}>
+                  &ldquo;{quote}&rdquo;
+                </p>
+                <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-violet-600/70"].join(" ")}>
+                  {name} &nbsp;·&nbsp; {role}
+                  {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
+            <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+              Consent and transparency were bigger friction points than the technology itself. The device
+              needed an obvious visual indicator that it was recording — a blinking LED or clear on/off state —
+              so participants could opt out without asking. This became a hardware revision priority.
             </p>
           </div>
         </ScrollSection>

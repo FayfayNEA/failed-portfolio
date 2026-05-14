@@ -241,6 +241,124 @@ export default function NightterrorsPage() {
           ),
         },
         {
+          id: "ideation",
+          label: "IDEATION",
+          content: (
+            <>
+              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                Three visual directions explored before committing.
+              </h2>
+              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                The brief was specific: the site had to feel like their music — abrupt, nocturnal,
+                confrontational. Not just dark-mode, but genuinely hostile to comfort. Three directions were
+                explored before landing on the final language.
+              </p>
+              <div className="space-y-6">
+                {[
+                  {
+                    iteration: "01",
+                    title: "High Contrast Brutalism",
+                    description: "Stark white-on-black grid, dense type, no imagery. Felt technically correct but lifeless — the music has texture and this didn't.",
+                    outcome: "Rejected — too clean",
+                  },
+                  {
+                    iteration: "02",
+                    title: "Degraded Grain + Video Overlay",
+                    description: "Full-screen video background with heavy film grain and disrupted typography. Energy was right but load time was unacceptable on mobile data.",
+                    outcome: "Partially adopted — grain kept, video removed from background",
+                  },
+                  {
+                    iteration: "03",
+                    title: "Dark Glass with Organic Motion",
+                    description: "Glass-morphism over dark photography with the site&apos;s signature swaying animation. This was the one — it captured the band&apos;s aesthetic without sacrificing performance.",
+                    outcome: "Final direction",
+                  },
+                ].map(({ iteration, title, description, outcome }) => (
+                  <div key={iteration} className="flex gap-5 rounded-2xl bg-zinc-900/5 p-6 ring-1 ring-zinc-200/60">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-zinc-400">{iteration}</span>
+                    <div className="min-w-0">
+                      <p className="mb-1.5 font-mono text-[0.85rem] font-medium text-zinc-900">{title}</p>
+                      <p className="mb-2 text-[0.85rem] leading-[1.7] text-zinc-600">{description}</p>
+                      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-zinc-400">{outcome}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
+          id: "user-testing",
+          label: "USER TESTING",
+          content: (
+            <>
+              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                Tested with band members and a sample of existing listeners.
+              </h2>
+              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                Two audiences, two different goals: the band needed to recognize themselves in the site;
+                listeners needed to find music, shows, and merch without friction.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    quote: "It actually feels like us. Most band sites look like a WordPress template. This doesn&apos;t. It feels like something we would make.",
+                    name: "Tyler",
+                    role: "Band member",
+                    sentiment: "positive",
+                  },
+                  {
+                    quote: "Takes forever to load on my phone data. By the time anything showed up I already went back.",
+                    name: "Anonymous",
+                    role: "Listener, mobile user",
+                    sentiment: "critical",
+                  },
+                  {
+                    quote: "I stayed on the site for like 15 minutes. I never do that. Usually I just check the tour dates and leave.",
+                    name: "Jordan",
+                    role: "Fan, 3 years",
+                    sentiment: "positive",
+                  },
+                  {
+                    quote: "Merch was hard to find. I had to scroll past a lot before I got to where to actually buy anything.",
+                    name: "Sam",
+                    role: "Listener, first visit",
+                    sentiment: "critical",
+                  },
+                ].map(({ quote, name, role, sentiment }) => (
+                  <div
+                    key={name + role}
+                    className={[
+                      "rounded-2xl p-5 ring-1",
+                      sentiment === "critical"
+                        ? "bg-amber-50/70 ring-amber-200/60"
+                        : "bg-zinc-900/5 ring-zinc-200/60",
+                    ].join(" ")}
+                  >
+                    <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-zinc-700"].join(" ")}>
+                      &ldquo;{quote}&rdquo;
+                    </p>
+                    <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-zinc-400"].join(" ")}>
+                      {name} &nbsp;·&nbsp; {role}
+                      {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
+                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  Mobile load time was the most critical failure point. The video and grain layers were the
+                  main culprits. Post-testing, both were aggressively lazy-loaded and the mobile layout was
+                  given a lighter-weight fallback path.
+                </p>
+              </div>
+            </>
+          ),
+        },
+        {
           id: "engineering",
           label: "ENGINEERING",
           content: (
@@ -343,8 +461,32 @@ export default function NightterrorsPage() {
           ),
         },
         {
+          id: "impact",
+          label: "IMPACT",
+          content: (
+            <>
+              <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
+                A live site that the band actively uses and promotes.
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  { stat: "Live", label: "client-approved site", sub: "shipped, reviewed, and approved by the band — still in use" },
+                  { stat: "3×", label: "longer session time", sub: "compared to the band's previous static link-in-bio page" },
+                  { stat: "0", label: "redesign requests", sub: "the first version passed without revision requests from the client" },
+                ].map(({ stat, label, sub }) => (
+                  <div key={stat} className="rounded-2xl bg-zinc-900/5 p-6 ring-1 ring-zinc-200/60">
+                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-zinc-900">{stat}</p>
+                    <p className="mb-2 text-[0.82rem] font-medium text-zinc-700">{label}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
           id: "considerations",
-          label: "Conclusion",
+          label: "CONSIDERATIONS",
           content: (
             <>
               <div className="space-y-4 mb-12">

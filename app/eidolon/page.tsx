@@ -46,9 +46,19 @@ export default async function EidolonPage() {
       category="product-design"
       hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], size: "wide", controls: true }}
       heroBelow={
-        <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-          Interactive Figma prototype
-        </p>
+        <div className="flex flex-col items-center gap-3">
+          <a
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-emerald-50/80 px-4 py-2 text-[0.85rem] font-medium text-emerald-700 ring-1 ring-emerald-200/60 transition-colors hover:bg-emerald-100/80"
+          >
+            View Figma Prototype <span aria-hidden>↗</span>
+          </a>
+          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Interactive Figma prototype
+          </p>
+        </div>
       }
       challengeSummary={CHALLENGE}
       meta={METADATA}
@@ -268,10 +278,161 @@ export default async function EidolonPage() {
           ),
         },
         {
+          id: "ideation",
+          label: "IDEATION",
+          content: (
+            <>
+              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                Sketches → mid-fi → hi-fi in 7 days.
+              </h2>
+              <p className="mb-10 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                With a 1-week timeline, each iteration had to make a clear decision. No exploration for its
+                own sake — every round answered a specific question about how to make AI intent legible.
+              </p>
+
+              {/* Iteration 1 */}
+              <div className="mb-12">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 01</p>
+                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
+                  Sketches — What does a &ldquo;visible&rdquo; AI agent even look like?
+                </h3>
+                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
+                  Initial sketches focused on the core question: how do you show an AI acting in real time
+                  without overwhelming the user? Explored: step-by-step trace, confidence meter, action log,
+                  and a visual &ldquo;thought bubble&rdquo; metaphor. The thought bubble won.
+                </p>
+                <div className="mx-auto w-full max-w-[min(720px,100%)]">
+                  <div className="grid grid-cols-1 gap-3 overflow-hidden rounded-2xl bg-white/60 p-4 shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] sm:grid-cols-3">
+                    {[
+                      encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 3 of 8.png"),
+                      encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 4 of 8.png"),
+                      encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 5 of 8.png"),
+                    ].map((src, i) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={i} src={src} alt={`Sketch page ${i + 1}`} className="h-auto w-full rounded-xl object-contain" loading="lazy" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Iteration 2 */}
+              <div className="mb-12">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 02</p>
+                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
+                  Mid-Fi — Mapping flows for Cindy and Ashleigh
+                </h3>
+                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
+                  Two distinct user flows emerged from the persona work: Cindy&apos;s manual-control path
+                  (skeptical of full automation) and Ashleigh&apos;s automatic path (trusts the agent to act
+                  on her behalf). Mid-fi screens were built for both to ensure the visual reasoning layer
+                  worked at both ends of the trust spectrum.
+                </p>
+                <div className="mx-auto grid w-full max-w-[min(720px,100%)] grid-cols-1 gap-4 sm:grid-cols-2">
+                  {["/eidolon/cindys flow.png", "/eidolon/ashleighs flow.png"].map((src) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img key={src} src={src} alt="User flow mid-fi" className="h-auto w-full rounded-xl object-contain shadow-[0_4px_24px_-10px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]" loading="lazy" />
+                  ))}
+                </div>
+              </div>
+
+              {/* Iteration 3 */}
+              <div className="mb-4">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 03</p>
+                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
+                  Hi-Fi — Figma prototype with visual reasoning layer
+                </h3>
+                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
+                  Final screens applied the full visual language: the Eidolon glyph as agent avatar,
+                  reasoning panels showing step-by-step logic, and the character creation onboarding that
+                  sets trust preferences before first use. Full Figma prototype linked above.
+                </p>
+              </div>
+            </>
+          ),
+        },
+        {
           id: "how-might-we",
           label: "HOW MIGHT WE",
           navOnly: true,
           content: null,
+        },
+        {
+          id: "user-testing",
+          label: "USER TESTING",
+          content: (
+            <>
+              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                Tested with 5 users across varying levels of AI familiarity.
+              </h2>
+              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                Sessions were task-based: find information using the agent, delegate an action, and revoke
+                agent access. The core question was whether the visual reasoning layer actually reduced
+                perceived AI opacity — or just added noise.
+              </p>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    quote: "I actually understood what it was doing. Usually I just close AI things because they feel like a black box. Seeing the steps made me feel like I was in control even when I wasn&apos;t doing anything.",
+                    name: "Priya",
+                    role: "26 · Product manager, tech",
+                    sentiment: "positive",
+                  },
+                  {
+                    quote: "It&apos;s still AI at the end of the day. I can see the steps but I still don&apos;t fully trust it. What happens if it gets the reasoning wrong and I followed it anyway?",
+                    name: "James",
+                    role: "43 · Small business owner",
+                    sentiment: "critical",
+                  },
+                  {
+                    quote: "The part where it shows you what it&apos;s about to do before it actually does it — that&apos;s the thing. It&apos;s like watching it think out loud. That&apos;s all I needed.",
+                    name: "Sofia",
+                    role: "31 · UX researcher",
+                    sentiment: "positive",
+                  },
+                  {
+                    quote: "Onboarding was a little long. The character creation part felt like a game, which was weird for something I&apos;m supposed to use for actual tasks.",
+                    name: "Devon",
+                    role: "22 · College student",
+                    sentiment: "critical",
+                  },
+                  {
+                    quote: "The glyph moving when the agent is thinking is a small thing but it made a huge difference. You always know it&apos;s doing something. That matters.",
+                    name: "Rachel",
+                    role: "38 · Operations lead",
+                    sentiment: "positive",
+                  },
+                ].map(({ quote, name, role, sentiment }) => (
+                  <div
+                    key={name}
+                    className={[
+                      "rounded-2xl p-5 ring-1",
+                      sentiment === "critical"
+                        ? "bg-amber-50/70 ring-amber-200/60"
+                        : "bg-emerald-50/60 ring-emerald-200/55",
+                    ].join(" ")}
+                  >
+                    <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-emerald-950/80"].join(" ")}>
+                      &ldquo;{quote}&rdquo;
+                    </p>
+                    <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-emerald-700/70"].join(" ")}>
+                      {name} &nbsp;·&nbsp; {role}
+                      {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
+                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  Users who initially distrusted AI (James, Devon) still found the visual reasoning layer
+                  preferable to opacity — they just wanted the ability to pause or override it at any step.
+                  This confirmed the manual-control mode as a required feature, not a nice-to-have.
+                </p>
+              </div>
+            </>
+          ),
         },
         {
           id: "solution",
