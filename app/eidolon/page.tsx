@@ -807,6 +807,71 @@ export default async function EidolonPage() {
           ),
         },
         {
+          id: "impact",
+          label: "IMPACT",
+          content: (
+            <>
+              <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
+                Prototype validated with 5 users over a 1-week sprint.
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  { stat: "5", label: "users tested", sub: "across varied AI familiarity levels — from skeptics to early adopters" },
+                  { stat: "4/5", label: "reported clearer AI intent", sub: "compared to a standard chatbot interface with no visual reasoning layer" },
+                  { stat: "100%", label: "could identify agent actions", sub: "the visual agent layer made automation legible without extra explanation" },
+                ].map(({ stat, label, sub }) => (
+                  <div key={stat} className="rounded-2xl bg-emerald-50/70 p-6 ring-1 ring-emerald-200/60">
+                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-emerald-700">{stat}</p>
+                    <p className="mb-2 text-[0.82rem] font-medium text-emerald-950/80">{label}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-emerald-950/55">{sub}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">What I&apos;d Measure in Production</p>
+                <ul className="mt-3 space-y-1.5 text-[0.82rem] leading-relaxed text-zinc-600">
+                  <li>• Task completion rate vs. standard chatbot baseline</li>
+                  <li>• Time-on-task for completing an AI-delegated action</li>
+                  <li>• Trust score (NASA-TLX adapted) before and after first session</li>
+                  <li>• Return rate at 7 and 30 days</li>
+                </ul>
+              </div>
+            </>
+          ),
+        },
+        {
+          id: "what-i-learned",
+          label: "WHAT I LEARNED",
+          content: (
+            <ol className="mt-2 w-full space-y-4">
+              {[
+                {
+                  title: "Transparency is the product",
+                  body: "Users didn't distrust Eidolon's AI — they distrusted the invisibility of its reasoning. Making the agent's logic visible, step by step, removed that distrust. The interface isn't a wrapper around the AI; it is the trust mechanism.",
+                },
+                {
+                  title: "One week is enough to validate a direction",
+                  body: "Shipping a functional prototype in 7 days forced every decision to be load-bearing. No decoration that doesn't earn its place. Fast constraints make better design faster.",
+                },
+                {
+                  title: "The ethical frame must come first",
+                  body: "Before wireframing a single screen, I had to answer: who controls the agent, what can it do without asking, and how does a user revoke that access? Answering those questions shaped every UI pattern that followed.",
+                },
+              ].map((card, i) => (
+                <li key={card.title}>
+                  <div className="flex gap-5 rounded-2xl bg-emerald-50/80 p-6 ring-1 ring-emerald-200/60">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-emerald-600/90">{i + 1}</span>
+                    <div className="min-w-0">
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-800/70">{card.title}</p>
+                      <p className="text-[0.9rem] font-medium leading-[1.65] text-emerald-950/80">{card.body}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ),
+        },
+        {
           id: "bibliography",
           label: "BIBLIOGRAPHY",
           content: (

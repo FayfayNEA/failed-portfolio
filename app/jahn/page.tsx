@@ -150,6 +150,38 @@ export default function JahnPage() {
           ),
         },
         {
+          id: "what-i-learned",
+          label: "WHAT I LEARNED",
+          content: (
+            <ol className="mt-2 w-full space-y-4">
+              {[
+                {
+                  title: "Platform constraints shape design language",
+                  body: "WordPress has real ceilings. Building Helmut Jahn's minimal, grid-locked aesthetic inside a CMS that fights minimalism required inventing constraints rather than accepting defaults. That friction made me a better systems thinker.",
+                },
+                {
+                  title: "Serving a legacy is a different discipline",
+                  body: "Jahn's visual language is already resolved — bold geometry, material honesty, structural logic. My role was translation, not authorship. Knowing the difference between those two modes is what separates junior from senior designers.",
+                },
+                {
+                  title: "The brief is always about trust",
+                  body: "A client hands you their reputation to digitize. Jahn needed a site that matched his buildings' precision. Every pixel decision was a trust decision. That framing — am I honoring what they built? — is now how I approach every client project.",
+                },
+              ].map((card, i) => (
+                <li key={card.title}>
+                  <div className="flex gap-5 rounded-2xl bg-sky-50/80 p-6 ring-1 ring-sky-200/60">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-sky-600/90">{i + 1}</span>
+                    <div className="min-w-0">
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-sky-800/70">{card.title}</p>
+                      <p className="text-[0.9rem] font-medium leading-[1.65] text-sky-950/80">{card.body}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ),
+        },
+        {
           id: "considerations",
           label: "CONSIDERATIONS",
           content: (

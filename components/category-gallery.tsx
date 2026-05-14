@@ -56,6 +56,8 @@ export interface GalleryProject {
   /** Optional per-project tint for the liquid-glass title card. */
   labelGlassTint?: "default" | "moss";
   href: string;
+  /** Short outcome stat shown on the card — e.g. "−60% execution time". */
+  metric?: string;
 }
 
 type Pos = { x: number; y: number };
@@ -692,6 +694,11 @@ export function CategoryGallery({
                 <p className="mt-1 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
                   {project.description}
                 </p>
+                {project.metric && (
+                  <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-[#3a6148]/10 px-2.5 py-0.5 font-mono text-[9px] font-medium tracking-[0.06em] text-[#3a6148]">
+                    {project.metric}
+                  </p>
+                )}
               </Link>
             </li>
           ))}
@@ -715,7 +722,7 @@ export function CategoryGallery({
           const labelTone = project.labelTextTone ?? "light";
           // Glass + font scale relative to the card's own size
           const cardScaleRatio = base.w / BASE_CARD_W;
-          const glassH = Math.round(BASE_GLASS_H * scale * cardScaleRatio);
+          const glassH = Math.round((project.metric ? BASE_GLASS_H + 14 : BASE_GLASS_H) * scale * cardScaleRatio);
           const titleFontSize = Math.max(10, Math.round(13 * scale * cardScaleRatio));
           const descFontSize = Math.max(9, Math.round(11 * scale * cardScaleRatio));
           const aboveFold = i < 3;
@@ -839,6 +846,17 @@ export function CategoryGallery({
                     >
                       {project.description}
                     </p>
+                    {project.metric && (
+                      <p
+                        className={cn(
+                          "mt-0.5 font-mono font-medium leading-none",
+                          labelTone === "dark" ? "text-[#3a6148]" : "text-[#a8d5b8]"
+                        )}
+                        style={{ fontSize: Math.max(8, Math.round(9 * scale * cardScaleRatio)) }}
+                      >
+                        {project.metric}
+                      </p>
+                    )}
                   </div>
 
                   {/* Click-through link — suppressed if user dragged */}

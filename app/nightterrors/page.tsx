@@ -85,13 +85,12 @@ export default function NightterrorsPage() {
       heroBelow={
         <div className="flex justify-center">
           <a
-            href="https://www.n1ghtterrors.com/shop"
+            href="https://n1ghtterrors.com"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-zinc-950 px-4 py-2 text-[0.85rem] font-medium text-white ring-1 ring-black/10 transition-colors hover:bg-zinc-900"
+            className="inline-flex items-center gap-2 rounded-full bg-zinc-900/80 px-4 py-2 text-[0.85rem] font-medium text-white ring-1 ring-white/10 transition-colors hover:bg-zinc-800/80"
           >
-            Shop n1ghtterrors
-            <span aria-hidden="true">↗</span>
+            View Live Site <span aria-hidden>↗</span>
           </a>
         </div>
       }
@@ -389,6 +388,38 @@ export default function NightterrorsPage() {
                 Taken with Canon Rebel
               </p>
             </>
+          ),
+        },
+        {
+          id: "what-i-learned",
+          label: "WHAT I LEARNED",
+          content: (
+            <ol className="mt-2 w-full space-y-4">
+              {[
+                {
+                  title: "Brand fidelity over personal style",
+                  body: "N1ghtterrors has a specific visual language — raw, nocturnal, confrontational. The job was to serve that language, not impose my own aesthetic. Learning when to disappear as a designer is as important as knowing when to lead.",
+                },
+                {
+                  title: "Motion is meaning",
+                  body: "Every animation on the site was chosen to feel like the music: abrupt, textured, unresolved. Motion that matches the emotional register of the brand communicates something copy never can.",
+                },
+                {
+                  title: "Shipped work teaches what mockups don't",
+                  body: "Seeing the site live on real devices, in real contexts, revealed edge cases no Figma frame anticipates. Building and shipping is the fastest feedback loop available.",
+                },
+              ].map((card, i) => (
+                <li key={card.title}>
+                  <div className="flex gap-5 rounded-2xl bg-zinc-900/5 p-6 ring-1 ring-zinc-200/60">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-zinc-500">{i + 1}</span>
+                    <div className="min-w-0">
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">{card.title}</p>
+                      <p className="text-[0.9rem] font-medium leading-[1.65] text-zinc-700">{card.body}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
           ),
         },
       ]}

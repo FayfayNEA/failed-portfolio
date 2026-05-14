@@ -34,6 +34,8 @@ const SECTIONS = [
   { id: "hardware", label: "HARDWARE" },
   { id: "final-product", label: "FINAL PRODUCT" },
   { id: "considerations", label: "CONSIDERATIONS" },
+  { id: "impact", label: "IMPACT" },
+  { id: "what-i-learned", label: "WHAT I LEARNED" },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
 
@@ -762,6 +764,62 @@ export default function BuddyPage() {
           <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 w-full">
             For the next iteration: anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
           </p>
+        </ScrollSection>
+
+        <Divider />
+
+        {/* IMPACT */}
+        <ScrollSection id="impact">
+          <SectionLabel>Impact</SectionLabel>
+          <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
+            Hardware and software outcomes from the Buddy build.
+          </h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {[
+              { stat: "6–23hr", label: "battery life", sub: "custom hardware runs a full session without recharge" },
+              { stat: "<2s", label: "transcription latency", sub: "real-time whisper processing on-device" },
+              { stat: "4 formats", label: "export options", sub: "PDF summary, raw transcript, visual diagram, and JSON" },
+            ].map(({ stat, label, sub }) => (
+              <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
+                <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-violet-700">{stat}</p>
+                <p className="mb-2 text-[0.82rem] font-medium text-violet-950/80">{label}</p>
+                <p className="text-[0.75rem] leading-relaxed text-violet-950/55">{sub}</p>
+              </div>
+            ))}
+          </div>
+        </ScrollSection>
+
+        <Divider />
+
+        {/* WHAT I LEARNED */}
+        <ScrollSection id="what-i-learned">
+          <SectionLabel>What I Learned</SectionLabel>
+          <ol className="mt-2 w-full space-y-4">
+            {[
+              {
+                title: "Hardware and software must co-design",
+                body: "Every software decision had a hardware consequence. Buffer size affected battery life. Transcription model size affected heat. Designing both together — not handing off between disciplines — is what made Buddy work.",
+              },
+              {
+                title: "Real-time feedback changes the room",
+                body: "When Buddy surfaced a live diagram of the conversation, participants changed how they spoke. They became more precise. The device didn't just record the meeting — it changed the meeting. That emergent behavior is the most interesting design outcome.",
+              },
+              {
+                title: "Constraints are creative fuel",
+                body: "A $40 hardware budget forced choices that a larger budget would have avoided. Those constraints produced a form factor that feels intentional, not compromised. The best product decisions in this project came from having nowhere to hide.",
+              },
+            ].map((card, i) => (
+              <li key={card.title}>
+                <div className="flex gap-5 rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
+                  <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600/90">{i + 1}</span>
+                  <div className="min-w-0">
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-violet-800/70">{card.title}</p>
+                    <p className="text-[0.9rem] font-medium leading-[1.65] text-violet-950/80">{card.body}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
         </ScrollSection>
 
         <Divider />
