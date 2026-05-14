@@ -340,6 +340,12 @@ export default function BuddyPage() {
           <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Interactive Figma prototype
           </p>
+          <a
+            href="mailto:failennaselta@gmail.com?subject=Buddy%20Live%20Demo%20Request&body=Hi%2C%20I%27d%20love%20to%20demo%20Buddy!"
+            className="inline-flex items-center gap-2 rounded-full bg-zinc-50/80 px-4 py-2 text-[0.85rem] font-medium text-zinc-600 ring-1 ring-zinc-200/60 transition-colors hover:bg-zinc-100/80"
+          >
+            Live demo on request <span className="text-zinc-400 text-[0.75rem]">(API costs)</span> <span aria-hidden>✉</span>
+          </a>
         </div>
 
         {/* Metadata grid, Timeline, Role, Team, Tools */}
