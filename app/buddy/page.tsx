@@ -468,16 +468,13 @@ export default function BuddyPage() {
             </div>
           </div>
 
-          <p className="mt-8 mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
-            Competitive Research
-          </p>
-          <h3 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
+          <h3 className="mt-8 mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
             Three themes emerged from studying how existing tools handle group knowledge loss.
           </h3>
           <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
-            I audited Otter.ai, Fireflies.ai, Miro, FigJam, Notion AI, and ChatGPT to understand
-            where each successfully captures or externalizes group thinking. These became the
-            core capabilities Buddy was designed to close the gap on.
+            I audited ChatGPT, Claude, Google, Apple Pay, Robinhood, and Perplexity to understand
+            where each successfully captures or externalizes thinking. These became the core
+            capabilities Buddy was designed to close the gap on.
           </p>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -485,22 +482,22 @@ export default function BuddyPage() {
               {
                 word: "Recall",
                 entries: [
-                  { name: "Otter.ai", desc: "Auto-transcription captures everything said so nothing is lost when the session ends." },
-                  { name: "Fireflies.ai", desc: "Meeting recorder generates searchable transcripts and action-item summaries automatically." },
+                  { name: "Claude", desc: "Retains full conversation context so nothing said is lost mid-session." },
+                  { name: "Google", desc: "Workspace auto-saves and surfaces recent edits so teams stay aligned without manual tracking." },
                 ],
               },
               {
                 word: "Visualization",
                 entries: [
-                  { name: "Miro", desc: "Infinite canvas externalizes ideas spatially, making relationships between concepts visible." },
-                  { name: "FigJam", desc: "Sticky notes and connectors let teams map out thinking together in real time." },
+                  { name: "ChatGPT", desc: "Canvas mode externalizes ideas spatially, making relationships between concepts visible." },
+                  { name: "Perplexity", desc: "Structures complex answers into scannable sections, reducing cognitive overhead." },
                 ],
               },
               {
-                word: "Synthesis",
+                word: "Confirmation",
                 entries: [
-                  { name: "Notion AI", desc: "Turns raw meeting notes into structured summaries instantly." },
-                  { name: "ChatGPT", desc: "Converts freeform conversation into diagrams, lists, or action plans on request." },
+                  { name: "Apple Pay", desc: "Biometric gate creates a clear moment of intent before any action is committed." },
+                  { name: "Robinhood", desc: "Order review screen forces a deliberate pause, reducing accidental decisions." },
                 ],
               },
             ].map(({ word, entries }) => (

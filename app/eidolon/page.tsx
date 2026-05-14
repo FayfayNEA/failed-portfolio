@@ -255,14 +255,11 @@ export default async function EidolonPage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
-                Competitive Research
-              </p>
               <h3 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
                 Three themes emerged from studying how existing AI tools build user confidence.
               </h3>
               <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
-                I audited ChatGPT, Claude, Gemini, Apple Pay, Arc Browser, and Stripe to understand
+                I audited ChatGPT, Claude, Google, Apple Pay, Robinhood, and Perplexity to understand
                 where they succeed at communicating AI intent. These became the design principles
                 Eidolon is built around.
               </p>
@@ -273,21 +270,21 @@ export default async function EidolonPage() {
                     word: "Trust",
                     entries: [
                       { name: "Claude", desc: "Thinking mode surfaces reasoning so users see how decisions are reached." },
-                      { name: "Gemini", desc: "Animated icon signals when the model is actively working." },
+                      { name: "Google", desc: "Gemini's animated icon signals when the model is actively working." },
                     ],
                   },
                   {
                     word: "Confirmation",
                     entries: [
                       { name: "Apple Pay", desc: "Biometric gate before every transaction creates an explicit authorization moment." },
-                      { name: "Stripe", desc: "Step-by-step checkout UI breaks high-stakes actions into digestible micro-decisions." },
+                      { name: "Robinhood", desc: "Order review screen forces a pause before any trade is finalized." },
                     ],
                   },
                   {
                     word: "Simplicity",
                     entries: [
                       { name: "ChatGPT", desc: "Single input field normalizes AI for non-technical users." },
-                      { name: "Arc Browser", desc: "Hides complexity behind a clean surface until the user explicitly asks for more." },
+                      { name: "Perplexity", desc: "Surfaces sources inline so users trust the answer without digging." },
                     ],
                   },
                 ].map(({ word, entries }) => (

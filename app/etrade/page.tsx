@@ -251,39 +251,36 @@ export default function EtradePage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
-                Competitive Research
-              </p>
               <h2 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
-                Three themes emerged from studying how the best trading platforms reduce friction.
+                Three themes emerged from studying how the best platforms reduce friction.
               </h2>
               <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
-                I audited TradingView, Webull, Robinhood, Interactive Brokers, E*Trade, and Fidelity
-                to find where each succeeds at getting traders to decisions faster. These insights
-                shaped the redesign&rsquo;s information architecture.
+                I audited ChatGPT, Claude, Google, Apple Pay, Robinhood, and Perplexity to find
+                where each succeeds at reducing cognitive load and getting users to decisions faster.
+                These insights shaped the redesign&rsquo;s information architecture.
               </p>
 
               <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
                   {
-                    word: "Depth",
-                    entries: [
-                      { name: "TradingView", desc: "Layered charting tools let traders stack indicators without losing the price action." },
-                      { name: "Interactive Brokers", desc: "Modular workspace lets power users build exactly the view they need." },
-                    ],
-                  },
-                  {
                     word: "Speed",
                     entries: [
-                      { name: "Webull", desc: "One-tap order entry collapses the time between decision and execution." },
                       { name: "Robinhood", desc: "Stripped-down flow removes every non-essential step from the trade path." },
+                      { name: "Apple Pay", desc: "One-gesture confirmation collapses the time between decision and action." },
                     ],
                   },
                   {
                     word: "Clarity",
                     entries: [
-                      { name: "E*Trade", desc: "Color-coded P&L and position cards surface portfolio health at a glance." },
-                      { name: "Fidelity", desc: "Plain-language summaries translate complex data into readable account snapshots." },
+                      { name: "Google", desc: "Finance dashboard surfaces price, trend, and news in a single scannable view." },
+                      { name: "Perplexity", desc: "Answers complex queries with a ranked, structured output that reduces cognitive load." },
+                    ],
+                  },
+                  {
+                    word: "Guidance",
+                    entries: [
+                      { name: "Claude", desc: "Explains reasoning in plain language, making complex outputs feel approachable." },
+                      { name: "ChatGPT", desc: "Conversational framing lowers the barrier to understanding unfamiliar information." },
                     ],
                   },
                 ].map(({ word, entries }) => (
