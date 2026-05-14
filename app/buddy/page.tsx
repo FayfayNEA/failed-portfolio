@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
 import { BuddyChallengeDisclosure } from "@/components/buddy-challenge-disclosure";
 import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
@@ -18,12 +18,12 @@ const rosario = Rosario({
 export const metadata: Metadata = {
   title: "Buddy",
   description:
-    "Failenn Aselta — Buddy, a handheld LLM stenographer for group communication.",
+    "Failenn Aselta, Buddy, a handheld LLM stenographer for group communication.",
 };
 
 const SECTIONS = [
-  { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "project-overview", label: "PROJECT OVERVIEW" },
+  { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "the-research", label: "THE RESEARCH" },
   { id: "the-solution", label: "THE SOLUTION" },
   { id: "engineering", label: "ENGINEERING" },
@@ -72,7 +72,7 @@ const BUDDY_RESEARCH_LENS_SRC =
     "Why Teams Struggle to Design and Invest Together - visual selection (1) 1.png"
   );
 
-/** Process clips section — watercolour frame behind iteration videos. */
+/** Process clips section, watercolour frame behind iteration videos. */
 const BUDDY_PROCESS_CLIPS_BG = "/buddy/process-clips-bg.png";
 
 /** Thumbnail chrome for System Creation diagram lightboxes. */
@@ -82,7 +82,7 @@ const BUDDY_SYSTEM_DIAGRAM_IMG_CLASS =
 const BUDDY_SYSTEM_DIAGRAM_LIGHTBOX_WRAP = cn("overflow-hidden !rounded-2xl");
 
 /**
- * Rounded edges on thumbnails — `!` beats `ImageLightbox` default `rounded-3xl`
+ * Rounded edges on thumbnails, `!` beats `ImageLightbox` default `rounded-3xl`
  * so corners stay visibly filleted with `object-contain`.
  */
 const EARLY_DRAWING_FILLET =
@@ -158,15 +158,15 @@ const METADATA_ROWS = [
 
 const KEY_LEARNINGS = [
   {
-    heading: "Key Learning — LLM Persona",
+    heading: "Key Learning, LLM Persona",
     body: "Had to clearly define the LLM's persona, ultimately assigning it the role of a Visual Assistant for the cleanest outputs.",
   },
   {
-    heading: "Key Learning — Image Generation",
+    heading: "Key Learning, Image Generation",
     body: "A major technical hurdle was training the model to generate proper images without relying on explicit keywords.",
   },
   {
-    heading: "Key Learning — Session Export",
+    heading: "Key Learning, Session Export",
     body: "Engineered a session-commit function that dynamically zips all generated assets and transcripts into a universal PDF. Transformed a transient AI conversation into a professional leave-behind artifact.",
   },
 ];
@@ -182,7 +182,7 @@ const REFLECTIONS = [
   },
   {
     n: "3",
-    text: "Permanence is a feature. The session export — turning a transient conversation into a downloadable artifact — changed how people understood the product entirely.",
+    text: "Permanence is a feature. The session export, turning a transient conversation into a downloadable artifact, changed how people understood the product entirely.",
   },
 ];
 
@@ -302,7 +302,7 @@ export default function BuddyPage() {
         )}
       >
 
-        {/* Title — Rosario; top aligns with sidebar breadcrumb */}
+        {/* Title, Rosario; top aligns with sidebar breadcrumb */}
         <h1
           className={cn(
             rosario.className,
@@ -312,7 +312,7 @@ export default function BuddyPage() {
           Buddy
         </h1>
 
-        {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}
+        {/* Hero video, 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">
           <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">
             <video
@@ -327,7 +327,7 @@ export default function BuddyPage() {
           </div>
         </div>
 
-        {/* Metadata grid — Timeline, Role, Team, Tools */}
+        {/* Metadata grid, Timeline, Role, Team, Tools */}
         <div className="mb-14 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10">
           {METADATA_ROWS.map(({ label, value }) => (
             <div key={label}>
@@ -343,13 +343,6 @@ export default function BuddyPage() {
 
         <Divider />
 
-        {/* THE CHALLENGE — expand on click */}
-        <section id="the-challenge" className="scroll-mt-24">
-          <BuddyChallengeDisclosure summary="Design a product that helps people communicate." />
-        </section>
-
-        <Divider />
-
         {/* PROJECT OVERVIEW */}
         <section id="project-overview" className="scroll-mt-24">
           <SectionLabel>Project Overview</SectionLabel>
@@ -359,20 +352,6 @@ export default function BuddyPage() {
           <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
             Buddy seeks to resolve the disconnect of working in groups, by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It utilizes rapid prototyping, electronics, and full-stack software development to create a product that preserves conversations through a visual history of conversations and saves valuable concepts from being lost to misarticulation.
           </p>
-
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {[
-              { label: "My Role", value: "Design lead + co-engineer", sub: "UX · industrial design · React interface · hardware integration" },
-              { label: "Collaborator", value: "Benjamin Luebkeman", sub: "firmware, embedded systems, and hardware assembly" },
-              { label: "Constraint", value: "$40 hardware budget", sub: "off-the-shelf only — no custom PCBs, no bulk orders, proof-of-concept scale" },
-            ].map(({ label, value, sub }) => (
-              <div key={label} className="rounded-2xl bg-violet-50/50 p-4 ring-1 ring-violet-200/40">
-                <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-violet-500/70">{label}</p>
-                <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
-                <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
-              </div>
-            ))}
-          </div>
 
           <div className="relative mb-10 mt-10 flex min-h-[min(42vh,420px)] w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:mt-14 md:min-h-[min(46vh,480px)]">
             <div
@@ -403,7 +382,14 @@ export default function BuddyPage() {
 
         <Divider />
 
-        {/* THE RESEARCH — problems/solutions diagrams first, participant + HMW below */}
+        {/* THE CHALLENGE */}
+        <section id="the-challenge" className="scroll-mt-24">
+          <BuddyChallengeDisclosure summary="Design a product that helps people communicate." />
+        </section>
+
+        <Divider />
+
+        {/* THE RESEARCH, problems/solutions diagrams first, participant + HMW below */}
         <section id="the-research" className="scroll-mt-24">
           <SectionLabel>The Research</SectionLabel>
           
@@ -505,7 +491,7 @@ export default function BuddyPage() {
             Conversations Made Visual
           </h2>
           <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 max-w-[560px]">
-            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making ideas tangible before they are forgotten.
+            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram, making ideas tangible before they are forgotten.
           </p>
 
           <SectionLabel>Early Drawings</SectionLabel>
@@ -517,7 +503,7 @@ export default function BuddyPage() {
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-0.jpg"
-                alt="Early Buddy sketches — low-fi exploration"
+                alt="Early Buddy sketches, low-fi exploration"
                 imgClassName={EARLY_DRAWING_IMG_CLASS}
                 wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
               />
@@ -525,7 +511,7 @@ export default function BuddyPage() {
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-1.jpg"
-                alt="Early Buddy sketches — refinement toward high-fidelity"
+                alt="Early Buddy sketches, refinement toward high-fidelity"
                 imgClassName={EARLY_DRAWING_IMG_CLASS}
                 wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
               />
@@ -551,10 +537,10 @@ export default function BuddyPage() {
             <p className="text-[0.82rem] leading-relaxed text-zinc-600">
               Cloud transcription (Whisper API, Google Speech-to-Text) would have been more accurate and
               far easier to implement. We rejected it for two reasons: latency and consent. A cloud path
-              means every word spoken in a meeting leaves the room — a non-starter for enterprise
+              means every word spoken in a meeting leaves the room, a non-starter for enterprise
               environments with NDAs or sensitive discussions. On-device Whisper keeps audio local; only
-              the processed transcript (not audio) is ever transmitted. The accuracy tradeoff is real —
-              on-device Whisper small is less accurate than server-side large — but it was the right call
+              the processed transcript (not audio) is ever transmitted. The accuracy tradeoff is real -
+              on-device Whisper small is less accurate than server-side large, but it was the right call
               for the use case.
             </p>
           </div>
@@ -623,11 +609,11 @@ export default function BuddyPage() {
           <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] space-y-12">
             <IterationVideoFrame
               src="/buddy/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4"
-              caption="First iteration — prototyped in Figma"
+              caption="First iteration, prototyped in Figma"
             />
             <IterationVideoFrame
               src="/buddy/antoher.mp4"
-              caption="Second iteration — running locally, built with React and FastAPI"
+              caption="Second iteration, running locally, built with React and FastAPI"
             />
           </div>
         </section>
@@ -642,7 +628,7 @@ export default function BuddyPage() {
             Progress Photos
           </h2>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-8">
-            Building the physical enclosure on a Raspberry Pi — hardware constraints forced architectural clarity that cloud deployment never would have.
+            Building the physical enclosure on a Raspberry Pi, hardware constraints forced architectural clarity that cloud deployment never would have.
           </p>
 
           <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
@@ -710,7 +696,7 @@ export default function BuddyPage() {
             <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
             <p className="text-[0.88rem] leading-relaxed text-zinc-600">
               Adding a visible recording indicator (LED) was deprioritized in v1 to keep the hardware
-              bill of materials under $40. Lena&apos;s feedback — that people &ldquo;got weird about it&rdquo; — confirmed
+              bill of materials under $40. Lena&apos;s feedback, that people &ldquo;got weird about it&rdquo;, confirmed
               this was the wrong call. Trust in a listening device is non-negotiable. In v2, a dedicated
               status LED was added even at the cost of exceeding the original budget. Some hardware
               constraints should not be optimized around.

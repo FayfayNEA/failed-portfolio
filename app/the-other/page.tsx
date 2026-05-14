@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 
@@ -44,7 +44,7 @@ const IMG_PAIR = "h-auto w-0 flex-1 object-contain shadow-[0_4px_32px_-8px_rgba(
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — The Architecture of Other",
+  description: "Failenn Aselta, The Architecture of Other",
 };
 
 export default function TheOtherPage() {
@@ -61,7 +61,7 @@ export default function TheOtherPage() {
         alt: "The Architecture of Other",
         layout: "tall",
       }}
-      challengeSummary="Redefine growth as empathy — architecture that turns inward to confront the suffering of others."
+      challengeSummary="Redefine growth as empathy, architecture that turns inward to confront the suffering of others."
       meta={{ timeline: "One Year, 2024", roles: ["Designer"], team: ["Failenn Aselta"] }}
       sections={[
         {
@@ -85,27 +85,27 @@ export default function TheOtherPage() {
           content: (
             <div className="mx-auto flex w-full max-w-[min(720px,94vw)] flex-col items-center gap-10 md:gap-12">
 
-              {/* Image 1 — larger hero */}
+              {/* Image 1, larger hero */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={GALLERY_IMAGES[0]} alt="The Architecture of Other — visual 1"
+              <img src={GALLERY_IMAGES[0]} alt="The Architecture of Other, visual 1"
                 className={`${IMG} max-h-[min(85vh,820px)]`} />
 
               {/* Image 4 stacked */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={GALLERY_IMAGES[3]} alt="The Architecture of Other — visual 4"
+              <img src={GALLERY_IMAGES[3]} alt="The Architecture of Other, visual 4"
                 className={`${IMG} max-h-[min(72vh,640px)]`} />
 
-              {/* Images 5 & 6 side by side — slightly smaller */}
+              {/* Images 5 & 6 side by side, slightly smaller */}
               <div className="flex w-full gap-4 max-w-[min(560px,94vw)] mx-auto">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[4]} alt="The Architecture of Other — visual 5"
+                <img src={GALLERY_IMAGES[4]} alt="The Architecture of Other, visual 5"
                   className={IMG_PAIR} />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[5]} alt="The Architecture of Other — visual 6"
+                <img src={GALLERY_IMAGES[5]} alt="The Architecture of Other, visual 6"
                   className={IMG_PAIR} />
               </div>
 
-              {/* Images 7–13 carousel — larger */}
+              {/* Images 7–13 carousel, larger */}
               <ProjectGalleryRow
                 images={GALLERY_IMAGES.slice(6, 13) as unknown as string[]}
                 theme="pink"
@@ -131,32 +131,32 @@ export default function TheOtherPage() {
               {GALLERY_IMAGES.slice(16, 18).map((src, i) => (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img key={src} src={src}
-                  alt={`The Architecture of Other — visual ${17 + i}`}
+                  alt={`The Architecture of Other, visual ${17 + i}`}
                   className={`${IMG} max-h-[min(72vh,640px)]`} />
               ))}
 
               {/* Images 19 & 20 side by side */}
               <div className="flex w-full gap-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[18]} alt="The Architecture of Other — visual 19" className={IMG_PAIR} />
+                <img src={GALLERY_IMAGES[18]} alt="The Architecture of Other, visual 19" className={IMG_PAIR} />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[19]} alt="The Architecture of Other — visual 20" className={IMG_PAIR} />
+                <img src={GALLERY_IMAGES[19]} alt="The Architecture of Other, visual 20" className={IMG_PAIR} />
               </div>
 
               {/* Images 21 & 22 side by side */}
               <div className="flex w-full gap-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[20]} alt="The Architecture of Other — visual 21" className={IMG_PAIR} />
+                <img src={GALLERY_IMAGES[20]} alt="The Architecture of Other, visual 21" className={IMG_PAIR} />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[21]} alt="The Architecture of Other — visual 22" className={IMG_PAIR} />
+                <img src={GALLERY_IMAGES[21]} alt="The Architecture of Other, visual 22" className={IMG_PAIR} />
               </div>
 
               {/* Images 23 & 24 side by side */}
               <div className="flex w-full gap-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[22]} alt="The Architecture of Other — visual 23" className={IMG_PAIR} />
+                <img src={GALLERY_IMAGES[22]} alt="The Architecture of Other, visual 23" className={IMG_PAIR} />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[23]} alt="The Architecture of Other — visual 24" className={IMG_PAIR} />
+                <img src={GALLERY_IMAGES[23]} alt="The Architecture of Other, visual 24" className={IMG_PAIR} />
               </div>
 
               {/* Images 25–27 side by side */}
@@ -164,7 +164,7 @@ export default function TheOtherPage() {
                 {GALLERY_IMAGES.slice(24).map((src, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img key={src} src={src}
-                    alt={`The Architecture of Other — visual ${25 + i}`}
+                    alt={`The Architecture of Other, visual ${25 + i}`}
                     className={IMG_PAIR} />
                 ))}
               </div>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 
@@ -11,7 +11,7 @@ const HERO = "https://framerusercontent.com/images/qd8g1zZZPiPsVtwm0mF7FUgHib4.p
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — COOL.",
+  description: "Failenn Aselta, COOL.",
 };
 
 export default function CoolPage() {

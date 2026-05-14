@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { cn } from "@/lib/cn";
 
@@ -70,7 +70,7 @@ export function PersonaCards({
 
   return (
     <div className="mt-6 space-y-6">
-      {/* Target users — buddy-style frosted cards */}
+      {/* Target users, buddy-style frosted cards */}
       <div
         className={cn(
           layout === "grid-2" ? "grid grid-cols-1 gap-6 lg:grid-cols-2" : "space-y-6"
@@ -185,7 +185,7 @@ export function PersonaCards({
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={p.photo}
-                          alt={`${p.name} — participant portrait`}
+                          alt={`${p.name}, participant portrait`}
                           className="h-full w-full object-cover object-top contrast-[1.03]"
                         />
                       ) : (

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 
@@ -10,7 +10,7 @@ const HERO = "https://framerusercontent.com/images/rKvch1GkMbOWLcefYnDSdybGUq4.p
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — Vagabond Radio",
+  description: "Failenn Aselta, Vagabond Radio",
 };
 
 export default function VagabondPage() {

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
@@ -81,7 +81,7 @@ export function CaseStudySidebar({
             : "px-8 pb-8 pt-8"
         )}
       >
-        {/* Breadcrumb path — replaces the old "Back to Projects" link */}
+        {/* Breadcrumb path, replaces the old "Back to Projects" link */}
         {breadcrumb && breadcrumb.length > 0 && (
           <div className={cn("shrink-0", studioRail ? "mb-6" : "mb-6")}>
             <CaseBreadcrumb segments={breadcrumb} />

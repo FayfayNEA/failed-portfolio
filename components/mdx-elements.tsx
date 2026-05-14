@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+﻿import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { Fragment, isValidElement } from "react";
 import { cn } from "@/lib/cn";
 import { rewriteSiteHref } from "@/lib/rewrite-site-href";
@@ -130,7 +130,7 @@ function createUl(theme: MdxTheme) {
       );
     }
 
-    // Paper theme: no bullet markers — clean prose style matching buddy
+    // Paper theme: no bullet markers, clean prose style matching buddy
     if (theme === "paper") {
       return (
         <ul
@@ -193,7 +193,7 @@ export function createMdxComponents(theme: MdxTheme) {
       return (
         <div className="mt-14 mb-1">
           <div className="mb-8 h-px w-full bg-zinc-200/50" />
-          {/* Section label — buddy-style small uppercase marker */}
+          {/* Section label, buddy-style small uppercase marker */}
           {isPaper && raw && (
             <p className="mb-3 font-sans text-[10px] font-normal uppercase tracking-[0.18em] text-[#A0A0A0]">
               {raw}

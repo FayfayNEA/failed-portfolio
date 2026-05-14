@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useRef } from "react";
 import type { RefObject } from "react";
@@ -47,7 +47,7 @@ export default function FluidSlab({
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const shader = useMemo(() => {
-    // Neutral “liquid glass” — black/white only, no tint.
+    // Neutral “liquid glass”, black/white only, no tint.
     const vertexShader = /* glsl */ `
       varying vec2 vUv;
       void main() {

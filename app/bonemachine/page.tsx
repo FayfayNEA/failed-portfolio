@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 
@@ -11,7 +11,7 @@ const HERO = "/bonemachine/Screenshot 2026-01-28 173317.png";
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — BoneMachine",
+  description: "Failenn Aselta, BoneMachine",
 };
 
 export default function BoneMachinePage() {
@@ -23,7 +23,7 @@ export default function BoneMachinePage() {
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "image", src: HERO, alt: "BoneMachine cover" }}
-      challengeSummary="Translate a band’s energy into a bold wearable identity — then produce it by hand at scale."
+      challengeSummary="Translate a band’s energy into a bold wearable identity, then produce it by hand at scale."
       meta={{
         timeline: "One Week, 2020",
         roles: ["Production Lead"],

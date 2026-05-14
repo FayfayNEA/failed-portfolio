@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { ImageLightbox } from "@/components/image-lightbox";
@@ -93,7 +93,7 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             <div className={`absolute inset-0 -z-10 translate-y-4 scale-90 blur-xl ${t.glow} ${isLaptop ? "rounded-xl" : "rounded-[1.75rem]"}`} />
             <ImageLightbox
               src={panel.img}
-              alt={`Reasoning for design — ${panel.label}`}
+              alt={`Reasoning for design, ${panel.label}`}
               wrapperClassName={isLaptop ? "rounded-xl" : "rounded-[1.75rem]"}
               imgClassName={[
                 "relative w-full object-contain",

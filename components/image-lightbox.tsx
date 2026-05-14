@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -12,7 +12,7 @@ type ImageLightboxProps = {
   /** Classes on the clickable wrapper. */
   wrapperClassName?: string;
   /**
-   * When true the lightbox backdrop is white instead of dark — ideal for
+   * When true the lightbox backdrop is white instead of dark, ideal for
    * diagrams or line-art that need a light background to be readable.
    */
   lightBg?: boolean;

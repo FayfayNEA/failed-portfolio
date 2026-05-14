@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
@@ -6,11 +6,11 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 
 /**
- * Tailwind `lg` is 1024px — below that we use a scrollable stack instead of the
+ * Tailwind `lg` is 1024px, below that we use a scrollable stack instead of the
  * overlapping draggable deck (tablets at 768–1023px were still on the deck and looked broken).
  */
 function useStackGalleryLayout() {
-  // Always start false (matches SSR) — useEffect corrects on client to avoid hydration mismatch.
+  // Always start false (matches SSR), useEffect corrects on client to avoid hydration mismatch.
   const [stack, setStack] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 1023px)");
@@ -56,7 +56,7 @@ export interface GalleryProject {
   /** Optional per-project tint for the liquid-glass title card. */
   labelGlassTint?: "default" | "moss";
   href: string;
-  /** Short outcome stat shown on the card — e.g. "−60% execution time". */
+  /** Short outcome stat shown on the card, e.g. "−60% execution time". */
   metric?: string;
 }
 
@@ -253,7 +253,7 @@ const HANDLE_CURSORS = [
   "nwse-resize",
 ] as const;
 
-/** Eight Figma-style selection handles — deep green, each with its resize cursor. */
+/** Eight Figma-style selection handles, deep green, each with its resize cursor. */
 function Handles({
   onMouseDown,
 }: {
@@ -406,7 +406,7 @@ export function CategoryGallery({
     }
 
     if (!usedStoredPositions) {
-      // Fresh grid — ignore any saved sizes; compute a clean fit.
+      // Fresh grid, ignore any saved sizes; compute a clean fit.
       const layout = computeInitialGridLayout({
         containerW: cw,
         containerH: ch,
@@ -468,7 +468,7 @@ export function CategoryGallery({
     prevSize.current = { w: newW, h: newH };
   }, [containerSize, isStackLayout, ready]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Global mousemove / mouseup — handles both drag and resize
+  // Global mousemove / mouseup, handles both drag and resize
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       // ── Drag ──────────────────────────────────────────────────────────────
@@ -514,7 +514,7 @@ export function CategoryGallery({
         const deltaW = rawDx * ndx;
         newW = Math.max(MIN_CARD_W, r.startW + deltaW);
         if (ndx < 0) {
-          // Left edge moved — anchor the right side, shift position
+          // Left edge moved, anchor the right side, shift position
           newPX = r.startPX + (r.startW - newW) * sc;
         }
       }
@@ -523,7 +523,7 @@ export function CategoryGallery({
         const deltaH = rawDy * ndy;
         newH = Math.max(MIN_CARD_H, r.startH + deltaH);
         if (ndy < 0) {
-          // Top edge moved — anchor the bottom side, shift position
+          // Top edge moved, anchor the bottom side, shift position
           newPY = r.startPY + (r.startH - newH) * sc;
         }
       }
@@ -554,7 +554,7 @@ export function CategoryGallery({
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
     };
-  }, []); // scaleRef is a ref — always fresh, no dep needed
+  }, []); // scaleRef is a ref, always fresh, no dep needed
 
   const startDrag = useCallback(
     (e: React.MouseEvent, idx: number) => {
@@ -753,14 +753,14 @@ export function CategoryGallery({
                   style={{ boxShadow: `inset 0 0 0 1.5px ${SEL_GREEN}` }}
                 />
 
-                {/* Resize handles on hover — outside overflow-hidden so they aren't clipped */}
+                {/* Resize handles on hover, outside overflow-hidden so they aren't clipped */}
                 <div className="pointer-events-none absolute inset-0 z-30 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-150">
                   <Handles
                     onMouseDown={(e, handleIdx) => startResize(e, i, handleIdx)}
                   />
                 </div>
 
-                {/* Card content — clipped to frame bounds */}
+                {/* Card content, clipped to frame bounds */}
                 <div className="absolute inset-0 overflow-hidden">
                   {/* Background colour */}
                   <div
@@ -859,7 +859,7 @@ export function CategoryGallery({
                     )}
                   </div>
 
-                  {/* Click-through link — suppressed if user dragged */}
+                  {/* Click-through link, suppressed if user dragged */}
                   <Link
                     href={project.href}
                     className="absolute inset-0 z-20"

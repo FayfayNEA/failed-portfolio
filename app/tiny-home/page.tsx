@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 
 const SLUG = "tiny-home";
@@ -31,7 +31,7 @@ const GALLERY_IMAGES = [
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — Tiny Home",
+  description: "Failenn Aselta, Tiny Home",
 };
 
 export default function TinyHomePage() {
@@ -101,7 +101,7 @@ export default function TinyHomePage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={first}
-                              alt={`Tiny Home — visual 1 of ${GALLERY_IMAGES.length}`}
+                              alt={`Tiny Home, visual 1 of ${GALLERY_IMAGES.length}`}
                               className={pairCover}
                             />
                           </div>
@@ -109,7 +109,7 @@ export default function TinyHomePage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={second}
-                              alt={`Tiny Home — visual 2 of ${GALLERY_IMAGES.length}`}
+                              alt={`Tiny Home, visual 2 of ${GALLERY_IMAGES.length}`}
                               className={pairCover}
                             />
                           </div>
@@ -120,7 +120,7 @@ export default function TinyHomePage() {
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img
                                 src={third}
-                                alt={`Tiny Home — visual 3 of ${GALLERY_IMAGES.length}`}
+                                alt={`Tiny Home, visual 3 of ${GALLERY_IMAGES.length}`}
                                 className={singleImg}
                               />
                             </div>
@@ -144,7 +144,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={eighth}
-                            alt={`Tiny Home — visual 10 of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual 10 of ${GALLERY_IMAGES.length}`}
                             className={`${pairCover} origin-center`}
                           />
                         </div>
@@ -152,7 +152,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={ninth}
-                            alt={`Tiny Home — visual 11 of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual 11 of ${GALLERY_IMAGES.length}`}
                             className={pairCover}
                           />
                         </div>
@@ -176,7 +176,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={left}
-                            alt={`Tiny Home — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                             className={pairCover}
                           />
                         </div>
@@ -184,7 +184,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={right}
-                            alt={`Tiny Home — visual ${i + 2} of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual ${i + 2} of ${GALLERY_IMAGES.length}`}
                             className={pairCover}
                           />
                         </div>
@@ -210,7 +210,7 @@ export default function TinyHomePage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={tenth}
-                              alt={`Tiny Home — visual 12 of ${GALLERY_IMAGES.length}`}
+                              alt={`Tiny Home, visual 12 of ${GALLERY_IMAGES.length}`}
                               className={pairCover}
                             />
                           </div>
@@ -218,7 +218,7 @@ export default function TinyHomePage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={eleventh}
-                              alt={`Tiny Home — visual 13 of ${GALLERY_IMAGES.length}`}
+                              alt={`Tiny Home, visual 13 of ${GALLERY_IMAGES.length}`}
                               className={pairCover}
                             />
                           </div>
@@ -230,7 +230,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={twelfth}
-                            alt={`Tiny Home — visual 14 of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual 14 of ${GALLERY_IMAGES.length}`}
                             className={singleImg}
                           />
                         </div>
@@ -242,7 +242,7 @@ export default function TinyHomePage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={fifteenth}
-                              alt={`Tiny Home — visual 16 of ${GALLERY_IMAGES.length}`}
+                              alt={`Tiny Home, visual 16 of ${GALLERY_IMAGES.length}`}
                               className={singleImg}
                             />
                           </div>
@@ -263,7 +263,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={left}
-                            alt={`Tiny Home — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                             className={pairCover}
                           />
                         </div>
@@ -271,7 +271,7 @@ export default function TinyHomePage() {
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={right}
-                            alt={`Tiny Home — visual ${i + 2} of ${GALLERY_IMAGES.length}`}
+                            alt={`Tiny Home, visual ${i + 2} of ${GALLERY_IMAGES.length}`}
                             className={`${pairCover} origin-center -rotate-90`}
                           />
                         </div>
@@ -279,7 +279,7 @@ export default function TinyHomePage() {
                     </div>
                   );
                 }
-                // dCyOjm4… + EcSVeuk… — white mat / padding around each frame
+                // dCyOjm4… + EcSVeuk…, white mat / padding around each frame
                 if (i === 7 || i === 8) {
                   return (
                     <div
@@ -289,7 +289,7 @@ export default function TinyHomePage() {
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={src}
-                        alt={`Tiny Home — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                        alt={`Tiny Home, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                         className="h-auto w-full max-h-[min(72vh,640px)] object-contain"
                       />
                     </div>
@@ -300,7 +300,7 @@ export default function TinyHomePage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={src}
-                      alt={`Tiny Home — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                      alt={`Tiny Home, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                       className={cardImg}
                     />
                   </div>

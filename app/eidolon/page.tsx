@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
@@ -31,7 +31,7 @@ const METADATA = {
 
 // ───────────────────────────────────────────────────────────────────────────────
 
-export const metadata: Metadata = { title: TITLE, description: `Failenn Aselta — ${DESCRIPTION}` };
+export const metadata: Metadata = { title: TITLE, description: `Failenn Aselta, ${DESCRIPTION}` };
 
 export default async function EidolonPage() {
   const page = await getContentBySlug("eidolon");
@@ -73,25 +73,30 @@ export default async function EidolonPage() {
               </h2>
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
                 What happens when the internet is no longer human-navigated, but optimized for
-                machine-to-machine interaction? Some users may prefer direct, human-led engagement
-                and remain skeptical of automation, while others may welcome AI assistance. The
-                future internet will likely be a hybrid space, allowing individuals to choose how
-                much control they delegate and how much they retain. Eidolon uses AI as a visual
-                tool to not only showcase its actions, but to make it an easier place for those who
-                fear its new shape.
+                machine-to-machine interaction? The future internet will likely be a hybrid space,
+                allowing individuals to choose how much control they delegate and how much they
+                retain. Eidolon uses AI as a visual tool to not only showcase its actions, but to
+                make it an easier place for those who fear its new shape.
               </p>
 
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-4">
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
-                  { label: "Timeline", value: "7 days", sub: "design + build + deploy" },
-                  { label: "My Role", value: "Solo — everything", sub: "UX · UI · React · API · deployment" },
-                  { label: "Stack", value: "React + Gemini", sub: "Vite · TypeScript · Tailwind · Google AI Studio" },
-                  { label: "Constraint", value: "Preview API", sub: "Gemini 3 Flash was in preview — rate limits and behavior were not guaranteed stable" },
-                ].map(({ label, value, sub }) => (
-                  <div key={label} className="rounded-2xl bg-emerald-50/60 p-4 ring-1 ring-emerald-200/50">
-                    <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-emerald-700/60">{label}</p>
-                    <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+                  {
+                    n: "01",
+                    goal: "Reduce cognitive load and digital fatigue",
+                  },
+                  {
+                    n: "02",
+                    goal: "Develop trust through visualization and character",
+                  },
+                  {
+                    n: "03",
+                    goal: "Make agent-to-agent interactions understandable",
+                  },
+                ].map(({ n, goal }) => (
+                  <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                    <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
+                    <p className="text-[0.88rem] font-medium leading-snug text-lime-950">{goal}</p>
                   </div>
                 ))}
               </div>
@@ -151,7 +156,7 @@ export default async function EidolonPage() {
                 {[
                   {
                     stat: "65%",
-                    body: "of young adults report AI-related stress — fatigue and headaches are common. (APA, 2023)",
+                    body: "of young adults report AI-related stress, fatigue and headaches are common. (APA, 2023)",
                   },
                   {
                     stat: "81%",
@@ -162,7 +167,7 @@ export default async function EidolonPage() {
                     body: "projected drop in traditional search by 2026 as AI agents take over. (Gartner, 2024)",
                   },
                 ].map(({ stat, body }) => (
-                  <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
+                  <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
                     <p className="text-[0.78rem] leading-relaxed text-lime-950/75">{body}</p>
                   </div>
@@ -181,7 +186,7 @@ export default async function EidolonPage() {
                     role: "Retiree",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      "Can't keep up with AI — the landscape changes too fast.",
+                      "Can't keep up with AI, the landscape changes too fast.",
                       "Craves stability; won't hand control to automated systems.",
                     ],
                   },
@@ -192,7 +197,7 @@ export default async function EidolonPage() {
                     role: "Tech Enthusiast",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      "Fears hallucination on high-stakes tasks — the black box kills trust.",
+                      "Fears hallucination on high-stakes tasks, the black box kills trust.",
                       "Loves AI speed but exhausted by double-checking everything it does.",
                     ],
                   },
@@ -204,14 +209,14 @@ export default async function EidolonPage() {
                   {
                     n: "01",
                     title: "AI Toggle Permission Gate",
-                    body: "Human mode or agent mode — one site, two realities.",
+                    body: "Human mode or agent mode, one site, two realities.",
                     stat: "20%",
                     statLabel: "higher task accuracy when interface noise is removed. (NNg)",
                   },
                   {
                     n: "02",
                     title: "Negotiation Canvas",
-                    body: "Watch the AI negotiate live — every decision verified before it's final.",
+                    body: "Watch the AI negotiate live, every decision verified before it's final.",
                     stat: "22×",
                     statLabel: "more memorable as a story vs. raw data. (Bruner)",
                   },
@@ -223,7 +228,7 @@ export default async function EidolonPage() {
                     statLabel: "of young adults want more analog control in their day. (APA, 2023)",
                   },
                 ].map(({ stat, statLabel, body }) => (
-                  <div key={stat} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
+                  <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
                     <p className="mb-2 text-[0.78rem] leading-relaxed text-lime-950/75">{statLabel}</p>
                     <p className="text-[0.78rem] leading-relaxed text-lime-950/60">{body}</p>
@@ -251,11 +256,9 @@ export default async function EidolonPage() {
           content: (
             <>
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                The low-fidelity iteration of this project was developed efficiently, as interface
-                conventions within AI platforms and video game systems are well established and
-                supported by substantial research. I conducted a comprehensive analysis of current
-                large language models to inform the layout strategy, synthesizing industry best
-                practices and identifying key strengths to integrate into the design.
+                I conducted a comprehensive analysis of current large language models to inform the
+                layout strategy, synthesizing industry best practices and identifying key strengths
+                to integrate into the design.
               </p>
               {/* Narrow centered column + phone aspect frame so portrait shots fill width (no wide letterboxing). */}
               <div className="mx-auto my-10 w-full max-w-[min(560px,calc(100vw-0.75rem))]">
@@ -298,182 +301,6 @@ export default async function EidolonPage() {
           label: "IDEATION",
           content: (
             <>
-              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                Sketches → mid-fi → hi-fi in 7 days.
-              </h2>
-              <p className="mb-10 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                With a 1-week timeline, each iteration had to make a clear decision. No exploration for its
-                own sake — every round answered a specific question about how to make AI intent legible.
-              </p>
-
-              <div className="my-8 rounded-2xl border-l-[3px] border-[#059669] bg-[#059669]/[0.05] p-5">
-                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#059669]/80">Decision</p>
-                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why visual reasoning over text-only explanations</p>
-                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">Early sketches included a text-log approach — the agent would print what it was doing in a sidebar, similar to a terminal output. User feedback was immediate: logs felt like error messages, not explanations. People skimmed them and still felt the AI was opaque. The visual reasoning layer — showing the agent&apos;s logic as a spatial diagram rather than sequential text — solved the scanning problem. Users could grasp intent in one glance rather than reading three sentences.</p>
-              </div>
-
-              {/* Iteration 1 */}
-              <div className="mb-12">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 01</p>
-                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
-                  Sketches — What does a &ldquo;visible&rdquo; AI agent even look like?
-                </h3>
-                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
-                  Initial sketches focused on the core question: how do you show an AI acting in real time
-                  without overwhelming the user? Explored: step-by-step trace, confidence meter, action log,
-                  and a visual &ldquo;thought bubble&rdquo; metaphor. The thought bubble won.
-                </p>
-                <div className="mx-auto w-full max-w-[min(720px,100%)]">
-                  <div className="grid grid-cols-1 gap-3 overflow-hidden rounded-2xl bg-white/60 p-4 shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] sm:grid-cols-3">
-                    {[
-                      encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 3 of 8.png"),
-                      encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 4 of 8.png"),
-                      encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 5 of 8.png"),
-                    ].map((src, i) => (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img key={i} src={src} alt={`Sketch page ${i + 1}`} className="h-auto w-full rounded-xl object-contain" loading="lazy" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Iteration 2 */}
-              <div className="mb-12">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 02</p>
-                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
-                  Mid-Fi — Mapping flows for Cindy and Ashleigh
-                </h3>
-                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
-                  Two distinct user flows emerged from the persona work: Cindy&apos;s manual-control path
-                  (skeptical of full automation) and Ashleigh&apos;s automatic path (trusts the agent to act
-                  on her behalf). Mid-fi screens were built for both to ensure the visual reasoning layer
-                  worked at both ends of the trust spectrum.
-                </p>
-                <div className="mx-auto grid w-full max-w-[min(720px,100%)] grid-cols-1 gap-4 sm:grid-cols-2">
-                  {["/eidolon/cindys flow.png", "/eidolon/ashleighs flow.png"].map((src) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img key={src} src={src} alt="User flow mid-fi" className="h-auto w-full rounded-xl object-contain shadow-[0_4px_24px_-10px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]" loading="lazy" />
-                  ))}
-                </div>
-              </div>
-
-              {/* Iteration 3 */}
-              <div className="mb-4">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 03</p>
-                <h3 className="mb-4 text-[1.05rem] font-medium tracking-[-0.02em] text-zinc-900">
-                  Hi-Fi — Figma prototype with visual reasoning layer
-                </h3>
-                <p className="mb-6 text-[0.88rem] leading-[1.7] text-zinc-600">
-                  Final screens applied the full visual language: the Eidolon glyph as agent avatar,
-                  reasoning panels showing step-by-step logic, and the character creation onboarding that
-                  sets trust preferences before first use. Full Figma prototype linked above.
-                </p>
-              </div>
-            </>
-          ),
-        },
-        {
-          id: "how-might-we",
-          label: "HOW MIGHT WE",
-          navOnly: true,
-          content: null,
-        },
-        {
-          id: "user-testing",
-          label: "USER TESTING",
-          content: (
-            <>
-              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                Tested with 5 users across varying levels of AI familiarity.
-              </h2>
-              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                Sessions were task-based: find information using the agent, delegate an action, and revoke
-                agent access. The core question was whether the visual reasoning layer actually reduced
-                perceived AI opacity — or just added noise.
-              </p>
-
-              <div className="space-y-4">
-                {[
-                  {
-                    quote: "I actually understood what it was doing. Usually I just close AI things because they feel like a black box. Seeing the steps made me feel like I was in control even when I wasn&apos;t doing anything.",
-                    name: "Priya",
-                    role: "26 · Product manager, tech",
-                    sentiment: "positive",
-                  },
-                  {
-                    quote: "It&apos;s still AI at the end of the day. I can see the steps but I still don&apos;t fully trust it. What happens if it gets the reasoning wrong and I followed it anyway?",
-                    name: "James",
-                    role: "43 · Small business owner",
-                    sentiment: "critical",
-                  },
-                  {
-                    quote: "The part where it shows you what it&apos;s about to do before it actually does it — that&apos;s the thing. It&apos;s like watching it think out loud. That&apos;s all I needed.",
-                    name: "Sofia",
-                    role: "31 · UX researcher",
-                    sentiment: "positive",
-                  },
-                  {
-                    quote: "Onboarding was a little long. The character creation part felt like a game, which was weird for something I&apos;m supposed to use for actual tasks.",
-                    name: "Devon",
-                    role: "22 · College student",
-                    sentiment: "critical",
-                  },
-                  {
-                    quote: "The glyph moving when the agent is thinking is a small thing but it made a huge difference. You always know it&apos;s doing something. That matters.",
-                    name: "Rachel",
-                    role: "38 · Operations lead",
-                    sentiment: "positive",
-                  },
-                ].map(({ quote, name, role, sentiment }) => (
-                  <div
-                    key={name}
-                    className={[
-                      "rounded-2xl p-5 ring-1",
-                      sentiment === "critical"
-                        ? "bg-amber-50/70 ring-amber-200/60"
-                        : "bg-emerald-50/60 ring-emerald-200/55",
-                    ].join(" ")}
-                  >
-                    <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-emerald-950/80"].join(" ")}>
-                      &ldquo;{quote}&rdquo;
-                    </p>
-                    <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-emerald-700/70"].join(" ")}>
-                      {name} &nbsp;·&nbsp; {role}
-                      {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
-                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
-                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-                  Users who initially distrusted AI (James, Devon) still found the visual reasoning layer
-                  preferable to opacity — they just wanted the ability to pause or override it at any step.
-                  This confirmed the manual-control mode as a required feature, not a nice-to-have.
-                </p>
-              </div>
-
-              <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
-                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
-                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-                  The onboarding (character creation) takes 3–4 minutes — long for a utility app. The tradeoff
-                  was deliberate: trust preferences set during onboarding determine how assertively the agent
-                  acts throughout the session. Skipping onboarding would have required the agent to use a
-                  generic trust model, which testing showed produced recommendations that felt either too
-                  cautious or too aggressive depending on the user. Devon&apos;s criticism about it &ldquo;feeling like a
-                  game&rdquo; was valid — a future iteration would replace the character metaphor with a plain
-                  preference slider while keeping the same underlying data collection.
-                </p>
-              </div>
-            </>
-          ),
-        },
-        {
-          id: "solution",
-          label: "THE SOLUTION",
-          content: (
-            <>
               <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
                 Low-Fi Wireframes
               </h2>
@@ -486,21 +313,21 @@ export default async function EidolonPage() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 3 of 8.png")}
-                    alt="Early drawing — page 3"
+                    alt="Early drawing, page 3"
                     className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                     loading="lazy"
                   />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 4 of 8.png")}
-                    alt="Early drawing — page 4"
+                    alt="Early drawing, page 4"
                     className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                     loading="lazy"
                   />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 5 of 8.png")}
-                    alt="Early drawing — page 5"
+                    alt="Early drawing, page 5"
                     className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                     loading="lazy"
                   />
@@ -538,96 +365,37 @@ export default async function EidolonPage() {
 
                 <div className="mx-auto mt-8 grid w-full max-w-[min(1100px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
                   <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                    <div
-                      className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                      aria-hidden
-                    />
-                    <div
-                      className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                      aria-hidden
-                    />
+                    <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
+                    <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
                     <div className="relative p-3 sm:p-4 md:p-5">
-                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-lime-700/80">
-                        Cindy flow
-                      </p>
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-lime-700/80">Cindy flow</p>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={encodeURI("/eidolon/cindys flow.png")}
-                        alt="Cindy flow"
-                        width={568}
-                        height={165}
-                        className="block h-auto w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]"
-                        decoding="async"
-                      />
+                      <img src={encodeURI("/eidolon/cindys flow.png")} alt="Cindy flow" width={568} height={165} className="block h-auto w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]" decoding="async" />
                     </div>
                   </div>
-
                   <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                    <div
-                      className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                      aria-hidden
-                    />
-                    <div
-                      className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                      aria-hidden
-                    />
+                    <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
+                    <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
                     <div className="relative p-3 sm:p-4 md:p-5">
-                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-lime-700/80">
-                        Ashleigh flow
-                      </p>
+                      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-lime-700/80">Ashleigh flow</p>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={encodeURI("/eidolon/ashleighs flow.png")}
-                        alt="Ashleigh flow"
-                        width={864}
-                        height={256}
-                        className="block h-auto w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]"
-                        decoding="async"
-                      />
+                      <img src={encodeURI("/eidolon/ashleighs flow.png")} alt="Ashleigh flow" width={864} height={256} className="block h-auto w-full rounded-xl bg-white object-contain ring-1 ring-black/[0.06]" decoding="async" />
                     </div>
                   </div>
                 </div>
-                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                  Gemini diagrams
-                </p>
+                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Gemini diagrams</p>
 
                 <div className="mx-auto mt-4 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
                   <ProjectGalleryRow
-                    images={[
-                      encodeURI("/eidolon/screen 1 of manual.png"),
-                      encodeURI("/eidolon/screen 2 of manual.png"),
-                      encodeURI("/eidolon/screen 3 of manual.png"),
-                      encodeURI("/eidolon/screen 4 of manual.png"),
-                    ]}
-                    theme="lime"
-                    glassVariant="liquid"
-                    frameSize="phone"
-                    slideImageFit="contain"
-                    slidePadding="default"
-                    className="my-0 w-full"
+                    images={[encodeURI("/eidolon/screen 1 of manual.png"),encodeURI("/eidolon/screen 2 of manual.png"),encodeURI("/eidolon/screen 3 of manual.png"),encodeURI("/eidolon/screen 4 of manual.png")]}
+                    theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
                   />
-
                   <ProjectGalleryRow
-                    images={[
-                      encodeURI("/eidolon/screen 1 of automatic.png"),
-                      encodeURI("/eidolon/screen 2 of automatic.png"),
-                      encodeURI("/eidolon/screen 3 of automatic.png"),
-                      encodeURI("/eidolon/screen 4 of automatic.png"),
-                      encodeURI("/eidolon/screen 5 of automatic.png"),
-                      encodeURI("/eidolon/screen 6 of automatic.png"),
-                    ]}
-                    theme="lime"
-                    glassVariant="liquid"
-                    frameSize="phone"
-                    slideImageFit="contain"
-                    slidePadding="default"
-                    className="my-0 w-full"
+                    images={[encodeURI("/eidolon/screen 1 of automatic.png"),encodeURI("/eidolon/screen 2 of automatic.png"),encodeURI("/eidolon/screen 3 of automatic.png"),encodeURI("/eidolon/screen 4 of automatic.png"),encodeURI("/eidolon/screen 5 of automatic.png"),encodeURI("/eidolon/screen 6 of automatic.png")]}
+                    theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
                   />
                 </div>
-
-                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                  Figma mockups
-                </p>
+                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Figma mockups</p>
 
                 <div className="mt-14">
                   <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
@@ -636,176 +404,231 @@ export default async function EidolonPage() {
                   <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
                     Anthropomorphic Trust
                   </p>
-                  
 
                   <div className="mx-auto w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
                     <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                      <div
-                        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                        aria-hidden
-                      />
-                      <div
-                        className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                        aria-hidden
-                      />
+                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
+                      <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
                       <div className="relative p-3 sm:p-4 md:p-5">
                         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-3 md:gap-5">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={encodeURI("/eidolon/b&w 1.png")}
-                            alt="Character creation — black and white"
-                            className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain"
-                            loading="lazy"
-                          />
+                          <img src={encodeURI("/eidolon/b&w 1.png")} alt="Character creation, black and white" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={encodeURI("/eidolon/color (2).png")}
-                            alt="Character creation — color variant 2"
-                            className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain"
-                            loading="lazy"
-                          />
+                          <img src={encodeURI("/eidolon/color (2).png")} alt="Character creation, color variant 2" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={encodeURI("/eidolon/color (3).png")}
-                            alt="Character creation — color variant 3"
-                            className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain"
-                            loading="lazy"
-                          />
+                          <img src={encodeURI("/eidolon/color (3).png")} alt="Character creation, color variant 3" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                    Generated with Gemini
-                  </p>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Generated with Gemini</p>
 
                   <div className="mx-auto mt-6 w-full max-w-[min(800px,calc(100vw-1.5rem))]">
                     <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.06]">
-                      <div
-                        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                        aria-hidden
-                      />
-                      <div
-                        className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                        aria-hidden
-                      />
+                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
+                      <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
                       <div className="relative p-4 sm:p-5 md:p-6">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={encodeURI("/eidolon/items (5).png")}
-                          alt="Character creation diagram"
-                          className="w-full rounded-xl bg-white object-contain"
-                          loading="lazy"
-                        />
+                        <img src={encodeURI("/eidolon/items (5).png")} alt="Character creation diagram" className="w-full rounded-xl bg-white object-contain" loading="lazy" />
                       </div>
                     </div>
                   </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                    Napkin.ai diagram
-                  </p>
+                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Napkin.ai diagram</p>
 
                   <div className="mt-6">
                     <div className="rounded-xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
-                      <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/85">
-                        Key learning — Anthropomorphic trust
-                      </p>
+                      <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/85">Key learning, Anthropomorphic trust</p>
                       <p className="text-[0.85rem] font-medium leading-relaxed text-lime-950">
-                        Illustrating the agent as a gold, Buddha-like character made its intent feel calmer and more legible—using embodiment to borrow trust without hiding the machine.
+                        Illustrating the agent as a gold, Buddha-like character made its intent feel calmer and more legible-using embodiment to borrow trust without hiding the machine.
                       </p>
                     </div>
                   </div>
-                </div>
-
-                <div className="mt-14">
-                  <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                    Reasoning For Design
-                  </h2>
-                  <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                    Mockups created with Figma
-                  </p>
-
-                  <ReasoningPanels panels={[
-                    {
-                      img: "/eidolon/dr1.png",
-                      label: "01",
-                      heading: "Color and type tuned for neurological calm",
-                      points: [
-                        { lead: "Green reduces cortisol", detail: "Green tones correlate with lower stress and help the brain reset between hard tasks." },
-                        { lead: "Montserrat for warmth & legibility", detail: "Rounded forms feel approachable while staying clean and readable." },
-                        { lead: "No pure white", detail: "Off-white reduces eye fatigue versus harsh pure-white contrast." },
-                      ],
-                    },
-                    {
-                      img: "/eidolon/dr2.png",
-                      label: "02",
-                      heading: "A game HUD, not a dashboard — narrative over data",
-                      points: [
-                        { lead: "Information as story: 22× more memorable", detail: "Narrative beats raw data for recall, so the agent explains as a story." },
-                        { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper." },
-                        { lead: "Low-color background reduces cognitive load", detail: "Muted backgrounds reduce mental overhead so reasoning stands out." },
-                        { lead: "Ambient intelligence minimizes screen dependency", detail: "Surface only what’s needed, when it’s needed—no constant noise." },
-                      ],
-                    },
-                    {
-                      img: "/eidolon/dr3.png",
-                      label: "03",
-                      heading: "Multi-sensory confirmation — a signature the AI can't forge",
-                      points: [
-                        { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Multi-channel confirmation improves speed and recall for critical actions." },
-                        { lead: "A gesture only humans can make", detail: "High-stakes actions require a human swipe; the agent can’t execute them." },
-                        { lead: "Green tint + purple for meaningful contrast", detail: "Green stays calm; purple marks consequence without panic." },
-                      ],
-                    },
-                    {
-                      img: "/eidolon/dr4.png",
-                      label: "04",
-                      heading: "Human and AI solving problems together — trust through shared agency",
-                      points: [
-                        { lead: "AI shows confusion → users forgive more", detail: "Visible uncertainty increases forgiveness when the system fails." },
-                        { lead: "User control → users respect AI more", detail: "Real agency builds long-term trust—users steer, AI assists." },
-                        { lead: "Active participation → less bias", detail: "When users interact (not just receive), they project less bias." },
-                      ],
-                    },
-                  ]} />
-
-                  <div className="mx-auto mt-16 w-full max-w-[min(520px,calc(100vw-1.5rem))]">
-                    <ProjectGalleryRow
-                      images={[
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124040.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124046.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124058.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124113.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124124.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125858.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125917.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125948.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130218.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130315.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130406.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130518.png"),
-                        encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130530.png"),
-                      ]}
-                      theme="lime"
-                      glassVariant="liquid"
-                      frameSize="phone"
-                      phoneHeight="short"
-                      navSize="sm"
-                      slideImageFit="contain"
-                      slidePadding="default"
-                      enableLightbox
-                      className="my-0 w-full"
-                    />
-                  </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                    Figma mockups
-                  </p>
                 </div>
               </div>
             </>
           ),
         },
         {
-          id: "engineering",
+          id: "how-might-we",
+          label: "HOW MIGHT WE",
+          navOnly: true,
+          content: null,
+        },
+        {
+          id: "user-testing",
+          label: "USER TESTING",
+          content: (
+            <>
+              <h2 className="mb-2 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
+                Testing the solution
+              </h2>
+              <p className="mb-10 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                5 users. Task-based sessions: find information using the agent, delegate an action, revoke access.
+                Each finding either confirmed a decision or forced a change. Below is what shifted and why.
+              </p>
+
+              <div className="space-y-6">
+
+                {/* Decision 1 */}
+                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
+                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/80">Visual Reasoning Layer</p>
+                  </div>
+                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        4 of 5 users said seeing the agent&apos;s steps made them feel in control even when they weren&apos;t doing anything. The one who remained skeptical still preferred it over a black-box interface.
+                      </p>
+                    </div>
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Decision</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        Kept as the core trust mechanism. Made the reasoning panel collapsible so power users who already trust the agent aren&apos;t forced to watch every step.
+                      </p>
+                      <p className="mt-3 text-[0.78rem] leading-relaxed text-zinc-400">
+                        <span className="font-medium text-zinc-500">Tradeoff:</span> Collapsible panel creates an inconsistent experience, users who collapse it lose the transparency benefit entirely. A future version would remember the preference per task type.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decision 2 */}
+                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
+                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/80">Character Creation Onboarding</p>
+                  </div>
+                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        3 of 5 users engaged with it and said the agent felt noticeably more calibrated afterward. 2 found the character metaphor confusing, &ldquo;it felt like a game, not a tool.&rdquo;
+                      </p>
+                    </div>
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Decision</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        Kept the trust-preference data collection but flagged the character metaphor for replacement in v2. The 3-4 minute length is justified, without it, the agent falls back to a generic trust model that feels either too cautious or too aggressive.
+                      </p>
+                      <p className="mt-3 text-[0.78rem] leading-relaxed text-zinc-400">
+                        <span className="font-medium text-zinc-500">Tradeoff:</span> Longer onboarding = higher drop-off before first use. The gamified framing was chosen to reduce friction, but backfired for utility-minded users. A plain preference slider would collect the same data with less confusion.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decision 3 */}
+                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
+                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/80">Manual Control Mode</p>
+                  </div>
+                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        Both skeptical users said they would use the product if they could stay in manual mode permanently. Neither wanted to delegate, they wanted a smarter interface, not an agent.
+                      </p>
+                    </div>
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Decision</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        Manual mode was elevated from a &ldquo;nice-to-have&rdquo; to a required feature. The two-mode toggle became the first decision a user makes, not buried in settings.
+                      </p>
+                      <p className="mt-3 text-[0.78rem] leading-relaxed text-zinc-400">
+                        <span className="font-medium text-zinc-500">Tradeoff:</span> Supporting two full interaction paradigms doubled the design surface. Every feature now needs a manual and an agent variant, adds scope but is non-negotiable for trust-spectrum coverage.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </>
+          ),
+        },
+        {
+          id: "solution",
+          label: "THE SOLUTION",
+          content: (
+            <>
+              <ReasoningPanels panels={[
+                {
+                  img: "/eidolon/dr1.png",
+                  label: "01",
+                  heading: "Color and type tuned for neurological calm",
+                  points: [
+                    { lead: "Green reduces cortisol", detail: "Green tones correlate with lower stress and help the brain reset between hard tasks." },
+                    { lead: "Montserrat for warmth & legibility", detail: "Rounded forms feel approachable while staying clean and readable." },
+                    { lead: "No pure white", detail: "Off-white reduces eye fatigue versus harsh pure-white contrast." },
+                  ],
+                },
+                {
+                  img: "/eidolon/dr2.png",
+                  label: "02",
+                  heading: "A game HUD, not a dashboard, narrative over data",
+                  points: [
+                    { lead: "Information as story: 22x more memorable", detail: "Narrative beats raw data for recall, so the agent explains as a story." },
+                    { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper." },
+                    { lead: "Low-color background reduces cognitive load", detail: "Muted backgrounds reduce mental overhead so reasoning stands out." },
+                    { lead: "Ambient intelligence minimizes screen dependency", detail: "Surface only what's needed, when it's needed-no constant noise." },
+                  ],
+                },
+                {
+                  img: "/eidolon/dr3.png",
+                  label: "03",
+                  heading: "Multi-sensory confirmation, a signature the AI can't forge",
+                  points: [
+                    { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Multi-channel confirmation improves speed and recall for critical actions." },
+                    { lead: "A gesture only humans can make", detail: "High-stakes actions require a human swipe; the agent can't execute them." },
+                    { lead: "Green tint + purple for meaningful contrast", detail: "Green stays calm; purple marks consequence without panic." },
+                  ],
+                },
+                {
+                  img: "/eidolon/dr4.png",
+                  label: "04",
+                  heading: "Human and AI solving problems together, trust through shared agency",
+                  points: [
+                    { lead: "AI shows confusion, users forgive more", detail: "Visible uncertainty increases forgiveness when the system fails." },
+                    { lead: "User control, users respect AI more", detail: "Real agency builds long-term trust-users steer, AI assists." },
+                    { lead: "Active participation, less bias", detail: "When users interact (not just receive), they project less bias." },
+                  ],
+                },
+              ]} />
+
+              <div className="mx-auto mt-16 w-full max-w-[min(520px,calc(100vw-1.5rem))]">
+                <ProjectGalleryRow
+                  images={[
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124040.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124046.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124058.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124113.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 124124.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125858.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125917.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 125948.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130218.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130315.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130406.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130518.png"),
+                    encodeURI("/eidolon/reasoning for design/Screenshot 2026-03-02 130530.png"),
+                  ]}
+                  theme="lime"
+                  glassVariant="liquid"
+                  frameSize="phone"
+                  phoneHeight="short"
+                  navSize="sm"
+                  slideImageFit="contain"
+                  slidePadding="default"
+                  enableLightbox
+                  className="my-0 w-full"
+                />
+              </div>
+              <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Figma mockups
+              </p>
+            </>
+          ),
+        },
+        {          id: "engineering",
           label: "ENGINEERING",
           content: (
             <>
@@ -813,7 +636,7 @@ export default async function EidolonPage() {
                 <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Architecture decision</p>
                 <p className="mb-2 text-[0.88rem] font-medium text-zinc-800">Why client-side inference, not a backend service</p>
                 <p className="text-[0.82rem] leading-relaxed text-zinc-600">
-                  Running Gemini calls from the client (via Google AI Studio) meant no backend to maintain —
+                  Running Gemini calls from the client (via Google AI Studio) meant no backend to maintain -
                   critical for a 7-day build. The tradeoff: API keys are exposed in the client bundle, which is
                   acceptable for a prototype but not for a shipped product. A production version would route all
                   inference through a serverless edge function to keep keys server-side. The prototype
@@ -821,7 +644,7 @@ export default async function EidolonPage() {
                 </p>
               </div>
               <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                A slice of Eidolon was built out to play around with current AI image-generation capabilities. The internet isn&apos;t ready for a new face — but AI is.
+                A slice of Eidolon was built out to play around with current AI image-generation capabilities. The internet isn&apos;t ready for a new face, but AI is.
               </p>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:[&>*:last-child]:col-start-2">
                 {[
@@ -845,7 +668,7 @@ export default async function EidolonPage() {
                     category: "AI Integration",
                     items: [
                       { name: "Gemini 3 Flash Preview", detail: "@google/genai SDK" },
-                      { name: "Dynamic AI Logic", detail: "Dialogue & state transitions — Idle, Walking, Talking" },
+                      { name: "Dynamic AI Logic", detail: "Dialogue & state transitions, Idle, Walking, Talking" },
                     ],
                   },
                   {
@@ -856,7 +679,7 @@ export default async function EidolonPage() {
                     ],
                   },
                 ].map(({ category, items }) => (
-                  <div key={category} className="rounded-2xl bg-lime-500/[0.06] p-6 ring-1 ring-lime-300/30">
+                  <div key={category} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/70">
                       {category}
                     </p>
@@ -1023,14 +846,14 @@ export default async function EidolonPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "5", label: "users tested", sub: "across varied AI familiarity levels — from skeptics to early adopters" },
+                  { stat: "5", label: "users tested", sub: "across varied AI familiarity levels, from skeptics to early adopters" },
                   { stat: "4/5", label: "reported clearer AI intent", sub: "compared to a standard chatbot interface with no visual reasoning layer" },
                   { stat: "100%", label: "could identify agent actions", sub: "the visual agent layer made automation legible without extra explanation" },
                 ].map(({ stat, label, sub }) => (
-                  <div key={stat} className="rounded-2xl bg-emerald-50/70 p-6 ring-1 ring-emerald-200/60">
-                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-emerald-700">{stat}</p>
-                    <p className="mb-2 text-[0.82rem] font-medium text-emerald-950/80">{label}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-emerald-950/55">{sub}</p>
+                  <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
+                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-lime-700">{stat}</p>
+                    <p className="mb-2 text-[0.82rem] font-medium text-lime-950/80">{label}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-lime-950/55">{sub}</p>
                   </div>
                 ))}
               </div>
@@ -1054,7 +877,7 @@ export default async function EidolonPage() {
               {[
                 {
                   title: "Transparency is the product",
-                  body: "Users didn't distrust Eidolon's AI — they distrusted the invisibility of its reasoning. Making the agent's logic visible, step by step, removed that distrust. The interface isn't a wrapper around the AI; it is the trust mechanism.",
+                  body: "Users didn't distrust Eidolon's AI, they distrusted the invisibility of its reasoning. Making the agent's logic visible, step by step, removed that distrust. The interface isn't a wrapper around the AI; it is the trust mechanism.",
                 },
                 {
                   title: "One week is enough to validate a direction",
@@ -1066,11 +889,11 @@ export default async function EidolonPage() {
                 },
               ].map((card, i) => (
                 <li key={card.title}>
-                  <div className="flex gap-5 rounded-2xl bg-emerald-50/80 p-6 ring-1 ring-emerald-200/60">
+                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-emerald-600/90">{i + 1}</span>
                     <div className="min-w-0">
                       <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-800/70">{card.title}</p>
-                      <p className="text-[0.9rem] font-medium leading-[1.65] text-emerald-950/80">{card.body}</p>
+                      <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950/80">{card.body}</p>
                     </div>
                   </div>
                 </li>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 
 const SLUG = "villain-home";
@@ -23,7 +23,7 @@ const GALLERY_IMAGES = [
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — Villain Home",
+  description: "Failenn Aselta, Villain Home",
 };
 
 export default function VillainHomePage() {
@@ -66,7 +66,7 @@ export default function VillainHomePage() {
                 <img
                   key={src}
                   src={src}
-                  alt={`Villain Home — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                  alt={`Villain Home, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                   className="h-auto w-full max-h-[min(72vh,640px)] object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] rounded-xl bg-white/40"
                 />
               ))}

@@ -1,18 +1,18 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Branding, product design, and architecture — retro work console.",
+  description: "Branding, product design, and architecture, retro work console.",
 };
 
 /** Full chrome computer + CRT UI (see `src/content/work.mdx`). */
 const WORK_HERO =
   "https://framerusercontent.com/images/1UpVneSV6Hx4UCJvPBmRmzTBuY.png?width=1670&height=1264";
 
-/** Olive folder icon from scraped work page — layered on the CRT for real click targets. */
+/** Olive folder icon from scraped work page, layered on the CRT for real click targets. */
 const FOLDER_ICON =
   "https://framerusercontent.com/images/DccO93U6JUZBxkfvWIbOQvqgRI.png?width=357&height=301";
 

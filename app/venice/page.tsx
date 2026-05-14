@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 
@@ -39,14 +39,14 @@ const GALLERY_IMAGES = [
   "https://framerusercontent.com/images/4qK1yO89aXI4cnJ1H4dXY5qLMg.png?width=2235&height=1671",
 ] as const;
 
-/** Wrapper card — carries the shadow/ring/rounded and clips scaled content. */
+/** Wrapper card, carries the shadow/ring/rounded and clips scaled content. */
 const CARD = "overflow-hidden shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] rounded-xl bg-white/40";
 const CARD_IMG = "h-auto w-full object-contain scale-[1.1]";
 const PAIR_CARD = `w-0 flex-1 overflow-hidden shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] rounded-xl bg-white/40`;
 const PAIR_COVER_CARD = `w-0 flex-1 overflow-hidden shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] rounded-xl`;
 const PAIR_COVER_IMG = "h-full w-full object-cover scale-[1.1]";
 
-/** First five pulled out of carousel — rendered as individual images. */
+/** First five pulled out of carousel, rendered as individual images. */
 const CAROUSEL_PRE = GALLERY_IMAGES.slice(7, 11);
 /** In-gallery carousel: starts after the pulled-out five; last four in their own carousel. */
 const CAROUSEL_IMAGES = GALLERY_IMAGES.slice(11, -4) as unknown as string[];
@@ -54,7 +54,7 @@ const GALLERY_TAIL = GALLERY_IMAGES.slice(-4);
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — Venice Pavilion",
+  description: "Failenn Aselta, Venice Pavilion",
 };
 
 export default function VenicePage() {
@@ -108,48 +108,48 @@ export default function VenicePage() {
             <div className="mx-auto flex w-full max-w-[min(720px,94vw)] flex-col items-center gap-10 md:gap-12">
               <div className={`w-full ${CARD} max-h-[min(85vh,820px)]`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[5]} alt="Venice Pavilion — visual 1" className={CARD_IMG} />
+                <img src={GALLERY_IMAGES[5]} alt="Venice Pavilion, visual 1" className={CARD_IMG} />
               </div>
 
               <div className={`w-full ${CARD} max-h-[min(72vh,640px)]`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={GALLERY_IMAGES[6]} alt="Venice Pavilion — visual 2" className={CARD_IMG} />
+                <img src={GALLERY_IMAGES[6]} alt="Venice Pavilion, visual 2" className={CARD_IMG} />
               </div>
 
               <div className="mx-auto flex w-full max-w-[min(560px,94vw)] items-center gap-4">
                 <div className={PAIR_COVER_CARD}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={GALLERY_IMAGES[2]} alt="Venice Pavilion — visual 3" className={PAIR_COVER_IMG} />
+                  <img src={GALLERY_IMAGES[2]} alt="Venice Pavilion, visual 3" className={PAIR_COVER_IMG} />
                 </div>
                 <div className={PAIR_CARD}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={GALLERY_IMAGES[3]} alt="Venice Pavilion — visual 4" className={CARD_IMG} />
+                  <img src={GALLERY_IMAGES[3]} alt="Venice Pavilion, visual 4" className={CARD_IMG} />
                 </div>
                 <div className={PAIR_COVER_CARD}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={GALLERY_IMAGES[4]} alt="Venice Pavilion — visual 5" className={PAIR_COVER_IMG} />
+                  <img src={GALLERY_IMAGES[4]} alt="Venice Pavilion, visual 5" className={PAIR_COVER_IMG} />
                 </div>
               </div>
 
               <div className={`w-full ${CARD} max-h-[min(72vh,640px)]`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={CAROUSEL_PRE[0]} alt="Venice Pavilion — visual 6" className={CARD_IMG} />
+                <img src={CAROUSEL_PRE[0]} alt="Venice Pavilion, visual 6" className={CARD_IMG} />
               </div>
 
               <div className="flex w-full items-center gap-4">
                 <div className={PAIR_CARD}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={CAROUSEL_PRE[1]} alt="Venice Pavilion — visual 7" className={CARD_IMG} />
+                  <img src={CAROUSEL_PRE[1]} alt="Venice Pavilion, visual 7" className={CARD_IMG} />
                 </div>
                 <div className={PAIR_COVER_CARD}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={CAROUSEL_PRE[2]} alt="Venice Pavilion — visual 8" className={PAIR_COVER_IMG} />
+                  <img src={CAROUSEL_PRE[2]} alt="Venice Pavilion, visual 8" className={PAIR_COVER_IMG} />
                 </div>
               </div>
 
               <div className={`w-full ${CARD} max-h-[min(72vh,640px)]`}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={CAROUSEL_PRE[3]} alt="Venice Pavilion — visual 9" className={CARD_IMG} />
+                <img src={CAROUSEL_PRE[3]} alt="Venice Pavilion, visual 9" className={CARD_IMG} />
               </div>
 
               <ProjectGalleryRow

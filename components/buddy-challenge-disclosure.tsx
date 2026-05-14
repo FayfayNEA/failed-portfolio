@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -46,7 +46,7 @@ export function BuddyChallengeDisclosure({ summary }: Props) {
             Buddy was born from a simple observation: groups lose the thread. Whether it&rsquo;s a
             brainstorm, a lecture, or a team standup, the conversation moves faster than anyone can
             type. The challenge was to build a wearable that listens, understands, and surfaces the
-            right information — in real time — without interrupting the people in the room.
+            right information, in real time, without interrupting the people in the room.
           </p>
           <p className="mt-3 text-[0.875rem] leading-[1.75] text-zinc-500">
             Constraints made it hard: $40 hardware budget, no cloud dependency (privacy), and the

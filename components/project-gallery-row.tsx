@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useCallback, useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 
 const SPRING = { type: "spring" as const, stiffness: 400, damping: 32, mass: 1 };
 
-/** Soft, slow spring — shared layout pill glides with minimal snap. */
+/** Soft, slow spring, shared layout pill glides with minimal snap. */
 const MORPH_SPRING = {
   type: "spring" as const,
   stiffness: 64,
@@ -36,7 +36,7 @@ type ProjectGalleryRowProps = {
   glassVariant?: "standard" | "liquid";
   /** `none`: edge-to-edge. `tight`: smaller inset so imagery sits closer to the frame. */
   slidePadding?: "default" | "none" | "tight";
-  /** `cover`: crop to fill frame — removes side letterboxing on wide carousels. */
+  /** `cover`: crop to fill frame, removes side letterboxing on wide carousels. */
   slideImageFit?: "contain" | "cover";
   /** Smaller arrows + dots (useful when controls crowd). */
   navSize?: "default" | "sm";

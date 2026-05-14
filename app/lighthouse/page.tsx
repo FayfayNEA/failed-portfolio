@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 
 const SLUG = "lighthouse";
@@ -17,7 +17,7 @@ const GALLERY_IMAGES = [
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — Peck Ledge Lighthouse",
+  description: "Failenn Aselta, Peck Ledge Lighthouse",
 };
 
 export default function LighthousePage() {
@@ -55,7 +55,7 @@ export default function LighthousePage() {
                 <img
                   key={src}
                   src={src}
-                  alt={`Peck Ledge Lighthouse — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                  alt={`Peck Ledge Lighthouse, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                   className="h-auto w-full max-h-[min(72vh,640px)] object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] rounded-xl bg-white/40"
                 />
               ))}

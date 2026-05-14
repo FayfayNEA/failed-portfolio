@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Fragment } from "react";
 import type { ReactNode } from "react";
@@ -345,7 +345,7 @@ function HeroVideoCarousel({
         className={cn(
           // Portrait: "hug" the video's natural width. Landscape: fill the carousel width
           // so 16:9 sources don't appear narrow on desktop.
-          // min-w-[169px] ≈ 300 × 9/16 — prevents a 0-width slot before metadata loads.
+          // min-w-[169px] ≈ 300 × 9/16, prevents a 0-width slot before metadata loads.
           "relative touch-manipulation touch-pan-y overscroll-x-contain",
           landscape ? "w-full" : "w-fit min-w-[169px]",
           maxW,
@@ -511,8 +511,9 @@ export function ManualProjectPage({
   const isNightterrors = slug === "nightterrors";
   const isEtrade = slug === "etrade";
   const sidebarSections: SidebarSection[] = [
+    ...sections.slice(0, 1).map(({ id, label }) => ({ id, label })),
     ...(challengeSummary ? [{ id: "the-challenge", label: "THE CHALLENGE" }] : []),
-    ...sections.map(({ id, label }) => ({ id, label })),
+    ...sections.slice(1).map(({ id, label }) => ({ id, label })),
   ];
   const breadcrumb = buildProjectBreadcrumb(slug, category);
 
@@ -915,18 +916,35 @@ export function ManualProjectPage({
           </>
         )}
 
+        {sections.slice(0, 1).map((s) => (
+          <Fragment key={s.id}>
+            <motion.section
+              id={s.id}
+              className="scroll-mt-24"
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.04 }}
+              transition={{ type: "spring", stiffness: 320, damping: 32, mass: 1 }}
+            >
+              <SectionLabel>{s.label}</SectionLabel>
+              {s.content}
+            </motion.section>
+            {(challengeSummary || sections.slice(1).some((n) => !n.navOnly)) && <Divider />}
+          </Fragment>
+        ))}
+
         {challengeSummary && (
           <>
             <section id="the-challenge" className="scroll-mt-24">
               <CaseChallengeDisclosure summary={challengeSummary} />
             </section>
-            <Divider />
+            {sections.slice(1).some((n) => !n.navOnly) && <Divider />}
           </>
         )}
 
-        {sections.map((s, idx) => {
+        {sections.slice(1).map((s, idx) => {
           if (s.navOnly) return <Fragment key={s.id} />;
-          const hasMoreVisible = sections.slice(idx + 1).some((n) => !n.navOnly);
+          const hasMoreVisible = sections.slice(idx + 2).some((n) => !n.navOnly);
           return (
             <Fragment key={s.id}>
               <motion.section

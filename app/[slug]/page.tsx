@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ScrapedContentPage } from "@/components/scraped-content-page";
 import {
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = await getContentBySlug(slug);
   if (!page) return { title: slug };
   const title = page.frontmatter.title ?? slug;
-  return { title, description: `Failenn Aselta — ${title}` };
+  return { title, description: `Failenn Aselta, ${title}` };
 }
 
 export default async function ScrapedSlugPage({ params }: Props) {

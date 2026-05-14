@@ -1,15 +1,15 @@
-import { CategoryGallery } from "@/components/category-gallery";
+﻿import { CategoryGallery } from "@/components/category-gallery";
 import type { GalleryProject } from "@/components/category-gallery";
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { DesignerBio } from "@/components/designer-bio";
 
 const PROJECTS: GalleryProject[] = [
-  { slug: "eidolon",      title: "Eidolon",      description: "created a visual AI agent to help users trust automation",                                   year: "2026", coverColor: "transparent", labelGlassTint: "moss", coverImageClassName: "scale-[.9]",  coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/eidolon.png",                                              href: "/eidolon",       metric: "5-user test · AI trust +80%" },
-  { slug: "buddy",        title: "Buddy",        description: "created an LLM which captures group conversations as real-time images and diagrams",            year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.2]", coverImageFit: "contain",                       coverImage: "/coverimages/buddy.png",                                                href: "/buddy",         metric: "6–23hr battery · live AI steno" },
+  { slug: "eidolon",      title: "Eidolon",      description: "created a visual AI agent to help users trust automation",                                   year: "2026", coverColor: "transparent", labelGlassTint: "moss", coverImageClassName: "scale-[.9]",  coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/eidolon.png",                                              href: "/eidolon",       metric: "5-user test · 4/5 clearer AI intent" },
+  { slug: "buddy",        title: "Buddy",        description: "created an LLM which captures group conversations as real-time images and diagrams",            year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.2]", coverImageFit: "contain",                       coverImage: "/coverimages/buddy.png",                                                href: "/buddy",         metric: "<2s capture · 4 export formats" },
   { slug: "fither",       title: "Fither",       description: "understanding dithers with ai",                                                               year: "2026",                                                                                                                                      coverImage: "/fither/assets/organic_dot_field.png",                                 href: "/work/fither",   metric: "6 dither algorithms · open-source" },
-  { slug: "etrade",       title: "E*Trade",      description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",         year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.1]", coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/etrade.png",                                              href: "/etrade",        metric: "−60% execution time" },
-  { slug: "nightterrors", title: "N1ghtterrors", description: "a website designed to capture the essence of n1ghtterrors",                                   year: "2024",                                                                                                                                      coverImage: "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",  href: "/nightterrors",  metric: "Live production site" },
-  { slug: "jahn",         title: "JAHN",         description: "designed a portfolio faithful to helmut jahn's design language",                              year: "2023",                                                                                                                                      coverImage: "/jahn/jahn image.jpg",                                                 href: "/jahn",          metric: "Live · jahn.studio" },
+  { slug: "etrade",       title: "E*Trade",      description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",         year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.1]", coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/etrade.png",                                              href: "/etrade",        metric: "6-user test · 5/6 faster trades" },
+  { slug: "nightterrors", title: "N1ghtterrors", description: "a website designed to capture the essence of n1ghtterrors",                                   year: "2024",                                                                                                                                      coverImage: "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",  href: "/nightterrors",  metric: "3× session duration" },
+  { slug: "jahn",         title: "JAHN",         description: "designed a portfolio faithful to helmut jahn's design language",                              year: "2023",                                                                                                                                      coverImage: "/jahn/jahn image.jpg",                                                 href: "/jahn",          metric: "Commissioned · 2023" },
 ];
 
 export default function Home() {
@@ -64,39 +64,39 @@ export default function Home() {
           Why Failenn
         </p>
         <h2 className="mb-10 font-mono text-[clamp(1.4rem,3vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.03em] text-zinc-950">
-          Design × Engineering × AI — in one hire.
+          Research → design → shipped product. No handoff gap.
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               n: "01",
-              title: "Builds what she designs",
-              body: "Every prototype in this portfolio is functional code — React, TypeScript, Tailwind, deployed to production. No handoff gap.",
+              title: "Research first, always",
+              body: "Every project starts with user interviews, competitive audits, and a clearly framed problem. Design decisions are traceable to a real insight, not a gut feeling.",
             },
             {
               n: "02",
-              title: "Native AI fluency",
-              body: "Ships real LLM products: Gemini 3 Flash integration, Google AI Studio, real-time agent pipelines. Not just AI-assisted design.",
+              title: "Prototypes in real code",
+              body: "High-fidelity interactive prototypes built in React and Tailwind. What stakeholders see in review is what ships, no translation loss.",
             },
             {
               n: "03",
-              title: "Research-backed decisions",
-              body: "Every design choice is anchored to cited research — Nielsen Norman, MIT AgeLab, Tufte. Rigor that holds up in design reviews.",
+              title: "Systems thinker",
+              body: "Designs components, not screens. Every project here has a documented visual language that holds up when the product grows.",
             },
             {
               n: "04",
-              title: "Weeks, not months",
-              body: "Eidolon shipped in one week — full-stack, tested, deployed. Fast iteration without cutting corners on craft.",
+              title: "End-to-end ownership",
+              body: "Discovery → research → design → build → user test → ship. Eidolon did all of that in one week, solo. Fast without cutting corners on craft.",
             },
             {
               n: "05",
-              title: "Cross-domain range",
-              body: "Architecture → product design → engineering. Spatial thinking that makes UI systems feel physically intuitive.",
+              title: "Designs the human layer of AI",
+              body: "Ships real AI-powered products, not AI-assisted mockups. Understands where models fail users and designs the trust layer around it.",
             },
             {
               n: "06",
-              title: "Rare aesthetic taste",
-              body: "Brutalist precision meets high-fashion restraint. Interfaces that recruiters remember — and users actually want to use.",
+              title: "Distinct visual voice",
+              body: "Brutalist precision meets high-fashion restraint. Interfaces that are purposeful and remembered, not just clean and forgettable.",
             },
           ].map(({ n, title, body }) => (
             <div

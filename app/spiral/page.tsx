@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 
 const SLUG = "spiral";
@@ -20,7 +20,7 @@ const GALLERY_IMAGES = [
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — The Spiral",
+  description: "Failenn Aselta, The Spiral",
 };
 
 export default function SpiralPage() {
@@ -68,7 +68,7 @@ export default function SpiralPage() {
                 <img
                   key={src}
                   src={src}
-                  alt={`The Spiral — visual ${i + 1} of ${GALLERY_IMAGES.length}`}
+                  alt={`The Spiral, visual ${i + 1} of ${GALLERY_IMAGES.length}`}
                   className="h-auto w-full max-h-[min(72vh,640px)] object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.06] rounded-xl bg-white/40"
                 />
               ))}

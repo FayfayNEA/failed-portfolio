@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -107,7 +107,7 @@ export default function ContactClient() {
     const screen = screenRef.current;
     const content = contentRef.current;
     if (!screen || !content) return;
-    const BASE_WIDTH = 780; // px — natural design width of the overlay
+    const BASE_WIDTH = 780; // px, natural design width of the overlay
     const update = () => {
       // Width-only scaling: content always fills overlay width (height fits naturally)
       const scale = Math.min(1, screen.clientWidth / BASE_WIDTH);
@@ -227,7 +227,7 @@ export default function ContactClient() {
               </div>
             </div>
             <p className="mx-auto mt-10 max-w-[76ch] text-center font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
-              Stack — Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
+              Stack, Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
             </p>
           </div>
 
@@ -241,14 +241,14 @@ export default function ContactClient() {
               <div className="relative w-full" style={{ aspectRatio: "1670 / 1264" }}>
               <Image
                 src={WORK_HERO}
-                alt="Contact — retro computer"
+                alt="Contact, retro computer"
                 fill
                 className="object-contain"
                 priority
                 draggable={false}
               />
 
-              {/* Screen overlay — positioned as % of image so it's viewport-independent */}
+              {/* Screen overlay, positioned as % of image so it's viewport-independent */}
               <div
                 ref={screenRef}
                 className="absolute z-20 overflow-hidden"
@@ -269,7 +269,7 @@ export default function ContactClient() {
                   />
                 </div>
 
-                {/* Card layout — scaled via ResizeObserver to fit overlay width */}
+                {/* Card layout, scaled via ResizeObserver to fit overlay width */}
                 <div
                   ref={contentRef}
                   className="relative z-10 flex h-full flex-col justify-center gap-2 p-[4%] translate-y-[30px]"
@@ -359,7 +359,7 @@ export default function ContactClient() {
 
             <div className="mx-auto mt-2 w-full max-w-md border-t border-zinc-300/80 pt-2">
               <p className="text-center text-[11px] leading-snug text-zinc-500 md:text-[12px] md:leading-relaxed font-mono uppercase tracking-[0.18em]">
-                Stack — Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
+                Stack, Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
               </p>
             </div>
           </div>

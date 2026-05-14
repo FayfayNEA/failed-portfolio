@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState, useCallback } from "react";
 
@@ -61,7 +61,7 @@ export function BeforeAfterSlider({
       onPointerCancel={onPointerUp}
       style={{ touchAction: "none" }}
     >
-      {/* After image — full size, sits beneath */}
+      {/* After image, full size, sits beneath */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={after}
@@ -71,7 +71,7 @@ export function BeforeAfterSlider({
         loading="lazy"
       />
 
-      {/* Before image — same size, clipped via clip-path so it never resizes */}
+      {/* Before image, same size, clipped via clip-path so it never resizes */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={before}

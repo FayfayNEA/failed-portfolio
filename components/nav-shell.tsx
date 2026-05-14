@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -79,7 +79,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
         <MobileHamburgerNav />
       </div>
 
-      {/* Floating social bubbles — bottom-left, desktop only */}
+      {/* Floating social bubbles, bottom-left, desktop only */}
       <div className="hidden md:flex fixed bottom-6 left-6 z-[90] flex-col gap-2.5">
         {SOCIAL_BUBBLES.map(({ href, label, icon }, i) => (
           <motion.a
@@ -103,7 +103,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
           </motion.a>
         ))}
       </div>
-      {/* Mobile contact footer — replaces icon stack on small screens */}
+      {/* Mobile contact footer, replaces icon stack on small screens */}
       <div className="md:hidden fixed bottom-0 inset-x-0 z-[90] flex items-center justify-around px-6 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] border-t border-black/[0.06] bg-white/[0.55] backdrop-blur-xl backdrop-saturate-125">
         {SOCIAL_BUBBLES.map(({ href, label, icon }) => (
           <a

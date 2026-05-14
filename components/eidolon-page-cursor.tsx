@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
 
 const STYLE_ID = "eidolon-page-cursor-style";
-/** Source in `public/eidolon/` — filename has spaces; path must be encoded for fetch + for `url()` when used raw. */
+/** Source in `public/eidolon/`, filename has spaces; path must be encoded for fetch + for `url()` when used raw. */
 const SOURCE_PATH = `/eidolon/${encodeURIComponent("Group 3 (2).png")}`;
 /** Match Buddy (`buddy-cursor-24.png`): ~24px so OS scaling matches; still under browser max size. */
 const CURSOR_MAX_PX = 24;

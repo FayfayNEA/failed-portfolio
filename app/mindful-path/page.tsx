@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 
@@ -39,7 +39,7 @@ const IMG_PAIR =
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: "Failenn Aselta — Mindful Path",
+  description: "Failenn Aselta, Mindful Path",
 };
 
 export default function MindfulPathPage() {
@@ -98,7 +98,7 @@ export default function MindfulPathPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={GALLERY_IMAGES[0]}
-                alt="Mindful Path — visual 1"
+                alt="Mindful Path, visual 1"
                 className={`${IMG} max-h-[min(85vh,820px)]`}
               />
 
@@ -106,14 +106,14 @@ export default function MindfulPathPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={GALLERY_IMAGES[1]}
-                alt="Mindful Path — visual 2"
+                alt="Mindful Path, visual 2"
                 className={`${IMG} max-h-[min(72vh,640px)]`}
               />
 
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={GALLERY_IMAGES[4]}
-                alt="Mindful Path — visual 3"
+                alt="Mindful Path, visual 3"
                 className={`${IMG} max-h-[min(85vh,820px)]`}
               />
 
@@ -121,14 +121,14 @@ export default function MindfulPathPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={GALLERY_IMAGES[2]}
-                alt="Mindful Path — visual 4"
+                alt="Mindful Path, visual 4"
                 className={`${IMG} max-h-[min(85vh,820px)]`}
               />
 
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={GALLERY_IMAGES[12]}
-                alt="Mindful Path — visual 5"
+                alt="Mindful Path, visual 5"
                 className={`${IMG} max-h-[min(72vh,640px)]`}
               />
 
@@ -136,7 +136,7 @@ export default function MindfulPathPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={GALLERY_IMAGES[13]}
-                alt="Mindful Path — visual 5b"
+                alt="Mindful Path, visual 5b"
                 className={`${IMG} max-h-[min(72vh,640px)]`}
               />
 
@@ -157,19 +157,19 @@ export default function MindfulPathPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={galleryCarouselSecondTail[0]}
-                alt="Mindful Path — gallery detail"
+                alt="Mindful Path, gallery detail"
                 className={`${IMG} max-h-[min(72vh,640px)]`}
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={galleryCarouselSecondTail[1]}
-                alt="Mindful Path — gallery detail"
+                alt="Mindful Path, gallery detail"
                 className={`${IMG} max-h-[min(72vh,640px)]`}
               />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={galleryCarouselSecondTail[2]}
-                alt="Mindful Path — gallery detail"
+                alt="Mindful Path, gallery detail"
                 className={`${IMG} max-h-[min(72vh,640px)]`}
               />
 

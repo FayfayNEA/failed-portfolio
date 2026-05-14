@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -9,7 +9,7 @@ const WORK_HERO =
 const PORTRAIT_SRC =
   "https://framerusercontent.com/images/NmEPDMw4n4ZBACyQbLBQzlGMTv0.jpg?width=2870&height=2633";
 
-/** Same grain as contact “liquid” cards — subtle noise in the glass. */
+/** Same grain as contact “liquid” cards, subtle noise in the glass. */
 const LIQUID_CARD_GRAIN_BG =
   'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 256 256\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")';
 
@@ -44,7 +44,7 @@ export default function AboutClient() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Scale content to overlay — baseline matches real CRT width (~54% of asset) so we don’t over-shrink
+  // Scale content to overlay, baseline matches real CRT width (~54% of asset) so we don’t over-shrink
   useEffect(() => {
     const screen = screenRef.current;
     const content = contentRef.current;
@@ -112,7 +112,7 @@ export default function AboutClient() {
             </LiquidGlassCard>
           </div>
 
-          {/* ── Desktop: computer image — same scale as contact page ── */}
+          {/* ── Desktop: computer image, same scale as contact page ── */}
           <div className="hidden w-full md:block">
             <div
               className="relative mx-auto w-full -mt-5"
@@ -124,14 +124,14 @@ export default function AboutClient() {
               >
                 <Image
                   src={WORK_HERO}
-                  alt="About — retro computer"
+                  alt="About, retro computer"
                   fill
                   className="object-contain object-center"
                   priority
                   draggable={false}
                 />
 
-                {/* Screen overlay — same % coords as contact page */}
+                {/* Screen overlay, same % coords as contact page */}
                 <div
                   ref={screenRef}
                   className="absolute z-20 overflow-hidden"
@@ -144,12 +144,12 @@ export default function AboutClient() {
                     containerType: "inline-size",
                   }}
                 >
-                  {/* Content — fills bezel; glass card stretches with the screen */}
+                  {/* Content, fills bezel; glass card stretches with the screen */}
                   <div
                     ref={contentRef}
                     className="relative z-10 flex h-full min-h-0 w-full items-stretch gap-2 px-[1.5%] py-[1.5%] md:gap-2.5 md:px-[2%] md:py-[2%]"
                   >
-                    {/* Portrait — intrinsic height (no fill) so object-contain doesn’t leave a dead band below */}
+                    {/* Portrait, intrinsic height (no fill) so object-contain doesn’t leave a dead band below */}
                     <div className="relative flex w-[34%] min-w-0 shrink-0 translate-y-[30px] justify-center self-start overflow-hidden rounded-[10px] ring-1 ring-black/[0.07] shadow-[0_12px_32px_-10px_rgba(0,0,0,0.18)] md:rounded-xl md:w-[36%]">
                       <Image
                         src={PORTRAIT_SRC}
@@ -161,7 +161,7 @@ export default function AboutClient() {
                       />
                     </div>
 
-                    {/* Bio — liquid glass fills remaining screen height */}
+                    {/* Bio, liquid glass fills remaining screen height */}
                     <div className="flex min-h-0 min-w-0 flex-1 flex-col">
                       <LiquidGlassCard className="flex h-full min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain rounded-[10px] p-[clamp(7px,2.8cqi,14px)] md:rounded-2xl [scrollbar-width:thin]">
                         <h2 className="mb-1 font-mono text-[clamp(13px,3.15cqi,20px)] font-normal leading-tight tracking-[-0.01em] text-zinc-900">
@@ -194,7 +194,7 @@ export default function AboutClient() {
 
             <div className="mx-auto mt-2 w-full max-w-md border-t border-zinc-300/80 pt-2">
               <p className="text-center font-mono text-[11px] uppercase leading-snug tracking-[0.18em] text-zinc-500 md:text-[12px] md:leading-relaxed">
-                Stack — Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
+                Stack, Next.js · TypeScript · Tailwind CSS · Framer Motion · MDX · Three.js
               </p>
             </div>
           </div>

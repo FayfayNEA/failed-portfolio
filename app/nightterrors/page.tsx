@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
@@ -19,45 +19,45 @@ const DIAGRAM_WRAP_CLASS = "overflow-hidden !rounded-2xl";
 
 const KEY_LEARNINGS = [
   {
-    heading: "Key Learning — Vanilla Constraints",
+    heading: "Key Learning, Vanilla Constraints",
     body: "Building with Node.js and Vanilla HTML/CSS instead of a framework enforced a deep understanding of the fundamentals and produced the raw Y2K aesthetic the brand demanded.",
   },
   {
-    heading: "Key Learning — AI-Assisted Iteration",
-    body: "Developing before AI tooling was widespread meant the architecture was sound before Gemini and Cursor accelerated the final iteration — the foundation never had to be rethought.",
+    heading: "Key Learning, AI-Assisted Iteration",
+    body: "Developing before AI tooling was widespread meant the architecture was sound before Gemini and Cursor accelerated the final iteration, the foundation never had to be rethought.",
   },
   {
-    heading: "Key Learning — Diagram-First Planning",
-    body: "Writing the pseudocode and Mermaid flow before touching the implementation forced clarity around stock-check state transitions and cart logic — decisions that would have been expensive to change later.",
+    heading: "Key Learning, Diagram-First Planning",
+    body: "Writing the pseudocode and Mermaid flow before touching the implementation forced clarity around stock-check state transitions and cart logic, decisions that would have been expensive to change later.",
   },
 ];
 
 const RESEARCH_LEARNINGS = [
   {
-    heading: "Key Learning — Navigation Visibility",
+    heading: "Key Learning, Navigation Visibility",
     body: "Feedback made it obvious: the cart button read as an interaction affordance, but the menu did not. I learned to make entry points loud even when the aesthetic is intentionally abrasive.",
   },
   {
-    heading: "Key Learning — Typeface Legibility",
-    body: "Users wanted the edge without the strain. The type choice matched the brand, but the reading experience needed guardrails — contrast, sizing, and a calmer hierarchy in key moments.",
+    heading: "Key Learning, Typeface Legibility",
+    body: "Users wanted the edge without the strain. The type choice matched the brand, but the reading experience needed guardrails, contrast, sizing, and a calmer hierarchy in key moments.",
   },
   {
-    heading: "Key Learning — Writing as Guidance",
+    heading: "Key Learning, Writing as Guidance",
     body: "The strongest improvements came from small pieces of copy: a cue to keep scrolling, a hint that a control is interactive, a line that reframes what to do next. The writing became the UX.",
   },
 ];
 
 const CONCLUSION_CARDS = [
   {
-    heading: "Conclusion — Guidance Wins",
-    body: "Unconventional design still needs guidance — the user should feel provoked, not lost.",
+    heading: "Conclusion, Guidance Wins",
+    body: "Unconventional design still needs guidance, the user should feel provoked, not lost.",
   },
   {
-    heading: "Conclusion — Test Early",
+    heading: "Conclusion, Test Early",
     body: "Legibility and navigation have to be pressure-tested early, before the visuals harden into “the vibe.”",
   },
   {
-    heading: "Conclusion — Clean Entry Points",
+    heading: "Conclusion, Clean Entry Points",
     body: "Strangeness works when the entry points stay clean: strong affordances, clear state, minimal confusion.",
   },
 ];
@@ -66,7 +66,7 @@ const CONCLUSION_CARDS = [
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: `Failenn Aselta — ${TITLE}. ${DESCRIPTION}`,
+  description: `Failenn Aselta, ${TITLE}. ${DESCRIPTION}`,
 };
 
 export default function NightterrorsPage() {
@@ -101,8 +101,8 @@ export default function NightterrorsPage() {
           "Photographer",
           "Videographer",
           "UX",
-          "Frontend — Vanilla HTML/CSS",
-          "Backend — Node.js / Express / Supabase / Stripe",
+          "Frontend, Vanilla HTML/CSS",
+          "Backend, Node.js / Express / Supabase / Stripe",
           "Product Designer",
           "Printer",
           "Graphics",
@@ -137,20 +137,6 @@ export default function NightterrorsPage() {
                 their own perceptions. The work ultimately asks not what is depicted, but what the
                 audience chooses to see.
               </p>
-
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                {[
-                  { label: "My Role", value: "Lead designer", sub: "visual direction · UX · WordPress build" },
-                  { label: "Collaborator", value: "Benjamin Luebkeman", sub: "project direction and client relationship management" },
-                  { label: "Constraint", value: "WordPress + no brand guide", sub: "no existing visual system — brand language had to be defined from scratch within platform limits" },
-                ].map(({ label, value, sub }) => (
-                  <div key={label} className="rounded-2xl bg-zinc-900/5 p-4 ring-1 ring-zinc-200/60">
-                    <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">{label}</p>
-                    <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
-                  </div>
-                ))}
-              </div>
             </>
           ),
         },
@@ -222,7 +208,7 @@ export default function NightterrorsPage() {
               />
 
               <blockquote className="mx-auto my-8 max-w-[min(52rem,100%)] border-l-2 border-zinc-200 pl-5 text-[0.95rem] italic leading-[1.75] text-zinc-500">
-                &ldquo;What menu? But I see the cart button. I would make it a bit more noticeable. It wasn&apos;t clear to me what it was.&rdquo; — User 1
+                &ldquo;What menu? But I see the cart button. I would make it a bit more noticeable. It wasn&apos;t clear to me what it was.&rdquo;, User 1
               </blockquote>
 
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -233,7 +219,7 @@ export default function NightterrorsPage() {
               />
 
               <blockquote className="mx-auto my-8 max-w-[min(52rem,100%)] border-l-2 border-zinc-200 pl-5 text-[0.95rem] italic leading-[1.75] text-zinc-500">
-                &ldquo;My big brain and internet training. Aka an old person might not know but a young person will figure it out fs.&rdquo; — User 6
+                &ldquo;My big brain and internet training. Aka an old person might not know but a young person will figure it out fs.&rdquo;, User 6
               </blockquote>
 
               
@@ -263,7 +249,7 @@ export default function NightterrorsPage() {
                 Three visual directions explored before committing.
               </h2>
               <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                The brief was specific: the site had to feel like their music — abrupt, nocturnal,
+                The brief was specific: the site had to feel like their music, abrupt, nocturnal,
                 confrontational. Not just dark-mode, but genuinely hostile to comfort. Three directions were
                 explored before landing on the final language.
               </p>
@@ -271,7 +257,7 @@ export default function NightterrorsPage() {
               <div className="my-8 rounded-2xl border-l-[3px] border-[#71717a] bg-[#71717a]/[0.05] p-5">
                 <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#71717a]/80">Decision</p>
                 <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why organic motion over static layout</p>
-                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">Static dark layouts for band sites are common to the point of genre convention — they signal &apos;band website&apos; without signaling anything specific about this band. The sway animation was chosen because it references the physical experience of being at a show: the way the crowd moves, the way sound pressure feels. It&apos;s also technically achievable within WordPress constraints using CSS keyframes, which meant it wouldn&apos;t add load time the way a JS animation library would.</p>
+                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">Static dark layouts for band sites are common to the point of genre convention, they signal &apos;band website&apos; without signaling anything specific about this band. The sway animation was chosen because it references the physical experience of being at a show: the way the crowd moves, the way sound pressure feels. It&apos;s also technically achievable within WordPress constraints using CSS keyframes, which meant it wouldn&apos;t add load time the way a JS animation library would.</p>
               </div>
 
               <div className="space-y-6">
@@ -279,19 +265,19 @@ export default function NightterrorsPage() {
                   {
                     iteration: "01",
                     title: "High Contrast Brutalism",
-                    description: "Stark white-on-black grid, dense type, no imagery. Felt technically correct but lifeless — the music has texture and this didn't.",
-                    outcome: "Rejected — too clean",
+                    description: "Stark white-on-black grid, dense type, no imagery. Felt technically correct but lifeless, the music has texture and this didn't.",
+                    outcome: "Rejected, too clean",
                   },
                   {
                     iteration: "02",
                     title: "Degraded Grain + Video Overlay",
                     description: "Full-screen video background with heavy film grain and disrupted typography. Energy was right but load time was unacceptable on mobile data.",
-                    outcome: "Partially adopted — grain kept, video removed from background",
+                    outcome: "Partially adopted, grain kept, video removed from background",
                   },
                   {
                     iteration: "03",
                     title: "Dark Glass with Organic Motion",
-                    description: "Glass-morphism over dark photography with the site&apos;s signature swaying animation. This was the one — it captured the band&apos;s aesthetic without sacrificing performance.",
+                    description: "Glass-morphism over dark photography with the site&apos;s signature swaying animation. This was the one, it captured the band&apos;s aesthetic without sacrificing performance.",
                     outcome: "Final direction",
                   },
                 ].map(({ iteration, title, description, outcome }) => (
@@ -391,7 +377,7 @@ export default function NightterrorsPage() {
                 Made with Mermaid.js and Vanilla HTML/CSS + JavaScript
               </p>
 
-              {/* Diagrams — mirroring Buddy's flex layout */}
+              {/* Diagrams, mirroring Buddy's flex layout */}
               <div className="mb-12 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-center md:justify-center md:gap-x-16 lg:gap-x-20">
                 <div className="flex w-full justify-center md:w-auto md:max-w-[min(280px,42vw)]">
                   <div className="w-full max-w-[min(100%,260px)] sm:max-w-[min(100%,300px)]">
@@ -416,7 +402,7 @@ export default function NightterrorsPage() {
               </div>
 
           
-              {/* Key learnings — zinc/dark, mirroring Buddy's violet cards */}
+              {/* Key learnings, zinc/dark, mirroring Buddy's violet cards */}
               <div className="space-y-4">
                 {KEY_LEARNINGS.map(({ heading, body }) => (
                   <div
@@ -449,7 +435,7 @@ export default function NightterrorsPage() {
                 <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why mobile-first, despite being a desktop-era band</p>
                 <p className="text-[0.82rem] leading-[1.7] text-zinc-600">
                   The band&apos;s audience primarily discovers them through Instagram and Spotify on mobile.
-                  Building desktop-first would have meant retrofitting the layout — a pattern that consistently
+                  Building desktop-first would have meant retrofitting the layout, a pattern that consistently
                   produces cramped mobile experiences. The final design was built mobile-up, with desktop
                   treated as the wide-viewport variant. The trade-off: some of the atmospheric photography
                   is more impactful at desktop widths and feels slightly cropped on mobile.
@@ -502,7 +488,7 @@ export default function NightterrorsPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "Live", label: "client-approved site", sub: "shipped, reviewed, and approved by the band — still in use" },
+                  { stat: "Live", label: "client-approved site", sub: "shipped, reviewed, and approved by the band, still in use" },
                   { stat: "3×", label: "longer session time", sub: "compared to the band's previous static link-in-bio page" },
                   { stat: "0", label: "redesign requests", sub: "the first version passed without revision requests from the client" },
                 ].map(({ stat, label, sub }) => (
@@ -572,7 +558,7 @@ export default function NightterrorsPage() {
               {[
                 {
                   title: "Brand fidelity over personal style",
-                  body: "N1ghtterrors has a specific visual language — raw, nocturnal, confrontational. The job was to serve that language, not impose my own aesthetic. Learning when to disappear as a designer is as important as knowing when to lead.",
+                  body: "N1ghtterrors has a specific visual language, raw, nocturnal, confrontational. The job was to serve that language, not impose my own aesthetic. Learning when to disappear as a designer is as important as knowing when to lead.",
                 },
                 {
                   title: "Motion is meaning",

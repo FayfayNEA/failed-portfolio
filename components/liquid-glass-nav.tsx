@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -72,10 +72,10 @@ export function LiquidGlassNav() {
             <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
 
             <div className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-5 md:py-3">
-              {/* Brand wordmark — smaller on narrow viewports so four nav links fit comfortably */}
+              {/* Brand wordmark, smaller on narrow viewports so four nav links fit comfortably */}
               <Link
                 href="/"
-                aria-label="Home — Failenn Aselta"
+                aria-label="Home, Failenn Aselta"
                 className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]"
               >
                 <motion.span
@@ -112,7 +112,7 @@ export function LiquidGlassNav() {
                 aria-hidden
               />
 
-              {/* Nav links — stagger in, spring hover */}
+              {/* Nav links, stagger in, spring hover */}
               <nav className="flex min-w-0 flex-1 items-center justify-around" aria-label="Primary">
                 {LINKS.map(({ href, label }, i) => {
                   const active = isActive(href);

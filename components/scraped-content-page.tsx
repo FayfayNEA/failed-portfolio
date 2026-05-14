@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { ContentMdx } from "@/components/content-mdx";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
@@ -71,7 +71,7 @@ export async function ScrapedContentPage({
           "max-[1000px]:mx-auto max-[1000px]:w-full max-[1000px]:min-w-0",
           "max-[1000px]:max-w-[min(900px,96vw)] max-[1000px]:px-3",
           "max-[1000px]:pt-[calc(1.5rem+50px)] max-[1000px]:md:pt-[calc(2rem+50px)]",
-          // wide / desktop — identical offsets to /buddy
+          // wide / desktop, identical offsets to /buddy
           "min-[1001px]:ml-[calc(30px+max(22rem,12.5vw))] min-[1001px]:min-w-0 min-[1001px]:max-w-none",
           "min-[1001px]:pt-[50px]",
           "min-[1001px]:pl-[max(0.75rem,calc((100vw-min(900px,96vw))/2-30px-max(22rem,12.5vw)))]",
@@ -82,12 +82,12 @@ export async function ScrapedContentPage({
           <CaseBreadcrumb segments={breadcrumbSegments} />
         </div>
 
-        {/* Title — light weight matching the rest of the site */}
+        {/* Title, light weight matching the rest of the site */}
         <h1 className="mb-8 mt-0 font-mono text-[clamp(2.75rem,4.8vw,4rem)] font-light leading-[1.02] tracking-[-0.04em] text-zinc-950">
           {title}
         </h1>
 
-        {/* Hero — image full width; video smaller in a white frame */}
+        {/* Hero, image full width; video smaller in a white frame */}
         {heroImage && (
           <div
             className={cn(
@@ -121,7 +121,7 @@ export async function ScrapedContentPage({
           </div>
         )}
 
-        {/* Metadata grid — Timeline / Role / Team / Tools (buddy style) */}
+        {/* Metadata grid, Timeline / Role / Team / Tools (buddy style) */}
         {metaCells.length > 0 && (
           <>
             <div className="mb-12 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10">
@@ -155,7 +155,7 @@ export async function ScrapedContentPage({
           <ContentMdx source={cleanBody} variant="paper" />
         </article>
 
-        {/* Bibliography card — buddy style */}
+        {/* Bibliography card, buddy style */}
         {bibliography && (
           <div className="mt-14 max-w-[min(52rem,100%)]">
             <div className="rounded-2xl bg-zinc-100/60 p-6 ring-1 ring-black/[0.05]">

@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { CategoryGallery } from "@/components/category-gallery";
 import type { GalleryProject } from "@/components/category-gallery";
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 
 export const metadata: Metadata = {
   title: "Branding",
-  description: "Failenn Aselta — Branding and visual identity work.",
+  description: "Failenn Aselta, Branding and visual identity work.",
 };
 
 const projects: GalleryProject[] = [

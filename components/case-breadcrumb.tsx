@@ -1,9 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 export type BreadcrumbSegment = {
   label: string;
-  /** href is undefined for the current (last) segment — rendered as plain text */
+  /** href is undefined for the current (last) segment, rendered as plain text */
   href?: string;
 };
 
@@ -17,7 +17,7 @@ export type BreadcrumbSegment = {
  *     { label: "home", href: "/" },
  *     { label: "work", href: "/work" },
  *     { label: "product-design", href: "/product-design" },
- *     { label: "buddy" },         // current page — no href
+ *     { label: "buddy" },         // current page, no href
  *   ]} />
  */
 export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) {
@@ -77,6 +77,6 @@ export function buildProjectBreadcrumb(
   if (category) {
     segments.push({ label: category, href: `/${category}` });
   }
-  segments.push({ label: slug }); // current page — no link
+  segments.push({ label: slug }); // current page, no link
   return segments;
 }

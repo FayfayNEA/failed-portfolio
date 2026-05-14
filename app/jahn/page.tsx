@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 
@@ -12,7 +12,7 @@ const HERO_VIDEO = "/jahn/jahn.mp4";
 
 export const metadata: Metadata = {
   title: TITLE,
-  description: `Failenn Aselta — ${TITLE}. ${DESCRIPTION}`,
+  description: `Failenn Aselta, ${TITLE}. ${DESCRIPTION}`,
 };
 
 export default function JahnPage() {
@@ -161,11 +161,11 @@ export default function JahnPage() {
                 },
                 {
                   title: "Serving a legacy is a different discipline",
-                  body: "Jahn's visual language is already resolved — bold geometry, material honesty, structural logic. My role was translation, not authorship. Knowing the difference between those two modes is what separates junior from senior designers.",
+                  body: "Jahn's visual language is already resolved, bold geometry, material honesty, structural logic. My role was translation, not authorship. Knowing the difference between those two modes is what separates junior from senior designers.",
                 },
                 {
                   title: "The brief is always about trust",
-                  body: "A client hands you their reputation to digitize. Jahn needed a site that matched his buildings' precision. Every pixel decision was a trust decision. That framing — am I honoring what they built? — is now how I approach every client project.",
+                  body: "A client hands you their reputation to digitize. Jahn needed a site that matched his buildings' precision. Every pixel decision was a trust decision. That framing, am I honoring what they built?, is now how I approach every client project.",
                 },
               ].map((card, i) => (
                 <li key={card.title}>
@@ -190,15 +190,15 @@ export default function JahnPage() {
                 {[
                   {
                     title: "Constraint",
-                    body: "Legacy constraints aren’t limitations — they’re the brief.",
+                    body: "Legacy constraints aren’t limitations, they’re the brief.",
                   },
                   {
                     title: "Discipline",
-                    body: "Every decision had to answer to Helmut Jahn’s visual language first — that rigor sharpened my approach to brand fidelity.",
+                    body: "Every decision had to answer to Helmut Jahn’s visual language first, that rigor sharpened my approach to brand fidelity.",
                   },
                   {
                     title: "Next",
-                    body: "Next iteration: leave WordPress and ship a custom build. The minimalist direction was right — the platform was the ceiling.",
+                    body: "Next iteration: leave WordPress and ship a custom build. The minimalist direction was right, the platform was the ceiling.",
                   },
                 ].map((card, i) => (
                   <li key={card.title}>
