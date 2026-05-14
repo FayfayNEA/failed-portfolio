@@ -471,25 +471,36 @@ export default function BuddyPage() {
           <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
               {
-                word: "Fluency",
-                competitor: "Miro",
-                detail: "Infinite canvas lets teams externalize ideas fast; spatial layout removes the bottleneck of verbal-only sync.",
+                word: "Recall",
+                entries: [
+                  { name: "Otter.ai", desc: "Auto-transcription captures everything said so nothing is lost when the session ends." },
+                  { name: "Fireflies.ai", desc: "Meeting recorder generates searchable transcripts and action-item summaries automatically." },
+                ],
               },
               {
-                word: "Recall",
-                competitor: "Otter.ai",
-                detail: "Auto-transcription means nothing said in a meeting is lost; searchable archive closes the post-session gap.",
+                word: "Visualization",
+                entries: [
+                  { name: "Miro", desc: "Infinite canvas externalizes ideas spatially, making relationships between concepts visible." },
+                  { name: "FigJam", desc: "Sticky notes and connectors let teams map out thinking together in real time." },
+                ],
               },
               {
                 word: "Synthesis",
-                competitor: "Notion AI",
-                detail: "Turns raw notes into structured summaries instantly, reducing the cognitive work of making sense after a session.",
+                entries: [
+                  { name: "Notion AI", desc: "Turns raw meeting notes into structured summaries instantly." },
+                  { name: "ChatGPT", desc: "Converts freeform conversation into diagrams, lists, or action plans on request." },
+                ],
               },
-            ].map(({ word, competitor, detail }) => (
-              <div key={competitor} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{competitor}</p>
-                <p className="mb-2 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.02em] text-violet-700">{word}</p>
-                <p className="text-[0.75rem] leading-relaxed text-violet-950/65">{detail}</p>
+            ].map(({ word, entries }) => (
+              <div key={word} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
+                <p className="mb-4 font-mono text-[1.35rem] font-medium leading-none tracking-[-0.02em] text-violet-700">{word}</p>
+                <ul className="space-y-3">
+                  {entries.map(({ name, desc }) => (
+                    <li key={name} className="text-[0.75rem] leading-relaxed text-violet-950/70">
+                      <span className="font-medium text-violet-800">{name}:</span> {desc}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>

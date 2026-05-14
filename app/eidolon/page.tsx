@@ -263,25 +263,36 @@ export default async function EidolonPage() {
               <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
                   {
-                    word: "Ubiquity",
-                    competitor: "ChatGPT",
-                    detail: "Normalized AI in everyday workflows; set the baseline expectation for conversational UI.",
-                  },
-                  {
-                    word: "Transparency",
-                    competitor: "Claude",
-                    detail: "Extended thinking mode surfaces reasoning steps, building trust through visible process.",
+                    word: "Trust",
+                    entries: [
+                      { name: "Claude", desc: "Thinking mode surfaces reasoning so users see how decisions are reached." },
+                      { name: "Gemini", desc: "Animated icon signals when the model is actively working." },
+                    ],
                   },
                   {
                     word: "Confirmation",
-                    competitor: "Apple Pay",
-                    detail: "Biometric gate before every transaction creates a clear, trustworthy authorization moment.",
+                    entries: [
+                      { name: "Apple Pay", desc: "Biometric gate before every transaction creates an explicit authorization moment." },
+                      { name: "Stripe", desc: "Step-by-step checkout UI breaks high-stakes actions into digestible micro-decisions." },
+                    ],
                   },
-                ].map(({ word, competitor, detail }) => (
-                  <div key={competitor} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
-                    <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{competitor}</p>
-                    <p className="mb-2 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.02em] text-lime-700">{word}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-lime-950/65">{detail}</p>
+                  {
+                    word: "Simplicity",
+                    entries: [
+                      { name: "ChatGPT", desc: "Single input field normalizes AI for non-technical users." },
+                      { name: "Arc Browser", desc: "Hides complexity behind a clean surface until the user explicitly asks for more." },
+                    ],
+                  },
+                ].map(({ word, entries }) => (
+                  <div key={word} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                    <p className="mb-4 font-mono text-[1.35rem] font-medium leading-none tracking-[-0.02em] text-lime-700">{word}</p>
+                    <ul className="space-y-3">
+                      {entries.map(({ name, desc }) => (
+                        <li key={name} className="text-[0.75rem] leading-relaxed text-lime-950/70">
+                          <span className="font-medium text-lime-800">{name}:</span> {desc}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ))}
               </div>

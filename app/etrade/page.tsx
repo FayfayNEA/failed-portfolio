@@ -259,24 +259,35 @@ export default function EtradePage() {
                 {[
                   {
                     word: "Depth",
-                    competitor: "TradingView",
-                    detail: "Best-in-class charting with layered technical indicators; traders trust the data density.",
+                    entries: [
+                      { name: "TradingView", desc: "Layered charting tools let traders stack indicators without losing the price action." },
+                      { name: "Interactive Brokers", desc: "Modular workspace lets power users build exactly the view they need." },
+                    ],
                   },
                   {
                     word: "Speed",
-                    competitor: "Webull",
-                    detail: "Zero-commission executions with one-tap order entry; friction is nearly invisible.",
+                    entries: [
+                      { name: "Webull", desc: "One-tap order entry collapses the time between decision and execution." },
+                      { name: "Robinhood", desc: "Stripped-down flow removes every non-essential step from the trade path." },
+                    ],
                   },
                   {
                     word: "Clarity",
-                    competitor: "Interactive Brokers",
-                    detail: "Modular workspace layouts let power users strip away noise and focus on what matters.",
+                    entries: [
+                      { name: "E*Trade", desc: "Color-coded P&L and position cards surface portfolio health at a glance." },
+                      { name: "Fidelity", desc: "Plain-language summaries translate complex data into readable account snapshots." },
+                    ],
                   },
-                ].map(({ word, competitor, detail }) => (
-                  <div key={competitor} className="rounded-2xl bg-sky-500/[0.08] p-5 ring-1 ring-sky-300/35">
-                    <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-sky-600/70">{competitor}</p>
-                    <p className="mb-2 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.02em] text-sky-700">{word}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-sky-950/65">{detail}</p>
+                ].map(({ word, entries }) => (
+                  <div key={word} className="rounded-2xl bg-sky-500/[0.08] p-5 ring-1 ring-sky-300/35">
+                    <p className="mb-4 font-mono text-[1.35rem] font-medium leading-none tracking-[-0.02em] text-sky-700">{word}</p>
+                    <ul className="space-y-3">
+                      {entries.map(({ name, desc }) => (
+                        <li key={name} className="text-[0.75rem] leading-relaxed text-sky-950/70">
+                          <span className="font-medium text-sky-800">{name}:</span> {desc}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ))}
               </div>
