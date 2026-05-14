@@ -566,6 +566,37 @@ export default function BuddyPage() {
             Sketches were translated from low-fi to high-fidelity quickly. The primary concern was how fast the full stack could be developed.
           </p>
 
+          <div className="mb-10 grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[
+              {
+                n: "01",
+                decision: "Familiar layout",
+                rationale: "Copied competitor patterns so users spend zero time learning the interface and all of it on the task.",
+              },
+              {
+                n: "02",
+                decision: "Visual output",
+                rationale: "Images and diagrams over text summaries, because a picture surfaces meaning faster in a live session.",
+              },
+              {
+                n: "03",
+                decision: "On-device audio",
+                rationale: "Kept transcription local, not cloud, so nothing spoken in the room ever leaves it.",
+              },
+              {
+                n: "04",
+                decision: "Wearable form",
+                rationale: "Body-worn device keeps hands free and keeps Buddy passive, never the center of attention.",
+              },
+            ].map(({ n, decision, rationale }) => (
+              <div key={n} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{n}</p>
+                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-violet-950">{decision}</p>
+                <p className="text-[0.75rem] leading-relaxed text-violet-950/60">{rationale}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:max-w-2xl md:max-w-4xl md:grid-cols-2 md:gap-5">
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
