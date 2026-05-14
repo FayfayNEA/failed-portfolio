@@ -30,7 +30,7 @@ export default function EtradePage() {
       heroBelow={
         <div className="flex flex-col items-center gap-3">
           <a
-            href="https://www.figma.com/proto/etrade-redesign"
+            href="https://www.figma.com/proto/6BoOsk6H1jDem66V3QoGd8/Etrade-redesign?node-id=3-270&starting-point-node-id=3%3A270&t=NbOntjH30xL2b7ZU-1"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-[#0F8EC7]/10 px-4 py-2 text-[0.85rem] font-medium text-[#0F8EC7] ring-1 ring-[#0F8EC7]/30 transition-colors hover:bg-[#0F8EC7]/18"
