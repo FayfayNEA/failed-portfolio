@@ -468,6 +468,32 @@ export default function BuddyPage() {
             </div>
           </div>
 
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {[
+              {
+                word: "Fluency",
+                competitor: "Miro",
+                detail: "Infinite canvas lets teams externalize ideas fast; spatial layout removes the bottleneck of verbal-only sync.",
+              },
+              {
+                word: "Recall",
+                competitor: "Otter.ai",
+                detail: "Auto-transcription means nothing said in a meeting is lost; searchable archive closes the post-session gap.",
+              },
+              {
+                word: "Synthesis",
+                competitor: "Notion AI",
+                detail: "Turns raw notes into structured summaries instantly, reducing the cognitive work of making sense after a session.",
+              },
+            ].map(({ word, competitor, detail }) => (
+              <div key={competitor} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{competitor}</p>
+                <p className="mb-2 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.02em] text-violet-700">{word}</p>
+                <p className="text-[0.75rem] leading-relaxed text-violet-950/65">{detail}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8">
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
               How Might We

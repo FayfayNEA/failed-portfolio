@@ -251,9 +251,36 @@ export default function EtradePage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+              <h2 className="mb-6 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Case Studies of Competitors
               </h2>
+
+              <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  {
+                    word: "Depth",
+                    competitor: "TradingView",
+                    detail: "Best-in-class charting with layered technical indicators; traders trust the data density.",
+                  },
+                  {
+                    word: "Speed",
+                    competitor: "Webull",
+                    detail: "Zero-commission executions with one-tap order entry; friction is nearly invisible.",
+                  },
+                  {
+                    word: "Clarity",
+                    competitor: "Interactive Brokers",
+                    detail: "Modular workspace layouts let power users strip away noise and focus on what matters.",
+                  },
+                ].map(({ word, competitor, detail }) => (
+                  <div key={competitor} className="rounded-2xl bg-sky-500/[0.08] p-5 ring-1 ring-sky-300/35">
+                    <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-sky-600/70">{competitor}</p>
+                    <p className="mb-2 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.02em] text-sky-700">{word}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-sky-950/65">{detail}</p>
+                  </div>
+                ))}
+              </div>
+
               <ProjectGalleryRow
                 images={[
                   "https://framerusercontent.com/images/jYxEAKwObme3MU6L89XddfQE.png?width=3019&height=2002",

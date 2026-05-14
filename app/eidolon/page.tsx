@@ -255,11 +255,37 @@ export default async function EidolonPage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                I conducted a comprehensive analysis of current large language models to inform the
-                layout strategy, synthesizing industry best practices and identifying key strengths
-                to integrate into the design.
+              <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
+                I conducted a competitive analysis of existing AI interfaces to identify what each
+                does well, then used those strengths to inform Eidolon&rsquo;s design decisions.
               </p>
+
+              <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  {
+                    word: "Ubiquity",
+                    competitor: "ChatGPT",
+                    detail: "Normalized AI in everyday workflows; set the baseline expectation for conversational UI.",
+                  },
+                  {
+                    word: "Transparency",
+                    competitor: "Claude",
+                    detail: "Extended thinking mode surfaces reasoning steps, building trust through visible process.",
+                  },
+                  {
+                    word: "Confirmation",
+                    competitor: "Apple Pay",
+                    detail: "Biometric gate before every transaction creates a clear, trustworthy authorization moment.",
+                  },
+                ].map(({ word, competitor, detail }) => (
+                  <div key={competitor} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                    <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{competitor}</p>
+                    <p className="mb-2 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.02em] text-lime-700">{word}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-lime-950/65">{detail}</p>
+                  </div>
+                ))}
+              </div>
+
               {/* Narrow centered column + phone aspect frame so portrait shots fill width (no wide letterboxing). */}
               <div className="mx-auto my-10 w-full max-w-[min(560px,calc(100vw-0.75rem))]">
                 <ProjectGalleryRow
