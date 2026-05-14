@@ -68,6 +68,20 @@ export default function EtradePage() {
                 while implementing tools that match modern trading workflows.
               </p>
 
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  { label: "Timeline", value: "1 week", sub: "concept to hi-fi prototype" },
+                  { label: "My Role", value: "Solo designer", sub: "research · UX · UI · prototype" },
+                  { label: "Constraint", value: "No internal data", sub: "all decisions backed by published research — no access to E*Trade analytics or codebase" },
+                ].map(({ label, value, sub }) => (
+                  <div key={label} className="rounded-2xl bg-[#0F8EC7]/[0.05] p-4 ring-1 ring-[#0F8EC7]/20">
+                    <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-[#0F8EC7]/60">{label}</p>
+                    <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+                  </div>
+                ))}
+              </div>
+
               <h2 className="mt-10 mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
                 Current Site Feedback
               </h2>
@@ -300,6 +314,12 @@ export default function EtradePage() {
                 trader has to make per minute. Each iteration tightened the information hierarchy.
               </p>
 
+              <div className="my-8 rounded-2xl border-l-[3px] border-[#0F8EC7] bg-[#0F8EC7]/[0.05] p-5">
+                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#0F8EC7]/80">Decision</p>
+                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why a persistent sidebar, not top navigation</p>
+                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">E*Trade&apos;s current top-nav pattern requires a trader to context-switch between the chart area and the navigation on every action. Fitts&apos;s Law is clear: the further a target is from the current cursor position, the slower the interaction. A persistent left sidebar keeps all primary actions within 44px of each other and within the left peripheral view — where a trader&apos;s eye goes when they glance away from the chart. Top-nav was rejected specifically because it adds vertical travel on every trade execution.</p>
+              </div>
+
               {/* Iteration 1 */}
               <div className="mb-12">
                 <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-[#0F8EC7]/70">Iteration 01</p>
@@ -428,6 +448,18 @@ export default function EtradePage() {
                   visible to everyone on first load, easily dismissed.
                 </p>
               </div>
+
+              <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
+                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  Making the AI agent opt-out (visible by default) risks alienating power users who find it
+                  distracting — Derek&apos;s feedback confirmed this. The alternative was opt-in, which would mean
+                  most users never discover it. Given that E*Trade&apos;s core retention problem is <em>newer traders
+                  leaving for cleaner platforms</em>, getting the AI agent in front of those users on first load
+                  was the higher-priority outcome. Power users were given a one-tap dismiss that persists across
+                  sessions.
+                </p>
+              </div>
             </>
           ),
         },
@@ -440,7 +472,17 @@ export default function EtradePage() {
               Low-Fi Wireframes
               </h2>
 
-              
+              <div className="my-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Technical implementation note</p>
+                <p className="mb-3 text-[0.88rem] font-medium text-zinc-800">How the AI agent would work in production</p>
+                <ul className="space-y-2 text-[0.82rem] leading-relaxed text-zinc-600">
+                  <li>• The agent ingests live position data, market feed, and the user&apos;s stated risk tolerance (set in onboarding). It does not execute — it recommends and explains.</li>
+                  <li>• Confidence scores are derived from a volatility model + the user&apos;s historical win/loss pattern. The lower the confidence, the more prominent the &ldquo;override&rdquo; affordance becomes.</li>
+                  <li>• Recommendations are never shown during an active order entry to prevent interruption at the critical moment — a deliberate UX constraint, not a technical one.</li>
+                  <li>• In a real implementation, this would require a backend ML pipeline and integration with E*Trade&apos;s existing order management API. The prototype simulates this with static state.</li>
+                </ul>
+              </div>
+
               <div className="mx-auto my-8 w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
                 <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3 md:gap-5">
                   <div className="flex min-h-[min(70dvh,680px)] items-center justify-center rounded-2xl border-[0.5px] border-zinc-200/70 bg-white p-3 shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]">

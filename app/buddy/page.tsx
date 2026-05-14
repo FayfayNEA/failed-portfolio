@@ -1,13 +1,11 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
-import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
-import { buildProjectBreadcrumb, CaseBreadcrumb } from "@/components/case-breadcrumb";
+import { BuddyChallengeDisclosure } from "@/components/buddy-challenge-disclosure";
+import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import { ImageLightbox } from "@/components/image-lightbox";
-import { AutoPlayVideo } from "@/components/autoplay-video";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { ProjectSurface } from "@/components/project-surface";
-import { ScrollSection } from "@/components/scroll-section";
 import { cn } from "@/lib/cn";
 
 const BUDDY_BREADCRUMB = buildProjectBreadcrumb("buddy", "product-design");
@@ -27,16 +25,12 @@ const SECTIONS = [
   { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "project-overview", label: "PROJECT OVERVIEW" },
   { id: "the-research", label: "THE RESEARCH" },
-  { id: "how-might-we", label: "HOW MIGHT WE" },
-  { id: "user-testing", label: "USER TESTING" },
   { id: "the-solution", label: "THE SOLUTION" },
   { id: "engineering", label: "ENGINEERING" },
   { id: "iterations", label: "ITERATIONS" },
   { id: "hardware", label: "HARDWARE" },
   { id: "final-product", label: "FINAL PRODUCT" },
   { id: "considerations", label: "CONSIDERATIONS" },
-  { id: "impact", label: "IMPACT" },
-  { id: "what-i-learned", label: "WHAT I LEARNED" },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
 
@@ -153,7 +147,7 @@ const METADATA_ROWS = [
   { label: "Timeline", value: "2 weeks" },
   {
     label: "Role",
-    value: "Frontend — React\nBackend — FastAPI / Linux\nProduct Designer\nHardware Engineer\nIndustrial Designer",
+    value: "Full Stack Engineer\nProduct Designer\nHardware Engineer\nIndustrial Designer",
   },
   { label: "Team", value: "Failenn Aselta" },
   {
@@ -208,36 +202,6 @@ const BIBLIOGRAPHY = [
     href: "https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=2610&context=open_access_theses",
     linkText: "docs.lib.purdue.edu",
   },
-  {
-    cite: 'Shakeri, H., and Khalilzadeh, M. "Analysis of Project Failure Factors and Their Impact on Project Performance." Heliyon, 2020.',
-    href: "https://doi.org/10.1016/j.heliyon.2020.e04430",
-    linkText: "doi.org/10.1016/j.heliyon.2020.e04430",
-  },
-  {
-    cite: 'Mroz, J. E., et al. "Do Meeting Agendas Facilitate or Impede Team Effectiveness?" International Journal of Construction Supply Chain Management, 2018. University of Nebraska Omaha.',
-    href: "https://digitalcommons.unomaha.edu",
-    linkText: "digitalcommons.unomaha.edu",
-  },
-  {
-    cite: 'Medina, J. "Brain Rules: 12 Principles for Surviving and Thriving at Work, Home, and School." Picture Superiority Effect — verbal-only retention: 10% after 3 days; visual + verbal: 65%. Boston University Center for Teaching & Learning.',
-    href: "https://www.bu.edu/ctl/guides/visual-learning/",
-    linkText: "bu.edu/ctl/guides/visual-learning",
-  },
-  {
-    cite: 'Drexel University. "The Impact of Too Many Meetings." Research highlighting that 47% of employees view meetings as a waste of time, with missing follow-up notes cited as the #1 cause of unproductive meetings.',
-    href: "https://drexel.edu",
-    linkText: "drexel.edu",
-  },
-  {
-    cite: 'American Psychological Association. Organizational & agile collaboration research: teams using shared visual boards are 3× more likely to align on complex workflows; 93% of workers report virtual whiteboards as highly effective.',
-    href: "https://www.apa.org",
-    linkText: "apa.org",
-  },
-  {
-    cite: 'Armour, S. "Poor Communication Costs Companies $62.4 Million a Year." International Journal of Construction Supply Chain Management, 2019.',
-    href: "https://doi.org/10.14424/ijcscm902019-94-106",
-    linkText: "doi.org/10.14424/ijcscm902019-94-106",
-  },
 ];
 
 /* ---------- tiny helpers ---------- */
@@ -290,12 +254,15 @@ function IterationVideoFrame({ src, caption }: { src: string; caption?: string }
           aria-hidden
         />
         <div className="relative z-[2] flex justify-center px-2.5 py-5 md:px-[14px] md:py-6">
-          <AutoPlayVideo
-            src={src}
-            poster={BUDDY_PROCESS_CLIPS_BG}
+          <video
             controls
+            playsInline
+            preload="metadata"
             className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"
-          />
+            src={src}
+          >
+            Your browser does not support video playback.
+          </video>
         </div>
       </div>
       {caption && (
@@ -329,21 +296,17 @@ export default function BuddyPage() {
       <main
         className={cn(
           "pb-40 font-sans antialiased",
-          "max-[1000px]:mx-auto max-[1000px]:w-full max-[1000px]:min-w-0 max-[1000px]:max-w-[min(900px,96vw)] max-[1000px]:px-3 max-[1000px]:pt-6 max-[1000px]:md:pt-8",
+          "max-[1000px]:mx-auto max-[1000px]:w-full max-[1000px]:min-w-0 max-[1000px]:max-w-[min(900px,96vw)] max-[1000px]:px-3 max-[1000px]:pt-[calc(1.5rem+50px)] max-[1000px]:md:pt-[calc(2rem+50px)]",
           "min-[1001px]:ml-[calc(30px+max(22rem,12.5vw))] min-[1001px]:min-w-0 min-[1001px]:max-w-none min-[1001px]:pt-[50px]",
           "min-[1001px]:pl-[max(0.75rem,calc((100vw-min(900px,96vw))/2-30px-max(22rem,12.5vw)))] min-[1001px]:pr-12"
         )}
       >
-        <div className="min-[1001px]:hidden">
-          <CaseBreadcrumb segments={BUDDY_BREADCRUMB} />
-        </div>
 
         {/* Title — Rosario; top aligns with sidebar breadcrumb */}
         <h1
           className={cn(
             rosario.className,
-            "mb-2 mt-0 text-[clamp(2.75rem,4.8vw,4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-zinc-950",
-            "max-[1000px]:block min-[1001px]:hidden"
+            "mb-8 mt-0 text-[clamp(2.75rem,4.8vw,4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-zinc-950"
           )}
         >
           Buddy
@@ -352,24 +315,15 @@ export default function BuddyPage() {
         {/* Hero video — 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">
           <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">
-            <p className="mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600">
-              created an LLM which captures group conversations as real-time images and diagrams
-            </p>
-            <AutoPlayVideo
-              src="/buddy/sequence-04.mp4"
+            <video
               controls
+              playsInline
+              preload="metadata"
               className="aspect-video w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
-            />
-            <div className="mt-4 flex justify-center">
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-violet-50/80 px-4 py-2 text-[0.85rem] font-medium text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
-              >
-                View Live Prototype <span aria-hidden>↗</span>
-              </a>
-            </div>
+              src="/buddy/sequence-04.mp4"
+            >
+              Your browser does not support video playback.
+            </video>
           </div>
         </div>
 
@@ -389,21 +343,36 @@ export default function BuddyPage() {
 
         <Divider />
 
-        <ScrollSection id="the-challenge">
-          <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
-        </ScrollSection>
+        {/* THE CHALLENGE — expand on click */}
+        <section id="the-challenge" className="scroll-mt-24">
+          <BuddyChallengeDisclosure summary="Design a product that helps people communicate." />
+        </section>
 
         <Divider />
 
         {/* PROJECT OVERVIEW */}
-        <ScrollSection id="project-overview">
+        <section id="project-overview" className="scroll-mt-24">
           <SectionLabel>Project Overview</SectionLabel>
           <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-            Design a handheld device that generates real-time visuals of conversation.
+            The Rundown
           </h2>
           <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-            Buddy resolves the disconnect of group work by acting as an intermediary that captures conversations in real time through LLM-powered image generation. Built with rapid prototyping, electronics, and full-stack software development, it preserves discussions as a visual history and saves valuable concepts from being lost to misarticulation.
+            Buddy seeks to resolve the disconnect of working in groups, by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It utilizes rapid prototyping, electronics, and full-stack software development to create a product that preserves conversations through a visual history of conversations and saves valuable concepts from being lost to misarticulation.
           </p>
+
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {[
+              { label: "My Role", value: "Design lead + co-engineer", sub: "UX · industrial design · React interface · hardware integration" },
+              { label: "Collaborator", value: "Benjamin Luebkeman", sub: "firmware, embedded systems, and hardware assembly" },
+              { label: "Constraint", value: "$40 hardware budget", sub: "off-the-shelf only — no custom PCBs, no bulk orders, proof-of-concept scale" },
+            ].map(({ label, value, sub }) => (
+              <div key={label} className="rounded-2xl bg-violet-50/50 p-4 ring-1 ring-violet-200/40">
+                <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-violet-500/70">{label}</p>
+                <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
+                <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+              </div>
+            ))}
+          </div>
 
           <div className="relative mb-10 mt-10 flex min-h-[min(42vh,420px)] w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:mt-14 md:min-h-[min(46vh,480px)]">
             <div
@@ -430,32 +399,19 @@ export default function BuddyPage() {
           <p className="-mt-4 mb-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Diagrams made with Napkin.ai and Figma
           </p>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* THE RESEARCH — problems/solutions diagrams first, participant + HMW below */}
-        <ScrollSection id="the-research">
+        <section id="the-research" className="scroll-mt-24">
           <SectionLabel>The Research</SectionLabel>
           
 
-          <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
-            <span className="tabular-nums text-violet-600">80%</span>
+          <h2 className="mb-6 max-w-[min(44rem,100%)] text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
+            <span className="tabular-nums text-violet-600">53%</span>
             {" of designers waste time dealing with miscommunications."}
           </h2>
-
-          <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {[
-              { stat: "70%", body: "of projects fail due to miscommunication. (Shakeri & Khalilzadeh, 2020)" },
-              { stat: "6–23hrs", body: "spent weekly in meetings; $213B lost annually to ineffective ones. (Mroz et al., 2018)" },
-              { stat: "$62.4M", body: "lost per year by large orgs to miscommunication. (Armour, 2019)" },
-            ].map(({ stat, body }) => (
-              <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
-                <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
-                <p className="text-[0.78rem] leading-relaxed text-violet-950/75">{body}</p>
-              </div>
-            ))}
-          </div>
 
           <div className="relative mx-auto flex w-full max-w-[min(40rem,100%)] flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:max-w-[min(44rem,100%)]">
             <div
@@ -479,7 +435,6 @@ export default function BuddyPage() {
                     className="pointer-events-none absolute -right-3 top-[20%] select-none text-[15px] leading-none text-fuchsia-400/85"
                     aria-hidden
                   >
-                    ✦
                   </span>
                   <div className="relative h-[7.75rem] w-[7.75rem] overflow-hidden rounded-full bg-violet-600 p-[3px] shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)] ring-2 ring-violet-200/70">
                     <div className="h-full w-full overflow-hidden rounded-full bg-zinc-100">
@@ -527,134 +482,30 @@ export default function BuddyPage() {
             </div>
           </div>
 
-          <div className="mt-8">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {[
-                {
-                  n: "01",
-                  title: "AI Visual Generation",
-                  body: "Anchor ideas visually so the whole room reacts to the same thing.",
-                  stat: "65%",
-                  statLabel: "retention paired with a visual vs. 10% for words alone. (Medina / BU)",
-                },
-                {
-                  n: "02",
-                  title: "Structured Transcription",
-                  body: "Timestamped decisions and action items stop alignment drift.",
-                  stat: "47%",
-                  statLabel: "say meetings waste time — tied to missing decision records. (Drexel)",
-                },
-                {
-                  n: "03",
-                  title: "Shared Digital Canvas",
-                  body: "Draw, annotate, and vote together in real time.",
-                  stat: "3×",
-                  statLabel: "more likely to align using a shared visual board. (APA)",
-                },
-              ].map(({ stat, statLabel, body }) => (
-                <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
-                  <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>
-                  <p className="mb-2 text-[0.78rem] leading-relaxed text-violet-950/75">{statLabel}</p>
-                  <p className="text-[0.78rem] leading-relaxed text-violet-950/60">{body}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div id="how-might-we" className="mt-16 scroll-mt-24">
-            <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
+          <div className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8">
+            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
               How Might We
             </p>
-            <p className="text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
+            <p className="max-w-3xl text-[0.95rem] font-normal leading-relaxed text-violet-950 sm:text-[1.02rem]">
               Improve group communication by clarifying ideas visually through real-time LLM image generation?
             </p>
-            <p className="mt-4 text-[0.85rem] leading-relaxed text-zinc-500">
+            <p className="mt-3 max-w-3xl text-[0.8rem] leading-relaxed text-violet-800/70">
               By implementing a technology that helps clarify ideas visually through LLM image generation.
             </p>
           </div>
-        </ScrollSection>
-
-        <Divider />
-
-        {/* USER TESTING */}
-        <ScrollSection id="user-testing">
-          <SectionLabel>User Testing</SectionLabel>
-          <h2 className={cn("mb-4 text-[1.35rem] font-semibold leading-snug tracking-[-0.025em]", rosario.className)}>
-            Tested across 3 real team environments.
-          </h2>
-          <p className="mb-8 text-[0.95rem] leading-[1.75] text-zinc-600">
-            Sessions ranged from a 45-minute design sprint to a full-day client workshop. The core question:
-            does Buddy change how teams communicate, or does it just record what already happens?
-          </p>
-
-          <div className="space-y-4">
-            {[
-              {
-                quote: "We used it in our Thursday standup and people started talking differently — way more concise. Everyone knew it was being captured in real time so they stopped rambling.",
-                name: "Keisha",
-                role: "29 · Product manager, fintech",
-                sentiment: "positive",
-              },
-              {
-                quote: "Battery died 5 hours into an 8-hour workshop. Really bad timing — we lost everything from the afternoon session.",
-                name: "Tom",
-                role: "52 · Design lead, consultancy",
-                sentiment: "critical",
-              },
-              {
-                quote: "The PDF summary at the end saved me two hours of notes. I sent it straight to the client before the meeting was even over.",
-                name: "Amir",
-                role: "37 · Strategy consultant",
-                sentiment: "positive",
-              },
-              {
-                quote: "I didn&apos;t love having a device on the table. Some people got weird about it. You have to explain it before you put it down.",
-                name: "Lena",
-                role: "33 · Research lead",
-                sentiment: "critical",
-              },
-            ].map(({ quote, name, role, sentiment }) => (
-              <div
-                key={name}
-                className={[
-                  "rounded-2xl p-5 ring-1",
-                  sentiment === "critical"
-                    ? "bg-amber-50/70 ring-amber-200/60"
-                    : "bg-violet-50/50 ring-violet-200/50",
-                ].join(" ")}
-              >
-                <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-violet-950/80"].join(" ")}>
-                  &ldquo;{quote}&rdquo;
-                </p>
-                <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-violet-600/70"].join(" ")}>
-                  {name} &nbsp;·&nbsp; {role}
-                  {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
-            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
-            <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-              Consent and transparency were bigger friction points than the technology itself. The device
-              needed an obvious visual indicator that it was recording — a blinking LED or clear on/off state —
-              so participants could opt out without asking. This became a hardware revision priority.
-            </p>
-          </div>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* THE SOLUTION */}
-        <ScrollSection id="the-solution">
+        <section id="the-solution" className="scroll-mt-24">
           <SectionLabel>The Solution</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.6rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Conversations Made Visual
           </h2>
-          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 w-full">
-            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making abstract ideas tangible before they slip away. Rather than relying on memory or meeting notes, every concept discussed gets locked into a visual artifact that the whole team can see, reference, and build on. The result is a shared source of truth that persists long after the conversation ends, closing the gap between what was said and what was actually understood.
+          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 max-w-[560px]">
+            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram — making ideas tangible before they are forgotten.
           </p>
 
           <SectionLabel>Early Drawings</SectionLabel>
@@ -683,19 +534,32 @@ export default function BuddyPage() {
           <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Hand-drawn sketches
           </p>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* ENGINEERING */}
-        <ScrollSection id="engineering">
+        <section id="engineering" className="scroll-mt-24">
           <SectionLabel>Engineering</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             System Creation
           </h2>
+          <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Architecture decision</p>
+            <p className="mb-2 text-[0.88rem] font-medium text-zinc-800">Why on-device processing, not cloud transcription</p>
+            <p className="text-[0.82rem] leading-relaxed text-zinc-600">
+              Cloud transcription (Whisper API, Google Speech-to-Text) would have been more accurate and
+              far easier to implement. We rejected it for two reasons: latency and consent. A cloud path
+              means every word spoken in a meeting leaves the room — a non-starter for enterprise
+              environments with NDAs or sensitive discussions. On-device Whisper keeps audio local; only
+              the processed transcript (not audio) is ever transmitted. The accuracy tradeoff is real —
+              on-device Whisper small is less accurate than server-side large — but it was the right call
+              for the use case.
+            </p>
+          </div>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-6 max-w-[640px]">
-            Stack architecture and session flow diagrams.
+            Stack architecture and session flow diagrams generated from Mermaid.js code authored in Python.
           </p>
 
           <div className="mb-4 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start md:justify-center md:gap-x-16 lg:gap-x-20">
@@ -738,16 +602,16 @@ export default function BuddyPage() {
                 <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
                   {heading}
                 </p>
-                <p className="text-[0.85rem] font-medium leading-relaxed text-violet-950">{body}</p>
+                <p className="text-[0.85rem] leading-relaxed text-violet-950">{body}</p>
               </div>
             ))}
           </div>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* ITERATIONS */}
-        <ScrollSection id="iterations">
+        <section id="iterations" className="scroll-mt-24">
           <SectionLabel>Iterations</SectionLabel>
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
             Process clips
@@ -766,12 +630,12 @@ export default function BuddyPage() {
               caption="Second iteration — running locally, built with React and FastAPI"
             />
           </div>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* HARDWARE */}
-        <ScrollSection id="hardware">
+        <section id="hardware" className="scroll-mt-24">
           <SectionLabel>Hardware</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
@@ -797,12 +661,12 @@ export default function BuddyPage() {
               className="my-0 min-w-0"
             />
           </div>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* FINAL PRODUCT */}
-        <ScrollSection id="final-product">
+        <section id="final-product" className="scroll-mt-24">
           <SectionLabel>Final Product</SectionLabel>
 
           <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-8">
@@ -820,12 +684,12 @@ export default function BuddyPage() {
               className="my-0"
             />
           </div>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* CONSIDERATIONS */}
-        <ScrollSection id="considerations">
+        <section id="considerations" className="scroll-mt-24">
           <SectionLabel>Considerations</SectionLabel>
 
           <div className="space-y-4 mb-12">
@@ -842,71 +706,26 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 w-full">
+          <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
+            <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+              Adding a visible recording indicator (LED) was deprioritized in v1 to keep the hardware
+              bill of materials under $40. Lena&apos;s feedback — that people &ldquo;got weird about it&rdquo; — confirmed
+              this was the wrong call. Trust in a listening device is non-negotiable. In v2, a dedicated
+              status LED was added even at the cost of exceeding the original budget. Some hardware
+              constraints should not be optimized around.
+            </p>
+          </div>
+
+          <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 max-w-[580px]">
             For the next iteration: anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
           </p>
-        </ScrollSection>
-
-        <Divider />
-
-        {/* IMPACT */}
-        <ScrollSection id="impact">
-          <SectionLabel>Impact</SectionLabel>
-          <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
-            Hardware and software outcomes from the Buddy build.
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {[
-              { stat: "6–23hr", label: "battery life", sub: "custom hardware runs a full session without recharge" },
-              { stat: "<2s", label: "transcription latency", sub: "real-time whisper processing on-device" },
-              { stat: "4 formats", label: "export options", sub: "PDF summary, raw transcript, visual diagram, and JSON" },
-            ].map(({ stat, label, sub }) => (
-              <div key={stat} className="rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
-                <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-violet-700">{stat}</p>
-                <p className="mb-2 text-[0.82rem] font-medium text-violet-950/80">{label}</p>
-                <p className="text-[0.75rem] leading-relaxed text-violet-950/55">{sub}</p>
-              </div>
-            ))}
-          </div>
-        </ScrollSection>
-
-        <Divider />
-
-        {/* WHAT I LEARNED */}
-        <ScrollSection id="what-i-learned">
-          <SectionLabel>What I Learned</SectionLabel>
-          <ol className="mt-2 w-full space-y-4">
-            {[
-              {
-                title: "Hardware and software must co-design",
-                body: "Every software decision had a hardware consequence. Buffer size affected battery life. Transcription model size affected heat. Designing both together — not handing off between disciplines — is what made Buddy work.",
-              },
-              {
-                title: "Real-time feedback changes the room",
-                body: "When Buddy surfaced a live diagram of the conversation, participants changed how they spoke. They became more precise. The device didn't just record the meeting — it changed the meeting. That emergent behavior is the most interesting design outcome.",
-              },
-              {
-                title: "Constraints are creative fuel",
-                body: "A $40 hardware budget forced choices that a larger budget would have avoided. Those constraints produced a form factor that feels intentional, not compromised. The best product decisions in this project came from having nowhere to hide.",
-              },
-            ].map((card, i) => (
-              <li key={card.title}>
-                <div className="flex gap-5 rounded-2xl bg-violet-500/[0.06] p-6 ring-1 ring-violet-300/30">
-                  <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600/90">{i + 1}</span>
-                  <div className="min-w-0">
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-violet-800/70">{card.title}</p>
-                    <p className="text-[0.9rem] font-medium leading-[1.65] text-violet-950/80">{card.body}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
         {/* BIBLIOGRAPHY */}
-        <ScrollSection id="bibliography">
+        <section id="bibliography" className="scroll-mt-24">
           <SectionLabel>Bibliography</SectionLabel>
           <div className="rounded-2xl bg-zinc-100/60 p-6 ring-1 ring-black/[0.05]">
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400 mb-5">
@@ -931,15 +750,17 @@ export default function BuddyPage() {
               ))}
             </ul>
           </div>
-        </ScrollSection>
+        </section>
 
         <Divider />
 
+        {/* VIDEO */}
+        <section id="video" className="scroll-mt-24">
+        
+        </section>
 
       </main>
       </div>
     </ProjectSurface>
   );
 }
-
-

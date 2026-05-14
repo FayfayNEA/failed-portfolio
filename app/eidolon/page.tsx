@@ -80,6 +80,22 @@ export default async function EidolonPage() {
                 tool to not only showcase its actions, but to make it an easier place for those who
                 fear its new shape.
               </p>
+
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-4">
+                {[
+                  { label: "Timeline", value: "7 days", sub: "design + build + deploy" },
+                  { label: "My Role", value: "Solo — everything", sub: "UX · UI · React · API · deployment" },
+                  { label: "Stack", value: "React + Gemini", sub: "Vite · TypeScript · Tailwind · Google AI Studio" },
+                  { label: "Constraint", value: "Preview API", sub: "Gemini 3 Flash was in preview — rate limits and behavior were not guaranteed stable" },
+                ].map(({ label, value, sub }) => (
+                  <div key={label} className="rounded-2xl bg-emerald-50/60 p-4 ring-1 ring-emerald-200/50">
+                    <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-emerald-700/60">{label}</p>
+                    <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+                  </div>
+                ))}
+              </div>
+
               <div className="relative z-[1] px-4 py-6 md:px-10 md:py-8 lg:px-12 lg:py-10">
                 <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                   <div
@@ -290,6 +306,12 @@ export default async function EidolonPage() {
                 own sake — every round answered a specific question about how to make AI intent legible.
               </p>
 
+              <div className="my-8 rounded-2xl border-l-[3px] border-[#059669] bg-[#059669]/[0.05] p-5">
+                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#059669]/80">Decision</p>
+                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why visual reasoning over text-only explanations</p>
+                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">Early sketches included a text-log approach — the agent would print what it was doing in a sidebar, similar to a terminal output. User feedback was immediate: logs felt like error messages, not explanations. People skimmed them and still felt the AI was opaque. The visual reasoning layer — showing the agent&apos;s logic as a spatial diagram rather than sequential text — solved the scanning problem. Users could grasp intent in one glance rather than reading three sentences.</p>
+              </div>
+
               {/* Iteration 1 */}
               <div className="mb-12">
                 <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/70">Iteration 01</p>
@@ -429,6 +451,19 @@ export default async function EidolonPage() {
                   Users who initially distrusted AI (James, Devon) still found the visual reasoning layer
                   preferable to opacity — they just wanted the ability to pause or override it at any step.
                   This confirmed the manual-control mode as a required feature, not a nice-to-have.
+                </p>
+              </div>
+
+              <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
+                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  The onboarding (character creation) takes 3–4 minutes — long for a utility app. The tradeoff
+                  was deliberate: trust preferences set during onboarding determine how assertively the agent
+                  acts throughout the session. Skipping onboarding would have required the agent to use a
+                  generic trust model, which testing showed produced recommendations that felt either too
+                  cautious or too aggressive depending on the user. Devon&apos;s criticism about it &ldquo;feeling like a
+                  game&rdquo; was valid — a future iteration would replace the character metaphor with a plain
+                  preference slider while keeping the same underlying data collection.
                 </p>
               </div>
             </>
@@ -774,6 +809,17 @@ export default async function EidolonPage() {
           label: "ENGINEERING",
           content: (
             <>
+              <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Architecture decision</p>
+                <p className="mb-2 text-[0.88rem] font-medium text-zinc-800">Why client-side inference, not a backend service</p>
+                <p className="text-[0.82rem] leading-relaxed text-zinc-600">
+                  Running Gemini calls from the client (via Google AI Studio) meant no backend to maintain —
+                  critical for a 7-day build. The tradeoff: API keys are exposed in the client bundle, which is
+                  acceptable for a prototype but not for a shipped product. A production version would route all
+                  inference through a serverless edge function to keep keys server-side. The prototype
+                  architecture was a deliberate sprint decision, not an oversight.
+                </p>
+              </div>
               <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
                 A slice of Eidolon was built out to play around with current AI image-generation capabilities. The internet isn&apos;t ready for a new face — but AI is.
               </p>

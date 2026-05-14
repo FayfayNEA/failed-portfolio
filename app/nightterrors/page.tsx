@@ -137,6 +137,20 @@ export default function NightterrorsPage() {
                 their own perceptions. The work ultimately asks not what is depicted, but what the
                 audience chooses to see.
               </p>
+
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  { label: "My Role", value: "Lead designer", sub: "visual direction · UX · WordPress build" },
+                  { label: "Collaborator", value: "Benjamin Luebkeman", sub: "project direction and client relationship management" },
+                  { label: "Constraint", value: "WordPress + no brand guide", sub: "no existing visual system — brand language had to be defined from scratch within platform limits" },
+                ].map(({ label, value, sub }) => (
+                  <div key={label} className="rounded-2xl bg-zinc-900/5 p-4 ring-1 ring-zinc-200/60">
+                    <p className="mb-0.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">{label}</p>
+                    <p className="mb-1 font-mono text-[0.95rem] font-medium text-zinc-900">{value}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+                  </div>
+                ))}
+              </div>
             </>
           ),
         },
@@ -253,6 +267,13 @@ export default function NightterrorsPage() {
                 confrontational. Not just dark-mode, but genuinely hostile to comfort. Three directions were
                 explored before landing on the final language.
               </p>
+
+              <div className="my-8 rounded-2xl border-l-[3px] border-[#71717a] bg-[#71717a]/[0.05] p-5">
+                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#71717a]/80">Decision</p>
+                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why organic motion over static layout</p>
+                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">Static dark layouts for band sites are common to the point of genre convention — they signal &apos;band website&apos; without signaling anything specific about this band. The sway animation was chosen because it references the physical experience of being at a show: the way the crowd moves, the way sound pressure feels. It&apos;s also technically achievable within WordPress constraints using CSS keyframes, which meant it wouldn&apos;t add load time the way a JS animation library would.</p>
+              </div>
+
               <div className="space-y-6">
                 {[
                   {
@@ -423,6 +444,17 @@ export default function NightterrorsPage() {
           label: "GALLERY",
           content: (
             <>
+              <div className="mb-8 rounded-2xl border-l-[3px] border-zinc-400 bg-zinc-50 p-5">
+                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">Design decision</p>
+                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why mobile-first, despite being a desktop-era band</p>
+                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">
+                  The band&apos;s audience primarily discovers them through Instagram and Spotify on mobile.
+                  Building desktop-first would have meant retrofitting the layout — a pattern that consistently
+                  produces cramped mobile experiences. The final design was built mobile-up, with desktop
+                  treated as the wide-viewport variant. The trade-off: some of the atmospheric photography
+                  is more impactful at desktop widths and feels slightly cropped on mobile.
+                </p>
+              </div>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Prints and Photography
               </h2>
