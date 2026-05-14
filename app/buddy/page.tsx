@@ -468,7 +468,19 @@ export default function BuddyPage() {
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <p className="mt-8 mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
+            Competitive Research
+          </p>
+          <h3 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
+            Three themes emerged from studying how existing tools handle group knowledge loss.
+          </h3>
+          <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
+            I audited Otter.ai, Fireflies.ai, Miro, FigJam, Notion AI, and ChatGPT to understand
+            where each successfully captures or externalizes group thinking. These became the
+            core capabilities Buddy was designed to close the gap on.
+          </p>
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {[
               {
                 word: "Recall",

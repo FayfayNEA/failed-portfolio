@@ -251,9 +251,17 @@ export default function EtradePage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <h2 className="mb-6 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                Case Studies of Competitors
+              <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
+                Competitive Research
+              </p>
+              <h2 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
+                Three themes emerged from studying how the best trading platforms reduce friction.
               </h2>
+              <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
+                I audited TradingView, Webull, Robinhood, Interactive Brokers, E*Trade, and Fidelity
+                to find where each succeeds at getting traders to decisions faster. These insights
+                shaped the redesign&rsquo;s information architecture.
+              </p>
 
               <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[

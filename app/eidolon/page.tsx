@@ -255,9 +255,16 @@ export default async function EidolonPage() {
           label: "CASE STUDIES",
           content: (
             <>
-              <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                I conducted a competitive analysis of existing AI interfaces to identify what each
-                does well, then used those strengths to inform Eidolon&rsquo;s design decisions.
+              <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
+                Competitive Research
+              </p>
+              <h3 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
+                Three themes emerged from studying how existing AI tools build user confidence.
+              </h3>
+              <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
+                I audited ChatGPT, Claude, Gemini, Apple Pay, Arc Browser, and Stripe to understand
+                where they succeed at communicating AI intent. These became the design principles
+                Eidolon is built around.
               </p>
 
               <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
