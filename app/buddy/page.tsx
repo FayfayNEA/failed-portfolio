@@ -327,6 +327,21 @@ export default function BuddyPage() {
           </div>
         </div>
 
+        {/* Figma prototype link */}
+        <div className="mb-10 flex flex-col items-center gap-3">
+          <a
+            href="https://www.figma.com/proto/1qfQiHq6t99qW3v0J1Iwz6/buddy?node-id=11-113&p=f&t=kcxrkomqe2ZNeUk3-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A100&show-proto-sidebar=1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-violet-50/80 px-4 py-2 text-[0.85rem] font-medium text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
+          >
+            View Figma Prototype <span aria-hidden>↗</span>
+          </a>
+          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Interactive Figma prototype
+          </p>
+        </div>
+
         {/* Metadata grid, Timeline, Role, Team, Tools */}
         <div className="mb-14 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10">
           {METADATA_ROWS.map(({ label, value }) => (
