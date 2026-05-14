@@ -48,7 +48,7 @@ export default async function EidolonPage() {
       heroBelow={
         <div className="flex flex-col items-center gap-3">
           <a
-            href="#"
+            href="https://www.figma.com/proto/iXvq0vPTzw4IPXs8kwiNAd/eidolon?node-id=1-56&p=f&t=giHAp2JoHXE7ibfJ-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A56&show-proto-sidebar=1"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-emerald-50/80 px-4 py-2 text-[0.85rem] font-medium text-emerald-700 ring-1 ring-emerald-200/60 transition-colors hover:bg-emerald-100/80"
