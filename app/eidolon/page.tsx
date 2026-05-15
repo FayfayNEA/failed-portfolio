@@ -564,9 +564,6 @@ export default async function EidolonPage() {
               <h2 className="mb-2 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
                 Testing the solution
               </h2>
-              <p className="mb-10 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                After initial iterations, unmoderated testing with 5 participants validated that the visual agent reduced uncertainty but revealed concerns around trust, clarity, and control. Insights led to refining the reasoning layer, simplifying onboarding, and elevating manual mode to a first-class feature.
-              </p>
 
               {/* Visual Agent learnings */}
               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Visual Agent learnings</p>
