@@ -47,18 +47,30 @@ const RESEARCH_LEARNINGS = [
   },
 ];
 
-const CONCLUSION_CARDS = [
+const PILLARS = [
   {
-    heading: "Conclusion, Guidance Wins",
-    body: "Unconventional design still needs guidance, the user should feel provoked, not lost.",
+    n: "01",
+    pillar: "Brand Fidelity",
+    interventions: ["Raw Aesthetic", "Nocturnal Palette", "Sway Animation"],
+    impact: "Users stayed 3× longer. Matching the band's visual language meant the site felt like an extension of the music, not a shop.",
   },
   {
-    heading: "Conclusion, Test Early",
-    body: "Legibility and navigation have to be pressure-tested early, before the visuals harden into “the vibe.”",
+    n: "02",
+    pillar: "Performance",
+    interventions: ["Lazy Loading", "Mobile-First", "Lightweight Fallback"],
+    impact: "Mobile load time was the critical failure point. Lazy-loading the video and grain layers resolved drop-off for mobile users.",
   },
   {
-    heading: "Conclusion, Clean Entry Points",
-    body: "Strangeness works when the entry points stay clean: strong affordances, clear state, minimal confusion.",
+    n: "03",
+    pillar: "Navigation Clarity",
+    interventions: ["Discoverable Menu", "Scroll Cues", "Clear Cart CTA"],
+    impact: "Post-testing copy changes surfaced the menu without breaking the aesthetic. Writing became the primary UX intervention.",
+  },
+  {
+    n: "04",
+    pillar: "Engagement",
+    interventions: ["Atmospheric Photography", "Film Grain", "Organic Motion"],
+    impact: "0 redesign requests. The visual language landed on first delivery by matching the brand's emotional register precisely.",
   },
 ];
 
@@ -142,7 +154,7 @@ export default function NightterrorsPage() {
         },
         {
           id: "research",
-          label: "RESEARCH",
+          label: "THE RESEARCH",
           content: (
             <>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
@@ -157,9 +169,9 @@ export default function NightterrorsPage() {
                     role: "Environmental Studies Student",
                     photoCaption: "Portrait generated with Gemini",
                     bullets: [
-                      "The site feels intentionally chaotic, but key controls (menu vs cart) aren’t equally discoverable.",
+                      "The site feels intentionally chaotic, but key controls (menu vs cart) aren't equally discoverable.",
                       "The typeface matches the brand, yet long reading moments become tiring without clearer hierarchy.",
-                      "Unconventional interactions are exciting, but she needs small cues to understand what’s clickable and what comes next.",
+                      "Unconventional interactions are exciting, but she needs small cues to understand what's clickable and what comes next.",
                     ],
                   },
                 ])}
@@ -354,7 +366,7 @@ export default function NightterrorsPage() {
                 ))}
               </div>
 
-              <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+              <div className="mt-8 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                 <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
                 <p className="text-[0.88rem] leading-relaxed text-zinc-600">
                   Mobile load time was the most critical failure point. The video and grain layers were the
@@ -488,65 +500,16 @@ export default function NightterrorsPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "Live", label: "client-approved site", sub: "shipped, reviewed, and approved by the band, still in use" },
-                  { stat: "3×", label: "longer session time", sub: "compared to the band's previous static link-in-bio page" },
-                  { stat: "0", label: "redesign requests", sub: "the first version passed without revision requests from the client" },
-                ].map(({ stat, label, sub }) => (
-                  <div key={stat} className="rounded-2xl bg-zinc-900/5 p-6 ring-1 ring-zinc-200/60">
+                  { stat: "Live", label: "client-approved site" },
+                  { stat: "3×", label: "longer session time" },
+                  { stat: "0", label: "redesign requests" },
+                ].map(({ stat, label }) => (
+                  <div key={stat} className="rounded-2xl bg-zinc-900/[0.06] p-6 ring-1 ring-zinc-300/40">
                     <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-zinc-900">{stat}</p>
-                    <p className="mb-2 text-[0.82rem] font-medium text-zinc-700">{label}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-zinc-500">{sub}</p>
+                    <p className="text-[0.82rem] font-medium text-zinc-600">{label}</p>
                   </div>
                 ))}
               </div>
-            </>
-          ),
-        },
-        {
-          id: "considerations",
-          label: "CONSIDERATIONS",
-          content: (
-            <>
-              <div className="space-y-4 mb-12">
-                {CONCLUSION_CARDS.map(({ heading, body }) => (
-                  <div
-                    key={heading}
-                    className="rounded-xl bg-zinc-100 p-5 ring-1 ring-zinc-200/70"
-                  >
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
-                      {heading}
-                    </p>
-                    <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                For the next iteration, I would resolve the navigation earlier in the process and
-                pressure-test the typeface legibility before release. The site earned its strangeness.
-                It just needed cleaner entry points.
-              </p>
-
-              <h3 className="mt-14 font-mono text-[0.9rem] font-semibold uppercase tracking-[0.1em] text-zinc-500">
-                Early Shirt Iterations
-              </h3>
-              <ProjectGalleryRow
-                images={[
-                  "https://framerusercontent.com/images/3N1BN8WbhFGRshg0n2HhnS8Vrc0.jpg?width=1280&height=1280",
-                  "https://framerusercontent.com/images/sSraOEEjF49mZ6j3IoKbXkMYsOo.png?width=1324&height=1072",
-                  "https://framerusercontent.com/images/dTTNGNyA6vtw5uL0x5Bmrq0V4ec.jpg?width=1280&height=1280",
-                  "https://framerusercontent.com/images/2QL09frp8USLzQuBRaczvnb7Efw.png?width=846&height=1450",
-                  "https://framerusercontent.com/images/MXyu8z5AnzrQXnypyvqSEswsg.png?width=1643&height=1162",
-                ]}
-                theme="dark"
-                glassVariant="liquid"
-                frameSize="medium"
-                slideImageFit="contain"
-                slidePadding="tight"
-                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
-              />
-              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Taken with Canon Rebel
-              </p>
             </>
           ),
         },
@@ -580,6 +543,73 @@ export default function NightterrorsPage() {
                 </li>
               ))}
             </ol>
+          ),
+        },
+        {
+          id: "considerations",
+          label: "CONSIDERATIONS",
+          hideFromNav: true,
+          content: (
+            <>
+              {/* Header row */}
+              <div className="mb-1 hidden grid-cols-[1fr_1.2fr_1.4fr] gap-px md:grid">
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Goal Pillar</p>
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Design Intervention</p>
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Potential Impact</p>
+              </div>
+
+              <div className="mb-12 overflow-hidden rounded-2xl ring-1 ring-zinc-300/40">
+                {PILLARS.map(({ n, pillar, interventions, impact }, i, arr) => (
+                  <div
+                    key={pillar}
+                    className={`grid grid-cols-1 gap-0 md:grid-cols-[1fr_1.2fr_1.4fr] ${i < arr.length - 1 ? "border-b border-zinc-200/50" : ""}`}
+                  >
+                    <div className="flex items-start gap-3 bg-zinc-900/[0.04] px-5 py-5 md:border-r md:border-zinc-200/50">
+                      <span className="mt-0.5 font-mono text-[0.65rem] text-zinc-400/70">{n}</span>
+                      <p className="text-[0.85rem] font-medium leading-snug text-zinc-900">{pillar}</p>
+                    </div>
+                    <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-zinc-200/50">
+                      {interventions.map((tag) => (
+                        <span key={tag} className="rounded-full bg-zinc-900/[0.07] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-zinc-700 ring-1 ring-zinc-300/50">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="px-5 py-5">
+                      <p className="text-[0.8rem] leading-relaxed text-zinc-600">{impact}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p className="mb-12 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                For the next iteration, I would resolve the navigation earlier in the process and
+                pressure-test the typeface legibility before release. The site earned its strangeness.
+                It just needed cleaner entry points.
+              </p>
+
+              <h3 className="mt-14 font-mono text-[0.9rem] font-semibold uppercase tracking-[0.1em] text-zinc-500">
+                Early Shirt Iterations
+              </h3>
+              <ProjectGalleryRow
+                images={[
+                  "https://framerusercontent.com/images/3N1BN8WbhFGRshg0n2HhnS8Vrc0.jpg?width=1280&height=1280",
+                  "https://framerusercontent.com/images/sSraOEEjF49mZ6j3IoKbXkMYsOo.png?width=1324&height=1072",
+                  "https://framerusercontent.com/images/dTTNGNyA6vtw5uL0x5Bmrq0V4ec.jpg?width=1280&height=1280",
+                  "https://framerusercontent.com/images/2QL09frp8USLzQuBRaczvnb7Efw.png?width=846&height=1450",
+                  "https://framerusercontent.com/images/MXyu8z5AnzrQXnypyvqSEswsg.png?width=1643&height=1162",
+                ]}
+                theme="dark"
+                glassVariant="liquid"
+                frameSize="medium"
+                slideImageFit="contain"
+                slidePadding="tight"
+                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
+              />
+              <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Taken with Canon Rebel
+              </p>
+            </>
           ),
         },
       ]}
