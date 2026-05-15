@@ -47,6 +47,9 @@ export default async function EidolonPage() {
       hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], size: "wide", controls: true }}
       heroBelow={
         <div className="flex flex-col items-center gap-3">
+          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Interactive Figma prototype
+          </p>
           <a
             href="https://www.figma.com/proto/iXvq0vPTzw4IPXs8kwiNAd/eidolon?node-id=1-56&p=f&t=giHAp2JoHXE7ibfJ-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A56&show-proto-sidebar=1"
             target="_blank"
@@ -55,9 +58,6 @@ export default async function EidolonPage() {
           >
             View Figma Prototype <span aria-hidden>↗</span>
           </a>
-          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-            Interactive Figma prototype
-          </p>
         </div>
       }
       challengeSummary={CHALLENGE}
