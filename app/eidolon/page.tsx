@@ -814,7 +814,7 @@ export default async function EidolonPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 rounded-2xl border-[0.5px] border-white/60 bg-white/40 p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-md">
+              <div className="mt-6 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                 <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">What I&apos;d Measure in Production</p>
                 <ul className="mt-3 space-y-1.5 text-[0.82rem] leading-relaxed text-zinc-600">
                   <li>• Task completion rate vs. standard chatbot baseline</li>
