@@ -577,84 +577,121 @@ export default async function EidolonPage() {
                 Testing the solution
               </h2>
               <p className="mb-10 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                5 users. Task-based sessions: find information using the agent, delegate an action, revoke access.
-                Each finding either confirmed a decision or forced a change. Below is what shifted and why.
+                After initial iterations, unmoderated testing with 5 participants validated that the visual agent reduced uncertainty but revealed concerns around trust, clarity, and control. Insights led to refining the reasoning layer, simplifying onboarding, and elevating manual mode to a first-class feature.
               </p>
 
-              <div className="space-y-6">
-
-                {/* Decision 1 */}
+              {/* Visual Agent learnings */}
+              <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Visual Agent learnings</p>
+              <div className="mb-10 space-y-4">
                 <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
                   <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/80">Visual Reasoning Layer</p>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Reasoning Panels</p>
                   </div>
                   <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        4 of 5 users said seeing the agent&apos;s steps made them feel in control even when they weren&apos;t doing anything. The one who remained skeptical still preferred it over a black-box interface.
+                        4 of 5 users said seeing the agent&apos;s steps made them feel in control even when they weren&apos;t doing anything.
                       </p>
                     </div>
                     <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Decision</p>
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Kept as the core trust mechanism. Made the reasoning panel collapsible so power users who already trust the agent aren&apos;t forced to watch every step.
-                      </p>
-                      <p className="mt-3 text-[0.78rem] leading-relaxed text-zinc-400">
-                        <span className="font-medium text-zinc-500">Tradeoff:</span> Collapsible panel creates an inconsistent experience, users who collapse it lose the transparency benefit entirely. A future version would remember the preference per task type.
+                        Keep as the core trust mechanism. Make the reasoning panel collapsible so power users aren&apos;t forced to watch every step.
                       </p>
                     </div>
                   </div>
                 </div>
 
-                {/* Decision 2 */}
                 <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
                   <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/80">Character Creation Onboarding</p>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Agent Character</p>
                   </div>
                   <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        3 of 5 users engaged with it and said the agent felt noticeably more calibrated afterward. 2 found the character metaphor confusing, &ldquo;it felt like a game, not a tool.&rdquo;
+                        3 of 5 users said the agent felt more calibrated after character setup. 2 found the metaphor confusing, &ldquo;it felt like a game, not a tool.&rdquo;
                       </p>
                     </div>
                     <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Decision</p>
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Kept the trust-preference data collection but flagged the character metaphor for replacement in v2. The 3-4 minute length is justified, without it, the agent falls back to a generic trust model that feels either too cautious or too aggressive.
-                      </p>
-                      <p className="mt-3 text-[0.78rem] leading-relaxed text-zinc-400">
-                        <span className="font-medium text-zinc-500">Tradeoff:</span> Longer onboarding = higher drop-off before first use. The gamified framing was chosen to reduce friction, but backfired for utility-minded users. A plain preference slider would collect the same data with less confusion.
+                        Keep trust-preference data collection, flag the character metaphor for replacement in v2 with a plain preference slider to reduce confusion for utility-focused users.
                       </p>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Decision 3 */}
+              {/* Control Interface learnings */}
+              <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Control Interface learnings</p>
+              <div className="mb-10 space-y-4">
                 <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
                   <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-emerald-600/80">Manual Control Mode</p>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Manual Toggle</p>
                   </div>
                   <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Both skeptical users said they would use the product if they could stay in manual mode permanently. Neither wanted to delegate, they wanted a smarter interface, not an agent.
+                        Both skeptical users said they would use the product if they could stay in manual mode permanently. They wanted a smarter interface, not an agent.
                       </p>
                     </div>
                     <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Decision</p>
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Manual mode was elevated from a &ldquo;nice-to-have&rdquo; to a required feature. The two-mode toggle became the first decision a user makes, not buried in settings.
-                      </p>
-                      <p className="mt-3 text-[0.78rem] leading-relaxed text-zinc-400">
-                        <span className="font-medium text-zinc-500">Tradeoff:</span> Supporting two full interaction paradigms doubled the design surface. Every feature now needs a manual and an agent variant, adds scope but is non-negotiable for trust-spectrum coverage.
+                        Elevate manual mode from nice-to-have to required. Make the two-mode toggle the first decision a user makes, not buried in settings.
                       </p>
                     </div>
                   </div>
                 </div>
 
+                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
+                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Authorization Gate</p>
+                  </div>
+                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        Users did not immediately recognize when the agent was about to take a high-stakes action. The transition felt invisible and created anxiety after the fact.
+                      </p>
+                    </div>
+                    <div className="px-6 py-5">
+                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
+                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
+                        Add a distinct confirmation screen before any money or identity action, styled separately from the standard flow so the shift in stakes is visually unmistakable.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Reactions */}
+              <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Reactions to &ldquo;Your AI agent&rdquo;</p>
+              <p className="mb-6 text-[0.95rem] leading-[1.75] text-zinc-600">
+                Users had mixed reactions to a fully delegated AI agent, appreciating the efficiency but raising concerns about trust, transparency, and losing control.
+              </p>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                  <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Positivity around efficiency</p>
+                  <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
+                    &ldquo;If it actually does what it says it does, I never have to think about this stuff again. That&rsquo;s the dream.&rdquo;
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                  <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Concerns about transparency</p>
+                  <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
+                    &ldquo;I don&rsquo;t mind it making decisions, I just want to know what it decided and why. The black box is what scares me.&rdquo;
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                  <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Concerns about loss of control</p>
+                  <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
+                    &ldquo;What happens if it gets it wrong? I need to know I can undo it. I&rsquo;m not handing over my accounts to something I can&rsquo;t override.&rdquo;
+                  </p>
+                </div>
               </div>
             </>
           ),
