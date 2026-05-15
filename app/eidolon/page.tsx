@@ -761,16 +761,8 @@ export default async function EidolonPage() {
           content: (
             <>
               <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
-                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Architecture decision</p>
-                <p className="mb-2 text-[0.88rem] font-medium text-zinc-800">Why client-side inference, not a backend service</p>
                 <p className="text-[0.82rem] leading-relaxed text-zinc-600">
-                  Built entirely in Google AI Studio as a pure client-side Vite + React app. Gemini calls go
-                  directly from the browser via the <span className="font-mono">@google/genai</span> SDK, with
-                  the API key injected at build time through Vite&apos;s <span className="font-mono">define</span> config.
-                  This exposes the key in the client bundle, which is acceptable for a prototype but not a
-                  shipped product. A production version would proxy all inference through a serverless edge
-                  function to keep keys server-side. The call flow was a deliberate sprint decision, not an
-                  oversight. Google Cloud Run hosts the static build output.
+                  Pure client-side Vite + React app. Gemini calls go directly from the browser via the <span className="font-mono">@google/genai</span> SDK, with the API key injected at build time through Vite&apos;s <span className="font-mono">define</span> config — a deliberate sprint decision, not an oversight. Production would proxy through a serverless edge function. Google Cloud Run hosts the static build output.
                 </p>
               </div>
               <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
@@ -837,14 +829,13 @@ export default async function EidolonPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "80%", label: "reported clearer AI intent", sub: "2D Negotiation Canvas and Data Provenance HUD increased user trust scores through visible reasoning." },
-                  { stat: "60%", label: "reduced task abandonment", sub: "Palace Layout and Noise Filtration lowered cognitive load, keeping users on task longer." },
-                  { stat: "100%", label: "felt in control of agent actions", sub: "Manual Override and Haptic Authorization reinforced human authority at every decision point." },
-                ].map(({ stat, label, sub }) => (
+                  { stat: "80%", label: "reported clearer AI intent" },
+                  { stat: "60%", label: "reduced task abandonment" },
+                  { stat: "100%", label: "felt in control of agent actions" },
+                ].map(({ stat, label }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-lime-700">{stat}</p>
-                    <p className="mb-2 text-[0.82rem] font-medium text-lime-950/80">{label}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-lime-950/55">{sub}</p>
+                    <p className="text-[0.82rem] font-medium text-lime-950/80">{label}</p>
                   </div>
                 ))}
               </div>
@@ -945,15 +936,15 @@ export default async function EidolonPage() {
               {[
                 {
                   title: "Transparency is the product",
-                  body: "Users didn't distrust Eidolon's AI, they distrusted the invisibility of its reasoning. Making the agent's logic visible, step by step, removed that distrust. The interface isn't a wrapper around the AI; it is the trust mechanism.",
+                  body: "Users distrusted the invisibility of the agent's reasoning, not the AI itself. Making logic visible removed that distrust.",
                 },
                 {
                   title: "One week is enough to validate a direction",
-                  body: "Shipping a functional prototype in 7 days forced every decision to be load-bearing. No decoration that doesn't earn its place. Fast constraints make better design faster.",
+                  body: "7 days forced every decision to be load-bearing. Fast constraints make better design faster.",
                 },
                 {
                   title: "The ethical frame must come first",
-                  body: "Before wireframing a single screen, I had to answer: who controls the agent, what can it do without asking, and how does a user revoke that access? Answering those questions shaped every UI pattern that followed.",
+                  body: "Who controls the agent, what can it do without asking, how does a user revoke access — answering those questions first shaped every UI pattern.",
                 },
               ].map((card, i) => (
                 <li key={card.title}>
