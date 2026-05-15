@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
@@ -803,6 +803,38 @@ export default async function EidolonPage() {
           ),
         },
         {
+          id: "what-i-learned",
+          label: "WHAT I LEARNED",
+          content: (
+            <ol className="mt-2 w-full space-y-4">
+              {[
+                {
+                  title: "Transparency is the product",
+                  body: "Users distrusted the invisibility of the agent's reasoning, not the AI itself. Making logic visible removed that distrust.",
+                },
+                {
+                  title: "One week is enough to validate a direction",
+                  body: "7 days forced every decision to be load-bearing. Fast constraints make better design faster.",
+                },
+                {
+                  title: "The ethical frame must come first",
+                  body: "Who controls the agent, what can it do without asking, how does a user revoke access. Answering those questions first shaped every UI pattern.",
+                },
+              ].map((card, i) => (
+                <li key={card.title}>
+                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600/70">{i + 1}</span>
+                    <div className="min-w-0">
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-lime-700/70">{card.title}</p>
+                      <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950/80">{card.body}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ),
+        },
+        {
           id: "considerations",
           label: "CONSIDERATIONS",
           content: (
@@ -877,38 +909,6 @@ export default async function EidolonPage() {
                 This project situates itself within broader debates in AI ethics, acknowledging that contemporary AI systems continue to raise concerns around surveillance capitalism, algorithmic manipulation, opaque decision-making, and concentrated data power. Rather than assuming AI is inherently neutral or benevolent, the proposal recognizes its potential to subtly influence user behavior and prioritize commercial interests. In response, it introduces a dual-agent framework as a structural safety network, where a personal AI advocates for the user by monitoring persuasive tactics, limiting unnecessary data exchange, and making algorithmic influence visible through a protective interface layer. By embedding safeguards directly into the system’s architecture, the project argues that trust in AI must be constructed through transparency, distributed control, and user autonomy, not convenience alone.
               </p>
             </>
-          ),
-        },
-        {
-          id: "what-i-learned",
-          label: "WHAT I LEARNED",
-          content: (
-            <ol className="mt-2 w-full space-y-4">
-              {[
-                {
-                  title: "Transparency is the product",
-                  body: "Users distrusted the invisibility of the agent's reasoning, not the AI itself. Making logic visible removed that distrust.",
-                },
-                {
-                  title: "One week is enough to validate a direction",
-                  body: "7 days forced every decision to be load-bearing. Fast constraints make better design faster.",
-                },
-                {
-                  title: "The ethical frame must come first",
-                  body: "Who controls the agent, what can it do without asking, how does a user revoke access. Answering those questions first shaped every UI pattern.",
-                },
-              ].map((card, i) => (
-                <li key={card.title}>
-                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-emerald-600/90">{i + 1}</span>
-                    <div className="min-w-0">
-                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-800/70">{card.title}</p>
-                      <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950/80">{card.body}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ol>
           ),
         },
         {
