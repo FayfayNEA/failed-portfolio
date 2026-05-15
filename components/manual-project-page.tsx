@@ -61,6 +61,8 @@ export type ManualProjectSection = {
   content: ReactNode;
   /** When true, adds a nav entry but does not render a <section> wrapper. */
   navOnly?: boolean;
+  /** When true, renders the section normally but omits it from the sidebar nav. */
+  hideFromNav?: boolean;
 };
 
 export type ManualProjectPageProps = {
@@ -511,9 +513,9 @@ export function ManualProjectPage({
   const isNightterrors = slug === "nightterrors";
   const isEtrade = slug === "etrade";
   const sidebarSections: SidebarSection[] = [
-    ...sections.slice(0, 1).map(({ id, label }) => ({ id, label })),
+    ...sections.slice(0, 1).filter(s => !s.hideFromNav).map(({ id, label }) => ({ id, label })),
     ...(challengeSummary ? [{ id: "the-challenge", label: "THE CHALLENGE" }] : []),
-    ...sections.slice(1).map(({ id, label }) => ({ id, label })),
+    ...sections.slice(1).filter(s => !s.hideFromNav).map(({ id, label }) => ({ id, label })),
   ];
   const breadcrumb = buildProjectBreadcrumb(slug, category);
 

@@ -594,7 +594,7 @@ export default async function EidolonPage() {
         },
         {
           id: "solution",
-          label: "THE SOLUTION",
+          label: "THE SOLUTION & FINAL PRODUCT",
           content: (
             <>
               <ReasoningPanels panels={[
@@ -678,6 +678,7 @@ export default async function EidolonPage() {
         {
           id: "video",
           label: "FINAL PRODUCT",
+          hideFromNav: true,
           content: (
             <>
               <div className="mx-auto w-full max-w-[min(640px,calc(100vw-1.5rem))]">
@@ -804,7 +805,7 @@ export default async function EidolonPage() {
         },
         {
           id: "what-i-learned",
-          label: "WHAT I LEARNED",
+          label: "WHAT I LEARNED & CONSIDERATIONS",
           content: (
             <ol className="mt-2 w-full space-y-4">
               {[
@@ -837,6 +838,7 @@ export default async function EidolonPage() {
         {
           id: "considerations",
           label: "CONSIDERATIONS",
+          hideFromNav: true,
           content: (
             <>
               {/* Header row */}
@@ -914,6 +916,7 @@ export default async function EidolonPage() {
         {
           id: "spritesheet",
           label: "SPRITESHEET",
+          hideFromNav: true,
           content: (
             <>
               <div className="mx-auto w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
@@ -940,7 +943,7 @@ export default async function EidolonPage() {
         },
         {
           id: "bibliography",
-          label: "BIBLIOGRAPHY",
+          label: "SPRITESHEET & BIBLIOGRAPHY",
           content: (
             <>
               <div className="rounded-2xl bg-zinc-100/60 p-6 ring-1 ring-black/[0.05]">
