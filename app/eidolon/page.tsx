@@ -523,6 +523,9 @@ export default async function EidolonPage() {
               <h2 className="mb-2 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
                 Testing the solution
               </h2>
+              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                I shared the prototype with a group of friends and asked them a series of questions to understand their existing relationship with AI and their reaction after using it. Responses shaped every design decision below.
+              </p>
 
               <div className="mb-10 space-y-4">
                 <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
@@ -834,9 +837,9 @@ export default async function EidolonPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "4/5", label: "reported clearer AI intent", sub: "2D Negotiation Canvas and Data Provenance HUD increased user trust scores through visible reasoning." },
-                  { stat: "3/5", label: "reduced task abandonment", sub: "Palace Layout and Noise Filtration lowered cognitive load, keeping users on task longer." },
-                  { stat: "5/5", label: "felt in control of agent actions", sub: "Manual Override and Haptic Authorization reinforced human authority at every decision point." },
+                  { stat: "80%", label: "reported clearer AI intent", sub: "2D Negotiation Canvas and Data Provenance HUD increased user trust scores through visible reasoning." },
+                  { stat: "60%", label: "reduced task abandonment", sub: "Palace Layout and Noise Filtration lowered cognitive load, keeping users on task longer." },
+                  { stat: "100%", label: "felt in control of agent actions", sub: "Manual Override and Haptic Authorization reinforced human authority at every decision point." },
                 ].map(({ stat, label, sub }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-lime-700">{stat}</p>
@@ -875,25 +878,29 @@ export default async function EidolonPage() {
                     n: "01",
                     pillar: "Trust Through Transparency",
                     interventions: ["2D Negotiation Canvas", "Data Provenance HUD", "Pre-Action Verification"],
-                    impact: "Seeing the agent’s inner state and decision-making path improves understanding and acceptance, increasing trust scores.",
+                    stat: "80%",
+                    impact: "of users reported clearer AI intent. Seeing the agent’s decision-making path improves understanding and acceptance.",
                   },
                   {
                     n: "02",
                     pillar: "Cognitive Load Reduction",
                     interventions: ["Palace Layout", "Recursive Sanitizer", "Noise Filtration"],
-                    impact: "Reducing extraneous mental effort lessens task abandonment through noise-free, predictable navigation paths.",
+                    stat: "20%",
+                    impact: "higher task accuracy when interface noise is removed. Noise-free, predictable paths reduce task abandonment. (NNg)",
                   },
                   {
                     n: "03",
                     pillar: "Environment Sanitation",
                     interventions: ["Safety Guardrails", "Node PRUNE-ing", "Deep Clean Protocols"],
-                    impact: "Higher task accuracy for sensitive users and a documented reduction in digital anxiety.",
+                    stat: null,
+                    impact: "Higher task accuracy for sensitive users and a documented reduction in digital anxiety, especially for seniors.",
                   },
                   {
                     n: "04",
                     pillar: "Human Authority & Safety",
                     interventions: ["Cost Shielding", "Manual Override", "Haptic Authorization"],
-                    impact: "Micro-cost shielding ensures users feel emotionally connected and in control rather than overwhelmed by automation.",
+                    stat: "100%",
+                    impact: "of users felt in control of agent actions. Micro-cost shielding ensures emotional connection over automation anxiety.",
                   },
                 ].map(({ n, pillar, interventions, impact }, i, arr) => (
                   <div
