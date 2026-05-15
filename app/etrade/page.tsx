@@ -117,7 +117,7 @@ export default function EtradePage() {
         },
         {
           id: "research",
-          label: "RESEARCH",
+          label: "THE RESEARCH",
           content: (
             <>
               <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
@@ -669,8 +669,67 @@ export default function EtradePage() {
           ),
         },
         {
+          id: "impact",
+          label: "IMPACT",
+          content: (
+            <>
+              <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
+                Tested with a 6-person usability group on a Figma prototype.
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {[
+                  { stat: "83%", label: "completed a mock trade faster" },
+                  { stat: "67%", label: "rated it less cognitively demanding" },
+                  { stat: "100%", label: "located a target panel unassisted" },
+                ].map(({ stat, label }) => (
+                  <div key={stat} className="rounded-2xl bg-[#0F8EC7]/[0.06] p-6 ring-1 ring-[#0F8EC7]/30">
+                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-[#0F8EC7]">{stat}</p>
+                    <p className="text-[0.82rem] font-medium text-sky-950/80">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-6 text-[0.85rem] leading-relaxed text-zinc-500">
+                Small sample, not statistically significant. A/B testing against the live E*Trade interface would validate these findings at scale.
+              </p>
+            </>
+          ),
+        },
+        {
+          id: "what-i-learned",
+          label: "WHAT I LEARNED",
+          content: (
+            <ol className="mt-2 w-full space-y-4">
+              {[
+                {
+                  title: "Speed is a design feature",
+                  body: "Removing three clicks from the trade flow isn't just UX polish, it's the product. Every millisecond of hesitation costs money for the user. Designing for performance changed how I think about information hierarchy.",
+                },
+                {
+                  title: "AI agents need to show their reasoning",
+                  body: "The glass-box AI agent works because it surfaces confidence scores and logic anchors. Opaque automation erodes trust. The lesson: any AI feature needs to make its reasoning legible to the user.",
+                },
+                {
+                  title: "Research wins arguments",
+                  body: "Every design decision in this project has a citation behind it. That discipline, anchoring aesthetics to evidence, is what lets you defend your choices in a design review without falling back on opinion.",
+                },
+              ].map((card, i) => (
+                <li key={card.title}>
+                  <div className="flex gap-5 rounded-2xl bg-[#0F8EC7]/[0.08] p-6 ring-1 ring-[#0F8EC7]/25">
+                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-[#0F8EC7]/70">{i + 1}</span>
+                    <div className="min-w-0">
+                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[#0F8EC7]/70">{card.title}</p>
+                      <p className="text-[0.9rem] font-medium leading-[1.65] text-sky-950/80">{card.body}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ),
+        },
+        {
           id: "considerations",
           label: "CONSIDERATIONS",
+          hideFromNav: true,
           content: (
             <>
               {/* Header row */}
@@ -732,64 +791,6 @@ export default function EtradePage() {
                 ))}
               </div>
             </>
-          ),
-        },
-        {
-          id: "impact",
-          label: "IMPACT",
-          content: (
-            <>
-              <h2 className="mb-6 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
-                Tested with a 6-person usability group on a Figma prototype.
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {[
-                  { stat: "83%", label: "completed a mock trade faster" },
-                  { stat: "67%", label: "rated it less cognitively demanding" },
-                  { stat: "100%", label: "located a target panel unassisted" },
-                ].map(({ stat, label }) => (
-                  <div key={stat} className="rounded-2xl bg-[#0F8EC7]/[0.06] p-6 ring-1 ring-[#0F8EC7]/30">
-                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-[#0F8EC7]">{stat}</p>
-                    <p className="text-[0.82rem] font-medium text-sky-950/80">{label}</p>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 text-[0.85rem] leading-relaxed text-zinc-500">
-                Small sample, not statistically significant. A/B testing against the live E*Trade interface would validate these findings at scale.
-              </p>
-            </>
-          ),
-        },
-        {
-          id: "what-i-learned",
-          label: "WHAT I LEARNED",
-          content: (
-            <ol className="mt-2 w-full space-y-4">
-              {[
-                {
-                  title: "Speed is a design feature",
-                  body: "Removing three clicks from the trade flow isn't just UX polish, it's the product. Every millisecond of hesitation costs money for the user. Designing for performance changed how I think about information hierarchy.",
-                },
-                {
-                  title: "AI agents need to show their reasoning",
-                  body: "The glass-box AI agent works because it surfaces confidence scores and logic anchors. Opaque automation erodes trust. The lesson: any AI feature needs to make its reasoning legible to the user.",
-                },
-                {
-                  title: "Research wins arguments",
-                  body: "Every design decision in this project has a citation behind it. That discipline, anchoring aesthetics to evidence, is what lets you defend your choices in a design review without falling back on opinion.",
-                },
-              ].map((card, i) => (
-                <li key={card.title}>
-                  <div className="flex gap-5 rounded-2xl bg-sky-50/80 p-6 ring-1 ring-sky-200/60">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-sky-600/90">{i + 1}</span>
-                    <div className="min-w-0">
-                      <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-sky-800/70">{card.title}</p>
-                      <p className="text-[0.9rem] font-medium leading-[1.65] text-sky-950/80">{card.body}</p>
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ol>
           ),
         },
         {

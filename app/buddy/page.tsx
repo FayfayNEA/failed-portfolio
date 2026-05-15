@@ -30,7 +30,7 @@ const SECTIONS = [
   { id: "iterations", label: "ITERATIONS" },
   { id: "hardware", label: "HARDWARE" },
   { id: "final-product", label: "FINAL PRODUCT" },
-  { id: "considerations", label: "CONSIDERATIONS" },
+  { id: "considerations", label: "CONSIDERATIONS", hideFromNav: true as const },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
 
@@ -314,7 +314,7 @@ export default function BuddyPage() {
       <CaseStudySidebar
         projectName="Buddy"
         projectNameClassName={rosario.className}
-        sections={SECTIONS}
+        sections={SECTIONS.filter((s) => !("hideFromNav" in s && s.hideFromNav))}
         breadcrumb={BUDDY_BREADCRUMB}
         hideRailAtMaxWidthPx={1000}
       />
@@ -816,6 +816,11 @@ export default function BuddyPage() {
           <SectionLabel>Considerations</SectionLabel>
 
           {/* 4-pillar table */}
+          <div className="mb-1 hidden grid-cols-[1fr_1.2fr_1.4fr] gap-px md:grid">
+            <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Goal Pillar</p>
+            <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Design Intervention</p>
+            <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Potential Impact</p>
+          </div>
           <div className="mb-12 overflow-hidden rounded-2xl ring-1 ring-violet-300/35">
             {PILLARS.map(({ n, pillar, interventions, impact }, i, arr) => (
               <div
