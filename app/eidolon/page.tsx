@@ -524,7 +524,7 @@ export default async function EidolonPage() {
                 Testing the solution
               </h2>
               <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                I shared the prototype with a group of friends and asked them a series of questions to understand their existing relationship with AI and their reaction after using it. Responses shaped every design decision below.
+                I shared the prototype with a group of people and asked them a series of questions to understand their existing relationship with AI and their reaction after using it. Responses shaped every design decision below.
               </p>
 
               {/* Testing cards */}
