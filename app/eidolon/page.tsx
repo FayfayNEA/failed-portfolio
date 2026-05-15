@@ -381,32 +381,50 @@ export default async function EidolonPage() {
               </p>
 
               <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))]">
-                <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-3 md:gap-5">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 3 of 8.png")}
-                    alt="Early drawing, page 3"
-                    className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
-                    loading="lazy"
-                  />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 4 of 8.png")}
-                    alt="Early drawing, page 4"
-                    className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
-                    loading="lazy"
-                  />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 5 of 8.png")}
-                    alt="Early drawing, page 5"
-                    className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
-                    loading="lazy"
-                  />
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+                  {/* Iteration 1 */}
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Iteration 1</p>
+                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-lime-700 ring-1 ring-lime-300/40">Selected</span>
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 3 of 8.png")}
+                      alt="Iteration 1 - overhead feedback"
+                      className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
+                      loading="lazy"
+                    />
+                    <p className="text-[0.72rem] leading-snug text-zinc-500">Overhead feedback so user constantly understands the scenario.</p>
+                  </div>
+                  {/* Iteration 2 */}
+                  <div className="flex flex-col gap-2">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 2</p>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 4 of 8.png")}
+                      alt="Iteration 2 - no overhead, visual actions"
+                      className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
+                      loading="lazy"
+                    />
+                    <p className="text-[0.72rem] leading-snug text-zinc-500">No overhead, visual actions only. Condensed sign-in page with 2 buttons.</p>
+                  </div>
+                  {/* Iteration 3 */}
+                  <div className="flex flex-col gap-2">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 3</p>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 5 of 8.png")}
+                      alt="Iteration 3 - multiple sign-in entries, character first"
+                      className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
+                      loading="lazy"
+                    />
+                    <p className="text-[0.72rem] leading-snug text-zinc-500">Multiple sign-in entries. Character selection appears first before setup.</p>
+                  </div>
                 </div>
               </div>
-              <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Hand-drawn sketches
+              <p className="mt-3 font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Iteration 1 selected, overhead context makes each scene immediately readable.
               </p>
 
               <div className="mt-14">
@@ -458,16 +476,22 @@ export default async function EidolonPage() {
                 <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Gemini diagrams</p>
 
                 <div className="mx-auto mt-4 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-                  <ProjectGalleryRow
-                    images={[encodeURI("/eidolon/screen 1 of manual.png"),encodeURI("/eidolon/screen 2 of manual.png"),encodeURI("/eidolon/screen 3 of manual.png"),encodeURI("/eidolon/screen 4 of manual.png")]}
-                    theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
-                  />
-                  <ProjectGalleryRow
-                    images={[encodeURI("/eidolon/screen 1 of automatic.png"),encodeURI("/eidolon/screen 2 of automatic.png"),encodeURI("/eidolon/screen 3 of automatic.png"),encodeURI("/eidolon/screen 4 of automatic.png"),encodeURI("/eidolon/screen 5 of automatic.png"),encodeURI("/eidolon/screen 6 of automatic.png")]}
-                    theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
-                  />
+                  <div className="flex flex-col gap-2">
+                    <ProjectGalleryRow
+                      images={[encodeURI("/eidolon/screen 1 of manual.png"),encodeURI("/eidolon/screen 2 of manual.png"),encodeURI("/eidolon/screen 3 of manual.png"),encodeURI("/eidolon/screen 4 of manual.png")]}
+                      theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
+                    />
+                    <p className="text-[0.72rem] leading-snug text-zinc-500">Harsher edges. Left-side toggle to pick AI agent mode.</p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <ProjectGalleryRow
+                      images={[encodeURI("/eidolon/screen 1 of automatic.png"),encodeURI("/eidolon/screen 2 of automatic.png"),encodeURI("/eidolon/screen 3 of automatic.png"),encodeURI("/eidolon/screen 4 of automatic.png"),encodeURI("/eidolon/screen 5 of automatic.png"),encodeURI("/eidolon/screen 6 of automatic.png")]}
+                      theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
+                    />
+                    <p className="text-[0.72rem] leading-snug text-zinc-500">Bottom-left money bar with square edges on each image.</p>
+                  </div>
                 </div>
-                <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Figma mockups</p>
+                <p className="mt-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Figma mockups</p>
 
                 <div className="mt-14">
                   <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
