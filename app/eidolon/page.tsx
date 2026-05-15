@@ -79,84 +79,79 @@ export default async function EidolonPage() {
                 make it an easier place for those who fear its new shape.
               </p>
 
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <p className="mt-8 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">The Problems</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   {
                     n: "01",
-                    problem: "Trust Gap",
-                    detail: "Users can't see what AI is doing or why. Black-box decisions breed anxiety, not confidence.",
-                    tags: ["Trust gap", "Data concerns", "Verbal dissonance"],
+                    stat: "25%",
+                    problem: "Search Engine Decline",
+                    detail: "Projected drop in traditional search by 2026 as AI agents take over, leaving users disoriented. (Gartner, 2024)",
                   },
                   {
                     n: "02",
+                    stat: "65%",
                     problem: "Digital Fatigue",
-                    detail: "65% of young adults report AI-related stress and headaches. Attention fragmentation is accelerating.",
-                    tags: ["Digital fatigue", "Emotional stress", "Attention fragmentation"],
+                    detail: "Of young adults report AI-related stress, fatigue and headaches are common. (APA, 2023)",
                   },
                   {
                     n: "03",
-                    problem: "Cognitive Overload",
-                    detail: "Traditional search is projected to drop 25% by 2026 as AI agents take over, leaving users disoriented.",
-                    tags: ["High cognitive load", "Search engine decline"],
+                    stat: "81%",
+                    problem: "Trust Gap",
+                    detail: "Of Americans are concerned about data privacy with AI. (Pew Research, 2023)",
                   },
                   {
                     n: "04",
-                    problem: "Accessibility Divide",
-                    detail: "Seniors and non-technical users are left behind as interfaces optimise for power users.",
-                    tags: ["Age gap", "Seniors scared"],
+                    stat: null,
+                    problem: "Verbal Dissonance",
+                    detail: "AI outputs are dense and impersonal. Users lose context when information isn't shaped around human narrative.",
                   },
-                ].map(({ n, problem, detail, tags }) => (
+                ].map(({ n, stat, problem, detail }) => (
                   <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
-                    <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
+                    <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
+                    {stat && <p className="mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>}
                     <p className="mb-2 text-[0.88rem] font-medium leading-snug text-lime-950">{problem}</p>
-                    <p className="mb-3 text-[0.72rem] leading-relaxed text-lime-950/60">{detail}</p>
-                    <div className="flex flex-wrap gap-1">
-                      {tags.map((tag) => (
-                        <span key={tag} className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[0.6rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40">{tag}</span>
-                      ))}
-                    </div>
+                    <p className="text-[0.72rem] leading-relaxed text-lime-950/60">{detail}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="relative z-[1] px-4 py-6 md:px-10 md:py-8 lg:px-12 lg:py-10">
-                <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                  <div
-                    className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]"
-                    aria-hidden
-                  />
-                  <div
-                    className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
-                    aria-hidden
-                  />
-
-                  <div className="relative flex min-h-0 flex-1 flex-row gap-1 p-3 sm:p-4 md:gap-2 md:p-5">
-                    <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center md:justify-end">
-                      <div className="relative flex items-center justify-center px-2 py-3 sm:px-3 sm:py-4">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/eidolon/diagram 1.png"
-                          alt="Illustration: ineffective team collaboration"
-                          className="max-h-[min(40vh,440px)] w-full max-w-full object-contain md:max-h-[min(44vh,500px)]"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center md:justify-start">
-                      <div className="relative flex items-center justify-center px-2 py-3 sm:px-3 sm:py-4">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/eidolon/diagram 2.png"
-                          alt="Diagram: aligning inputs through a shared focal point"
-                          className="max-h-[min(40vh,440px)] w-full max-w-full object-contain md:max-h-[min(44vh,500px)]"
-                        />
-                      </div>
-                    </div>
+              <p className="mt-8 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Our Goals</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {[
+                  {
+                    n: "01",
+                    stat: "22×",
+                    goal: "Trust Through Transparency",
+                    detail: "More memorable as a story vs. raw data. Narrative-driven agent actions build legible trust. (Bruner)",
+                  },
+                  {
+                    n: "02",
+                    stat: "20%",
+                    goal: "Cognitive Load Reduction",
+                    detail: "Higher task accuracy when interface noise is removed. Palace Layout and Noise Filtration. (NNg)",
+                  },
+                  {
+                    n: "03",
+                    stat: null,
+                    goal: "Environment Sanitation",
+                    detail: "Safety Guardrails and Node PRUNE-ing protect sensitive users from manipulative and opaque AI systems.",
+                  },
+                  {
+                    n: "04",
+                    stat: "46%",
+                    goal: "Human Authority & Safety",
+                    detail: "Of young adults want more analog control. Manual Override and Haptic Authorization restore that agency. (APA, 2023)",
+                  },
+                ].map(({ n, stat, goal, detail }) => (
+                  <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                    <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
+                    {stat && <p className="mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>}
+                    <p className="mb-2 text-[0.88rem] font-medium leading-snug text-lime-950">{goal}</p>
+                    <p className="text-[0.72rem] leading-relaxed text-lime-950/60">{detail}</p>
                   </div>
-                </div>
+                ))}
               </div>
-              <p className="-mt-2 mb-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Created with Illustrator
-              </p>
             </>
           ),
         },
@@ -170,27 +165,6 @@ export default async function EidolonPage() {
                 {" of U.S. adults are concerned about the future of AI."}
               </h2>
 
-              <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                {[
-                  {
-                    stat: "65%",
-                    body: "of young adults report AI-related stress, fatigue and headaches are common. (APA, 2023)",
-                  },
-                  {
-                    stat: "81%",
-                    body: "of Americans are concerned about data privacy with AI. (Pew Research, 2023)",
-                  },
-                  {
-                    stat: "25%",
-                    body: "projected drop in traditional search by 2026 as AI agents take over. (Gartner, 2024)",
-                  },
-                ].map(({ stat, body }) => (
-                  <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
-                    <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
-                    <p className="text-[0.78rem] leading-relaxed text-lime-950/75">{body}</p>
-                  </div>
-                ))}
-              </div>
 
               <PersonaCards
                 accent="lime"
@@ -222,37 +196,6 @@ export default async function EidolonPage() {
                 ])}
               />
 
-              <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                {[
-                  {
-                    n: "01",
-                    title: "AI Toggle Permission Gate",
-                    body: "Human mode or agent mode, one site, two realities.",
-                    stat: "20%",
-                    statLabel: "higher task accuracy when interface noise is removed. (NNg)",
-                  },
-                  {
-                    n: "02",
-                    title: "Negotiation Canvas",
-                    body: "Watch the AI negotiate live, every decision verified before it's final.",
-                    stat: "22×",
-                    statLabel: "more memorable as a story vs. raw data. (Bruner)",
-                  },
-                  {
-                    n: "03",
-                    title: "Haptic Authorization Gate",
-                    body: "Money or identity actions require a physical swipe to confirm.",
-                    stat: "46%",
-                    statLabel: "of young adults want more analog control in their day. (APA, 2023)",
-                  },
-                ].map(({ stat, statLabel, body }) => (
-                  <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
-                    <p className="mb-3 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
-                    <p className="mb-2 text-[0.78rem] leading-relaxed text-lime-950/75">{statLabel}</p>
-                    <p className="text-[0.78rem] leading-relaxed text-lime-950/60">{body}</p>
-                  </div>
-                ))}
-              </div>
 
               <div id="how-might-we" className="mt-16 scroll-mt-24">
                 <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
