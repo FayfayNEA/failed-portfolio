@@ -386,7 +386,7 @@ export default async function EidolonPage() {
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Iteration 1</p>
-                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-lime-700 ring-1 ring-lime-300/40">Selected for scene description</span>
+                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-lime-700 ring-1 ring-lime-300/40">Selected for description</span>
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -401,7 +401,7 @@ export default async function EidolonPage() {
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 2</p>
-                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-500 ring-1 ring-zinc-200/60">Half selected for limited text on opening page</span>
+                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-500 ring-1 ring-zinc-200/60">Half selected for text on opening</span>
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
