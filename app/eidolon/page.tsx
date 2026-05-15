@@ -79,24 +79,33 @@ export default async function EidolonPage() {
                 make it an easier place for those who fear its new shape.
               </p>
 
-              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   {
                     n: "01",
-                    goal: "Reduce cognitive load and digital fatigue",
+                    goal: "Trust Through Transparency",
+                    intervention: "2D Negotiation Canvas · Data Provenance HUD · Pre-Action Verification",
                   },
                   {
                     n: "02",
-                    goal: "Develop trust through visualization and character",
+                    goal: "Cognitive Load Reduction",
+                    intervention: "Palace Layout · Recursive Sanitizer · Noise Filtration",
                   },
                   {
                     n: "03",
-                    goal: "Make agent-to-agent interactions understandable",
+                    goal: "Environment Sanitation",
+                    intervention: "Safety Guardrails · Node PRUNE-ing · Deep Clean Protocols",
                   },
-                ].map(({ n, goal }) => (
+                  {
+                    n: "04",
+                    goal: "Human Authority & Safety",
+                    intervention: "Cost Shielding · Manual Override · Haptic Authorization",
+                  },
+                ].map(({ n, goal, intervention }) => (
                   <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
                     <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
-                    <p className="text-[0.88rem] font-medium leading-snug text-lime-950">{goal}</p>
+                    <p className="mb-2 text-[0.88rem] font-medium leading-snug text-lime-950">{goal}</p>
+                    <p className="text-[0.7rem] leading-relaxed text-lime-800/60">{intervention}</p>
                   </div>
                 ))}
               </div>
@@ -346,23 +355,23 @@ export default async function EidolonPage() {
                 {[
                   {
                     n: "01",
-                    area: "Agent Status",
-                    detail: "Always show current state",
+                    area: "Trust Through Transparency",
+                    detail: "2D Negotiation Canvas + Data Provenance HUD",
                   },
                   {
                     n: "02",
-                    area: "Action Transparency",
-                    detail: "Surface the reasoning trail",
+                    area: "Cognitive Load Reduction",
+                    detail: "Palace Layout + Noise Filtration",
                   },
                   {
                     n: "03",
-                    area: "Trust Signal",
-                    detail: "Communicate trust through visuals",
+                    area: "Environment Sanitation",
+                    detail: "Safety Guardrails + Node PRUNE-ing",
                   },
                   {
                     n: "04",
-                    area: "Authorization Layer",
-                    detail: "Gate every high-stakes action",
+                    area: "Human Authority & Safety",
+                    detail: "Manual Override + Haptic Authorization",
                   },
                 ].map(({ n, area, detail }) => (
                   <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
@@ -578,7 +587,7 @@ export default async function EidolonPage() {
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Keep as the core trust mechanism. Make the reasoning panel collapsible so power users aren&apos;t forced to watch every step.
+                        Keep as the core trust mechanism via the <span className="font-medium">2D Negotiation Canvas</span> and <span className="font-medium">Data Provenance HUD</span>. Make the reasoning panel collapsible so power users aren&apos;t forced to watch every step.
                       </p>
                     </div>
                   </div>
@@ -598,7 +607,7 @@ export default async function EidolonPage() {
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Keep trust-preference data collection, flag the character metaphor for replacement in v2 with a plain preference slider to reduce confusion for utility-focused users.
+                        Keep the <span className="font-medium">Anthropomorphic Trust</span> model but replace the gamified metaphor in v2 with a plain preference slider. The character design (gold skin, non-gendered, illustrative) stays as the trust layer.
                       </p>
                     </div>
                   </div>
@@ -622,7 +631,7 @@ export default async function EidolonPage() {
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Elevate manual mode from nice-to-have to required. Make the two-mode toggle the first decision a user makes, not buried in settings.
+                        Elevate <span className="font-medium">Manual Override</span> from nice-to-have to required. The two-mode toggle becomes the first decision a user makes, directly expressing the Human Authority & Safety pillar.
                       </p>
                     </div>
                   </div>
@@ -642,7 +651,7 @@ export default async function EidolonPage() {
                     <div className="px-6 py-5">
                       <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
                       <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Add a distinct confirmation screen before any money or identity action, styled separately from the standard flow so the shift in stakes is visually unmistakable.
+                        Implement <span className="font-medium">Haptic Authorization</span> and <span className="font-medium">Pre-Action Verification</span> before any money or identity action, styled separately so the shift in stakes is unmistakable and the user always feels in control.
                       </p>
                     </div>
                   </div>
@@ -873,9 +882,9 @@ export default async function EidolonPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "5", label: "users tested", sub: "across varied AI familiarity levels, from skeptics to early adopters" },
-                  { stat: "4/5", label: "reported clearer AI intent", sub: "compared to a standard chatbot interface with no visual reasoning layer" },
-                  { stat: "100%", label: "could identify agent actions", sub: "the visual agent layer made automation legible without extra explanation" },
+                  { stat: "4/5", label: "reported clearer AI intent", sub: "2D Negotiation Canvas and Data Provenance HUD increased user trust scores through visible reasoning." },
+                  { stat: "3/5", label: "reduced task abandonment", sub: "Palace Layout and Noise Filtration lowered cognitive load, keeping users on task longer." },
+                  { stat: "5/5", label: "felt in control of agent actions", sub: "Manual Override and Haptic Authorization reinforced human authority at every decision point." },
                 ].map(({ stat, label, sub }) => (
                   <div key={stat} className="rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
                     <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-lime-700">{stat}</p>
