@@ -597,7 +597,7 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:max-w-2xl md:max-w-4xl md:grid-cols-2 md:gap-5">
+          <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:max-w-2xl md:max-w-4xl md:grid-cols-3 md:gap-5">
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-0.jpg"
@@ -610,6 +610,14 @@ export default function BuddyPage() {
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-1.jpg"
                 alt="Early Buddy sketches, refinement toward high-fidelity"
+                imgClassName={EARLY_DRAWING_IMG_CLASS}
+                wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
+              />
+            </div>
+            <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
+              <ImageLightbox
+                src={encodeURI("/buddy/Screenshot 2026-05-14 232311.png")}
+                alt="Buddy UI iteration wireframe with logo placement and layout notes"
                 imgClassName={EARLY_DRAWING_IMG_CLASS}
                 wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
               />
