@@ -794,7 +794,9 @@ export default async function EidolonPage() {
               </p>
             </>
           ),
-        {          id: "engineering",
+        },
+        {
+          id: "engineering",
           label: "ENGINEERING",
           content: (
             <>
@@ -862,7 +864,6 @@ export default async function EidolonPage() {
               </div>
             </>
           ),
-        },
         },
         {
           id: "impact",
