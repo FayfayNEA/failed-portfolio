@@ -506,13 +506,31 @@ export default async function EidolonPage() {
                       <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
                       <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
                       <div className="relative p-3 sm:p-4 md:p-5">
-                        <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-3 md:gap-5">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={encodeURI("/eidolon/b&w 1.png")} alt="Character creation, black and white" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={encodeURI("/eidolon/color (2).png")} alt="Character creation, color variant 2" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={encodeURI("/eidolon/color (3).png")} alt="Character creation, color variant 3" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+                          <div className="flex flex-col gap-3">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={encodeURI("/eidolon/b&w 1.png")} alt="Character creation, non-gendered" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
+                            <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
+                              <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Non-gendered</p>
+                              <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Allows agent to engage in non-biased action.</p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={encodeURI("/eidolon/color (2).png")} alt="Character creation, gold skin" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
+                            <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
+                              <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Gold Skin</p>
+                              <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Leads to feelings of trust and wisdom.</p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col gap-3">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={encodeURI("/eidolon/color (3).png")} alt="Character creation, illustration style" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
+                            <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
+                              <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Illustration</p>
+                              <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Uncanny valley is avoided when stylization is between 10&ndash;30%.</p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
