@@ -458,13 +458,13 @@ export default async function EidolonPage() {
                         <span aria-hidden className="text-lime-500/50">↓</span>
                       </a>
                       <a href="#solution" className="inline-flex items-center gap-1.5 rounded-full bg-lime-500/[0.08] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40 transition-colors hover:bg-lime-500/[0.14]">
-                        <span>Rounded forms = approachable, sharp = precise</span>
+                        <span>32px rounded edges reduce cortisol</span>
                         <span className="text-lime-500/60">·</span>
                         <span className="text-lime-600/70">Cognitive Load Reduction</span>
                         <span aria-hidden className="text-lime-500/50">↓</span>
                       </a>
                     </div>
-                    <p className="mt-1 font-mono text-[0.6rem] text-zinc-400/60">APA, 2023 · 2 of 5 users said early iteration felt like a game — hard edges remove that association</p>
+                    <p className="mt-1 font-mono text-[0.6rem] text-zinc-400/60">APA, 2023</p>
                   </div>
                   <div>
                     <p className="text-[0.72rem] leading-snug text-zinc-500">Bottom-left money bar with square edges on each image.</p>
