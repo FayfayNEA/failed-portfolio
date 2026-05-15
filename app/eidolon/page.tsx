@@ -569,9 +569,6 @@ export default async function EidolonPage() {
 
               {/* Reactions */}
               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Reactions to &ldquo;Your AI agent&rdquo;</p>
-              <p className="mb-6 text-[0.95rem] leading-[1.75] text-zinc-600">
-                Users had mixed reactions to a fully delegated AI agent, appreciating the efficiency but raising concerns about trust, transparency, and losing control.
-              </p>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
                   <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Positivity around efficiency</p>
