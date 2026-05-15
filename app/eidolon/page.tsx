@@ -551,15 +551,15 @@ export default async function EidolonPage() {
                     action: <><span className="font-medium text-zinc-900">Haptic Authorization</span> and <span className="font-medium text-zinc-900">Pre-Action Verification</span> make the shift in stakes unmistakable before anything executes.</>,
                   },
                 ].map(({ name, insight, action }) => (
-                  <div key={name} className="flex flex-col overflow-hidden rounded-2xl bg-lime-500/[0.08] ring-1 ring-lime-300/35">
-                    <div className="border-b border-lime-200/40 px-5 py-3.5">
-                      <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/70">{name}</p>
+                  <div key={name} className="flex flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-md">
+                    <div className="border-b border-white/50 px-5 py-3.5">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">{name}</p>
                     </div>
                     <div className="px-5 py-4">
                       <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
                       <p className="text-[0.82rem] leading-[1.65] text-zinc-600">{insight}</p>
                     </div>
-                    <div className="mt-auto border-t border-lime-200/40 px-5 py-4">
+                    <div className="mt-auto border-t border-white/50 bg-white/20 px-5 py-4">
                       <p className="mb-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-lime-700/70">Action</p>
                       <p className="text-[0.82rem] leading-[1.65] text-zinc-500">{action}</p>
                     </div>
