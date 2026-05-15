@@ -410,7 +410,7 @@ export default async function EidolonPage() {
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 2</p>
-                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-500 ring-1 ring-zinc-200/60">Half selected for text on opening</span>
+                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-500 ring-1 ring-zinc-200/60">Half selected for opening text</span>
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
