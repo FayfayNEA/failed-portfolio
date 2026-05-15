@@ -712,7 +712,7 @@ export default async function EidolonPage() {
           label: "ENGINEERING",
           content: (
             <>
-              <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+              <div className="mb-8 rounded-2xl border-[0.5px] border-white/60 bg-white/40 p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-md">
                 <p className="text-[0.82rem] leading-relaxed text-zinc-600">
                   Pure client-side Vite + React app. Gemini calls go directly from the browser via the <span className="font-mono">@google/genai</span> SDK, with the API key injected at build time through Vite&apos;s <span className="font-mono">define</span> config, a deliberate sprint decision, not an oversight. Production would proxy through a serverless edge function. Google Cloud Run hosts the static build output.
                 </p>
@@ -791,7 +791,7 @@ export default async function EidolonPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+              <div className="mt-6 rounded-2xl border-[0.5px] border-white/60 bg-white/40 p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-md">
                 <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">What I&apos;d Measure in Production</p>
                 <ul className="mt-3 space-y-1.5 text-[0.82rem] leading-relaxed text-zinc-600">
                   <li>• Task completion rate vs. standard chatbot baseline</li>
