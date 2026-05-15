@@ -347,22 +347,22 @@ export default async function EidolonPage() {
                   {
                     n: "01",
                     area: "Agent Status",
-                    detail: "Every screen needed a live signal showing what the agent was actively doing, so users never felt abandoned or deceived.",
+                    detail: "Always show current state",
                   },
                   {
                     n: "02",
                     area: "Action Transparency",
-                    detail: "Each decision the agent made required a visible reasoning trail, mirroring how Claude's thinking mode surfaces intent.",
+                    detail: "Surface the reasoning trail",
                   },
                   {
                     n: "03",
                     area: "Trust Signal",
-                    detail: "Visual character and animation cues had to communicate reliability without requiring the user to read a single line of log output.",
+                    detail: "Communicate trust through visuals",
                   },
                   {
                     n: "04",
                     area: "Authorization Layer",
-                    detail: "High-stakes actions needed a clear confirmation gate, ensuring the user always felt in control, never overridden.",
+                    detail: "Gate every high-stakes action",
                   },
                 ].map(({ n, area, detail }) => (
                   <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
