@@ -83,29 +83,38 @@ export default async function EidolonPage() {
                 {[
                   {
                     n: "01",
-                    goal: "Trust Through Transparency",
-                    intervention: "2D Negotiation Canvas · Data Provenance HUD · Pre-Action Verification",
+                    problem: "Trust Gap",
+                    detail: "Users can't see what AI is doing or why. Black-box decisions breed anxiety, not confidence.",
+                    tags: ["Trust gap", "Data concerns", "Verbal dissonance"],
                   },
                   {
                     n: "02",
-                    goal: "Cognitive Load Reduction",
-                    intervention: "Palace Layout · Recursive Sanitizer · Noise Filtration",
+                    problem: "Digital Fatigue",
+                    detail: "65% of young adults report AI-related stress and headaches. Attention fragmentation is accelerating.",
+                    tags: ["Digital fatigue", "Emotional stress", "Attention fragmentation"],
                   },
                   {
                     n: "03",
-                    goal: "Environment Sanitation",
-                    intervention: "Safety Guardrails · Node PRUNE-ing · Deep Clean Protocols",
+                    problem: "Cognitive Overload",
+                    detail: "Traditional search is projected to drop 25% by 2026 as AI agents take over, leaving users disoriented.",
+                    tags: ["High cognitive load", "Search engine decline"],
                   },
                   {
                     n: "04",
-                    goal: "Human Authority & Safety",
-                    intervention: "Cost Shielding · Manual Override · Haptic Authorization",
+                    problem: "Accessibility Divide",
+                    detail: "Seniors and non-technical users are left behind as interfaces optimise for power users.",
+                    tags: ["Age gap", "Seniors scared"],
                   },
-                ].map(({ n, goal, intervention }) => (
+                ].map(({ n, problem, detail, tags }) => (
                   <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
                     <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
-                    <p className="mb-2 text-[0.88rem] font-medium leading-snug text-lime-950">{goal}</p>
-                    <p className="text-[0.7rem] leading-relaxed text-lime-800/60">{intervention}</p>
+                    <p className="mb-2 text-[0.88rem] font-medium leading-snug text-lime-950">{problem}</p>
+                    <p className="mb-3 text-[0.72rem] leading-relaxed text-lime-950/60">{detail}</p>
+                    <div className="flex flex-wrap gap-1">
+                      {tags.map((tag) => (
+                        <span key={tag} className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[0.6rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40">{tag}</span>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
