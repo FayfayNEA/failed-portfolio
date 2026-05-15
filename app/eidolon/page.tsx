@@ -197,7 +197,7 @@ export default async function EidolonPage() {
               />
 
 
-              <div id="how-might-we" className="mt-16 scroll-mt-24 rounded-2xl border-[0.5px] border-white/60 bg-white/40 p-8 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-md">
+              <div id="how-might-we" className="mt-16 scroll-mt-24 rounded-2xl border-[0.5px] border-lime-200/60 bg-lime-500/[0.07] p-8 shadow-[0_0_48px_-8px_rgba(132,204,22,0.35),0_8px_32px_-8px_rgba(0,0,0,0.08)] ring-1 ring-lime-300/40 backdrop-blur-md">
                 <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
                   How Might We
                 </p>
@@ -450,16 +450,21 @@ export default async function EidolonPage() {
                 <div className="mx-auto mt-3 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
                   <div>
                     <p className="text-[0.72rem] leading-snug text-zinc-500">Harsher edges. Left-side toggle to pick AI agent mode.</p>
-                    <a
-                      href="#solution"
-                      className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-lime-500/[0.08] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40 transition-colors hover:bg-lime-500/[0.14]"
-                    >
-                      <span>Sharp edges signal tool, not toy</span>
-                      <span className="text-lime-500/60">·</span>
-                      <span className="text-lime-600/70">Environment Sanitation</span>
-                      <span aria-hidden className="text-lime-500/50">↓</span>
-                    </a>
-                    <p className="mt-1 font-mono text-[0.6rem] text-zinc-400/60">2 of 5 users said early iteration felt like a game — hard edges remove that association</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <a href="#solution" className="inline-flex items-center gap-1.5 rounded-full bg-lime-500/[0.08] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40 transition-colors hover:bg-lime-500/[0.14]">
+                        <span>46% want manual control</span>
+                        <span className="text-lime-500/60">·</span>
+                        <span className="text-lime-600/70">Human Authority &amp; Safety</span>
+                        <span aria-hidden className="text-lime-500/50">↓</span>
+                      </a>
+                      <a href="#solution" className="inline-flex items-center gap-1.5 rounded-full bg-lime-500/[0.08] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40 transition-colors hover:bg-lime-500/[0.14]">
+                        <span>Rounded forms = approachable, sharp = precise</span>
+                        <span className="text-lime-500/60">·</span>
+                        <span className="text-lime-600/70">Cognitive Load Reduction</span>
+                        <span aria-hidden className="text-lime-500/50">↓</span>
+                      </a>
+                    </div>
+                    <p className="mt-1 font-mono text-[0.6rem] text-zinc-400/60">APA, 2023 · 2 of 5 users said early iteration felt like a game — hard edges remove that association</p>
                   </div>
                   <div>
                     <p className="text-[0.72rem] leading-snug text-zinc-500">Bottom-left money bar with square edges on each image.</p>
