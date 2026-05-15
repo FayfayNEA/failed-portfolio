@@ -6,7 +6,7 @@ import { DesignerBio } from "@/components/designer-bio";
 const PROJECTS: GalleryProject[] = [
   { slug: "eidolon",      title: "Eidolon",      description: "created a visual AI agent to help users trust automation",                                   year: "2026", coverColor: "transparent", labelGlassTint: "moss", coverImageClassName: "scale-[.9]",  coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/eidolon.png",                                              href: "/eidolon",       metric: "5-user test · 4/5 clearer AI intent" },
   { slug: "buddy",        title: "Buddy",        description: "created an LLM which captures group conversations as real-time images and diagrams",            year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.2]", coverImageFit: "contain",                       coverImage: "/coverimages/buddy.png",                                                href: "/buddy",         metric: "<2s capture · 4 export formats" },
-  { slug: "fither",       title: "Fither",       description: "understanding dithers with ai",                                                               year: "2026",                                                                                                                                      coverImage: "/fither/assets/organic_dot_field.png",                                 href: "/work/fither",   metric: "6 dither algorithms · open-source" },
+  { slug: "fither",       title: "Fither",       description: "understanding dithers with ai",                                                               year: "2026",                                                                                                                                      coverImage: "/fither/assets/organic_dot_field.png",                                 href: "/work/fither",   metric: "30+ dither algorithms · open-source" },
   { slug: "etrade",       title: "E*Trade",      description: "redesigned a financial trading platform to reduce cognitive load and speed up trades",         year: "2026", coverColor: "transparent",                         coverImageClassName: "scale-[1.1]", coverImageFit: "contain", labelTextTone: "dark", coverImage: "/coverimages/etrade.png",                                              href: "/etrade",        metric: "6-user test · 5/6 faster trades" },
   { slug: "nightterrors", title: "N1ghtterrors", description: "a website designed to capture the essence of n1ghtterrors",                                   year: "2024",                                                                                                                                      coverImage: "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg",  href: "/nightterrors",  metric: "3× session duration" },
   { slug: "jahn",         title: "JAHN",         description: "designed a portfolio faithful to helmut jahn's design language",                              year: "2023",                                                                                                                                      coverImage: "/jahn/jahn image.jpg",                                                 href: "/jahn",          metric: "Commissioned · 2023" },
@@ -80,8 +80,8 @@ export default function Home() {
             },
             {
               n: "03",
-              title: "Systems thinker",
-              body: "Designs components, not screens. Every project here has a documented visual language that holds up when the product grows.",
+              title: "AI as material, not feature",
+              body: "Treats AI the way a good architect treats concrete — structurally. Every AI integration here is load-bearing, not decorative.",
             },
             {
               n: "04",
@@ -90,13 +90,13 @@ export default function Home() {
             },
             {
               n: "05",
-              title: "Designs the human layer of AI",
-              body: "Ships real AI-powered products, not AI-assisted mockups. Understands where models fail users and designs the trust layer around it.",
+              title: "Designs the trust layer",
+              body: "Models fail silently and users blame themselves. The work here makes AI reasoning visible, controllable, and legible — at the interface level.",
             },
             {
               n: "06",
               title: "Distinct visual voice",
-              body: "Brutalist precision meets high-fashion restraint. Interfaces that are purposeful and remembered, not just clean and forgettable.",
+              body: "Brutalist precision meets high-fashion restraint. Interfaces that feel purposeful and remembered — not just clean and forgettable.",
             },
           ].map(({ n, title, body }) => (
             <div

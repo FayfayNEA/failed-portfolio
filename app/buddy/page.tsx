@@ -1,6 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
-import { BuddyChallengeDisclosure } from "@/components/buddy-challenge-disclosure";
+import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import { ImageLightbox } from "@/components/image-lightbox";
@@ -360,6 +360,9 @@ export default function BuddyPage() {
 
         {/* Figma prototype link */}
         <div className="mb-10 flex flex-col items-center gap-3">
+          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+            Interactive Figma prototype
+          </p>
           <a
             href="https://www.figma.com/proto/1qfQiHq6t99qW3v0J1Iwz6/buddy?node-id=11-113&p=f&t=kcxrkomqe2ZNeUk3-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A100&show-proto-sidebar=1"
             target="_blank"
@@ -368,9 +371,6 @@ export default function BuddyPage() {
           >
             View Figma Prototype <span aria-hidden>↗</span>
           </a>
-          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-            Interactive Figma prototype
-          </p>
           <a
             href="mailto:failennaselta@gmail.com?subject=Buddy%20Live%20Demo%20Request&body=Hi%2C%20I%27d%20love%20to%20demo%20Buddy!"
             className="inline-flex items-center gap-2 rounded-full bg-zinc-50/80 px-4 py-2 text-[0.85rem] font-medium text-zinc-600 ring-1 ring-zinc-200/60 transition-colors hover:bg-zinc-100/80"
@@ -402,8 +402,82 @@ export default function BuddyPage() {
             The Rundown
           </h2>
           <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-            Buddy seeks to resolve the disconnect of working in groups, by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It utilizes rapid prototyping, electronics, and full-stack software development to create a product that preserves conversations through a visual history of conversations and saves valuable concepts from being lost to misarticulation.
+            Buddy resolves the disconnect of working in groups by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It uses rapid prototyping, electronics, and full-stack software to preserve conversations through a visual history so valuable concepts aren&apos;t lost to misarticulation.
           </p>
+
+          <p className="mt-8 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">The Problems</p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                n: "01",
+                stat: "40%",
+                problem: "Lost Spoken Insights",
+                detail: "40% of spoken insights disappear within 10 minutes without live capture. (MIT Collab Research)",
+              },
+              {
+                n: "02",
+                stat: "65%",
+                problem: "Poor Visual Retention",
+                detail: "Teams retain 65% more when information is presented visually vs. text summaries alone. (MIT Media Lab)",
+              },
+              {
+                n: "03",
+                stat: "53%",
+                problem: "Miscommunication Loss",
+                detail: "53% of designers waste time on miscommunications that slow down the team.",
+              },
+              {
+                n: "04",
+                stat: null,
+                problem: "Meeting Memory Gap",
+                detail: "Critical ideas shared in group sessions disappear when there is no record. The spoken word is ephemeral.",
+              },
+            ].map(({ n, stat, problem, detail }) => (
+              <div key={n} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{n}</p>
+                {stat && <p className="mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>}
+                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-violet-950">{problem}</p>
+                <p className="text-[0.72rem] leading-relaxed text-violet-950/60">{detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-8 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Our Goals</p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                n: "01",
+                stat: "2s",
+                goal: "Real-time Capture",
+                detail: "Whisper.cpp processes audio on-device within a 2-second window so no insight escapes.",
+              },
+              {
+                n: "02",
+                stat: "65%",
+                goal: "Visual Output",
+                detail: "Gemini Vision generates diagrams from conversation, making abstract ideas concrete and shareable.",
+              },
+              {
+                n: "03",
+                stat: null,
+                goal: "Privacy by Design",
+                detail: "All audio processing happens on-device. No cloud dependency, no data exposure.",
+              },
+              {
+                n: "04",
+                stat: null,
+                goal: "Ambient Presence",
+                detail: "Passive listening means participants stay focused on the conversation, not on taking notes.",
+              },
+            ].map(({ n, stat, goal, detail }) => (
+              <div key={n} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{n}</p>
+                {stat && <p className="mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>}
+                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-violet-950">{goal}</p>
+                <p className="text-[0.72rem] leading-relaxed text-violet-950/60">{detail}</p>
+              </div>
+            ))}
+          </div>
 
           <div className="relative mb-10 mt-10 flex min-h-[min(42vh,420px)] w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:mt-14 md:min-h-[min(46vh,480px)]">
             <div
@@ -436,7 +510,7 @@ export default function BuddyPage() {
 
         {/* THE CHALLENGE */}
         <section id="the-challenge" className="scroll-mt-24">
-          <BuddyChallengeDisclosure summary="Design a product that helps people communicate." />
+          <CaseChallengeDisclosure summary="Design a product that helps groups communicate without losing the ideas that matter." />
         </section>
 
         <Divider />

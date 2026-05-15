@@ -501,7 +501,7 @@ export default function NightterrorsPage() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
                   { stat: "Live", label: "client-approved site" },
-                  { stat: "3×", label: "longer session time" },
+                  { stat: "3 yrs", label: "in active production" },
                   { stat: "0", label: "redesign requests" },
                 ].map(({ stat, label }) => (
                   <div key={stat} className="rounded-2xl bg-zinc-900/[0.06] p-6 ring-1 ring-zinc-300/40">

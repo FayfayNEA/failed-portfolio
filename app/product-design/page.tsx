@@ -26,7 +26,7 @@ const projects: GalleryProject[] = [
   {
     slug: "buddy",
     title: "Buddy",
-    description: "wearable LLM stenographer · real-time diagrams",
+    description: "LLM stenographer · real-time diagrams",
     year: "2026",
     coverColor: "transparent",
     coverImageClassName: "scale-[1.2]",
