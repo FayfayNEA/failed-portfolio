@@ -563,8 +563,6 @@ export default async function EidolonPage() {
                 Testing the solution
               </h2>
 
-              {/* Visual Agent learnings */}
-              <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Visual Agent learnings</p>
               <div className="mb-10 space-y-4">
                 <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
                   <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
