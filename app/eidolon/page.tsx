@@ -555,13 +555,13 @@ export default async function EidolonPage() {
                     <div className="border-b border-white/50 px-5 py-3.5">
                       <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">{name}</p>
                     </div>
-                    <div className="px-5 py-4">
-                      <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-600">{insight}</p>
+                    <div className="bg-white/10 px-5 py-4">
+                      <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400/70">Insight</p>
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-500/80">{insight}</p>
                     </div>
-                    <div className="mt-auto border-t border-white/50 bg-white/20 px-5 py-4">
+                    <div className="mt-auto border-t border-white/50 bg-white/40 px-5 py-4">
                       <p className="mb-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-lime-700/70">Action</p>
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-500">{action}</p>
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-600">{action}</p>
                     </div>
                   </div>
                 ))}
@@ -603,40 +603,40 @@ export default async function EidolonPage() {
                   label: "01",
                   heading: "Color and type tuned for neurological calm",
                   points: [
-                    { lead: "Green reduces cortisol", detail: "Green tones correlate with lower stress and help the brain reset between hard tasks." },
-                    { lead: "Montserrat for warmth & legibility", detail: "Rounded forms feel approachable while staying clean and readable." },
-                    { lead: "No pure white", detail: "Off-white reduces eye fatigue versus harsh pure-white contrast." },
+                    { lead: "Green reduces cortisol", detail: "Green tones correlate with lower stress and help the brain reset between hard tasks. (APA, 2023)" },
+                    { lead: "Montserrat for warmth & legibility", detail: "Rounded forms feel approachable while staying clean and readable. 14% higher advice-following when typography reads as optimistic and clear. (Google, 2023)" },
+                    { lead: "No pure white", detail: "Pure white causes halation for 50% of people with astigmatism. Off-white reduces eye fatigue and keeps users comfortable longer. (WCAG)" },
                   ],
                 },
                 {
                   img: "/eidolon/dr2.png",
                   label: "02",
-                  heading: "A game HUD, not a dashboard, narrative over data",
+                  heading: "A game HUD, not a dashboard — narrative over data",
                   points: [
-                    { lead: "Information as story: 22x more memorable", detail: "Narrative beats raw data for recall, so the agent explains as a story." },
-                    { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper." },
-                    { lead: "Low-color background reduces cognitive load", detail: "Muted backgrounds reduce mental overhead so reasoning stands out." },
-                    { lead: "Ambient intelligence minimizes screen dependency", detail: "Surface only what's needed, when it's needed-no constant noise." },
+                    { lead: "Information as story: 22x more memorable", detail: "Narrative beats raw data for recall, so the agent explains its reasoning as a story rather than a log. (Bruner, 1986)" },
+                    { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper. Gamified environments improve knowledge retention. (MIT Media Lab)" },
+                    { lead: "Low-color background reduces cognitive load", detail: "Muted backgrounds reduce extrinsic cognitive load so reasoning stands out. (NNg)" },
+                    { lead: "Ambient intelligence minimizes screen dependency", detail: "Surface only what is needed, when it is needed. Micro-cost shielding protects attention as a resource. (MIT Media Lab)" },
                   ],
                 },
                 {
                   img: "/eidolon/dr3.png",
                   label: "03",
-                  heading: "Multi-sensory confirmation, a signature the AI can't forge",
+                  heading: "Multi-sensory confirmation — a signature the AI can't forge",
                   points: [
-                    { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "Multi-channel confirmation improves speed and recall for critical actions." },
-                    { lead: "A gesture only humans can make", detail: "High-stakes actions require a human swipe; the agent can't execute them." },
-                    { lead: "Green tint + purple for meaningful contrast", detail: "Green stays calm; purple marks consequence without panic." },
+                    { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "The brain merges multi-sensory information for faster decisions and stronger recall on critical actions. (Neuroscience, 2022)" },
+                    { lead: "A gesture only humans can make", detail: "High-stakes actions require a human swipe. The agent cannot execute them autonomously, preserving human authority. (APA, 2023)" },
+                    { lead: "Green tint + purple for meaningful contrast", detail: "Green stays calm; purple signals consequence without panic. Color choice informed by symbolic cognitive associations. (Google Design)" },
                   ],
                 },
                 {
                   img: "/eidolon/dr4.png",
                   label: "04",
-                  heading: "Human and AI solving problems together, trust through shared agency",
+                  heading: "Human and AI solving problems together — trust through shared agency",
                   points: [
-                    { lead: "AI shows confusion, users forgive more", detail: "Visible uncertainty increases forgiveness when the system fails." },
-                    { lead: "User control, users respect AI more", detail: "Real agency builds long-term trust-users steer, AI assists." },
-                    { lead: "Active participation, less bias", detail: "When users interact (not just receive), they project less bias." },
+                    { lead: "AI shows confusion, users forgive more", detail: "Visible uncertainty increases forgiveness when the system fails. Seeing an agent's inner state builds more trust than a clean facade. (Robot Transparency, 2017)" },
+                    { lead: "User control, users respect AI more", detail: "Real agency builds long-term trust. Users who steer the AI rather than just receive from it report higher satisfaction. (MIT Media Lab)" },
+                    { lead: "Active participation reduces bias", detail: "When users interact rather than just receive, they project less bias onto the system and accept its outputs more critically. (ABX Lab, MIT)" },
                   ],
                 },
               ]} />
