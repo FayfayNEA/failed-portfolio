@@ -910,42 +910,60 @@ export default async function EidolonPage() {
           label: "CONSIDERATIONS",
           content: (
             <>
-              <div className="space-y-4">
+              {/* Header row */}
+              <div className="mb-1 hidden grid-cols-[1fr_1.2fr_1.4fr] gap-px md:grid">
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Goal Pillar</p>
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Design Intervention</p>
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Potential Impact</p>
+              </div>
+
+              <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
                 {[
                   {
+                    n: "01",
                     pillar: "Trust Through Transparency",
-                    intervention: "2D Negotiation Canvas · Data Provenance HUD · Pre-Action Verification",
-                    impact: "Seeing the agent’s inner state and decision-making path improves understanding and acceptance. Anthropomorphic trust increases user trust scores.",
+                    interventions: ["2D Negotiation Canvas", "Data Provenance HUD", "Pre-Action Verification"],
+                    impact: "Seeing the agent’s inner state and decision-making path improves understanding and acceptance, increasing trust scores.",
                   },
                   {
+                    n: "02",
                     pillar: "Cognitive Load Reduction",
-                    intervention: "Palace Layout · Recursive Sanitizer · Noise Filtration",
+                    interventions: ["Palace Layout", "Recursive Sanitizer", "Noise Filtration"],
                     impact: "Reducing extraneous mental effort lessens task abandonment through noise-free, predictable navigation paths.",
                   },
                   {
+                    n: "03",
                     pillar: "Environment Sanitation",
-                    intervention: "Safety Guardrails · Node PRUNE-ing · Deep Clean Protocols",
-                    impact: "Higher task accuracy for sensitive users and a documented reduction in digital anxiety, especially for seniors.",
+                    interventions: ["Safety Guardrails", "Node PRUNE-ing", "Deep Clean Protocols"],
+                    impact: "Higher task accuracy for sensitive users and a documented reduction in digital anxiety.",
                   },
                   {
+                    n: "04",
                     pillar: "Human Authority & Safety",
-                    intervention: "Cost Shielding · Manual Override · Haptic Authorization",
-                    impact: "Micro-cost shielding ensures users feel emotionally connected and in control rather than overwhelmed by automated systems.",
+                    interventions: ["Cost Shielding", "Manual Override", "Haptic Authorization"],
+                    impact: "Micro-cost shielding ensures users feel emotionally connected and in control rather than overwhelmed by automation.",
                   },
-                ].map(({ pillar, intervention, impact }) => (
-                  <div key={pillar} className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
-                    <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-3">
-                      <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">{pillar}</p>
+                ].map(({ n, pillar, interventions, impact }, i, arr) => (
+                  <div
+                    key={pillar}
+                    className={`grid grid-cols-1 gap-0 md:grid-cols-[1fr_1.2fr_1.4fr] ${i < arr.length - 1 ? "border-b border-lime-200/40" : ""}`}
+                  >
+                    {/* Pillar */}
+                    <div className="flex items-start gap-3 bg-lime-500/[0.06] px-5 py-5 md:border-r md:border-lime-200/40">
+                      <span className="mt-0.5 font-mono text-[0.65rem] text-lime-500/60">{n}</span>
+                      <p className="text-[0.85rem] font-medium leading-snug text-lime-950">{pillar}</p>
                     </div>
-                    <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                      <div className="px-6 py-4">
-                        <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Design Intervention</p>
-                        <p className="text-[0.82rem] leading-relaxed text-zinc-700">{intervention}</p>
-                      </div>
-                      <div className="px-6 py-4">
-                        <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Potential Impact</p>
-                        <p className="text-[0.82rem] leading-relaxed text-zinc-700">{impact}</p>
-                      </div>
+                    {/* Interventions */}
+                    <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-lime-200/40">
+                      {interventions.map((tag) => (
+                        <span key={tag} className="rounded-full bg-lime-500/10 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-lime-800 ring-1 ring-lime-300/40">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    {/* Impact */}
+                    <div className="px-5 py-5">
+                      <p className="text-[0.8rem] leading-relaxed text-zinc-600">{impact}</p>
                     </div>
                   </div>
                 ))}
