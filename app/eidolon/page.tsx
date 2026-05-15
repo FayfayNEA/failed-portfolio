@@ -24,7 +24,7 @@ const METADATA = {
     "React 19 · Vite 6 · TypeScript",
     "Tailwind CSS 4 · Motion · Lucide",
     "Gemini 3 Flash Preview · Google AI Studio",
-    "Google Cloud Run · Express",
+    "Google Cloud Run · Google AI Studio",
     "Figma",
   ],
 };
@@ -800,11 +800,13 @@ export default async function EidolonPage() {
                 <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Architecture decision</p>
                 <p className="mb-2 text-[0.88rem] font-medium text-zinc-800">Why client-side inference, not a backend service</p>
                 <p className="text-[0.82rem] leading-relaxed text-zinc-600">
-                  Running Gemini calls from the client (via Google AI Studio) meant no backend to maintain -
-                  critical for a 7-day build. The tradeoff: API keys are exposed in the client bundle, which is
-                  acceptable for a prototype but not for a shipped product. A production version would route all
-                  inference through a serverless edge function to keep keys server-side. The prototype
-                  architecture was a deliberate sprint decision, not an oversight.
+                  Built entirely in Google AI Studio as a pure client-side Vite + React app. Gemini calls go
+                  directly from the browser via the <span className="font-mono">@google/genai</span> SDK, with
+                  the API key injected at build time through Vite&apos;s <span className="font-mono">define</span> config.
+                  This exposes the key in the client bundle, which is acceptable for a prototype but not a
+                  shipped product. A production version would proxy all inference through a serverless edge
+                  function to keep keys server-side. The call flow was a deliberate sprint decision, not an
+                  oversight. Google Cloud Run hosts the static build output.
                 </p>
               </div>
               <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
@@ -838,8 +840,8 @@ export default async function EidolonPage() {
                   {
                     category: "Infrastructure",
                     items: [
-                      { name: "Google Cloud Run", detail: "Hosted via AI Studio Build" },
-                      { name: "Express", detail: "Backend support layer" },
+                      { name: "Google Cloud Run", detail: "Hosts the static build output" },
+                      { name: "Google AI Studio", detail: "Built and deployed from AI Studio" },
                     ],
                   },
                 ].map(({ category, items }) => (
