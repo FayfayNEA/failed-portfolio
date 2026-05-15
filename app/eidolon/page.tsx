@@ -910,52 +910,53 @@ export default async function EidolonPage() {
           label: "CONSIDERATIONS",
           content: (
             <>
-
-              <div className="mb-12 grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
-                <div className="min-w-0">
-                  <ImageLightbox
-                    src="/eidolon/table1.png"
-                    alt="Table 1"
-                    wrapperClassName="block"
-                    imgClassName="w-full rounded-2xl bg-white object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
-                  />
-                </div>
-
-                <div className="min-w-0 space-y-4">
-                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
-                      1
-                    </span>
-                    <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950">
-                      Advocacy must be structural: the interface should actively protect users from persuasion, not merely explain it.
-                    </p>
+              <div className="space-y-4">
+                {[
+                  {
+                    pillar: "Trust Through Transparency",
+                    intervention: "2D Negotiation Canvas · Data Provenance HUD · Pre-Action Verification",
+                    impact: "Seeing the agent’s inner state and decision-making path improves understanding and acceptance. Anthropomorphic trust increases user trust scores.",
+                  },
+                  {
+                    pillar: "Cognitive Load Reduction",
+                    intervention: "Palace Layout · Recursive Sanitizer · Noise Filtration",
+                    impact: "Reducing extraneous mental effort lessens task abandonment through noise-free, predictable navigation paths.",
+                  },
+                  {
+                    pillar: "Environment Sanitation",
+                    intervention: "Safety Guardrails · Node PRUNE-ing · Deep Clean Protocols",
+                    impact: "Higher task accuracy for sensitive users and a documented reduction in digital anxiety, especially for seniors.",
+                  },
+                  {
+                    pillar: "Human Authority & Safety",
+                    intervention: "Cost Shielding · Manual Override · Haptic Authorization",
+                    impact: "Micro-cost shielding ensures users feel emotionally connected and in control rather than overwhelmed by automated systems.",
+                  },
+                ].map(({ pillar, intervention, impact }) => (
+                  <div key={pillar} className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
+                    <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-3">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">{pillar}</p>
+                    </div>
+                    <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                      <div className="px-6 py-4">
+                        <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Design Intervention</p>
+                        <p className="text-[0.82rem] leading-relaxed text-zinc-700">{intervention}</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Potential Impact</p>
+                        <p className="text-[0.82rem] leading-relaxed text-zinc-700">{impact}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
-                      2
-                    </span>
-                    <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950">
-                      Cognitive load reduction needs evidence: design decisions should be grounded in fluency research, not intuition alone.
-                    </p>
-                  </div>
-                  <div className="flex gap-5 rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-lime-600">
-                      3
-                    </span>
-                    <p className="text-[0.9rem] font-medium leading-[1.65] text-lime-950">
-                      Agentic systems must surface reasoning: trust comes from observable actions and legible intent, not output polish.
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
 
-              <p className="mb-3 mt-20 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+              <p className="mb-3 mt-12 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
                 Ethical considerations
               </p>
               <p className="w-full text-left text-[0.95rem] leading-[1.75] text-zinc-600">
                 This project situates itself within broader debates in AI ethics, acknowledging that contemporary AI systems continue to raise concerns around surveillance capitalism, algorithmic manipulation, opaque decision-making, and concentrated data power. Rather than assuming AI is inherently neutral or benevolent, the proposal recognizes its potential to subtly influence user behavior and prioritize commercial interests. In response, it introduces a dual-agent framework as a structural safety network, where a personal AI advocates for the user by monitoring persuasive tactics, limiting unnecessary data exchange, and making algorithmic influence visible through a protective interface layer. By embedding safeguards directly into the system’s architecture, the project argues that trust in AI must be constructed through transparency, distributed control, and user autonomy, not convenience alone.
               </p>
-
             </>
           ),
         },
