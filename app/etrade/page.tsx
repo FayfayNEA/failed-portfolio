@@ -807,7 +807,7 @@ export default function EtradePage() {
                     2026.{" "}
                     <a
                       href="https://developer.apple.com/design/human-interface-guidelines/buttons"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -820,7 +820,7 @@ export default function EtradePage() {
                     The Macroeconomics of Color.&rdquo; <em>Cox Today</em>, December 9, 2020.{" "}
                     <a
                       href="https://www.smu.edu/cox/coxtoday-magazine/2020-12-09-visual-finance-101"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -833,7 +833,7 @@ export default function EtradePage() {
                     of UI Design on Trader Performance.&rdquo; PhD diss., University of Waterloo.{" "}
                     <a
                       href="https://uwaterloo.ca/advanced-interface-design-lab/research/finance"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -846,7 +846,7 @@ export default function EtradePage() {
                     Finance Revolution.&rdquo; UC Berkeley: eScholarship, 2023.{" "}
                     <a
                       href="https://escholarship.org/uc/item/7sc26039"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -860,7 +860,7 @@ export default function EtradePage() {
                     <em>Ergonomics</em> 59, no. 12 (2016).{" "}
                     <a
                       href="https://www.researchgate.net/publication/264390035_Assessing_the_impact_of_typeface_design_in_a_text-rich_automotive_user_interface"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -873,7 +873,7 @@ export default function EtradePage() {
                     InsightsCRM Blog.{" "}
                     <a
                       href="https://www.insightscrm.com/blogs/impact-of-ui-ux-in-crms"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -886,7 +886,7 @@ export default function EtradePage() {
                     Disorder.&rdquo; <em>PubMed Central</em>, 2023.{" "}
                     <a
                       href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10654419/"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -899,7 +899,7 @@ export default function EtradePage() {
                     <em>Nielsen Norman Group</em>, 2006.{" "}
                     <a
                       href="https://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -912,7 +912,7 @@ export default function EtradePage() {
                     <em>The Journal of Neuroscience</em> 33, no. 9 (2013): 4002–4015.{" "}
                     <a
                       href="https://www.jneurosci.org/content/33/9/4002"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -925,7 +925,7 @@ export default function EtradePage() {
                     Cheshire, CT: Graphics Press, 2001.{" "}
                     <a
                       href="https://www.edwardtufte.com/books/"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -938,7 +938,7 @@ export default function EtradePage() {
                     Portal, 2024.{" "}
                     <a
                       href="https://www.diva-portal.org/smash/get/diva2:1967515/FULLTEXT01.pdf"
-                      className="transition-colors text-violet-700 underline underline-offset-2 hover:text-violet-900"
+                      className="transition-colors text-[#0F8EC7] underline underline-offset-2 hover:text-[#0a6d9e]"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
