@@ -527,91 +527,79 @@ export default async function EidolonPage() {
                 I shared the prototype with a group of friends and asked them a series of questions to understand their existing relationship with AI and their reaction after using it. Responses shaped every design decision below.
               </p>
 
-              <div className="mb-10 space-y-4">
-                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
-                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Reasoning Panels</p>
-                  </div>
-                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        4 of 5 users said seeing the agent&apos;s steps made them feel in control even when they weren&apos;t doing anything.
-                      </p>
-                    </div>
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Keep as the core trust mechanism via the <span className="font-medium">2D Negotiation Canvas</span> and <span className="font-medium">Data Provenance HUD</span>. Make the reasoning panel collapsible so power users aren&apos;t forced to watch every step.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
-                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Agent Character</p>
-                  </div>
-                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        3 of 5 users said the agent felt more calibrated after character setup. 2 found the metaphor confusing, &ldquo;it felt like a game, not a tool.&rdquo;
-                      </p>
-                    </div>
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Keep the <span className="font-medium">Anthropomorphic Trust</span> model but replace the gamified metaphor in v2 with a plain preference slider. The character design (gold skin, non-gendered, illustrative) stays as the trust layer.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Control Interface learnings */}
-              <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Control Interface learnings</p>
-              <div className="mb-10 space-y-4">
-                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
-                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Manual Toggle</p>
-                  </div>
-                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Both skeptical users said they would use the product if they could stay in manual mode permanently. They wanted a smarter interface, not an agent.
-                      </p>
-                    </div>
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Elevate <span className="font-medium">Manual Override</span> from nice-to-have to required. The two-mode toggle becomes the first decision a user makes, directly expressing the Human Authority & Safety pillar.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-2xl ring-1 ring-lime-300/35">
-                  <div className="border-b border-zinc-100 bg-lime-500/[0.05] px-6 py-4">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/80">Authorization Gate</p>
-                  </div>
-                  <div className="grid grid-cols-1 divide-y divide-zinc-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Users did not immediately recognize when the agent was about to take a high-stakes action. The transition felt invisible and created anxiety after the fact.
-                      </p>
-                    </div>
-                    <div className="px-6 py-5">
-                      <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Action</p>
-                      <p className="text-[0.875rem] leading-[1.7] text-zinc-700">
-                        Implement <span className="font-medium">Haptic Authorization</span> and <span className="font-medium">Pre-Action Verification</span> before any money or identity action, styled separately so the shift in stakes is unmistakable and the user always feels in control.
-                      </p>
-                    </div>
+              {/* Testing cards */}
+              {[
+                {
+                  group: "Reasoning Panels",
+                  items: [
+                    {
+                      name: "Reasoning Panels",
+                      stat: "80%",
+                      insight: <>said seeing the agent&apos;s steps made them feel in control even when they weren&apos;t doing anything.</>,
+                      action: <>Keep as the core trust mechanism via the <span className="font-medium text-zinc-900">2D Negotiation Canvas</span> and <span className="font-medium text-zinc-900">Data Provenance HUD</span>. Make the reasoning panel collapsible so power users aren&apos;t forced to watch every step.</>,
+                    },
+                    {
+                      name: "Agent Character",
+                      stat: "60%",
+                      insight: <>said the agent felt more calibrated after character setup. Two found the metaphor confusing — <span className="italic">&ldquo;it felt like a game, not a tool.&rdquo;</span></>,
+                      action: <>Keep the <span className="font-medium text-zinc-900">Anthropomorphic Trust</span> model but replace the gamified metaphor in v2 with a plain preference slider. The character design (gold skin, non-gendered, illustrative) stays as the trust layer.</>,
+                    },
+                  ],
+                },
+                {
+                  group: "Control Interface",
+                  items: [
+                    {
+                      name: "Manual Toggle",
+                      stat: null,
+                      insight: <>Both skeptical users said they would use the product if they could stay in manual mode permanently. They wanted a smarter interface, not an agent.</>,
+                      action: <>Elevate <span className="font-medium text-zinc-900">Manual Override</span> from nice-to-have to required. The two-mode toggle becomes the first decision a user makes, directly expressing the Human Authority &amp; Safety pillar.</>,
+                    },
+                    {
+                      name: "Authorization Gate",
+                      stat: null,
+                      insight: <>Users did not immediately recognize when the agent was about to take a high-stakes action. The transition felt invisible and created anxiety after the fact.</>,
+                      action: <>Implement <span className="font-medium text-zinc-900">Haptic Authorization</span> and <span className="font-medium text-zinc-900">Pre-Action Verification</span> before any money or identity action, styled separately so the shift in stakes is unmistakable and the user always feels in control.</>,
+                    },
+                  ],
+                },
+              ].map(({ group, items }) => (
+                <div key={group} className="mb-10">
+                  <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">{group}</p>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    {items.map(({ name, stat, insight, action }) => (
+                      <div key={name} className="flex flex-col overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/80 bg-white shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)]">
+                        {/* Card header */}
+                        <div className="flex items-center justify-between border-b border-zinc-100 px-5 py-3.5">
+                          <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">{name}</p>
+                          {stat && (
+                            <span className="rounded-full bg-lime-100 px-2.5 py-0.5 font-mono text-[9px] font-medium tracking-[0.12em] text-lime-700">
+                              {stat}
+                            </span>
+                          )}
+                        </div>
+                        {/* Insight */}
+                        <div className="flex gap-3 px-5 py-4">
+                          {stat && (
+                            <p className="flex-shrink-0 font-mono text-[1.6rem] font-medium leading-none tracking-[-0.04em] text-lime-500/60">
+                              {stat}
+                            </p>
+                          )}
+                          <div className="min-w-0">
+                            <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
+                            <p className="text-[0.82rem] leading-[1.65] text-zinc-600">{insight}</p>
+                          </div>
+                        </div>
+                        {/* Action */}
+                        <div className="mt-auto border-t border-zinc-100 bg-lime-500/[0.04] px-5 py-4">
+                          <p className="mb-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-lime-700/70">→ Action</p>
+                          <p className="text-[0.82rem] leading-[1.65] text-zinc-500">{action}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              ))}
 
               {/* Reactions */}
               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Reactions to &ldquo;Your AI agent&rdquo;</p>
