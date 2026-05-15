@@ -528,78 +528,44 @@ export default async function EidolonPage() {
               </p>
 
               {/* Testing cards */}
-              {[
-                {
-                  group: "Reasoning Panels",
-                  items: [
-                    {
-                      name: "Reasoning Panels",
-                      stat: "80%",
-                      insight: <>said seeing the agent&apos;s steps made them feel in control even when they weren&apos;t doing anything.</>,
-                      action: <>Keep as the core trust mechanism via the <span className="font-medium text-zinc-900">2D Negotiation Canvas</span> and <span className="font-medium text-zinc-900">Data Provenance HUD</span>. Make the reasoning panel collapsible so power users aren&apos;t forced to watch every step.</>,
-                    },
-                    {
-                      name: "Agent Character",
-                      stat: "60%",
-                      insight: <>said the agent felt more calibrated after character setup. Two found the metaphor confusing — <span className="italic">&ldquo;it felt like a game, not a tool.&rdquo;</span></>,
-                      action: <>Keep the <span className="font-medium text-zinc-900">Anthropomorphic Trust</span> model but replace the gamified metaphor in v2 with a plain preference slider. The character design (gold skin, non-gendered, illustrative) stays as the trust layer.</>,
-                    },
-                  ],
-                },
-                {
-                  group: "Control Interface",
-                  items: [
-                    {
-                      name: "Manual Toggle",
-                      stat: null,
-                      insight: <>Both skeptical users said they would use the product if they could stay in manual mode permanently. They wanted a smarter interface, not an agent.</>,
-                      action: <>Elevate <span className="font-medium text-zinc-900">Manual Override</span> from nice-to-have to required. The two-mode toggle becomes the first decision a user makes, directly expressing the Human Authority &amp; Safety pillar.</>,
-                    },
-                    {
-                      name: "Authorization Gate",
-                      stat: null,
-                      insight: <>Users did not immediately recognize when the agent was about to take a high-stakes action. The transition felt invisible and created anxiety after the fact.</>,
-                      action: <>Implement <span className="font-medium text-zinc-900">Haptic Authorization</span> and <span className="font-medium text-zinc-900">Pre-Action Verification</span> before any money or identity action, styled separately so the shift in stakes is unmistakable and the user always feels in control.</>,
-                    },
-                  ],
-                },
-              ].map(({ group, items }) => (
-                <div key={group} className="mb-10">
-                  <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">{group}</p>
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                    {items.map(({ name, stat, insight, action }) => (
-                      <div key={name} className="flex flex-col overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/80 bg-white shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)]">
-                        {/* Card header */}
-                        <div className="flex items-center justify-between border-b border-zinc-100 px-5 py-3.5">
-                          <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">{name}</p>
-                          {stat && (
-                            <span className="rounded-full bg-lime-100 px-2.5 py-0.5 font-mono text-[9px] font-medium tracking-[0.12em] text-lime-700">
-                              {stat}
-                            </span>
-                          )}
-                        </div>
-                        {/* Insight */}
-                        <div className="flex gap-3 px-5 py-4">
-                          {stat && (
-                            <p className="flex-shrink-0 font-mono text-[1.6rem] font-medium leading-none tracking-[-0.04em] text-lime-500/60">
-                              {stat}
-                            </p>
-                          )}
-                          <div className="min-w-0">
-                            <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
-                            <p className="text-[0.82rem] leading-[1.65] text-zinc-600">{insight}</p>
-                          </div>
-                        </div>
-                        {/* Action */}
-                        <div className="mt-auto border-t border-zinc-100 bg-lime-500/[0.04] px-5 py-4">
-                          <p className="mb-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-lime-700/70">→ Action</p>
-                          <p className="text-[0.82rem] leading-[1.65] text-zinc-500">{action}</p>
-                        </div>
-                      </div>
-                    ))}
+              <div className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {[
+                  {
+                    name: "Reasoning Panels",
+                    insight: "Seeing the steps made them feel in control, even when idle.",
+                    action: <>Keep as the core trust mechanism. Make the panel collapsible so power users can hide it.</>,
+                  },
+                  {
+                    name: "Agent Character",
+                    insight: <>Felt more calibrated after setup. Two found the metaphor gamey — <span className="italic">&ldquo;like a game, not a tool.&rdquo;</span></>,
+                    action: <>Keep <span className="font-medium text-zinc-900">Anthropomorphic Trust</span> but swap the gamified framing in v2 for a plain preference slider.</>,
+                  },
+                  {
+                    name: "Manual Toggle",
+                    insight: "Skeptical users wanted permanent manual mode — a smarter interface, not an agent.",
+                    action: <><span className="font-medium text-zinc-900">Manual Override</span> becomes the first decision a user makes, not an optional setting.</>,
+                  },
+                  {
+                    name: "Authorization Gate",
+                    insight: "High-stakes transitions felt invisible. Anxiety came after the fact, not before.",
+                    action: <><span className="font-medium text-zinc-900">Haptic Authorization</span> and <span className="font-medium text-zinc-900">Pre-Action Verification</span> make the shift in stakes unmistakable before anything executes.</>,
+                  },
+                ].map(({ name, insight, action }) => (
+                  <div key={name} className="flex flex-col overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/80 bg-white shadow-[0_4px_20px_-8px_rgba(0,0,0,0.08)]">
+                    <div className="border-b border-zinc-100 px-5 py-3.5">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">{name}</p>
+                    </div>
+                    <div className="px-5 py-4">
+                      <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400">Insight</p>
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-600">{insight}</p>
+                    </div>
+                    <div className="mt-auto border-t border-zinc-100 bg-lime-500/[0.04] px-5 py-4">
+                      <p className="mb-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-lime-700/70">Action</p>
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-500">{action}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
 
               {/* Reactions */}
               <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Reactions to &ldquo;Your AI agent&rdquo;</p>
