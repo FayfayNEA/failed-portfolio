@@ -537,12 +537,12 @@ export default async function EidolonPage() {
                   },
                   {
                     name: "Agent Character",
-                    insight: <>Felt more calibrated after setup. Two found the metaphor gamey — <span className="italic">&ldquo;like a game, not a tool.&rdquo;</span></>,
+                    insight: <>Felt more calibrated after setup. Two found the metaphor gamey: <span className="italic">&ldquo;like a game, not a tool.&rdquo;</span></>,
                     action: <>Keep <span className="font-medium text-zinc-900">Anthropomorphic Trust</span> but swap the gamified framing in v2 for a plain preference slider.</>,
                   },
                   {
                     name: "Manual Toggle",
-                    insight: "Skeptical users wanted permanent manual mode — a smarter interface, not an agent.",
+                    insight: "Skeptical users wanted permanent manual mode: a smarter interface, not an agent.",
                     action: <><span className="font-medium text-zinc-900">Manual Override</span> becomes the first decision a user makes, not an optional setting.</>,
                   },
                   {
@@ -713,7 +713,7 @@ export default async function EidolonPage() {
             <>
               <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
                 <p className="text-[0.82rem] leading-relaxed text-zinc-600">
-                  Pure client-side Vite + React app. Gemini calls go directly from the browser via the <span className="font-mono">@google/genai</span> SDK, with the API key injected at build time through Vite&apos;s <span className="font-mono">define</span> config — a deliberate sprint decision, not an oversight. Production would proxy through a serverless edge function. Google Cloud Run hosts the static build output.
+                  Pure client-side Vite + React app. Gemini calls go directly from the browser via the <span className="font-mono">@google/genai</span> SDK, with the API key injected at build time through Vite&apos;s <span className="font-mono">define</span> config, a deliberate sprint decision, not an oversight. Production would proxy through a serverless edge function. Google Cloud Run hosts the static build output.
                 </p>
               </div>
               <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
@@ -895,7 +895,7 @@ export default async function EidolonPage() {
                 },
                 {
                   title: "The ethical frame must come first",
-                  body: "Who controls the agent, what can it do without asking, how does a user revoke access — answering those questions first shaped every UI pattern.",
+                  body: "Who controls the agent, what can it do without asking, how does a user revoke access. Answering those questions first shaped every UI pattern.",
                 },
               ].map((card, i) => (
                 <li key={card.title}>
