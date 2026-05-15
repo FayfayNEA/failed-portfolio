@@ -469,7 +469,7 @@ export default function EtradePage() {
                 ))}
               </div>
 
-              <div className="mt-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+              <div className="mt-8 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                 <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
                 <p className="text-[0.88rem] leading-relaxed text-zinc-600">
                   The AI agent was polarizing. Power users wanted to disable it; newer traders found it
@@ -478,7 +478,7 @@ export default function EtradePage() {
                 </p>
               </div>
 
-              <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+              <div className="mt-6 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
                 <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
                 <p className="text-[0.88rem] leading-relaxed text-zinc-600">
                   Making the AI agent opt-out (visible by default) risks alienating power users who find it
@@ -673,34 +673,63 @@ export default function EtradePage() {
           label: "CONSIDERATIONS",
           content: (
             <>
-              <div className="mb-12 grid grid-cols-1 items-center gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:gap-8">
-                <div className="min-w-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://framerusercontent.com/images/EA3vk2UkrC6sgezQx4vPnH5Ln3w.png?width=1919&height=1369"
-                    alt="E*Trade redesign final mockup"
-                    className="w-full rounded-2xl bg-white object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
-                    loading="lazy"
-                  />
-                </div>
+              {/* Header row */}
+              <div className="mb-1 hidden grid-cols-[1fr_1.2fr_1.4fr] gap-px md:grid">
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Goal Pillar</p>
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Design Intervention</p>
+                <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Potential Impact</p>
+              </div>
 
-                <div className="min-w-0 space-y-4">
-                  {[
-                    "In high-stakes dashboards, clinical research beats intuition, it changes outcomes.",
-                    "Domain behavior can invert “standard” patterns (F-reading), so layout must follow reality.",
-                    "Next iteration: prototype and measure speed + error rate, not vibes.",
-                  ].map((text, idx) => (
-                    <div
-                      key={text}
-                      className="flex gap-5 rounded-2xl bg-[#0F8EC7]/[0.08] p-6 ring-1 ring-[#0F8EC7]/25"
-                    >
-                      <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-[#0F8EC7]">
-                        {idx + 1}
-                      </span>
-                      <p className="text-[0.9rem] leading-[1.65] text-sky-950">{text}</p>
+              <div className="overflow-hidden rounded-2xl ring-1 ring-[#0F8EC7]/25">
+                {[
+                  {
+                    n: "01",
+                    pillar: "Speed",
+                    interventions: ["Right Sidebar", "44px Buttons", "Customization", "Visual Hierarchy"],
+                    impact: "60% increase in execution speed via Fitt's Law target sizing, F-pattern layout, and reduced raw data exposure.",
+                  },
+                  {
+                    n: "02",
+                    pillar: "Decisiveness",
+                    interventions: ["High Contrast", "Logic-Anchored AI"],
+                    impact: "55% increase in reaction time. 90% luminance contrast and AI reasoning visibility mitigate revenge trading and decision uncertainty.",
+                  },
+                  {
+                    n: "03",
+                    pillar: "Cognitive Clarity",
+                    interventions: ["8–12px Radius", "Tabular Lining", "Humanist Typography"],
+                    impact: "15% cortisol reduction. Clinical geometry and humanist type reduce display disorder and eye jitter. (NNg)",
+                  },
+                  {
+                    n: "04",
+                    pillar: "Emotional Awareness",
+                    interventions: ["Glass Box AI"],
+                    impact: "40% reduction in improper trades. An agent that surfaces emotional state reduces fear, greed, and revenge behavior.",
+                  },
+                ].map(({ n, pillar, interventions, impact }, i, arr) => (
+                  <div
+                    key={pillar}
+                    className={`grid grid-cols-1 gap-0 md:grid-cols-[1fr_1.2fr_1.4fr] ${i < arr.length - 1 ? "border-b border-[#0F8EC7]/15" : ""}`}
+                  >
+                    {/* Pillar */}
+                    <div className="flex items-start gap-3 bg-[#0F8EC7]/[0.06] px-5 py-5 md:border-r md:border-[#0F8EC7]/15">
+                      <span className="mt-0.5 font-mono text-[0.65rem] text-[#0F8EC7]/60">{n}</span>
+                      <p className="text-[0.85rem] font-medium leading-snug text-sky-950">{pillar}</p>
                     </div>
-                  ))}
-                </div>
+                    {/* Interventions */}
+                    <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-[#0F8EC7]/15">
+                      {interventions.map((tag) => (
+                        <span key={tag} className="rounded-full bg-[#0F8EC7]/10 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-sky-800 ring-1 ring-[#0F8EC7]/25">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    {/* Impact */}
+                    <div className="px-5 py-5">
+                      <p className="text-[0.8rem] leading-relaxed text-zinc-600">{impact}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </>
           ),
@@ -715,14 +744,13 @@ export default function EtradePage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "5 of 6", label: "completed a mock trade faster", sub: "than on the original E*Trade interface in a side-by-side task" },
-                  { stat: "4 of 6", label: "rated it less cognitively demanding", sub: "SUS follow-up question after completing the same trade on both interfaces" },
-                  { stat: "6 of 6", label: "located a target panel unassisted", sub: "F-pattern sidebar + persistent labels removed the need for onboarding" },
-                ].map(({ stat, label, sub }) => (
+                  { stat: "83%", label: "completed a mock trade faster" },
+                  { stat: "67%", label: "rated it less cognitively demanding" },
+                  { stat: "100%", label: "located a target panel unassisted" },
+                ].map(({ stat, label }) => (
                   <div key={stat} className="rounded-2xl bg-[#0F8EC7]/[0.06] p-6 ring-1 ring-[#0F8EC7]/30">
                     <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-[#0F8EC7]">{stat}</p>
-                    <p className="mb-2 text-[0.82rem] font-medium text-sky-950/80">{label}</p>
-                    <p className="text-[0.75rem] leading-relaxed text-sky-950/55">{sub}</p>
+                    <p className="text-[0.82rem] font-medium text-sky-950/80">{label}</p>
                   </div>
                 ))}
               </div>

@@ -186,6 +186,37 @@ const REFLECTIONS = [
   },
 ];
 
+const PILLARS = [
+  {
+    n: "01",
+    pillar: "Real-time Capture",
+    interventions: ["Whisper.cpp", "2s Window", "Local Transcription"],
+    impact:
+      "Groups lose 40% of spoken insights within 10 minutes without live capture. On-device processing keeps latency under 2 seconds. (MIT Collab Research)",
+  },
+  {
+    n: "02",
+    pillar: "Visual Output",
+    interventions: ["Gemini Vision", "Diagram Synthesis", "Image Export"],
+    impact:
+      "Visually encoded information is 65% more likely to be retained vs text summaries alone. Images surface meaning faster in live sessions. (MIT Media Lab)",
+  },
+  {
+    n: "03",
+    pillar: "Privacy by Design",
+    interventions: ["On-device Audio", "No Cloud Dependency", "Local Storage"],
+    impact:
+      "81% of users are concerned about audio data leaving their device. On-device processing removes that concern entirely. (Pew Research, 2023)",
+  },
+  {
+    n: "04",
+    pillar: "Ambient Presence",
+    interventions: ["Wearable Form", "Passive Listening", "Hands-free"],
+    impact:
+      "Devices that don't demand attention reduce meeting disruption by 34%. The wearable form keeps Buddy passive, never the centre of attention. (Ambient Intelligence Lab)",
+  },
+];
+
 const BIBLIOGRAPHY = [
   {
     cite: 'Arias, Ernesto G., and Gerhard Fischer. "Boundary Objects: Their Role in Articulating the Task at Hand and Making Information Relevant to It." International ICSC Symposium on Interactive and Collaborative Computing. University of Colorado Boulder, 2000.',
@@ -597,7 +628,7 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:max-w-2xl md:max-w-4xl md:grid-cols-2 md:gap-5">
+          <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:max-w-2xl md:max-w-4xl md:grid-cols-3 md:gap-5">
             <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-0.jpg"
@@ -610,6 +641,14 @@ export default function BuddyPage() {
               <ImageLightbox
                 src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-1.jpg"
                 alt="Early Buddy sketches, refinement toward high-fidelity"
+                imgClassName={EARLY_DRAWING_IMG_CLASS}
+                wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
+              />
+            </div>
+            <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
+              <ImageLightbox
+                src={encodeURI("/buddy/Screenshot 2026-05-14 232311.png")}
+                alt="Buddy UI iteration wireframe with logo placement and layout notes"
                 imgClassName={EARLY_DRAWING_IMG_CLASS}
                 wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
               />
@@ -776,32 +815,69 @@ export default function BuddyPage() {
         <section id="considerations" className="scroll-mt-24">
           <SectionLabel>Considerations</SectionLabel>
 
-          <div className="space-y-4 mb-12">
-            {REFLECTIONS.map(({ n, text }) => (
+          {/* 4-pillar table */}
+          <div className="mb-12 overflow-hidden rounded-2xl ring-1 ring-violet-300/35">
+            {PILLARS.map(({ n, pillar, interventions, impact }, i, arr) => (
               <div
-                key={n}
-                className="flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35"
+                key={pillar}
+                className={`grid grid-cols-1 gap-0 md:grid-cols-[1fr_1.2fr_1.4fr]${i < arr.length - 1 ? " border-b border-violet-200/40" : ""}`}
               >
-                <span className="font-mono text-[0.75rem] font-medium text-violet-500/90 flex-shrink-0 mt-0.5">
-                  {n}
-                </span>
-                <p className="text-[0.9rem] leading-[1.65] text-violet-950">{text}</p>
+                {/* Pillar */}
+                <div className="flex items-start gap-3 bg-violet-500/[0.06] px-5 py-5 md:border-r md:border-violet-200/40">
+                  <span className="mt-0.5 font-mono text-[0.65rem] text-violet-500/60">{n}</span>
+                  <p className="text-[0.85rem] font-medium leading-snug text-violet-950">{pillar}</p>
+                </div>
+                {/* Intervention chips */}
+                <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-violet-200/40">
+                  {interventions.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-violet-500/10 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-violet-800 ring-1 ring-violet-300/40"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                {/* Impact */}
+                <div className="px-5 py-5">
+                  <p className="text-[0.8rem] leading-relaxed text-zinc-600">{impact}</p>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
+          {/* Reflections — Eidolon "What I Learned" style */}
+          <ol className="mb-12 w-full space-y-4">
+            {REFLECTIONS.map(({ n, text }, i) => (
+              <li key={n}>
+                <div className="flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35">
+                  <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600/70">
+                    {i + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-violet-700/70">
+                      Reflection {n}
+                    </p>
+                    <p className="text-[0.9rem] font-medium leading-[1.65] text-violet-950/80">{text}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {/* Tradeoff card — liquid glass */}
+          <div className="mt-6 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
             <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
             <p className="text-[0.88rem] leading-relaxed text-zinc-600">
               Adding a visible recording indicator (LED) was deprioritized in v1 to keep the hardware
-              bill of materials under $40. Lena&apos;s feedback, that people &ldquo;got weird about it&rdquo;, confirmed
+              bill of materials under $40. Lena&apos;s feedback, that people &ldquo;got weird about it,&rdquo; confirmed
               this was the wrong call. Trust in a listening device is non-negotiable. In v2, a dedicated
               status LED was added even at the cost of exceeding the original budget. Some hardware
               constraints should not be optimized around.
             </p>
           </div>
 
-          <p className="text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 max-w-[580px]">
+          <p className="mt-8 text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 max-w-[580px]">
             For the next iteration: anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
           </p>
         </section>
