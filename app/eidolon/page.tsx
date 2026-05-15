@@ -386,7 +386,7 @@ export default async function EidolonPage() {
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Iteration 1</p>
-                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-lime-700 ring-1 ring-lime-300/40">Selected</span>
+                      <span className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-lime-700 ring-1 ring-lime-300/40">Selected for scene description</span>
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -395,11 +395,14 @@ export default async function EidolonPage() {
                       className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                       loading="lazy"
                     />
-                    <p className="text-[0.72rem] leading-snug text-zinc-500">Overhead feedback so user constantly understands the scenario.</p>
+                    <p className="text-center text-[0.72rem] leading-snug text-zinc-500">Overhead feedback so user constantly understands the scenario.</p>
                   </div>
                   {/* Iteration 2 */}
                   <div className="flex flex-col gap-2">
-                    <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 2</p>
+                    <div className="flex items-center justify-between">
+                      <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 2</p>
+                      <span className="rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-zinc-500 ring-1 ring-zinc-200/60">Half selected for limited text on opening page</span>
+                    </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={encodeURI("/eidolon/Book 26 Jan 2026.pdf - Page 4 of 8.png")}
@@ -407,7 +410,7 @@ export default async function EidolonPage() {
                       className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                       loading="lazy"
                     />
-                    <p className="text-[0.72rem] leading-snug text-zinc-500">No overhead, visual actions only. Condensed sign-in page with 2 buttons.</p>
+                    <p className="text-center text-[0.72rem] leading-snug text-zinc-500">No overhead, visual actions only. Condensed sign-in page with 2 buttons.</p>
                   </div>
                   {/* Iteration 3 */}
                   <div className="flex flex-col gap-2">
@@ -419,13 +422,10 @@ export default async function EidolonPage() {
                       className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                       loading="lazy"
                     />
-                    <p className="text-[0.72rem] leading-snug text-zinc-500">Multiple sign-in entries. Character selection appears first before setup.</p>
+                    <p className="text-center text-[0.72rem] leading-snug text-zinc-500">Multiple sign-in entries. Character selection appears first before setup.</p>
                   </div>
                 </div>
               </div>
-              <p className="mt-3 font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Iteration 1 selected, overhead context makes each scene immediately readable.
-              </p>
 
               <div className="mt-14">
                 <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
@@ -507,35 +507,32 @@ export default async function EidolonPage() {
                       <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
                       <div className="relative p-3 sm:p-4 md:p-5">
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
-                          <div className="flex flex-col gap-3">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={encodeURI("/eidolon/b&w 1.png")} alt="Character creation, non-gendered" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
-                            <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
-                              <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Non-gendered</p>
-                              <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Allows agent to engage in non-biased action.</p>
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-3">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={encodeURI("/eidolon/color (2).png")} alt="Character creation, gold skin" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
-                            <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
-                              <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Gold Skin</p>
-                              <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Leads to feelings of trust and wisdom.</p>
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-3">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={encodeURI("/eidolon/color (3).png")} alt="Character creation, illustration style" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
-                            <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
-                              <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Illustration</p>
-                              <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Uncanny valley is avoided when stylization is between 10&ndash;30%.</p>
-                            </div>
-                          </div>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={encodeURI("/eidolon/b&w 1.png")} alt="Character creation, non-gendered" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={encodeURI("/eidolon/color (2).png")} alt="Character creation, gold skin" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={encodeURI("/eidolon/color (3).png")} alt="Character creation, illustration style" className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
                         </div>
                       </div>
                     </div>
                   </div>
                   <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Generated with Gemini</p>
+
+                  <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+                    <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
+                      <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Non-gendered</p>
+                      <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Allows agent to engage in non-biased action.</p>
+                    </div>
+                    <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
+                      <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Gold Skin</p>
+                      <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Leads to feelings of trust and wisdom.</p>
+                    </div>
+                    <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
+                      <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Illustration</p>
+                      <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Uncanny valley is avoided when stylization is between 10&ndash;30%.</p>
+                    </div>
+                  </div>
 
                   <div className="mx-auto mt-6 w-full max-w-[min(800px,calc(100vw-1.5rem))]">
                     <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.06]">
@@ -548,15 +545,6 @@ export default async function EidolonPage() {
                     </div>
                   </div>
                   <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Napkin.ai diagram</p>
-
-                  <div className="mt-6">
-                    <div className="rounded-xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
-                      <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-lime-700/85">Key learning, Anthropomorphic trust</p>
-                      <p className="text-[0.85rem] font-medium leading-relaxed text-lime-950">
-                        Illustrating the agent as a gold, Buddha-like character made its intent feel calmer and more legible-using embodiment to borrow trust without hiding the machine.
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </>
