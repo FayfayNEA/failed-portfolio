@@ -342,6 +342,37 @@ export default async function EidolonPage() {
           label: "IDEATION",
           content: (
             <>
+              <div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
+                {[
+                  {
+                    n: "01",
+                    area: "Agent Status",
+                    detail: "Every screen needed a live signal showing what the agent was actively doing, so users never felt abandoned or deceived.",
+                  },
+                  {
+                    n: "02",
+                    area: "Action Transparency",
+                    detail: "Each decision the agent made required a visible reasoning trail, mirroring how Claude's thinking mode surfaces intent.",
+                  },
+                  {
+                    n: "03",
+                    area: "Trust Signal",
+                    detail: "Visual character and animation cues had to communicate reliability without requiring the user to read a single line of log output.",
+                  },
+                  {
+                    n: "04",
+                    area: "Authorization Layer",
+                    detail: "High-stakes actions needed a clear confirmation gate, ensuring the user always felt in control, never overridden.",
+                  },
+                ].map(({ n, area, detail }) => (
+                  <div key={n} className="rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35">
+                    <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{n}</p>
+                    <p className="mb-2 text-[0.88rem] font-medium leading-snug text-lime-950">{area}</p>
+                    <p className="text-[0.75rem] leading-relaxed text-lime-950/60">{detail}</p>
+                  </div>
+                ))}
+              </div>
+
               <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
                 Low-Fi Wireframes
               </h2>
