@@ -476,22 +476,20 @@ export default async function EidolonPage() {
                 <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Gemini diagrams</p>
 
                 <div className="mx-auto mt-4 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-                  <div className="flex flex-col gap-2">
-                    <ProjectGalleryRow
-                      images={[encodeURI("/eidolon/screen 1 of manual.png"),encodeURI("/eidolon/screen 2 of manual.png"),encodeURI("/eidolon/screen 3 of manual.png"),encodeURI("/eidolon/screen 4 of manual.png")]}
-                      theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
-                    />
-                    <p className="text-[0.72rem] leading-snug text-zinc-500">Harsher edges. Left-side toggle to pick AI agent mode.</p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <ProjectGalleryRow
-                      images={[encodeURI("/eidolon/screen 1 of automatic.png"),encodeURI("/eidolon/screen 2 of automatic.png"),encodeURI("/eidolon/screen 3 of automatic.png"),encodeURI("/eidolon/screen 4 of automatic.png"),encodeURI("/eidolon/screen 5 of automatic.png"),encodeURI("/eidolon/screen 6 of automatic.png")]}
-                      theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
-                    />
-                    <p className="text-[0.72rem] leading-snug text-zinc-500">Bottom-left money bar with square edges on each image.</p>
-                  </div>
+                  <ProjectGalleryRow
+                    images={[encodeURI("/eidolon/screen 1 of manual.png"),encodeURI("/eidolon/screen 2 of manual.png"),encodeURI("/eidolon/screen 3 of manual.png"),encodeURI("/eidolon/screen 4 of manual.png")]}
+                    theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
+                  />
+                  <ProjectGalleryRow
+                    images={[encodeURI("/eidolon/screen 1 of automatic.png"),encodeURI("/eidolon/screen 2 of automatic.png"),encodeURI("/eidolon/screen 3 of automatic.png"),encodeURI("/eidolon/screen 4 of automatic.png"),encodeURI("/eidolon/screen 5 of automatic.png"),encodeURI("/eidolon/screen 6 of automatic.png")]}
+                    theme="lime" glassVariant="liquid" frameSize="phone" slideImageFit="contain" slidePadding="default" className="my-0 w-full"
+                  />
                 </div>
                 <p className="mt-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Figma mockups</p>
+                <div className="mx-auto mt-3 grid w-full max-w-[min(800px,calc(100vw-1.5rem))] grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
+                  <p className="text-[0.72rem] leading-snug text-zinc-500">Harsher edges. Left-side toggle to pick AI agent mode.</p>
+                  <p className="text-[0.72rem] leading-snug text-zinc-500">Bottom-left money bar with square edges on each image.</p>
+                </div>
 
                 <div className="mt-14">
                   <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
