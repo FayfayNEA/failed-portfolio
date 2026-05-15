@@ -947,60 +947,6 @@ export default async function EidolonPage() {
                 This project situates itself within broader debates in AI ethics, acknowledging that contemporary AI systems continue to raise concerns around surveillance capitalism, algorithmic manipulation, opaque decision-making, and concentrated data power. Rather than assuming AI is inherently neutral or benevolent, the proposal recognizes its potential to subtly influence user behavior and prioritize commercial interests. In response, it introduces a dual-agent framework as a structural safety network, where a personal AI advocates for the user by monitoring persuasive tactics, limiting unnecessary data exchange, and making algorithmic influence visible through a protective interface layer. By embedding safeguards directly into the system’s architecture, the project argues that trust in AI must be constructed through transparency, distributed control, and user autonomy, not convenience alone.
               </p>
 
-              <div className="mx-auto mt-6 -mb-4 w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
-                <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-400">
-                  Spritesheet
-                </p>
-                <div className="rounded-2xl border-[0.5px] border-zinc-200/70 bg-white p-3 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06] sm:p-4 md:p-5">
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_c0ssivc0ssivc0ss.png")}
-                      alt="Eidolon sprite 1"
-                      className="aspect-square w-full rounded-xl bg-white object-cover"
-                      loading="lazy"
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_hd2vpxhd2vpxhd2v.png")}
-                      alt="Eidolon sprite 2"
-                      className="aspect-square w-full rounded-xl bg-white object-cover"
-                      loading="lazy"
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_jl181pjl181pjl18.png")}
-                      alt="Eidolon sprite 3"
-                      className="aspect-square w-full rounded-xl bg-white object-cover"
-                      loading="lazy"
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_q5wg5mq5wg5mq5wg.png")}
-                      alt="Eidolon sprite 4"
-                      className="aspect-square w-full rounded-xl bg-white object-cover"
-                      loading="lazy"
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_rkwzqdrkwzqdrkwz.png")}
-                      alt="Eidolon sprite 5"
-                      className="aspect-square w-full rounded-xl bg-white object-cover"
-                      loading="lazy"
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_vux2l0vux2l0vux2.png")}
-                      alt="Eidolon sprite 6"
-                      className="aspect-square w-full rounded-xl bg-white object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-                <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                  Made with Gemini
-                </p>
-              </div>
             </>
           ),
         },
@@ -1034,6 +980,33 @@ export default async function EidolonPage() {
                 </li>
               ))}
             </ol>
+          ),
+        },
+        {
+          id: "spritesheet",
+          label: "SPRITESHEET",
+          content: (
+            <>
+              <div className="mx-auto w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
+                <div className="rounded-2xl border-[0.5px] border-zinc-200/70 bg-white p-3 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06] sm:p-4 md:p-5">
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6 md:gap-4">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_c0ssivc0ssivc0ss.png")} alt="Eidolon sprite 1" className="aspect-square w-full rounded-xl bg-white object-cover" loading="lazy" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_hd2vpxhd2vpxhd2v.png")} alt="Eidolon sprite 2" className="aspect-square w-full rounded-xl bg-white object-cover" loading="lazy" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_jl181pjl181pjl18.png")} alt="Eidolon sprite 3" className="aspect-square w-full rounded-xl bg-white object-cover" loading="lazy" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_q5wg5mq5wg5mq5wg.png")} alt="Eidolon sprite 4" className="aspect-square w-full rounded-xl bg-white object-cover" loading="lazy" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_rkwzqdrkwzqdrkwz.png")} alt="Eidolon sprite 5" className="aspect-square w-full rounded-xl bg-white object-cover" loading="lazy" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={encodeURI("/eidolon/spritesheet/Gemini_Generated_Image_vux2l0vux2l0vux2.png")} alt="Eidolon sprite 6" className="aspect-square w-full rounded-xl bg-white object-cover" loading="lazy" />
+                  </div>
+                </div>
+                <p className="mt-3 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Made with Gemini</p>
+              </div>
+            </>
           ),
         },
         {
