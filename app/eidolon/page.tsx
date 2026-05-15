@@ -197,11 +197,11 @@ export default async function EidolonPage() {
               />
 
 
-              <div id="how-might-we" className="mt-16 scroll-mt-24">
-                <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-[#A0A0A0]">
+              <div id="how-might-we" className="mt-16 scroll-mt-24 rounded-2xl border-[0.5px] border-white/60 bg-white/40 p-8 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10)] ring-1 ring-black/[0.04] backdrop-blur-md">
+                <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
                   How Might We
                 </p>
-                <p className="text-[clamp(1.4rem,3vw,2rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
+                <p className="text-[clamp(1.2rem,2.6vw,1.7rem)] font-medium leading-[1.2] tracking-[-0.03em] text-zinc-950">
                   Improve trust in AI and decrease cognitive load?
                 </p>
                 <p className="mt-4 text-[0.85rem] leading-relaxed text-zinc-500">
@@ -524,7 +524,7 @@ export default async function EidolonPage() {
                 Testing the solution
               </h2>
               <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                I shared the prototype with a group of people and asked them a series of questions to understand their existing relationship with AI and their reaction after using it. Responses shaped every design decision below.
+                I shared the prototype with a group of people and asked them a series of questions to understand their reaction after using a new type of AI.
               </p>
 
               {/* Testing cards */}
@@ -594,7 +594,7 @@ export default async function EidolonPage() {
         },
         {
           id: "solution",
-          label: "THE SOLUTION & FINAL PRODUCT",
+          label: "THE SOLUTION",
           content: (
             <>
               <ReasoningPanels panels={[
@@ -805,7 +805,7 @@ export default async function EidolonPage() {
         },
         {
           id: "what-i-learned",
-          label: "WHAT I LEARNED & CONSIDERATIONS",
+          label: "WHAT I LEARNED",
           content: (
             <ol className="mt-2 w-full space-y-4">
               {[
@@ -943,7 +943,7 @@ export default async function EidolonPage() {
         },
         {
           id: "bibliography",
-          label: "SPRITESHEET & BIBLIOGRAPHY",
+          label: "BIBLIOGRAPHY",
           content: (
             <>
               <div className="rounded-2xl bg-zinc-100/60 p-6 ring-1 ring-black/[0.05]">
