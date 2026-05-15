@@ -579,9 +579,9 @@ export default async function EidolonPage() {
                     <div className="border-b border-white/50 px-5 py-3.5">
                       <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-500">{name}</p>
                     </div>
-                    <div className="bg-white/10 px-5 py-4">
+                    <div className="bg-white/[0.03] px-5 py-4">
                       <p className="mb-1 font-mono text-[8px] uppercase tracking-[0.18em] text-zinc-400/70">Insight</p>
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-500/80">{insight}</p>
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-800">{insight}</p>
                     </div>
                     <div className="mt-auto border-t border-white/50 bg-white/40 px-5 py-4">
                       <p className="mb-1.5 font-mono text-[8px] uppercase tracking-[0.18em] text-lime-700/70">Action</p>
