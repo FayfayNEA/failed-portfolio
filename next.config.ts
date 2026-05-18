@@ -1,10 +1,31 @@
 import type { NextConfig } from "next";
 import { fileURLToPath } from "node:url";
 
+const projectRoot = fileURLToPath(new URL(".", import.meta.url));
+
 const nextConfig: NextConfig = {
+  // Keep outputFileTracingRoot and turbopack.root in sync to avoid the
+  // "Both are set but must have the same value" warning on Vercel.
+  outputFileTracingRoot: projectRoot,
   turbopack: {
-    // Prevent Next from inferring an incorrect workspace root (e.g. C:\Users\Failenn)
-    root: fileURLToPath(new URL(".", import.meta.url)),
+    root: projectRoot,
+  },
+  // Aggressive cache headers for immutable static assets (videos, images, fonts in /public)
+  async headers() {
+    return [
+      {
+        source: "/:path*\\.(mp4|webm|mov|jpg|jpeg|png|gif|webp|avif|svg|woff|woff2|ttf|otf|ico)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/home/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=86400" },
+        ],
+      },
+    ];
   },
   images: {
     remotePatterns: [
