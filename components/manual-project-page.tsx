@@ -13,6 +13,7 @@ import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure"
 import { CoolPageCursor } from "@/components/cool-page-cursor";
 import { AutoPlayVideo } from "@/components/autoplay-video";
 import { cn } from "@/lib/cn";
+import { CategoryProjectsFooter } from "@/components/category-projects-footer";
 
 type Hero =
   | {
@@ -220,60 +221,37 @@ function HeroCarousel({
         />
       )}
 
-      {/* Prev / Next buttons */}
+      {/* Controls row: arrows + dots below the image */}
       {n > 1 && (
-        <>
+        <div className="mt-3 flex w-full items-center justify-between gap-3 px-1">
           <button
-            onPointerDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              prev();
-            }}
+            onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
             aria-label="Previous image"
-            className={cn(heroNavBtn, "left-3")}
+            className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
           >
             ‹
           </button>
+          <div className="flex items-center">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                aria-label={`Go to image ${i + 1}`}
+                className="flex h-12 w-12 items-center justify-center touch-manipulation focus:outline-none"
+              >
+                <span className={cn("block rounded-full transition-all duration-200", i === index ? "h-3 w-7 bg-zinc-700" : "h-3 w-3 bg-zinc-300")} />
+              </button>
+            ))}
+          </div>
           <button
-            onPointerDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              next();
-            }}
+            onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
             aria-label="Next image"
-            className={cn(heroNavBtn, "right-3")}
+            className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
           >
             ›
           </button>
-        </>
-      )}
-
-      {/* Dot indicators */}
-      {n > 1 && (
-        <div className="absolute bottom-1 left-1/2 flex -translate-x-1/2">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              aria-label={`Go to image ${i + 1}`}
-              className="flex h-11 w-8 items-center justify-center touch-manipulation focus:outline-none"
-            >
-              <span
-                className={cn(
-                  "block h-1.5 rounded-full transition-all",
-                  i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
-                )}
-              />
-            </button>
-          ))}
         </div>
       )}
     </div>
@@ -371,7 +349,7 @@ function HeroVideoCarousel({
               muted
               autoPlay
               loop
-              preload="auto"
+              preload="metadata"
               className={cn(
                 landscape
                   // Landscape: width-bound, height auto with a generous viewport cap.
@@ -410,59 +388,38 @@ function HeroVideoCarousel({
           />
         </div>
 
-        {/* Prev / Next buttons */}
+        {/* Controls row: arrows + dots below the video */}
         {n > 1 && (
-          <>
+          <div className="mt-3 flex w-full items-center justify-between gap-3 px-1">
             <button
-              onPointerDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                prev();
-              }}
+              onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
               aria-label="Previous video"
-              className={cn(heroNavBtn, "left-3")}
+              className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
             >
               ‹
             </button>
-            <button
-              onPointerDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                next();
-              }}
-              aria-label="Next video"
-              className={cn(heroNavBtn, "right-3")}
-            >
-              ›
-            </button>
-
-            {/* Dot indicators */}
-            <div className="absolute bottom-1 left-1/2 z-20 flex -translate-x-1/2">
+            <div className="flex items-center">
               {videos.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setIndex(i)}
                   aria-label={`Go to video ${i + 1}`}
-                  className="flex h-11 w-8 items-center justify-center touch-manipulation focus:outline-none"
+                  className="flex h-12 w-12 items-center justify-center touch-manipulation focus:outline-none"
                 >
-                  <span
-                    className={cn(
-                      "block h-1.5 rounded-full transition-all",
-                      i === index ? "w-4 bg-white" : "w-1.5 bg-white/50"
-                    )}
-                  />
+                  <span className={cn("block rounded-full transition-all duration-200", i === index ? "h-3 w-7 bg-zinc-700" : "h-3 w-3 bg-zinc-300")} />
                 </button>
               ))}
             </div>
-          </>
+            <button
+              onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
+              aria-label="Next video"
+              className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+            >
+              ›
+            </button>
+          </div>
         )}
       </div>
     </div>
@@ -484,7 +441,7 @@ function SectionLabel({ children }: { children: ReactNode }) {
 }
 
 function Divider() {
-  return <div className="my-14 h-px w-full bg-zinc-200/50" />;
+  return <div className="mt-19 mb-0 h-px w-full bg-zinc-200/50" />;
 }
 
 export function ManualProjectPage({
@@ -964,6 +921,8 @@ export function ManualProjectPage({
             </Fragment>
           );
         })}
+
+        <CategoryProjectsFooter category={category} currentSlug={slug} />
       </main>
     </div>
   );

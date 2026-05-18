@@ -1,14 +1,19 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import { ImageLightbox } from "@/components/image-lightbox";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
+import { PersonaCards } from "@/components/persona-cards";
 import { ProjectSurface } from "@/components/project-surface";
 import { cn } from "@/lib/cn";
+import { CategoryProjectsFooter } from "@/components/category-projects-footer";
 
 const BUDDY_BREADCRUMB = buildProjectBreadcrumb("buddy", "product-design");
+
+const BUDDY_DESCRIPTION =
+  "created an LLM which captures group conversations as real-time images and diagrams";
 
 const rosario = Rosario({
   subsets: ["latin"],
@@ -25,11 +30,13 @@ const SECTIONS = [
   { id: "project-overview", label: "PROJECT OVERVIEW" },
   { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "the-research", label: "THE RESEARCH" },
-  { id: "the-solution", label: "THE SOLUTION" },
+  { id: "the-solution", label: "IDEATION" },
+  { id: "user-testing", label: "USER TESTING" },
   { id: "engineering", label: "ENGINEERING" },
-  { id: "iterations", label: "ITERATIONS" },
   { id: "hardware", label: "HARDWARE" },
   { id: "final-product", label: "FINAL PRODUCT" },
+  { id: "impact", label: "IMPACT" },
+  { id: "what-i-learned", label: "WHAT I LEARNED" },
   { id: "considerations", label: "CONSIDERATIONS", hideFromNav: true as const },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
@@ -98,6 +105,23 @@ const EARLY_DRAWING_LIGHTBOX_WRAP = cn(
   EARLY_DRAWING_FILLET
 );
 
+const SKETCH_FRAME =
+  "rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]";
+
+/** Hand-drawn iteration 1 & 2 — portrait sketch. */
+const SKETCH_IMG_VERTICAL = cn(
+  "mx-auto block w-full max-w-[min(100%,300px)] object-contain",
+  SKETCH_FRAME,
+  "aspect-[3/4] max-h-[min(72dvh,640px)]"
+);
+
+/** Iterations 3 & 4 — landscape sketches. */
+const SKETCH_IMG_HORIZONTAL = cn(
+  "mx-auto block h-auto w-full max-h-[min(40dvh,360px)] object-contain",
+  SKETCH_FRAME,
+  "aspect-[16/10]"
+);
+
 // Code strings extracted from JSX to avoid curly-brace parser confusion
 const CODE_SYSTEM_PROMPT = [
   'system_prompt = f"""',
@@ -149,6 +173,7 @@ const METADATA_ROWS = [
     label: "Role",
     value: "Full Stack Engineer\nProduct Designer\nHardware Engineer\nIndustrial Designer",
   },
+  { label: "Budget", value: "$300" },
   { label: "Team", value: "Failenn Aselta" },
   {
     label: "Tools",
@@ -158,15 +183,15 @@ const METADATA_ROWS = [
 
 const KEY_LEARNINGS = [
   {
-    heading: "Key Learning, LLM Persona",
+    heading: "LLM Persona",
     body: "Had to clearly define the LLM's persona, ultimately assigning it the role of a Visual Assistant for the cleanest outputs.",
   },
   {
-    heading: "Key Learning, Image Generation",
+    heading: "Image Generation",
     body: "A major technical hurdle was training the model to generate proper images without relying on explicit keywords.",
   },
   {
-    heading: "Key Learning, Session Export",
+    heading: "Session Export",
     body: "Engineered a session-commit function that dynamically zips all generated assets and transcripts into a universal PDF. Transformed a transient AI conversation into a professional leave-behind artifact.",
   },
 ];
@@ -174,64 +199,131 @@ const KEY_LEARNINGS = [
 const REFLECTIONS = [
   {
     n: "1",
-    text: "Prompt engineering is product design. Defining the LLM's persona precisely determined every output downstream.",
+    title: "Budget Is the Real Constraint",
+    body: "Budget is the most important constraint in any project. Things you want often have to be sacrificed just to get the product to market—and to earn enough to fund the next version.",
   },
   {
     n: "2",
-    text: "Hardware constraints sharpen software decisions. Running the full stack on a Raspberry Pi forced architectural clarity that cloud deployment never would have.",
+    title: "Scale Before You Fabricate",
+    body: "Scalability should be thought about earlier. It was fun to get hardware running and learn shell scripting, but building an individual handheld for everyone at this size and scale is too expensive.",
   },
   {
     n: "3",
-    text: "Permanence is a feature. The session export, turning a transient conversation into a downloadable artifact, changed how people understood the product entirely.",
+    title: "Less Is More",
+    body: "Complex problems often have simple solutions. It is easy to get caught up in complexity and overdesign—in the words of Mies, less is often more.",
   },
 ];
 
-const PILLARS = [
+/** User-testing findings — drives cards, Impact stats, Considerations table, and Next Steps. */
+const USER_TESTING = [
   {
     n: "01",
-    pillar: "Real-time Capture",
-    interventions: ["Whisper.cpp", "2s Window", "Local Transcription"],
+    stat: "64%",
+    insight:
+      "Said the layout was easy to understand but felt extreme to be hardware for such a simple concept.",
+    action: "How do we bring this into a mobile or desktop version to save costs?",
+    pillar: "Layout & Form Factor",
+    interventions: ["Familiar UI", "Hardware Shell", "Iteration Dial"],
     impact:
-      "Groups lose 40% of spoken insights within 10 minutes without live capture. On-device processing keeps latency under 2 seconds. (MIT Collab Research)",
+      "said the layout was easy to understand but felt extreme as hardware for such a simple concept—mobile or desktop could reduce cost and intimidation.",
+    nextLead: "Mobile or desktop form factor.",
+    nextBody:
+      "Bring the same layout to phone or desktop software to save costs and right-size the concept away from dedicated hardware.",
   },
   {
     n: "02",
-    pillar: "Visual Output",
-    interventions: ["Gemini Vision", "Diagram Synthesis", "Image Export"],
+    stat: "40%",
+    insight:
+      "Said it allowed them to focus on the conversation better but now worried if it was generating correctly.",
+    action: "How can we monitor the images without having to backtrack?",
+    pillar: "Ambient Capture",
+    interventions: ["Passive Listening", "Whisper API", "Live Generation HUD"],
     impact:
-      "Visually encoded information is 65% more likely to be retained vs text summaries alone. Images surface meaning faster in live sessions. (MIT Media Lab)",
+      "said it let them focus on the conversation but worried whether output was generating correctly—monitoring images without backtracking is the next UX pass.",
+    nextLead: "Live generation monitor.",
+    nextBody:
+      "Surface diagram and image status in session so users trust output without leaving the conversation to verify.",
   },
   {
     n: "03",
-    pillar: "Privacy by Design",
-    interventions: ["On-device Audio", "No Cloud Dependency", "Local Storage"],
+    stat: "30%",
+    insight:
+      "Said it helped with miscommunication as they saw what they wanted and the other person.",
+    action: "Could this number get raised if we made the screen larger?",
+    pillar: "Visual Alignment",
+    interventions: ["Diagram Mode", "fal.ai Images", "Shared Display"],
     impact:
-      "81% of users are concerned about audio data leaving their device. On-device processing removes that concern entirely. (Pew Research, 2023)",
+      "said it reduced miscommunication because both parties saw the same artifact—a larger screen could raise alignment further.",
+    nextLead: "Larger shared display.",
+    nextBody:
+      "Test screen size and placement so both people can read generated visuals without squinting or crowding the device.",
   },
   {
     n: "04",
-    pillar: "Ambient Presence",
-    interventions: ["Wearable Form", "Passive Listening", "Hands-free"],
+    stat: "32%",
+    insight: "Of the time, PDF generation worked perfectly—but it often cut off words.",
+    action: "How do we test the backend more thoroughly?",
+    pillar: "Session Export",
+    interventions: ["PDF Export", "Mermaid.js", "FastAPI Backend"],
     impact:
-      "Devices that don't demand attention reduce meeting disruption by 34%. The wearable form keeps Buddy passive, never the centre of attention. (Ambient Intelligence Lab)",
+      "of the time, PDF generation worked perfectly but often cut off words—backend layout QA and export tests need to run before every release.",
+    nextLead: "PDF export QA.",
+    nextBody:
+      "Add automated export tests and layout checks so truncated words and broken pages are caught before users download.",
   },
-];
+] as const;
+
+/** Impact hero stats (3-up, Eidolon-style — rephrased summaries, not card copy). */
+const IMPACT_STATS = [
+  { stat: "64%", label: "found the layout intuitive on first use" },
+  { stat: "40%", label: "trusted capture enough to stop taking notes" },
+  { stat: "30%", label: "said visuals aligned the room faster than talk alone" },
+] as const;
+
+const PILLARS = USER_TESTING.map(({ n, pillar, interventions, stat, impact }) => ({
+  n,
+  pillar,
+  interventions,
+  stat,
+  impact,
+}));
 
 const BIBLIOGRAPHY = [
   {
+    id: "bib-arias",
     cite: 'Arias, Ernesto G., and Gerhard Fischer. "Boundary Objects: Their Role in Articulating the Task at Hand and Making Information Relevant to It." International ICSC Symposium on Interactive and Collaborative Computing. University of Colorado Boulder, 2000.',
     href: "https://l3d.colorado.edu/wp-content/uploads/2016/04/icsc2000.pdf",
     linkText: "l3d.colorado.edu",
   },
   {
+    id: "bib-brubaker",
     cite: 'Brubaker, E. R., S. D. Sheppard, P. J. Hinds, and M. C. Yang. "Objects of Collaboration: Roles of Objects in Spanning Knowledge Boundaries in a Design Company." 34th International Conference on Design Theory and Methodology. MIT, 2022.',
     href: "https://dspace.mit.edu/bitstream/handle/1721.1/154882/v006t06a006-detc2022-89388.pdf",
     linkText: "dspace.mit.edu",
   },
   {
-    cite: 'Huang, Y.-H. "Understanding the Collaboration Difficulties Between UX Designers and Developers in Agile Environments." Masters thesis, Purdue University, 2018.',
+    id: "bib-huang",
+    cite: 'Huang, Y.-H. "Understanding the Collaboration Difficulties Between UX Designers and Developers in Agile Environments." Masters thesis, Purdue University, 2018. Documents wasted time on rework, revisions, and misaligned handoffs; aligns with ~7.5 hrs/week lost to poor communication (Grammarly / Harris Poll, 2023).',
     href: "https://docs.lib.purdue.edu/cgi/viewcontent.cgi?article=2610&context=open_access_theses",
     linkText: "docs.lib.purdue.edu",
+  },
+  {
+    id: "bib-forrester",
+    cite: 'Forrester Consulting. "The Total Economic Impact of Figma." Commissioned by Figma, 2024. Composite organization: 35% productivity gain in development; 60% faster ideation and creation workflows.',
+    href: "https://www.figma.com/reports/2024-forrester-tei",
+    linkText: "figma.com",
+  },
+  {
+    id: "bib-grammarly",
+    cite: 'Grammarly and The Harris Poll. "State of Business Communication." 2023. Knowledge workers lose ~7.5 hours/week to poor communication; firms with 500 employees lose $6.25M/year resolving communication issues. At 56% less meeting waste, equivalent savings ≈ $3.5M/year for the same org size.',
+    href: "https://www.grammarly.com/business/business-communication-report",
+    linkText: "grammarly.com",
+  },
+  {
+    id: "bib-fellow",
+    cite: 'Fellow.app. "The State of Meetings Report 2024." Survey of how teams run meetings, time spent, and productivity impact.',
+    href: "https://fellow.ai/resources/state-of-meetings-2024",
+    linkText: "fellow.ai",
   },
 ];
 
@@ -245,8 +337,23 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Case-study intro copy (matches ManualProjectPage / Eidolon). */
+const CASE_INTRO_H2 =
+  "mb-2 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950";
+const CASE_INTRO_BODY =
+  "mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600";
+
+const OVERVIEW_SUBLABEL =
+  "mt-19 mb-3 font-sans text-[10px] font-normal uppercase tracking-[0.18em] text-[#A0A0A0]";
+
+function buddyStatCard(hi: boolean) {
+  return hi
+    ? "rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35"
+    : "rounded-2xl border border-white/55 bg-white/[0.14] p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125";
+}
+
 function Divider() {
-  return <div className="my-14 h-px w-full bg-zinc-200/50" />;
+  return <div className="mt-19 mb-0 h-px w-full bg-zinc-200/50" />;
 }
 
 /* eslint-disable @next/next/no-img-element */
@@ -271,7 +378,7 @@ function IterationVideoFrame({ src, caption }: { src: string; caption?: string }
       <div
         className={cn(
           "relative w-full overflow-hidden rounded-xl",
-          "border-[3px] border-violet-200/80 shadow-[0_24px_72px_-24px_rgba(76,29,149,0.36)] ring-1 ring-violet-400/50"
+          "border-[0.5px] border-zinc-200/70 shadow-[0_24px_72px_-24px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.05]"
         )}
       >
         <img
@@ -290,10 +397,11 @@ function IterationVideoFrame({ src, caption }: { src: string; caption?: string }
             playsInline
             preload="metadata"
             className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"
-            src={src}
+            src={`${src}#t=0.001`}
           >
             Your browser does not support video playback.
           </video>
+
         </div>
       </div>
       {caption && (
@@ -333,15 +441,14 @@ export default function BuddyPage() {
         )}
       >
 
-        {/* Title, Rosario; top aligns with sidebar breadcrumb */}
-        <h1
+        {/* One-line product description; top aligns with sidebar breadcrumb */}
+        <p
           className={cn(
-            rosario.className,
-            "mb-8 mt-0 text-[clamp(2.75rem,4.8vw,4rem)] font-medium leading-[1.02] tracking-[-0.04em] text-zinc-950"
+            "mb-8 mt-0 max-w-[min(52rem,100%)] font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600"
           )}
         >
-          Buddy
-        </h1>
+          {BUDDY_DESCRIPTION}
+        </p>
 
         {/* Hero video, 16:9 frame; 9:16 source fills via object-cover */}
         <div className="mb-14 flex w-full justify-center">
@@ -349,7 +456,8 @@ export default function BuddyPage() {
             <video
               controls
               playsInline
-              preload="metadata"
+              preload="none"
+              poster="/coverimages/buddy.png"
               className="aspect-video w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
               src="/buddy/sequence-04.mp4"
             >
@@ -375,12 +483,12 @@ export default function BuddyPage() {
             href="mailto:failennaselta@gmail.com?subject=Buddy%20Live%20Demo%20Request&body=Hi%2C%20I%27d%20love%20to%20demo%20Buddy!"
             className="inline-flex items-center gap-2 rounded-full bg-zinc-50/80 px-4 py-2 text-[0.85rem] font-medium text-zinc-600 ring-1 ring-zinc-200/60 transition-colors hover:bg-zinc-100/80"
           >
-            Live demo on request <span className="text-zinc-400 text-[0.75rem]">(API costs)</span> <span aria-hidden>✉</span>
+            Live desktop version on request <span className="text-zinc-400 text-[0.75rem]">(API costs)</span> <span aria-hidden>✉</span>
           </a>
         </div>
 
-        {/* Metadata grid, Timeline, Role, Team, Tools */}
-        <div className="mb-14 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10">
+        {/* Metadata grid, Timeline, Role, Budget, Team, Tools */}
+        <div className="mb-14 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10">
           {METADATA_ROWS.map(({ label, value }) => (
             <div key={label}>
               <p className="mb-2 font-sans text-[10px] font-normal uppercase tracking-[0.16em] text-[#A0A0A0]">
@@ -399,82 +507,89 @@ export default function BuddyPage() {
         <section id="project-overview" className="scroll-mt-24">
           <SectionLabel>Project Overview</SectionLabel>
           <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-            The Rundown
+            Design a handheld device that generates real-time visuals of conversation.
           </h2>
           <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-            Buddy resolves the disconnect of working in groups by acting as an intermediary that captures conversations in real time through LLM-powered image generation. It uses rapid prototyping, electronics, and full-stack software to preserve conversations through a visual history so valuable concepts aren&apos;t lost to misarticulation.
+            Buddy resolves the disconnect of group work by acting as an intermediary that captures conversations in real time through LLM-powered image generation. Built with rapid prototyping, electronics, and full-stack software development, it preserves discussions as a visual history and saves valuable concepts from being lost to misarticulation.
           </p>
 
-          <p className="mt-8 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">The Problems</p>
+          <p className={OVERVIEW_SUBLABEL}>The Problems</p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              {
-                n: "01",
-                stat: "40%",
-                problem: "Lost Spoken Insights",
-                detail: "40% of spoken insights disappear within 10 minutes without live capture. (MIT Collab Research)",
-              },
-              {
-                n: "02",
-                stat: "65%",
-                problem: "Poor Visual Retention",
-                detail: "Teams retain 65% more when information is presented visually vs. text summaries alone. (MIT Media Lab)",
-              },
+              { n: "01", stat: "40%",  problem: "Lost Spoken Insights",   bibRef: "#bib-brubaker", cite: "(MIT, 2022)",         hi: false },
+              { n: "02", stat: "65%",  problem: "Claim Poor Visual Retention", bibRef: "#bib-brubaker", cite: "(MIT Media Lab)", hi: false },
               {
                 n: "03",
-                stat: "53%",
-                problem: "Miscommunication Loss",
-                detail: "53% of designers waste time on miscommunications that slow down the team.",
+                stat: "7.5 hrs",
+                problem: "Claim Time Lost to Miscommunication",
+                bibRef: "#bib-huang",
+                cite: "(Huang, 2018)",
+                hi: true,
               },
               {
                 n: "04",
-                stat: null,
-                problem: "Meeting Memory Gap",
-                detail: "Critical ideas shared in group sessions disappear when there is no record. The spoken word is ephemeral.",
+                stat: "$6.25M",
+                problem: "Claim Annual Miscommunication Cost",
+                bibRef: "#bib-grammarly",
+                cite: "(Grammarly / Harris Poll, 2023)",
+                hi: false,
               },
-            ].map(({ n, stat, problem, detail }) => (
-              <div key={n} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{n}</p>
-                {stat && <p className="mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>}
-                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-violet-950">{problem}</p>
-                <p className="text-[0.72rem] leading-relaxed text-violet-950/60">{detail}</p>
+            ].map(({ n, stat, problem, bibRef, cite, hi }) => (
+              <div key={n} className={`${buddyStatCard(hi)} flex flex-col`}>
+                <p className={`mb-1 font-mono text-[9px] uppercase tracking-[0.2em] ${hi ? "text-violet-600/70" : "text-zinc-400"}`}>{n}</p>
+                <p className={`mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] ${hi ? "text-violet-600" : "text-zinc-700"}`}>{stat}</p>
+                <p className={`mb-3 text-[0.88rem] font-medium leading-snug ${hi ? "text-violet-950" : "text-zinc-800"}`}>{problem}</p>
+                <a
+                  href={bibRef}
+                  className={`mt-auto shrink-0 font-mono text-[9px] font-medium tracking-[0.12em] underline underline-offset-2 transition-colors ${hi ? "text-violet-700/85 hover:text-violet-900" : "text-zinc-400/80 hover:text-zinc-600"}`}
+                >
+                  {cite}
+                </a>
               </div>
             ))}
           </div>
 
-          <p className="mt-8 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Our Goals</p>
+          <p className={OVERVIEW_SUBLABEL}>Our Goals</p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              {
-                n: "01",
-                stat: "2s",
-                goal: "Real-time Capture",
-                detail: "Whisper.cpp processes audio on-device within a 2-second window so no insight escapes.",
-              },
+              { n: "01", stat: "2s",   goal: "Real-time Capture",    bibRef: "https://github.com/ggerganov/whisper.cpp", cite: "(Whisper.cpp)",       hi: true  },
               {
                 n: "02",
-                stat: "65%",
-                goal: "Visual Output",
-                detail: "Gemini Vision generates diagrams from conversation, making abstract ideas concrete and shareable.",
+                stat: "35%",
+                goal: "Faster Mockups",
+                bibRef: "#bib-forrester",
+                cite: "(Forrester TEI, 2024)",
+                hi: false,
               },
               {
                 n: "03",
-                stat: null,
-                goal: "Privacy by Design",
-                detail: "All audio processing happens on-device. No cloud dependency, no data exposure.",
+                stat: "56%",
+                goal: "More Time Saved in Meetings",
+                bibRef: "#bib-fellow",
+                cite: "(Fellow, 2024)",
+                hi: false,
               },
               {
                 n: "04",
-                stat: null,
-                goal: "Ambient Presence",
-                detail: "Passive listening means participants stay focused on the conversation, not on taking notes.",
+                stat: "$3.5M",
+                goal: "Equivalent Money Saved in Meetings",
+                bibRef: "#bib-grammarly",
+                cite: "(Grammarly / Harris Poll, 2023)",
+                hi: false,
               },
-            ].map(({ n, stat, goal, detail }) => (
-              <div key={n} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{n}</p>
-                {stat && <p className="mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">{stat}</p>}
-                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-violet-950">{goal}</p>
-                <p className="text-[0.72rem] leading-relaxed text-violet-950/60">{detail}</p>
+            ].map(({ n, stat, goal, bibRef, cite, hi }) => (
+              <div key={n} className={`${buddyStatCard(hi)} flex flex-col`}>
+                <p className={`mb-1 font-mono text-[9px] uppercase tracking-[0.2em] ${hi ? "text-violet-600/70" : "text-zinc-400"}`}>{n}</p>
+                <p className={`mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] ${hi ? "text-violet-600" : "text-zinc-700"}`}>{stat}</p>
+                <p className={`mb-3 text-[0.88rem] font-medium leading-snug ${hi ? "text-violet-950" : "text-zinc-800"}`}>{goal}</p>
+                <a
+                  href={bibRef}
+                  target={bibRef.startsWith("http") ? "_blank" : undefined}
+                  rel={bibRef.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className={`mt-auto shrink-0 font-mono text-[9px] font-medium tracking-[0.12em] underline underline-offset-2 transition-colors ${hi ? "text-violet-700/85 hover:text-violet-900" : "text-zinc-400/80 hover:text-zinc-600"}`}
+                >
+                  {cite}
+                </a>
               </div>
             ))}
           </div>
@@ -510,7 +625,7 @@ export default function BuddyPage() {
 
         {/* THE CHALLENGE */}
         <section id="the-challenge" className="scroll-mt-24">
-          <CaseChallengeDisclosure summary="Design a product that helps groups communicate without losing the ideas that matter." />
+          <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
         </section>
 
         <Divider />
@@ -520,217 +635,235 @@ export default function BuddyPage() {
           <SectionLabel>The Research</SectionLabel>
           
 
-          <h2 className="mb-6 max-w-[min(44rem,100%)] text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
-            <span className="tabular-nums text-violet-600">53%</span>
-            {" of designers waste time dealing with miscommunications."}
+          <h2 className="mb-6 w-full max-w-none text-pretty text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
+            <span className="tabular-nums text-violet-600">7.5 hrs</span>
+            {"\u00a0per week lost to miscommunication in knowledge work."}
           </h2>
 
-          <div className="relative mx-auto flex w-full max-w-[min(40rem,100%)] flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:max-w-[min(44rem,100%)]">
-            <div
-              className="pointer-events-none absolute inset-0 bg-white/50 backdrop-blur-xl"
-              aria-hidden
-            />
-            <div className="relative z-[1] flex flex-col gap-8 p-6 md:flex-row md:items-start md:gap-10 md:p-7">
-              {/* Left: persona strip (reference-style) */}
-              <div className="flex w-full shrink-0 flex-col items-center text-center md:w-[38%] md:max-w-[15.5rem]">
-                <p className="font-sans text-[9px] font-medium uppercase tracking-[0.22em] text-violet-600">
-                  Participant
-                </p>
-                <div className="relative mx-auto mt-4">
-                  <span
-                    className="pointer-events-none absolute -left-3 top-[20%] select-none text-[15px] leading-none text-violet-400/90"
-                    aria-hidden
-                  >
-                    ✦
-                  </span>
-                  <span
-                    className="pointer-events-none absolute -right-3 top-[20%] select-none text-[15px] leading-none text-fuchsia-400/85"
-                    aria-hidden
-                  >
-                  </span>
-                  <div className="relative h-[7.75rem] w-[7.75rem] overflow-hidden rounded-full bg-violet-600 p-[3px] shadow-[inset_0_2px_6px_rgba(0,0,0,0.08)] ring-2 ring-violet-200/70">
-                    <div className="h-full w-full overflow-hidden rounded-full bg-zinc-100">
-                      <img
-                        src="/buddy/Gemini_Generated_Image_pxbxv9pxbxv9pxbx.png"
-                        alt="Adam"
-                        className="h-full w-full object-cover object-top contrast-[1.03]"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-5 text-base font-medium leading-tight tracking-[-0.02em] text-zinc-950 md:text-[1.05rem]">
-                  Adam
-                </p>
-                <p className="mt-2 text-[0.72rem] leading-snug text-zinc-600 md:text-[0.75rem]">
-                  31 Years Old
-                </p>
-                <p className="text-[0.72rem] leading-snug text-zinc-600 md:text-[0.75rem]">
-                  Product Designer
-                </p>
-                <p className="mt-3 font-sans text-[0.65rem] italic leading-snug text-zinc-400">
-                  Portrait generated with Gemini
-                </p>
-              </div>
-
-              {/* Right: frustrations */}
-              <div className="min-w-0 flex-1 border-t border-zinc-200/70 pt-6 md:border-l md:border-t-0 md:pl-9 md:pt-1">
-                <h3 className="text-[0.95rem] font-medium text-zinc-950">Frustrations</h3>
-                <ul className="mt-3 space-y-3 text-left text-[0.78rem] font-normal leading-relaxed text-zinc-800">
-                  {[
-                    "Hard to regain alignment when spoken ideas are interpreted differently by each teammate.",
-                    "Little visibility into what was actually agreed on once a working session ends.",
-                    "Good work still feels like it stalls when concepts are lost to misarticulation or memory.",
-                  ].map((item) => (
-                    <li key={item} className="flex gap-2.5">
-                      <span
-                        className="mt-[0.45em] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-violet-600"
-                        aria-hidden
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <h3 className="mt-8 mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
-            Three themes emerged from studying how existing tools handle group knowledge loss.
-          </h3>
-          <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
-            I audited ChatGPT, Claude, Google, Apple Pay, Robinhood, and Perplexity to understand
-            where each successfully captures or externalizes thinking. These became the core
-            capabilities Buddy was designed to close the gap on.
-          </p>
-
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {[
+          <PersonaCards
+            className="!mt-19"
+            accent="violet"
+            variant="liquid"
+            rightColumnHeading="Frustrations"
+            personas={JSON.stringify([
               {
-                word: "Recall",
-                entries: [
-                  { name: "Claude", desc: "Retains full conversation context so nothing said is lost mid-session." },
-                  { name: "Google", desc: "Workspace auto-saves and surfaces recent edits so teams stay aligned without manual tracking." },
+                name: "Adam",
+                photo: "/buddy/Gemini_Generated_Image_pxbxv9pxbxv9pxbx.png",
+                age: "31",
+                role: "Product Designer",
+                photoCaption: "Portrait generated with Gemini",
+                bullets: [
+                  "Hard to regain alignment when spoken ideas are interpreted differently by each teammate.",
+                  "Little visibility into what was actually agreed on once a working session ends.",
+                  "Good work still feels like it stalls when concepts are lost to misarticulation or memory.",
                 ],
               },
-              {
-                word: "Visualization",
-                entries: [
-                  { name: "ChatGPT", desc: "Canvas mode externalizes ideas spatially, making relationships between concepts visible." },
-                  { name: "Perplexity", desc: "Structures complex answers into scannable sections, reducing cognitive overhead." },
-                ],
-              },
-              {
-                word: "Confirmation",
-                entries: [
-                  { name: "Apple Pay", desc: "Biometric gate creates a clear moment of intent before any action is committed." },
-                  { name: "Robinhood", desc: "Order review screen forces a deliberate pause, reducing accidental decisions." },
-                ],
-              },
-            ].map(({ word, entries }) => (
-              <div key={word} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
-                <p className="mb-4 font-mono text-[1.35rem] font-medium leading-none tracking-[-0.02em] text-violet-700">{word}</p>
-                <ul className="space-y-3">
-                  {entries.map(({ name, desc }) => (
-                    <li key={name} className="text-[0.75rem] leading-relaxed text-violet-950/70">
-                      <span className="font-medium text-violet-800">{name}:</span> {desc}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+            ])}
+          />
 
-          <div className="mt-8 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35 sm:p-8">
-            <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
+          <div className="mt-19 scroll-mt-24 rounded-2xl border border-white/55 bg-white/[0.12] p-8 shadow-[0_0_28px_-10px_rgba(139,92,246,0.22),0_8px_32px_-8px_rgba(0,0,0,0.06),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-[0.5px] ring-violet-300/30 backdrop-blur-xl backdrop-saturate-125 transition-shadow duration-300 hover:shadow-[0_0_72px_-6px_rgba(139,92,246,0.55),0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.55)] hover:ring-violet-300/60">
+            <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-violet-600/60">
               How Might We
             </p>
-            <p className="max-w-3xl text-[0.95rem] font-normal leading-relaxed text-violet-950 sm:text-[1.02rem]">
+            <p className="text-[clamp(1.2rem,2.6vw,1.7rem)] font-medium leading-[1.2] tracking-[-0.03em] text-violet-700/80">
               Improve group communication by clarifying ideas visually through real-time LLM image generation?
             </p>
-            <p className="mt-3 max-w-3xl text-[0.8rem] leading-relaxed text-violet-800/70">
+            <p className="mt-4 text-[0.85rem] leading-relaxed text-violet-800/50">
               By implementing a technology that helps clarify ideas visually through LLM image generation.
             </p>
           </div>
+
+
+
+
         </section>
 
         <Divider />
 
-        {/* THE SOLUTION */}
+        {/* IDEATION */}
         <section id="the-solution" className="scroll-mt-24">
-          <SectionLabel>The Solution</SectionLabel>
+          <SectionLabel>Ideation</SectionLabel>
 
-          <h2 className="font-mono font-medium text-[1.6rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
-            Conversations Made Visual
+          <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+            Low-Fi Wireframes
           </h2>
-          <p className="text-[0.95rem] leading-[1.75] text-zinc-500 mb-10 max-w-[560px]">
-            Buddy captures spoken and written input in real time, passes it through an LLM, and returns either a generated image or a structured diagram, making ideas tangible before they are forgotten.
+          <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+            Early Drawings
           </p>
 
-          <SectionLabel>Early Drawings</SectionLabel>
-          <p className="mb-8 max-w-[640px] text-[0.85rem] leading-relaxed text-zinc-500">
-            Sketches were translated from low-fi to high-fidelity quickly. The primary concern was how fast the full stack could be developed.
-          </p>
-
-          <div className="mb-10 grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
             {[
               {
                 n: "01",
-                decision: "Familiar layout",
-                rationale: "Copied competitor patterns so users spend zero time learning the interface and all of it on the task.",
+                area: "Familiar Layout",
+                detail: "Zero learning curve.",
               },
               {
                 n: "02",
-                decision: "Visual output",
-                rationale: "Images and diagrams over text summaries, because a picture surfaces meaning faster in a live session.",
+                area: "Visual Output",
+                detail: "Pictures over text.",
               },
               {
                 n: "03",
-                decision: "On-device audio",
-                rationale: "Kept transcription local, not cloud, so nothing spoken in the room ever leaves it.",
+                area: "On-device Audio",
+                detail: "Nothing leaves the room.",
               },
               {
                 n: "04",
-                decision: "Wearable form",
-                rationale: "Body-worn device keeps hands free and keeps Buddy passive, never the center of attention.",
+                area: "Passive Form",
+                detail: "Ambient, never the focus.",
               },
-            ].map(({ n, decision, rationale }) => (
-              <div key={n} className="rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35">
-                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/70">{n}</p>
-                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-violet-950">{decision}</p>
-                <p className="text-[0.75rem] leading-relaxed text-violet-950/60">{rationale}</p>
+            ].map(({ n, area, detail }) => (
+              <div key={n} className="rounded-2xl border border-zinc-300/60 bg-transparent p-5 shadow-[0_2px_16px_-8px_rgba(0,0,0,0.08)]">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{n}</p>
+                <p className="mb-2 text-[0.88rem] font-medium leading-snug text-zinc-950">{area}</p>
+                <p className="text-[0.75rem] leading-relaxed text-zinc-600">{detail}</p>
               </div>
             ))}
           </div>
 
-          <div className="mx-auto grid w-full max-w-xl grid-cols-1 gap-3 sm:max-w-2xl md:max-w-4xl md:grid-cols-3 md:gap-5">
-            <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
-              <ImageLightbox
-                src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-0.jpg"
-                alt="Early Buddy sketches, low-fi exploration"
-                imgClassName={EARLY_DRAWING_IMG_CLASS}
-                wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
-              />
-            </div>
-            <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
-              <ImageLightbox
-                src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-1.jpg"
-                alt="Early Buddy sketches, refinement toward high-fidelity"
-                imgClassName={EARLY_DRAWING_IMG_CLASS}
-                wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
-              />
-            </div>
-            <div className="flex w-full justify-center px-2 sm:px-2.5 md:px-3">
-              <ImageLightbox
-                src={encodeURI("/buddy/Screenshot 2026-05-14 232311.png")}
-                alt="Buddy UI iteration wireframe with logo placement and layout notes"
-                imgClassName={EARLY_DRAWING_IMG_CLASS}
-                wrapperClassName={EARLY_DRAWING_LIGHTBOX_WRAP}
-              />
+          <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))]">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,300px)_1fr] lg:items-start lg:gap-8">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">
+                    Iteration 1
+                  </p>
+                  <span className="rounded-full bg-lime-500/10 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.15em] text-lime-700 ring-1 ring-lime-300/40">
+                    Selected for construction
+                  </span>
+                </div>
+                <ImageLightbox
+                  src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-0.jpg"
+                  alt="Buddy iteration 1, dial and on/off variants"
+                  imgClassName={SKETCH_IMG_VERTICAL}
+                  wrapperClassName="overflow-hidden !rounded-2xl"
+                />
+                <p className="text-center text-[0.72rem] leading-snug text-zinc-500">Dial for changing through iterations, button for on/off on top, and version with an on/off and commit button on the front.</p>
+              </div>
+
+              <div className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5">
+              <div className="flex flex-col gap-2">
+                <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 3</p>
+                <ImageLightbox
+                  src="/buddy/c2f6280b-4888-4ae9-b642-f4c0a7be4e6d-1.jpg"
+                  alt="Buddy iteration 3, send button and on/off on the front"
+                  imgClassName={SKETCH_IMG_HORIZONTAL}
+                  wrapperClassName="overflow-hidden !rounded-2xl"
+                />
+                <p className="text-center text-[0.72rem] leading-snug text-zinc-500">Send button and an on/off on the front.</p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 4</p>
+                <ImageLightbox
+                  src={encodeURI("/buddy/Screenshot 2026-05-14 232311.png")}
+                  alt="Buddy iteration 4, basic set up with visual as main portion"
+                  imgClassName={SKETCH_IMG_HORIZONTAL}
+                  wrapperClassName="overflow-hidden !rounded-2xl"
+                />
+                <p className="text-center text-[0.72rem] leading-snug text-zinc-500">Basic set up with visual as main portion.</p>
+              </div>
+              </div>
             </div>
           </div>
           <p className="mt-5 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Hand-drawn sketches
           </p>
+
+          <div className="mt-19">
+            <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Full Figma Board</p>
+            <div className="overflow-hidden rounded-2xl border-[0.5px] border-white/60 shadow-[0_8px_32px_-16px_rgba(0,0,0,0.12)]">
+              <iframe
+                title="Buddy Figma board"
+                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2F1qfQiHq6t99qW3v0J1Iwz6%2Fbuddy%3Fnode-id%3D0-1%26t%3Dg61S93lNRgBtflTR-1"
+                className="h-[520px] w-full border-0"
+                allowFullScreen
+              />
+            </div>
+            <div className="mt-3 flex justify-end">
+              <a
+                href="https://www.figma.com/design/1qfQiHq6t99qW3v0J1Iwz6/buddy?node-id=0-1&t=g61S93lNRgBtflTR-1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-violet-50/80 px-3 py-1.5 font-mono text-[0.72rem] text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
+              >
+                Open in Figma <span aria-hidden>↗</span>
+              </a>
+            </div>
+          </div>
+
+          <h2 className="mb-8 mt-19 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+            Hi-Fi Mockups
+          </h2>
+
+          <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] space-y-12">
+            <IterationVideoFrame
+              src="/buddy/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4"
+              caption="First iteration, prototyped in Figma"
+            />
+            <IterationVideoFrame
+              src="/buddy/antoher.mp4"
+              caption="Second iteration, running locally, built with React and FastAPI"
+            />
+          </div>
+        </section>
+
+
+        <Divider />
+
+        {/* USER TESTING */}
+        <section id="user-testing" className="scroll-mt-24">
+          <SectionLabel>User Testing</SectionLabel>
+          <h2 className={CASE_INTRO_H2}>
+            Tested with a group of designers and engineers during a live working session.
+          </h2>
+          <p className={CASE_INTRO_BODY}>
+            Participants used Buddy across a real design critique session. Tasks included: capturing a
+            decision, exporting a session summary, and interpreting a generated diagram.
+          </p>
+
+          {/* Testing cards */}
+          <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
+            {USER_TESTING.map(({ n, stat, insight, action }) => (
+              <div
+                key={n}
+                className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110"
+              >
+                <div className="flex flex-1 flex-col bg-violet-500/[0.04] px-5 py-4">
+                  <p className="text-[0.82rem] leading-[1.65] text-zinc-800">
+                    <span className="mb-1.5 block font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-violet-600">
+                      {stat}
+                    </span>
+                    {insight}
+                  </p>
+                </div>
+                <div className="mt-auto shrink-0 border-t border-white/40 bg-white/[0.22] px-5 py-4">
+                  <p className="text-[0.82rem] leading-[1.65] text-zinc-700">{action}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Reactions */}
+          <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Some thinkable quotes</p>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+              <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
+                &ldquo;I stopped taking notes halfway through and just focused on the convo.&rdquo;
+              </p>
+            </div>
+            <div className="rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+              <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
+                &ldquo;The diagram it made was close but not exactly what we were saying.&rdquo;
+              </p>
+            </div>
+            <div className="rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+              <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
+                &ldquo;I&apos;d want this on my phone so I could reference it throughout the day.&rdquo;
+              </p>
+            </div>
+          </div>
+
         </section>
 
         <Divider />
@@ -739,24 +872,17 @@ export default function BuddyPage() {
         <section id="engineering" className="scroll-mt-24">
           <SectionLabel>Engineering</SectionLabel>
 
-          <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
-            System Creation
-          </h2>
-          <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
-            <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Architecture decision</p>
-            <p className="mb-2 text-[0.88rem] font-medium text-zinc-800">Why on-device processing, not cloud transcription</p>
-            <p className="text-[0.82rem] leading-relaxed text-zinc-600">
-              Cloud transcription (Whisper API, Google Speech-to-Text) would have been more accurate and
-              far easier to implement. We rejected it for two reasons: latency and consent. A cloud path
-              means every word spoken in a meeting leaves the room, a non-starter for enterprise
-              environments with NDAs or sensitive discussions. On-device Whisper keeps audio local; only
-              the processed transcript (not audio) is ever transmitted. The accuracy tradeoff is real -
-              on-device Whisper small is less accurate than server-side large, but it was the right call
-              for the use case.
+          <div className="mb-3 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
+            <p className="text-[0.88rem] font-medium text-zinc-800">How the stack works end to end</p>
+            <p className="mt-3 text-[0.85rem] leading-relaxed text-zinc-600">
+              Audio is captured and sent to the Whisper API for transcription. The transcript is passed to GPT-4 for
+              interpretation, extracting the core idea from the conversation. Depending on the output type, either
+              Mermaid.js renders a structured diagram or fal.ai generates an image. The backend runs on FastAPI, the
+              frontend on Vite.
             </p>
           </div>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-6 max-w-[640px]">
-            Stack architecture and session flow diagrams generated from Mermaid.js code authored in Python.
+            Diagrams created with Mermaid.js code and Python in a Figma plugin.
           </p>
 
           <div className="mb-4 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start md:justify-center md:gap-x-16 lg:gap-x-20">
@@ -790,42 +916,22 @@ export default function BuddyPage() {
             <CodeBlock code={CODE_PDF_EXPORT} className="my-0 h-full min-h-0" />
           </div>
 
-          <div className="space-y-4">
-            {KEY_LEARNINGS.map(({ heading, body }) => (
+          <div className="mt-19 space-y-4">
+            {KEY_LEARNINGS.map(({ heading, body }, i) => (
               <div
                 key={heading}
-                className="rounded-xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35"
+                className={
+                  i === 1
+                    ? "rounded-xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35"
+                    : "rounded-xl border border-white/55 bg-white/[0.14] p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
+                }
               >
-                <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-violet-700/85 mb-3">
+                <p className={`font-mono text-[9px] uppercase tracking-[0.18em] mb-3 ${i === 1 ? "text-violet-700/85" : "text-zinc-400"}`}>
                   {heading}
                 </p>
-                <p className="text-[0.85rem] leading-relaxed text-violet-950">{body}</p>
+                <p className={`text-[0.85rem] leading-relaxed ${i === 1 ? "text-violet-950" : "text-zinc-950"}`}>{body}</p>
               </div>
             ))}
-          </div>
-        </section>
-
-        <Divider />
-
-        {/* ITERATIONS */}
-        <section id="iterations" className="scroll-mt-24">
-          <SectionLabel>Iterations</SectionLabel>
-          <h2 className="font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950 mb-2">
-            Process clips
-          </h2>
-          <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-8 max-w-[580px]">
-            Early motion studies and build iterations captured during the project.
-          </p>
-
-          <div className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] space-y-12">
-            <IterationVideoFrame
-              src="/buddy/wrHrmZ69AdkxtkdsugFkXXvlfQ.mp4"
-              caption="First iteration, prototyped in Figma"
-            />
-            <IterationVideoFrame
-              src="/buddy/antoher.mp4"
-              caption="Second iteration, running locally, built with React and FastAPI"
-            />
           </div>
         </section>
 
@@ -842,7 +948,7 @@ export default function BuddyPage() {
             Building the physical enclosure on a Raspberry Pi, hardware constraints forced architectural clarity that cloud deployment never would have.
           </p>
 
-          <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
+          <div className="mt-19 mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
             <ProjectGalleryRow
               images={HARDWARE_PROGRESS_GALLERY}
               theme="violet"
@@ -885,6 +991,74 @@ export default function BuddyPage() {
 
         <Divider />
 
+        {/* IMPACT */}
+        <section id="impact" className="scroll-mt-24">
+          <SectionLabel>Impact</SectionLabel>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {IMPACT_STATS.map(({ stat, label }) => (
+              <div
+                key={stat}
+                className={
+                  stat === "64%"
+                    ? "rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35"
+                    : "rounded-2xl border border-white/55 bg-white/[0.14] p-6 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
+                }
+              >
+                <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-violet-700">
+                  {stat}
+                </p>
+                <p
+                  className={`text-[0.82rem] font-medium ${stat === "64%" ? "text-violet-950/80" : "text-zinc-600"}`}
+                >
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+            <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-violet-600/70">Next Steps</p>
+            <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
+              {USER_TESTING.map(({ n, nextLead, nextBody }) => (
+                <li key={n} className="flex gap-3">
+                  <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-violet-600">{n}</span>
+                  <p>
+                    <span className="font-medium text-zinc-800">{nextLead}</span> {nextBody}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <Divider />
+
+        {/* WHAT I LEARNED */}
+        <section id="what-i-learned" className="scroll-mt-24">
+          <SectionLabel>What I Learned</SectionLabel>
+          <ol className="mt-2 w-full space-y-4">
+            {REFLECTIONS.map(({ n, title, body }, i) => (
+              <li key={n}>
+                <div
+                  className={
+                    i === 1
+                      ? "flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35"
+                      : "flex gap-5 rounded-2xl border border-white/55 bg-white/[0.14] p-6 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
+                  }
+                >
+                  <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600/70">{i + 1}</span>
+                  <div className="min-w-0">
+                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-violet-600/70">{title}</p>
+                    <p className={`text-[0.9rem] font-medium leading-[1.65] ${i === 1 ? "text-violet-950/80" : "text-zinc-700"}`}>{body}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <Divider />
+
         {/* CONSIDERATIONS */}
         <section id="considerations" className="scroll-mt-24">
           <SectionLabel>Considerations</SectionLabel>
@@ -893,72 +1067,51 @@ export default function BuddyPage() {
           <div className="mb-1 hidden grid-cols-[1fr_1.2fr_1.4fr] gap-px md:grid">
             <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Goal Pillar</p>
             <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Design Intervention</p>
-            <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Potential Impact</p>
+            <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Impact</p>
           </div>
-          <div className="mb-12 overflow-hidden rounded-2xl ring-1 ring-violet-300/35">
-            {PILLARS.map(({ n, pillar, interventions, impact }, i, arr) => (
+          <div className="mb-12 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
+            {PILLARS.map(({ n, pillar, interventions, stat, impact }, i, arr) => (
               <div
                 key={pillar}
-                className={`grid grid-cols-1 gap-0 md:grid-cols-[1fr_1.2fr_1.4fr]${i < arr.length - 1 ? " border-b border-violet-200/40" : ""}`}
+                className={`grid grid-cols-1 gap-0 md:grid-cols-[1fr_1.2fr_1.4fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
               >
-                {/* Pillar */}
-                <div className="flex items-start gap-3 bg-violet-500/[0.06] px-5 py-5 md:border-r md:border-violet-200/40">
+                <div className="flex items-start gap-3 bg-white/[0.18] px-5 py-5 md:border-r md:border-white/40">
                   <span className="mt-0.5 font-mono text-[0.65rem] text-violet-500/60">{n}</span>
-                  <p className="text-[0.85rem] font-medium leading-snug text-violet-950">{pillar}</p>
+                  <p className="text-[0.85rem] font-medium leading-snug text-zinc-950">{pillar}</p>
                 </div>
-                {/* Intervention chips */}
-                <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-violet-200/40">
+                <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-white/40">
                   {interventions.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-violet-500/10 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-violet-800 ring-1 ring-violet-300/40"
-                    >
-                      {tag}
-                    </span>
+                    <span key={tag} className="rounded-full bg-violet-500/10 px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-violet-800 ring-1 ring-violet-300/40">{tag}</span>
                   ))}
                 </div>
-                {/* Impact */}
                 <div className="px-5 py-5">
+                  <p className="mb-1.5 font-mono text-[1.25rem] font-medium leading-none tracking-[-0.03em] text-violet-600">
+                    {stat}
+                  </p>
                   <p className="text-[0.8rem] leading-relaxed text-zinc-600">{impact}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Reflections — Eidolon "What I Learned" style */}
-          <ol className="mb-12 w-full space-y-4">
-            {REFLECTIONS.map(({ n, text }, i) => (
-              <li key={n}>
-                <div className="flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35">
-                  <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600/70">
-                    {i + 1}
-                  </span>
-                  <div className="min-w-0">
-                    <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-violet-700/70">
-                      Reflection {n}
-                    </p>
-                    <p className="text-[0.9rem] font-medium leading-[1.65] text-violet-950/80">{text}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ol>
-
-          {/* Tradeoff card — liquid glass */}
-          <div className="mt-6 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
+          {/* Tradeoff card */}
+          <div className="mt-19 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
             <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
-            <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-              Adding a visible recording indicator (LED) was deprioritized in v1 to keep the hardware
-              bill of materials under $40. Lena&apos;s feedback, that people &ldquo;got weird about it,&rdquo; confirmed
-              this was the wrong call. Trust in a listening device is non-negotiable. In v2, a dedicated
-              status LED was added even at the cost of exceeding the original budget. Some hardware
-              constraints should not be optimized around.
-            </p>
+            <div className="space-y-3 text-[0.88rem] leading-relaxed text-zinc-600">
+              <p>
+                The largest tradeoff was not including video. Image-generation APIs are priced per call, and
+                sessions burned through credits quickly—adding live video would have overrun both budget and the
+                two-week sprint. v1 stayed audio → diagram or still image → PDF export; video waits until usage
+                and hardware can support it.
+              </p>
+              <p>
+                Every hardware decision bent toward keeping the bill of materials under $300. An external battery
+                replaced an internal cell—lithium cost and assembly complexity were harder to justify than a
+                sealed USB pack. The Raspberry Pi was a step down from the RAM target; more memory would have
+                helped concurrent transcription and generation, but unit cost had to win for v1.
+              </p>
+            </div>
           </div>
-
-          <p className="mt-8 text-[0.9rem] leading-[1.75] text-zinc-500 mb-10 max-w-[580px]">
-            For the next iteration: anchor to mobile from the start, work through case usage more rigorously, and reconsider the materiality of the enclosure. Scalability should be the first question, not the last.
-          </p>
         </section>
 
         <Divider />
@@ -971,17 +1124,18 @@ export default function BuddyPage() {
               Links
             </p>
             <ul className="space-y-5">
-              {BIBLIOGRAPHY.map(({ cite, href, linkText }) => (
+              {BIBLIOGRAPHY.map(({ id, cite, href, linkText }) => (
                 <li
                   key={linkText}
-                  className="text-[0.8rem] leading-relaxed text-zinc-500"
+                  id={id}
+                  className="scroll-mt-24 text-[0.8rem] leading-relaxed text-zinc-500"
                 >
                   {cite}{" "}
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-violet-700 underline underline-offset-2 hover:text-violet-900 transition-colors"
+                    className="text-zinc-500 underline underline-offset-2 hover:text-zinc-700 transition-colors"
                   >
                     {linkText}
                   </a>
@@ -995,8 +1149,10 @@ export default function BuddyPage() {
 
         {/* VIDEO */}
         <section id="video" className="scroll-mt-24">
-        
+
         </section>
+
+        <CategoryProjectsFooter category="product-design" currentSlug="buddy" />
 
       </main>
       </div>
