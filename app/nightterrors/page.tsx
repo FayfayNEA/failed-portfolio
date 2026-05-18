@@ -582,6 +582,18 @@ export default function NightterrorsPage() {
                 ))}
               </div>
 
+              <div className="mb-10 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
+                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Tradeoff made</p>
+                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  Unconventional navigation was chosen over standard menu patterns. The gain: a site that felt
+                  genuinely like the music, not a template with a dark theme applied. The cost: the menu was
+                  not immediately discoverable and required post-testing copy fixes to surface the entry point
+                  without breaking the aesthetic. That fix was a few lines of copy, not a layout change, which
+                  confirmed the core direction was right. Discoverability was a solvable problem; sacrificing
+                  the brand register would not have been.
+                </p>
+              </div>
+
               <p className="mb-12 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
                 For the next iteration, I would resolve the navigation earlier in the process and
                 pressure-test the typeface legibility before release. The site earned its strangeness.

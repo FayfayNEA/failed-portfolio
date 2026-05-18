@@ -1,9 +1,10 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { galleryCoverSrc } from "@/lib/framer-image";
 
 /**
  * Tailwind `lg` is 1024px, below that we use a scrollable stack instead of the
@@ -20,22 +21,6 @@ function useStackGalleryLayout() {
     return () => mq.removeEventListener("change", on);
   }, []);
   return stack;
-}
-
-/** Framer CDN thumbs: request a modest width so bytes are small without `/_next/image` latency. */
-const GALLERY_FRAMER_MAX_W = 640;
-
-function galleryCoverSrc(src: string | undefined): string | undefined {
-  if (!src) return undefined;
-  if (!src.includes("framerusercontent.com/images")) return src;
-  try {
-    const u = new URL(src);
-    u.searchParams.set("width", String(GALLERY_FRAMER_MAX_W));
-    u.searchParams.delete("height");
-    return u.toString();
-  } catch {
-    return src;
-  }
 }
 
 export interface GalleryProject {
@@ -58,16 +43,126 @@ export interface GalleryProject {
   href: string;
   /** Short outcome stat shown on the card, e.g. "−60% execution time". */
   metric?: string;
+  /** Up to 2 impact stat chips shown below description, e.g. ["83% faster trades", "100% located panel"] */
+  tags?: [string, string];
+  /** Inline stats with · separator (no pill), single line. */
+  tagsInline?: boolean;
+}
+
+function ProjectTags({
+  tags,
+  labelTone,
+  variant,
+  fontSizePx,
+}: {
+  tags: [string, string];
+  labelTone: "light" | "dark";
+  variant: "list" | "glass";
+  fontSizePx?: number;
+}) {
+  const dark = labelTone === "dark";
+  const textClass =
+    variant === "list"
+      ? dark
+        ? "text-zinc-900"
+        : "text-zinc-600"
+      : dark
+        ? "text-black/85"
+        : "text-white/85";
+
+  if (variant === "list") {
+    return (
+      <p
+        className={cn(
+          "mt-1.5 flex items-center whitespace-nowrap font-mono text-[10px] font-medium tracking-[0.05em]",
+          textClass
+        )}
+      >
+        {tags.map((tag, i) => (
+          <span key={tag} className="inline-flex min-w-0 items-center">
+            {i > 0 ? <span className="mx-1.5 shrink-0 opacity-40" aria-hidden>·</span> : null}
+            <span className="truncate">{tag}</span>
+          </span>
+        ))}
+      </p>
+    );
+  }
+
+  return (
+    <p
+      className={cn(
+        "mt-1.5 flex items-center whitespace-nowrap font-mono font-medium leading-snug",
+        textClass
+      )}
+      style={{ fontSize: fontSizePx ?? GALLERY_LABEL_TAGS_PX }}
+    >
+      {tags.map((tag, i) => (
+        <span key={tag} className="inline-flex min-w-0 items-center">
+          {i > 0 ? <span className="mx-1.5 shrink-0 opacity-40" aria-hidden>·</span> : null}
+          <span className="truncate">{tag}</span>
+        </span>
+      ))}
+    </p>
+  );
 }
 
 type Pos = { x: number; y: number };
 type CardSize = { w: number; h: number };
 
-const BASE_CARD_W = 280;
-const BASE_CARD_H = 230;
+const BASE_CARD_W = 360;
+const BASE_CARD_H = 300;
 const BASE_GLASS_H = 72;
+/** Uniform title-glass height (fits two-line inline tags on every card). */
+const GLASS_LABEL_H = BASE_GLASS_H + 22;
 const MIN_CARD_W = 120;
 const MIN_CARD_H = 100;
+const DEFAULT_CARD_SIZE: CardSize = { w: BASE_CARD_W, h: BASE_CARD_H };
+
+function loadSizesBySlug(storageKey: string, projects: GalleryProject[]): CardSize[] | null {
+  const raw = localStorage.getItem(`${storageKey}-sizes-by-slug`);
+  if (!raw) return null;
+  try {
+    const map = JSON.parse(raw) as Record<string, CardSize>;
+    return projects.map((p) => {
+      const s = map[p.slug];
+      if (s && typeof s.w === "number" && typeof s.h === "number") {
+        return normalizeCardSize({
+          w: clamp(s.w, MIN_CARD_W, BASE_CARD_W * 2),
+          h: clamp(s.h, MIN_CARD_H, BASE_CARD_H * 2),
+        });
+      }
+      return { ...DEFAULT_CARD_SIZE };
+    });
+  } catch {
+    return null;
+  }
+}
+
+function saveSizesBySlug(storageKey: string, projects: GalleryProject[], sizes: CardSize[]) {
+  const map: Record<string, CardSize> = {};
+  projects.forEach((p, i) => {
+    map[p.slug] = sizes[i] ?? DEFAULT_CARD_SIZE;
+  });
+  localStorage.setItem(`${storageKey}-sizes-by-slug`, JSON.stringify(map));
+}
+
+/** Snap saved sizes back to the default card when drifted (e.g. legacy index mismatch). */
+function normalizeCardSize(size: CardSize): CardSize {
+  const wDelta = Math.abs(size.w - BASE_CARD_W) / BASE_CARD_W;
+  const hDelta = Math.abs(size.h - BASE_CARD_H) / BASE_CARD_H;
+  if (wDelta > 0.08 || hDelta > 0.08) return { ...DEFAULT_CARD_SIZE };
+  return size;
+}
+
+/** Label type at full viewport scale — same on every card regardless of resize. */
+const GALLERY_LABEL_TITLE_PX = 13;
+const GALLERY_LABEL_DESC_PX = 11;
+const GALLERY_LABEL_METRIC_PX = 9;
+const GALLERY_LABEL_TAGS_PX = 10;
+
+function galleryLabelPx(basePx: number, viewportScale: number, minPx: number) {
+  return Math.max(minPx, Math.round(basePx * viewportScale));
+}
 
 /** Scale cards down as the container narrows. Full size at ≥1200 px wide. */
 function getScale(containerW: number): number {
@@ -335,6 +430,10 @@ export function CategoryGallery({
   // Keep a ref to the current scale so event handlers always see a fresh value
   // without needing to be re-registered on every container resize.
   const scale = getScale(containerSize.w);
+  const labelTitlePx = galleryLabelPx(GALLERY_LABEL_TITLE_PX, scale, 10);
+  const labelDescPx = galleryLabelPx(GALLERY_LABEL_DESC_PX, scale, 9);
+  const labelMetricPx = galleryLabelPx(GALLERY_LABEL_METRIC_PX, scale, 8);
+  const labelTagsPx = galleryLabelPx(GALLERY_LABEL_TAGS_PX, scale, 9);
   const scaleRef = useRef(scale);
   useEffect(() => {
     scaleRef.current = scale;
@@ -367,15 +466,28 @@ export function CategoryGallery({
     const ch_ = Math.round(BASE_CARD_H * sc);
 
     // Read stored sizes first so we can check overlap with actual card dimensions.
-    let storedSizes: CardSize[] | null = null;
-    const rawSizes = localStorage.getItem(`${storageKey}-sizes`);
-    if (rawSizes) {
-      try {
-        const parsed: CardSize[] = JSON.parse(rawSizes);
-        if (Array.isArray(parsed) && parsed.length === projects.length) {
-          storedSizes = parsed;
-        }
-      } catch { /* ignore */ }
+    let storedSizes: CardSize[] | null = loadSizesBySlug(storageKey, projects);
+    if (!storedSizes) {
+      const rawSizes = localStorage.getItem(`${storageKey}-sizes`);
+      if (rawSizes) {
+        try {
+          const parsed: CardSize[] = JSON.parse(rawSizes);
+          if (Array.isArray(parsed) && parsed.length === projects.length) {
+            // Legacy index-based sizes — map by order once, then prefer slug keys.
+            storedSizes = projects.map((p, i) => {
+              const legacy = parsed[i];
+              if (legacy && typeof legacy.w === "number" && typeof legacy.h === "number") {
+                return normalizeCardSize({
+                  w: clamp(legacy.w, MIN_CARD_W, BASE_CARD_W * 2),
+                  h: clamp(legacy.h, MIN_CARD_H, BASE_CARD_H * 2),
+                });
+              }
+              return { ...DEFAULT_CARD_SIZE };
+            });
+            saveSizesBySlug(storageKey, projects, storedSizes);
+          }
+        } catch { /* ignore */ }
+      }
     }
 
     // --- positions ---
@@ -430,7 +542,7 @@ export function CategoryGallery({
   useEffect(() => {
     if (isStackLayout) return;
     if (ready && baseSizes.length === projects.length) {
-      localStorage.setItem(`${storageKey}-sizes`, JSON.stringify(baseSizes));
+      saveSizesBySlug(storageKey, projects, baseSizes);
     }
   }, [baseSizes, isStackLayout, ready, projects.length, storageKey]);
 
@@ -695,9 +807,16 @@ export function CategoryGallery({
                   {project.description}
                 </p>
                 {project.metric && (
-                  <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-[#3a6148]/10 px-2.5 py-0.5 font-mono text-[9px] font-medium tracking-[0.06em] text-[#3a6148]">
+                  <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 font-mono text-[9px] font-medium tracking-[0.06em] text-zinc-600">
                     {project.metric}
                   </p>
+                )}
+                {project.tags && project.tagsInline && (
+                  <ProjectTags
+                    tags={project.tags}
+                    labelTone={project.labelTextTone ?? "light"}
+                    variant="list"
+                  />
                 )}
               </Link>
             </li>
@@ -720,11 +839,7 @@ export function CategoryGallery({
           const cardW = Math.round(base.w * scale);
           const cardH = Math.round(base.h * scale);
           const labelTone = project.labelTextTone ?? "light";
-          // Glass + font scale relative to the card's own size
-          const cardScaleRatio = base.w / BASE_CARD_W;
-          const glassH = Math.round((project.metric ? BASE_GLASS_H + 14 : BASE_GLASS_H) * scale * cardScaleRatio);
-          const titleFontSize = Math.max(10, Math.round(13 * scale * cardScaleRatio));
-          const descFontSize = Math.max(9, Math.round(11 * scale * cardScaleRatio));
+          const glassH = Math.round(GLASS_LABEL_H * scale);
           const aboveFold = i < 3;
 
           return (
@@ -817,7 +932,7 @@ export function CategoryGallery({
                         "font-medium leading-snug tracking-tight drop-shadow-sm",
                         labelTone === "dark" ? "text-black/90" : "text-white"
                       )}
-                      style={{ fontSize: titleFontSize }}
+                      style={{ fontSize: labelTitlePx }}
                     >
                       {project.title}
                       <span
@@ -842,7 +957,7 @@ export function CategoryGallery({
                         "leading-snug line-clamp-1",
                         labelTone === "dark" ? "text-black/60" : "text-white/65"
                       )}
-                      style={{ fontSize: descFontSize }}
+                      style={{ fontSize: labelDescPx }}
                     >
                       {project.description}
                     </p>
@@ -850,12 +965,20 @@ export function CategoryGallery({
                       <p
                         className={cn(
                           "mt-0.5 font-mono font-medium leading-none",
-                          labelTone === "dark" ? "text-[#3a6148]" : "text-[#a8d5b8]"
+                          labelTone === "dark" ? "text-black/85" : "text-white/85"
                         )}
-                        style={{ fontSize: Math.max(8, Math.round(9 * scale * cardScaleRatio)) }}
+                        style={{ fontSize: labelMetricPx }}
                       >
                         {project.metric}
                       </p>
+                    )}
+                    {project.tags && project.tagsInline && (
+                      <ProjectTags
+                        tags={project.tags}
+                        labelTone={labelTone}
+                        variant="glass"
+                        fontSizePx={labelTagsPx}
+                      />
                     )}
                   </div>
 

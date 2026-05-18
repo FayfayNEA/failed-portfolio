@@ -1,10 +1,11 @@
-﻿"use client";
+"use client";
 
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { cn } from "@/lib/cn";
+import { carouselImageSrc } from "@/lib/framer-image";
 
 const SPRING = { type: "spring" as const, stiffness: 400, damping: 32, mass: 1 };
 
@@ -94,6 +95,23 @@ export function ProjectGalleryRow({
   }, [n]);
 
   const swipe = useCarouselSwipe(go, n > 1);
+
+  const displayImages = useMemo(
+    () => images.map((src) => carouselImageSrc(src, frameSize)),
+    [images, frameSize]
+  );
+
+  // Warm next/prev slides so arrow/swipe transitions feel instant.
+  useEffect(() => {
+    if (n <= 1) return;
+    const warm = (i: number) => {
+      const img = new Image();
+      img.src = displayImages[i];
+    };
+    warm(slideIndex);
+    warm((slideIndex + 1) % n);
+    warm((slideIndex - 1 + n) % n);
+  }, [displayImages, n, slideIndex]);
 
   if (n === 0) return null;
 
@@ -231,31 +249,31 @@ export function ProjectGalleryRow({
     "outline-none",
     "disabled:cursor-not-allowed disabled:opacity-25",
     "focus-visible:ring-offset-2 focus-visible:ring-offset-transparent",
-    navSize === "sm" ? "h-11 w-11 md:h-7 md:w-7 text-[14px]" : "h-11 w-11 md:h-9 md:w-9 text-[16px]"
+    navSize === "sm" ? "h-12 w-12 text-[20px]" : "h-14 w-14 text-[24px]"
   );
 
   const inactiveDotClass =
     isLiquidSky
-      ? "block h-1.5 w-1.5 rounded-full bg-[#0F8EC7]/35 shadow-[0_0_12px_-6px_rgba(15,142,199,0.85)]"
+      ? "block h-2.5 w-2.5 rounded-full bg-[#0F8EC7]/35 shadow-[0_0_12px_-6px_rgba(15,142,199,0.85)]"
       : isLiquidOrange
-        ? "block h-1.5 w-1.5 rounded-full bg-orange-500/25 shadow-[0_0_12px_-7px_rgba(234,88,12,0.6)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-orange-500/25 shadow-[0_0_12px_-7px_rgba(234,88,12,0.6)]"
       : isLiquidViolet
-        ? "block h-1.5 w-1.5 rounded-full bg-violet-500/25 shadow-[0_0_12px_-7px_rgba(109,40,217,0.6)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-violet-500/25 shadow-[0_0_12px_-7px_rgba(109,40,217,0.6)]"
       : isLiquidPink
-        ? "block h-1.5 w-1.5 rounded-full bg-pink-500/25 shadow-[0_0_12px_-7px_rgba(219,39,119,0.6)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-pink-500/25 shadow-[0_0_12px_-7px_rgba(219,39,119,0.6)]"
       : isLiquidLime
-        ? "block h-1.5 w-1.5 rounded-full bg-lime-500/25 shadow-[0_0_12px_-7px_rgba(132,204,22,0.55)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-lime-500/25 shadow-[0_0_12px_-7px_rgba(132,204,22,0.55)]"
       : isLiquidGlass
-        ? "block h-1.5 w-1.5 rounded-full bg-black/55"
+        ? "block h-2.5 w-2.5 rounded-full bg-black/55"
       : theme === "lime"
-      ? "block h-1.5 w-1.5 rounded-full bg-lime-500/50"
+      ? "block h-2.5 w-2.5 rounded-full bg-lime-500/50"
       : theme === "violet"
-        ? "block h-1.5 w-1.5 rounded-full bg-violet-400/45"
+        ? "block h-2.5 w-2.5 rounded-full bg-violet-400/45"
         : theme === "orange"
-          ? "block h-1.5 w-1.5 rounded-full bg-orange-400/45"
+          ? "block h-2.5 w-2.5 rounded-full bg-orange-400/45"
         : theme === "dark"
-          ? "block h-1.5 w-1.5 rounded-full bg-white/25"
-          : "block h-1.5 w-1.5 rounded-full bg-zinc-300";
+          ? "block h-2.5 w-2.5 rounded-full bg-white/25"
+          : "block h-2.5 w-2.5 rounded-full bg-zinc-300";
 
   const activePillClass =
     isLiquidSky
@@ -282,24 +300,24 @@ export function ProjectGalleryRow({
 
   const activeDotClass =
     isLiquidSky
-      ? "block h-1.5 w-1.5 rounded-full bg-[#0F8EC7] shadow-[0_0_14px_-5px_rgba(15,142,199,0.9)]"
+      ? "block h-2.5 w-2.5 rounded-full bg-[#0F8EC7] shadow-[0_0_14px_-5px_rgba(15,142,199,0.9)]"
       : isLiquidOrange
-        ? "block h-1.5 w-1.5 rounded-full bg-orange-600 shadow-[0_0_14px_-5px_rgba(234,88,12,0.8)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-orange-600 shadow-[0_0_14px_-5px_rgba(234,88,12,0.8)]"
       : isLiquidViolet
-        ? "block h-1.5 w-1.5 rounded-full bg-violet-600 shadow-[0_0_14px_-5px_rgba(109,40,217,0.8)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-violet-600 shadow-[0_0_14px_-5px_rgba(109,40,217,0.8)]"
       : isLiquidPink
-        ? "block h-1.5 w-1.5 rounded-full bg-pink-600 shadow-[0_0_14px_-5px_rgba(219,39,119,0.8)]"
+        ? "block h-2.5 w-2.5 rounded-full bg-pink-600 shadow-[0_0_14px_-5px_rgba(219,39,119,0.8)]"
         : isLiquidGlass
-          ? "block h-1.5 w-1.5 rounded-full bg-black shadow-[0_0_12px_-6px_rgba(0,0,0,0.45)]"
+          ? "block h-2.5 w-2.5 rounded-full bg-black shadow-[0_0_12px_-6px_rgba(0,0,0,0.45)]"
           : theme === "lime"
-            ? "block h-1.5 w-1.5 rounded-full bg-lime-600 shadow-[0_0_12px_-6px_rgba(101,163,13,0.65)]"
+            ? "block h-2.5 w-2.5 rounded-full bg-lime-600 shadow-[0_0_12px_-6px_rgba(101,163,13,0.65)]"
             : theme === "violet"
-              ? "block h-1.5 w-1.5 rounded-full bg-violet-600 shadow-[0_0_12px_-6px_rgba(109,40,217,0.55)]"
+              ? "block h-2.5 w-2.5 rounded-full bg-violet-600 shadow-[0_0_12px_-6px_rgba(109,40,217,0.55)]"
               : theme === "orange"
-                ? "block h-1.5 w-1.5 rounded-full bg-orange-600 shadow-[0_0_12px_-6px_rgba(234,88,12,0.55)]"
+                ? "block h-2.5 w-2.5 rounded-full bg-orange-600 shadow-[0_0_12px_-6px_rgba(234,88,12,0.55)]"
               : theme === "dark"
-                ? "block h-1.5 w-1.5 rounded-full bg-zinc-100 shadow-[0_0_12px_-6px_rgba(255,255,255,0.25)]"
-                : "block h-1.5 w-1.5 rounded-full bg-zinc-800 shadow-sm";
+                ? "block h-2.5 w-2.5 rounded-full bg-zinc-100 shadow-[0_0_12px_-6px_rgba(255,255,255,0.25)]"
+                : "block h-2.5 w-2.5 rounded-full bg-zinc-800 shadow-sm";
 
   const trackInactiveDotClass = cn(
     "block h-1 w-1 rounded-full",
@@ -327,7 +345,7 @@ export function ProjectGalleryRow({
   );
 
   const trackActivePillClass = cn(
-    "h-1.5 min-h-[6px] w-9 min-w-[36px] rounded-full will-change-transform",
+    "h-2.5 min-h-[10px] w-10 min-w-[40px] rounded-full will-change-transform",
     isLiquidSky
       ? "bg-[#0F8EC7] shadow-[0_0_20px_-8px_rgba(15,142,199,0.78)]"
       : isLiquidOrange
@@ -471,7 +489,7 @@ export function ProjectGalleryRow({
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={images[slideIndex]}
+                    src={displayImages[slideIndex]}
                     alt=""
                     loading="eager"
                     decoding="async"
@@ -494,8 +512,8 @@ export function ProjectGalleryRow({
         {n > 1 && (
           <div
             className={cn(
-              "mt-4 flex w-full items-center justify-center",
-              navSize === "sm" ? "gap-1 sm:gap-1.5" : "gap-1.5 sm:gap-2"
+              "mt-4 flex w-full items-center justify-between px-1",
+              navSize === "sm" ? "gap-2 sm:gap-3" : "gap-3 sm:gap-4"
             )}
             role="toolbar"
             aria-label="Gallery navigation"
@@ -510,7 +528,7 @@ export function ProjectGalleryRow({
             </button>
 
             {showDots && (
-              <div className="min-w-0 px-1">
+              <div className="min-w-0 max-w-[calc(100%-140px)] overflow-hidden px-1">
                 <LayoutGroup id={layoutScopeId}>
                   <div
                     className={cn(
@@ -522,8 +540,8 @@ export function ProjectGalleryRow({
                             navSize === "sm" ? "gap-1.5" : "gap-2"
                           )
                         : navSize === "sm"
-                          ? "gap-2 sm:gap-2.5"
-                          : "gap-3 sm:gap-[14px]"
+                          ? "gap-4 sm:gap-5"
+                          : "gap-5 sm:gap-6"
                     )}
                     role="tablist"
                     aria-label="Slides"
@@ -540,7 +558,7 @@ export function ProjectGalleryRow({
                           "relative flex items-center justify-center touch-manipulation",
                           dotStyle === "track"
                             ? cn("h-6", navSize === "sm" ? "flex-1 min-w-0" : "flex-1 min-w-0")
-                            : cn("min-w-[44px] md:min-w-[18px]", navSize === "sm" ? "h-11 md:h-5" : "h-11 md:h-6")
+                            : cn("min-w-[20px]", navSize === "sm" ? "h-11" : "h-12")
                         )}
                       >
                         {i === slideIndex ? (
@@ -599,7 +617,7 @@ export function ProjectGalleryRow({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={images[index]}
+            src={images[slideIndex]}
             alt=""
             className="max-h-[92dvh] max-w-[92dvw] object-contain"
             draggable={false}

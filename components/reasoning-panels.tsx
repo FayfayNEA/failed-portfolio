@@ -6,6 +6,7 @@ import { ImageLightbox } from "@/components/image-lightbox";
 interface Point {
   lead: string;
   detail: string;
+  bibRef?: string;
 }
 
 interface Panel {
@@ -118,14 +119,27 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
               {panel.heading}
             </h3>
             <ul className={panel.points.length > 4 ? "grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-6" : "space-y-3"}>
-              {panel.points.map(({ lead, detail }) => (
+              {panel.points.map(({ lead, detail, bibRef }) => (
                 <li key={lead} className="min-w-0">
-                  <p className="mb-0.5 text-[0.76rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
-                    {lead}
-                  </p>
-                  <p className="text-[0.71rem] leading-[1.6] text-zinc-500">
-                    {detail}
-                  </p>
+                  {bibRef ? (
+                    <a href={bibRef} className="group block scroll-mt-24 transition-opacity hover:opacity-80">
+                      <p className="mb-0.5 text-[0.76rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
+                        {lead}
+                      </p>
+                      <p className="text-[0.71rem] leading-[1.6] text-zinc-500">
+                        {detail} <span aria-hidden className="text-[0.6rem] text-zinc-400/60">↗</span>
+                      </p>
+                    </a>
+                  ) : (
+                    <>
+                      <p className="mb-0.5 text-[0.76rem] font-semibold leading-snug tracking-[-0.01em] text-zinc-800">
+                        {lead}
+                      </p>
+                      <p className="text-[0.71rem] leading-[1.6] text-zinc-500">
+                        {detail}
+                      </p>
+                    </>
+                  )}
                 </li>
               ))}
             </ul>

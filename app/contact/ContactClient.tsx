@@ -1,8 +1,8 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import FluidSlab from "@/components/fluid-slab";
 import { cn } from "@/lib/cn";
@@ -34,6 +34,9 @@ const IMG = {
 } as const;
 
 const RESUME_URL = "/failenn-resume.pdf";
+
+const SPOTIFY_EMBED_SRC =
+  "https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=0";
 
 const OLIVE_CARD_GRAIN_BG =
   'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 256 256\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")';
@@ -95,12 +98,35 @@ export default function ContactClient() {
   const email = "failennaselta@gmail.com";
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
   const isBelowMd = useIsBelowMd();
   const pageRef = useRef<HTMLElement | null>(null);
   const screenRef = useRef<HTMLDivElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
+  const zoomPanelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (!zoomed) return;
+    const prevHtml = document.documentElement.style.overflow;
+    const prevBody = document.body.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    const panel = zoomPanelRef.current;
+    const id = requestAnimationFrame(() => {
+      if (!panel) return;
+      const spotify = panel.querySelector<HTMLElement>("[data-zoom-spotify]");
+      if (spotify) {
+        panel.scrollTop = Math.max(0, spotify.offsetTop - 12);
+      }
+    });
+    return () => {
+      cancelAnimationFrame(id);
+      document.documentElement.style.overflow = prevHtml;
+      document.body.style.overflow = prevBody;
+    };
+  }, [zoomed]);
 
   // Scale the card content proportionally as the overlay resizes
   useEffect(() => {
@@ -139,6 +165,117 @@ export default function ContactClient() {
       className="relative flex min-h-full flex-col bg-transparent text-zinc-900 transition-opacity duration-500"
       style={{ opacity: mounted ? 1 : 0 }}
     >
+      {/* Accessibility zoom button */}
+      <button
+        onClick={() => setZoomed(true)}
+        aria-label="Zoom in for accessibility"
+        className="fixed left-3 top-1/2 z-[70] -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-md ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white"
+      >
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+          <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
+          <path d="M9.5 9.5L13 13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+          <path d="M4 6h4M6 4v4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+        </svg>
+      </button>
+
+      {/* Accessibility zoom overlay */}
+      <AnimatePresence>
+        {zoomed && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[200] flex items-start justify-center overflow-hidden bg-white/70 px-5 pb-8 pt-[clamp(4.5rem,16vh,8.5rem)] backdrop-blur-2xl"
+            onClick={() => setZoomed(false)}
+          >
+            <motion.div
+              ref={zoomPanelRef}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.22 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-xl max-h-[min(82dvh,780px)] overflow-y-auto overscroll-contain rounded-3xl border border-white/60 bg-white/90 p-8 shadow-[0_32px_80px_-20px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.06] backdrop-blur-xl sm:p-10 [scrollbar-width:thin]"
+            >
+              <button
+                onClick={() => setZoomed(false)}
+                aria-label="Close zoom"
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+              </button>
+
+              <p className="mb-2 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-zinc-400">Primary</p>
+              <a
+                href={`mailto:${email}`}
+                className="block text-[1.4rem] font-normal leading-snug text-zinc-950 hover:text-zinc-600 transition-colors break-all mb-5"
+              >
+                {email} <span className="text-zinc-400">→</span>
+              </a>
+
+              <div className="mb-8 flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={onCopy}
+                  className="inline-flex items-center rounded-full bg-zinc-100 px-5 py-2.5 text-[0.95rem] font-medium text-zinc-800 ring-1 ring-zinc-200 hover:bg-zinc-200 transition-colors"
+                >
+                  {copied ? "Copied ✓" : "Copy email"}
+                </button>
+                <a
+                  href={RESUME_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-zinc-700 transition-colors"
+                >
+                  Resume <span aria-hidden>↗</span>
+                </a>
+              </div>
+
+              <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-zinc-400">Elsewhere</p>
+              <div className="space-y-3">
+                {[
+                  { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta" },
+                  { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta" },
+                  { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA" },
+                ].map((s) => (
+                  <a
+                    key={s.href}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between rounded-2xl bg-zinc-50 px-5 py-3.5 ring-1 ring-zinc-200 hover:bg-zinc-100 transition-colors"
+                  >
+                    <div>
+                      <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-zinc-400">{s.label}</p>
+                      <p className="text-[1.05rem] text-zinc-800">{s.sub}</p>
+                    </div>
+                    <span className="text-zinc-400">↗</span>
+                  </a>
+                ))}
+              </div>
+
+              <div data-zoom-spotify className="mt-8 border-t border-zinc-200/80 pt-8">
+                <p className="mb-3 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-zinc-400">
+                  What I&apos;m listening to
+                </p>
+                <iframe
+                  src={`${SPOTIFY_EMBED_SRC}&theme=1`}
+                  width="100%"
+                  className="h-[min(352px,52dvh)] w-full rounded-xl"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  title="Spotify, what I'm listening to"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main ref={pageRef} className="relative flex flex-1 flex-col bg-transparent px-4 py-4 md:px-8 md:py-3">
 
         {/* ── Mobile: liquid (FluidSlab) ambient background ── */}
@@ -223,7 +360,15 @@ export default function ContactClient() {
             <div className="mt-5">
               <div className="mx-auto w-full text-center">
                 <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500">What I&apos;m listening to</p>
-                <iframe src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=1" width="100%" className="h-[200px] w-full" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify embed" />
+                <iframe
+                  src={`${SPOTIFY_EMBED_SRC}&theme=1`}
+                  width="100%"
+                  className="h-[200px] w-full"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                  title="Spotify, what I'm listening to"
+                />
               </div>
             </div>
             <p className="mx-auto mt-10 max-w-[76ch] text-center font-mono text-[10px] uppercase tracking-[0.18em] text-zinc-500">
@@ -312,12 +457,12 @@ export default function ContactClient() {
                       <div>
                         <p className="mb-1 font-mono text-[clamp(12px,2.4cqi,15px)] uppercase tracking-[0.22em] text-zinc-500">What I&apos;m listening to</p>
                         <iframe
-                          src="https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=0"
+                          src={SPOTIFY_EMBED_SRC}
                           width="100%"
                           className="h-[clamp(60px,7vw,90px)] rounded-xl"
                           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                           loading="lazy"
-                          title="Spotify embed"
+                          title="Spotify, what I'm listening to"
                         />
                       </div>
 

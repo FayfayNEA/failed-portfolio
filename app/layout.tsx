@@ -36,6 +36,8 @@ export default function RootLayout({
       <head>
         <link rel="dns-prefetch" href="//framerusercontent.com" />
         <link rel="preconnect" href="https://framerusercontent.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <NavShell>{children}</NavShell>
