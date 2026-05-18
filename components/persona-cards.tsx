@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { cn } from "@/lib/cn";
 
@@ -33,12 +33,13 @@ type PersonaCardsProps = {
   hmw?: string;
   "hmw-answer"?: string;
   accent?: "violet" | "lime" | "sky" | "etrade" | "black";
-  /** Use the same visual style as key takeaway cards (`bg-zinc-100 p-5 ring-1`). */
-  variant?: "frosted" | "keycards";
+  /** `liquid`: nav-style frosted glass + shimmer; `frosted`: white blur panel. */
+  variant?: "frosted" | "keycards" | "liquid";
   /** Right column title (default: Notes). */
   rightColumnHeading?: string;
   /** Layout for the participant cards. */
   layout?: "stack" | "grid-2";
+  className?: string;
 };
 
 export function PersonaCards({
@@ -49,6 +50,7 @@ export function PersonaCards({
   variant = "frosted",
   rightColumnHeading = "Notes",
   layout = "stack",
+  className,
 }: PersonaCardsProps) {
   let parsed: Persona[] = [];
   try {
@@ -62,6 +64,32 @@ export function PersonaCards({
   const isEtrade = accent === "etrade";
   const isBlack = accent === "black";
   const isKeycards = variant === "keycards";
+  const isLiquid = variant === "liquid";
+
+  const liquidShellClass = isLiquid
+    ? isBlack
+      ? cn(
+          "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/15",
+          "bg-zinc-950/40 shadow-[0_18px_55px_-28px_rgba(0,0,0,0.65)] ring-1 ring-black/40 backdrop-blur-2xl backdrop-saturate-125"
+        )
+      : isLime
+        ? cn(
+            "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
+            "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(132,204,22,0.28),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+            "ring-1 ring-lime-300/50 backdrop-blur-2xl backdrop-saturate-125"
+          )
+        : isSky || isEtrade
+          ? cn(
+              "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
+              "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(15,142,199,0.24),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+              "ring-1 ring-sky-200/45 backdrop-blur-2xl backdrop-saturate-125"
+            )
+          : cn(
+              "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
+              "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(76,29,149,0.22),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+              "ring-1 ring-violet-200/40 backdrop-blur-2xl backdrop-saturate-125"
+            )
+    : null;
 
   const keyCardClass = "rounded-xl bg-zinc-100 p-5 ring-1 ring-zinc-200/70";
   const keyHeadingClass =
@@ -69,7 +97,7 @@ export function PersonaCards({
   const keyBodyClass = "text-[0.85rem] leading-relaxed text-zinc-800";
 
   return (
-    <div className="mt-6 space-y-6">
+    <div className={cn("mt-6 space-y-6", className)}>
       {/* Target users, buddy-style frosted cards */}
       <div
         className={cn(
@@ -84,15 +112,38 @@ export function PersonaCards({
               layout === "grid-2" ? "max-w-none" : "max-w-[min(44rem,100%)]",
               isKeycards
                 ? keyCardClass
-                : cn(
-                    "relative overflow-hidden rounded-2xl border-[0.5px]",
-                    isBlack
-                      ? "border-white/10 bg-zinc-950/70 shadow-[0_18px_55px_-28px_rgba(0,0,0,0.65)] ring-1 ring-black/40"
-                      : "border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35"
-                  )
+                : isLiquid
+                  ? liquidShellClass
+                  : cn(
+                      "relative overflow-hidden rounded-2xl border-[0.5px]",
+                      isBlack
+                        ? "border-white/10 bg-zinc-950/70 shadow-[0_18px_55px_-28px_rgba(0,0,0,0.65)] ring-1 ring-black/40"
+                        : "border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35"
+                    )
             )}
           >
-            {!isKeycards && (
+            {!isKeycards && isLiquid && (
+              <>
+                <div
+                  className={cn(
+                    "pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b",
+                    isBlack
+                      ? "from-white/10 via-white/[0.03] to-transparent"
+                      : isLime
+                        ? "from-white/30 via-white/[0.06] to-lime-100/[0.14]"
+                        : isSky || isEtrade
+                          ? "from-white/30 via-white/[0.06] to-sky-100/[0.14]"
+                          : "from-white/30 via-white/[0.06] to-violet-100/[0.12]"
+                  )}
+                  aria-hidden
+                />
+                <div
+                  className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent"
+                  aria-hidden
+                />
+              </>
+            )}
+            {!isKeycards && !isLiquid && (
               <div
                 className={cn(
                   "pointer-events-none absolute inset-0 backdrop-blur-xl",
@@ -244,7 +295,18 @@ export function PersonaCards({
                   </p>
                 )}
                 {p.photoCaption && (
-                  <p className="mt-3 font-sans text-[0.65rem] italic leading-snug text-zinc-400">
+                  <p
+                    className={cn(
+                      "mt-3 font-sans text-[0.65rem] italic leading-snug",
+                      isLiquid && !isBlack
+                        ? isLime
+                          ? "text-lime-700/55"
+                          : isSky || isEtrade
+                            ? "text-[#0F8EC7]/55"
+                            : "text-violet-600/55"
+                        : "text-zinc-400"
+                    )}
+                  >
                     {p.photoCaption}
                   </p>
                 )}
@@ -254,7 +316,17 @@ export function PersonaCards({
               <div
                 className={cn(
                   "min-w-0 flex-1 border-t pt-6 md:border-l md:border-t-0 md:pl-9 md:pt-1",
-                  isKeycards ? "border-zinc-200/70" : isBlack ? "border-white/10" : "border-zinc-200/70"
+                  isKeycards
+                    ? "border-zinc-200/70"
+                    : isBlack
+                      ? "border-white/10"
+                      : isLiquid
+                        ? isLime
+                          ? "border-lime-200/50"
+                          : isSky || isEtrade
+                            ? "border-sky-200/50"
+                            : "border-violet-200/50"
+                        : "border-zinc-200/70"
                 )}
               >
                 <h3
