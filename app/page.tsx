@@ -65,39 +65,29 @@ export default function Home() {
           Why Failenn
         </p>
         <h2 className="mb-10 font-mono text-[clamp(1.4rem,3vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.03em] text-zinc-950">
-          Research → design → shipped product. No handoff gap.
+          Creative who codes. Ships the whole thing.
         </h2>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
               n: "01",
               title: "Research first, always",
-              body: "Every project starts with user interviews, competitive audits, and a clearly framed problem. Design decisions are traceable to a real insight, not a gut feeling.",
+              body: "Every project opens with user interviews and a clearly framed problem. Every design decision traces back to evidence I can name.",
             },
             {
               n: "02",
               title: "Prototypes in real code",
-              body: "High-fidelity interactive prototypes built in React and Tailwind. What stakeholders see in review is what ships, no translation loss.",
+              body: "I write the prototype myself, in React and Tailwind. When engineers pick it up to build, there is no handoff translation. We are already speaking the same language.",
             },
             {
               n: "03",
-              title: "AI as material, not feature",
-              body: "Treats AI the way a good architect treats concrete — structurally. Every AI integration here is load-bearing, not decorative.",
+              title: "Hardware to interface",
+              body: "I have built on Raspberry Pi, printed enclosures in Rhino, and deployed software on Linux. That range means I can sit with an engineering team and follow the real constraints, not a designer's version of them.",
             },
             {
               n: "04",
-              title: "End-to-end ownership",
-              body: "Discovery → research → design → build → user test → ship. Eidolon did all of that in one week, solo. Fast without cutting corners on craft.",
-            },
-            {
-              n: "05",
-              title: "Designs the trust layer",
-              body: "Models fail silently and users blame themselves. The work here makes AI reasoning visible, controllable, and legible — at the interface level.",
-            },
-            {
-              n: "06",
-              title: "Distinct visual voice",
-              body: "Brutalist precision meets high-fashion restraint. Interfaces that feel purposeful and remembered — not just clean and forgettable.",
+              title: "The rest of it",
+              body: "I read and write outside work, and make art when I can. To stay physical I lift and ride horses. My hiking companion is a 9lb mutt who consistently outlasts me on trail.",
             },
           ].map(({ n, title, body }) => (
             <div
