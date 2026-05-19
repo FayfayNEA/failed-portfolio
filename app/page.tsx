@@ -43,10 +43,10 @@ export default function Home() {
 
       <section
         id="product-design"
-        className="mt-[4rem] flex flex-col sm:mt-[6rem] md:mt-[10rem] lg:h-[calc(100dvh-5rem)] lg:overflow-hidden"
+        className="mt-[3rem] flex flex-col sm:mt-[4rem] md:mt-[5rem] lg:h-[calc(100dvh-5rem)] lg:overflow-hidden"
         aria-label="Product Design work"
       >
-        <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:px-12">
+        <div className="shrink-0 border-b border-zinc-200/50 px-8 pt-8 pb-3 md:px-12">
           <CaseBreadcrumb
             segments={[
               { label: "work", href: "/work" },
