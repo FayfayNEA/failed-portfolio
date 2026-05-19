@@ -71,8 +71,8 @@ export default function Home() {
           {[
             {
               n: "01",
-              title: "Research first, always",
-              body: "Every project opens with user interviews and a clearly framed problem. Every design decision traces back to evidence I can name.",
+              title: "Starts with the unasked question",
+              body: "The brief is never the real problem. The work starts by finding the thing people need but haven't articulated. Research comes next, to pressure-test whether the instinct holds.",
             },
             {
               n: "02",
