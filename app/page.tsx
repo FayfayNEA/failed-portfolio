@@ -65,7 +65,7 @@ export default function Home() {
           Why Failenn
         </p>
         <h2 className="mb-10 font-mono text-[clamp(1.4rem,3vw,2.2rem)] font-medium leading-[1.15] tracking-[-0.03em] text-zinc-950">
-          Creative who codes. Ships the whole thing.
+          Designs the system. Builds the prototype.
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
@@ -77,12 +77,12 @@ export default function Home() {
             {
               n: "02",
               title: "Prototypes in real code",
-              body: "I write the prototype myself, in React and Tailwind. When engineers pick it up to build, there is no handoff translation. We are already speaking the same language.",
+              body: "The prototype is written in React and Tailwind, not assembled in Figma. When engineers build from it, there is no translation layer. What gets approved is what ships.",
             },
             {
               n: "03",
-              title: "Hardware to interface",
-              body: "I have built on Raspberry Pi, printed enclosures in Rhino, and deployed software on Linux. That range means I can sit with an engineering team and follow the real constraints, not a designer's version of them.",
+              title: "Fluent across the stack",
+              body: "I have built on Raspberry Pi and deployed full pipelines on Linux. That range means I can sit with an engineering team and follow the real constraints, not a designer's interpretation of them.",
             },
             {
               n: "04",
