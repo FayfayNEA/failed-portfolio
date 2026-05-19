@@ -86,8 +86,8 @@ export default function Home() {
             },
             {
               n: "04",
-              title: "The rest of it",
-              body: "I read and write outside work, and make art when I can. To stay physical I lift and ride horses. My hiking companion is a 9lb mutt who consistently outlasts me on trail.",
+              title: "Systems before screens",
+              body: "Architecture taught me to understand the conceptual needs before the details. Every interface here was designed at the scale of the product first, the screen second.",
             },
           ].map(({ n, title, body }) => (
             <div
