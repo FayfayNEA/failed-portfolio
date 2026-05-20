@@ -34,7 +34,7 @@ const FOLDER_STRIPS: {
   desktopScale: number;
 }[] = [
   { href: "/branding",       label: "Branding",       center: "35%", desktopWidth: "7.5%",  mobileWidth: "38px", desktopScale: 0.98 },
-  { href: "/#product-design", label: "Product design", center: "50%", desktopWidth: "9.5%",  mobileWidth: "50px", desktopScale: 0.98 },
+  { href: "/product-design",  label: "Product design", center: "50%", desktopWidth: "9.5%",  mobileWidth: "50px", desktopScale: 0.98 },
   { href: "/architecture",   label: "Architecture",   center: "65%", desktopWidth: "7.5%",  mobileWidth: "38px", desktopScale: 0.98 },
 ];
 
