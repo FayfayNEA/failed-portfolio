@@ -39,10 +39,11 @@ export function DesignerBio() {
     >
       <p className="m-0 text-[11px] leading-[1.7] text-zinc-700">
         <span className="text-[17px] font-black text-zinc-900 leading-none">
-          Designer
+          Product Designer who codes.
         </span>
-        {" "}with an architecture background,<br />
-        creating intuitive software experiences,<br />
+        <br />
+        Architecture background turned interface<br />
+        instinct, creating intuitive software<br />
         with a programmatic approach and<br />
         an exceptional command of AI tools.
       </p>

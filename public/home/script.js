@@ -28,7 +28,7 @@ const NETHER_PORTAL_OVERLAY_LEFT_MOBILE_PX = NETHER_PORTAL_OVERLAY_LEFT_DESKTOP_
 
 /** Same-origin paths so the spatial map works on this Next.js site (iframe + target=_top). */
 const SITE_PATH_PREFIX = "";
-const WORK_PAGE_HREF = `${SITE_PATH_PREFIX}/work`;
+const WORK_PAGE_HREF = `${SITE_PATH_PREFIX}/#product-design`;
 
 // Mobile shows persistent labels under assets (see CSS @media hover:none).
 // Avoid repeating generic labels like "Work" multiple times.

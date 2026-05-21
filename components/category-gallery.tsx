@@ -6,379 +6,203 @@ import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { galleryCoverSrc } from "@/lib/framer-image";
 
-/**
- * Tailwind `lg` is 1024px, below that we use a scrollable stack instead of the
- * overlapping draggable deck (tablets at 768–1023px were still on the deck and looked broken).
- */
-function useStackGalleryLayout() {
-  // Always start false (matches SSR), useEffect corrects on client to avoid hydration mismatch.
-  const [stack, setStack] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 1023px)");
-    const on = () => setStack(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return stack;
-}
-
+// ─── Types ────────────────────────────────────────────────────────────────────
 export interface GalleryProject {
   slug: string;
   title: string;
   description: string;
   year: string;
-  /** Remote image URL. Omit to show a solid colour placeholder instead. */
   coverImage?: string;
-  /** Extra classes on the cover `<Image />` (e.g. `rotate-90` for orientation). */
   coverImageClassName?: string;
-  /** Fallback background colour when no coverImage is provided. */
   coverColor?: string;
-  /** "cover" (default) fills the card; "contain" fits the whole image inside. */
   coverImageFit?: "cover" | "contain";
-  /** Optional override for the bottom label text colour. */
   labelTextTone?: "light" | "dark";
-  /** Optional per-project tint for the liquid-glass title card. */
   labelGlassTint?: "default" | "moss";
   href: string;
-  /** Short outcome stat shown on the card, e.g. "−60% execution time". */
   metric?: string;
-  /** Up to 2 impact stat chips shown below description, e.g. ["83% faster trades", "100% located panel"] */
   tags?: [string, string];
-  /** Inline stats with · separator (no pill), single line. */
   tagsInline?: boolean;
+  typeTags?: string;
+  hoverVideo?: string;
+  cardVariant?: "portrait" | "landscape" | "standard";
+  imageAreaClassName?: string; // mobile grid only
+  canvasImageH?: number;       // desktop canvas — overrides VARIANT_IMG_H
+  useVideoAsCover?: boolean;
 }
 
-function ProjectTags({
-  tags,
-  labelTone,
-  variant,
-  fontSizePx,
-}: {
-  tags: [string, string];
-  labelTone: "light" | "dark";
-  variant: "list" | "glass";
-  fontSizePx?: number;
-}) {
-  const dark = labelTone === "dark";
-  const textClass =
-    variant === "list"
-      ? dark
-        ? "text-zinc-900"
-        : "text-zinc-600"
-      : dark
-        ? "text-black/85"
-        : "text-white/85";
+// ─── Mobile grid heights ──────────────────────────────────────────────────────
+const IMG_H_CLASS: Record<string, string> = {
+  portrait:  "h-[320px] sm:h-[370px]",
+  landscape: "h-[195px] sm:h-[230px]",
+  standard:  "h-[230px] sm:h-[260px]",
+};
 
-  if (variant === "list") {
-    return (
-      <p
-        className={cn(
-          "mt-1.5 flex items-center whitespace-nowrap font-mono text-[10px] font-medium tracking-[0.05em]",
-          textClass
-        )}
-      >
-        {tags.map((tag, i) => (
-          <span key={tag} className="inline-flex min-w-0 items-center">
-            {i > 0 ? <span className="mx-1.5 shrink-0 opacity-40" aria-hidden>·</span> : null}
-            <span className="truncate">{tag}</span>
-          </span>
-        ))}
-      </p>
-    );
-  }
+// ─── Canvas constants ─────────────────────────────────────────────────────────
+const COLS        = 2;
+const GAP_X       = 44;
+const GAP_Y       = 80;
+const PAD         = 36;
+const BASE_CARD_W = 380;
 
-  return (
-    <p
-      className={cn(
-        "mt-1.5 flex items-center whitespace-nowrap font-mono font-medium leading-snug",
-        textClass
-      )}
-      style={{ fontSize: fontSizePx ?? GALLERY_LABEL_TAGS_PX }}
-    >
-      {tags.map((tag, i) => (
-        <span key={tag} className="inline-flex min-w-0 items-center">
-          {i > 0 ? <span className="mx-1.5 shrink-0 opacity-40" aria-hidden>·</span> : null}
-          <span className="truncate">{tag}</span>
-        </span>
-      ))}
-    </p>
-  );
-}
+const VARIANT_IMG_H: Record<string, number> = {
+  portrait:  420,
+  landscape: 290,
+  standard:  278,
+};
+const CANVAS_META_H = 142;
+const MIN_CARD_W    = 220;
+const MIN_CARD_H    = CANVAS_META_H + 80;
 
-type Pos = { x: number; y: number };
-type CardSize = { w: number; h: number };
-
-const BASE_CARD_W = 360;
-const BASE_CARD_H = 300;
-const BASE_GLASS_H = 72;
-/** Uniform title-glass height (fits two-line inline tags on every card). */
-const GLASS_LABEL_H = BASE_GLASS_H + 22;
-const MIN_CARD_W = 120;
-const MIN_CARD_H = 100;
-const DEFAULT_CARD_SIZE: CardSize = { w: BASE_CARD_W, h: BASE_CARD_H };
-
-function loadSizesBySlug(storageKey: string, projects: GalleryProject[]): CardSize[] | null {
-  const raw = localStorage.getItem(`${storageKey}-sizes-by-slug`);
-  if (!raw) return null;
-  try {
-    const map = JSON.parse(raw) as Record<string, CardSize>;
-    return projects.map((p) => {
-      const s = map[p.slug];
-      if (s && typeof s.w === "number" && typeof s.h === "number") {
-        return normalizeCardSize({
-          w: clamp(s.w, MIN_CARD_W, BASE_CARD_W * 2),
-          h: clamp(s.h, MIN_CARD_H, BASE_CARD_H * 2),
-        });
-      }
-      return { ...DEFAULT_CARD_SIZE };
-    });
-  } catch {
-    return null;
-  }
-}
-
-function saveSizesBySlug(storageKey: string, projects: GalleryProject[], sizes: CardSize[]) {
-  const map: Record<string, CardSize> = {};
-  projects.forEach((p, i) => {
-    map[p.slug] = sizes[i] ?? DEFAULT_CARD_SIZE;
-  });
-  localStorage.setItem(`${storageKey}-sizes-by-slug`, JSON.stringify(map));
-}
-
-/** Snap saved sizes back to the default card when drifted (e.g. legacy index mismatch). */
-function normalizeCardSize(size: CardSize): CardSize {
-  const wDelta = Math.abs(size.w - BASE_CARD_W) / BASE_CARD_W;
-  const hDelta = Math.abs(size.h - BASE_CARD_H) / BASE_CARD_H;
-  if (wDelta > 0.08 || hDelta > 0.08) return { ...DEFAULT_CARD_SIZE };
-  return size;
-}
-
-/** Label type at full viewport scale — same on every card regardless of resize. */
-const GALLERY_LABEL_TITLE_PX = 13;
-const GALLERY_LABEL_DESC_PX = 11;
-const GALLERY_LABEL_METRIC_PX = 9;
-const GALLERY_LABEL_TAGS_PX = 10;
-
-function galleryLabelPx(basePx: number, viewportScale: number, minPx: number) {
-  return Math.max(minPx, Math.round(basePx * viewportScale));
-}
-
-/** Scale cards down as the container narrows. Full size at ≥1200 px wide. */
-function getScale(containerW: number): number {
-  return Math.max(0.5, Math.min(1, containerW / 1200));
-}
 
 const SEL_GREEN = "#3a6148";
+const SEL_GLOW  = "rgba(132,204,22,0.22)";
 
-function clamp(n: number, min: number, max: number) {
-  return Math.max(min, Math.min(max, n));
+type Pos      = { x: number; y: number };
+type CardSize = { w: number; h: number };
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function clamp(n: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, n)); }
+function getScale(cw: number) { return Math.max(0.55, Math.min(1, cw / 1100)); }
+
+function getDefaultSize(p: GalleryProject): CardSize {
+  const imgH = p.canvasImageH ?? VARIANT_IMG_H[p.cardVariant ?? "standard"] ?? 278;
+  return { w: BASE_CARD_W, h: imgH + CANVAS_META_H };
 }
 
-/** Returns true if any two cards overlap each other. */
-function hasOverlap(positions: Pos[], cardW: number, cardH: number): boolean {
-  for (let i = 0; i < positions.length; i++) {
-    for (let j = i + 1; j < positions.length; j++) {
-      const a = positions[i], b = positions[j];
-      if (
-        a.x < b.x + cardW &&
-        a.x + cardW > b.x &&
-        a.y < b.y + cardH &&
-        a.y + cardH > b.y
-      ) return true;
-    }
-  }
-  return false;
-}
+function computeInitialPositions(cw: number, projects: GalleryProject[], sc: number): Pos[] {
+  const cardW = Math.round(BASE_CARD_W * sc);
+  // Scaled card heights for each project
+  const h = projects.map((p) => Math.round(getDefaultSize(p).h * sc));
 
-function computeInitialPositions({
-  containerW,
-  containerH,
-  cardW,
-  cardH,
-  count,
-}: {
-  containerW: number;
-  containerH: number;
-  cardW: number;
-  cardH: number;
-  count: number;
-}): Pos[] {
-  // Keep a visible margin so cards never spawn kissing edges.
-  const pad = 12;
-  const gapX = 18;
-  const gapY = 18;
-  const maxX = Math.max(pad, containerW - cardW - pad);
-  const maxY = Math.max(pad, containerH - cardH - pad);
-
-  const innerW = Math.max(1, containerW - pad * 2);
-  const innerH = Math.max(1, containerH - pad * 2);
-
-  // Choose columns based on available width. Clamp to count so we don't waste space.
-  const cols = clamp(Math.floor((innerW + gapX) / (cardW + gapX)), 1, Math.max(1, count));
-  const rows = Math.max(1, Math.ceil(count / cols));
-
-  // Simple adjustment loop: try increasing columns to reduce rows until it fits or we hit count columns.
-  let adjCols = cols;
-  let adjRows = rows;
-  while (
-    adjRows * cardH + (adjRows - 1) * gapY > innerH &&
-    adjCols < count
-  ) {
-    adjCols += 1;
-    adjRows = Math.max(1, Math.ceil(count / adjCols));
-  }
-
-  const finalCols = adjCols;
-  const finalRows = adjRows;
-
-  // Center the grid inside the container for a deliberate “deck on a table” feel.
-  const gridW = finalCols * cardW + (finalCols - 1) * gapX;
-  const gridH = finalRows * cardH + (finalRows - 1) * gapY;
-  const originX = pad + Math.max(0, (innerW - gridW) / 2);
-  const originY = pad + Math.max(0, (innerH - gridH) / 2);
-
-  return Array.from({ length: count }, (_, i) => {
-    const r = Math.floor(i / finalCols);
-    const c = i % finalCols;
-
-    const x = clamp(originX + c * (cardW + gapX), pad, maxX);
-    const y = clamp(originY + r * (cardH + gapY), pad, maxY);
-    return { x, y };
-  });
-}
-
-function computeInitialGridLayout({
-  containerW,
-  containerH,
-  count,
-}: {
-  containerW: number;
-  containerH: number;
-  count: number;
-}): { positions: Pos[]; baseSizes: CardSize[] } {
-  // Mirror the positioning constants inside `computeInitialPositions` so the
-  // size-fit check matches the actual placement.
-  const pad = 12;
-  const gapX = 18;
-  const gapY = 18;
-
-  const innerW = Math.max(1, containerW - pad * 2);
-  const innerH = Math.max(1, containerH - pad * 2);
-
-  // First-load: ensure *no overlap*. If the container is too small to fit all
-  // cards at the default size, scale the cards down for the initial layout.
-  // Users can still resize bigger afterwards.
-  const sc = getScale(containerW);
-  const minFit = 0.55;
-
-  for (let fit = 1; fit >= minFit; fit -= 0.05) {
-    const cardW = Math.round(BASE_CARD_W * sc * fit);
-    const cardH = Math.round(BASE_CARD_H * sc * fit);
-
-    const cols = clamp(
-      Math.floor((innerW + gapX) / (cardW + gapX)),
-      1,
-      Math.max(1, count)
-    );
-    let adjCols = cols;
-    let adjRows = Math.max(1, Math.ceil(count / adjCols));
-    while (adjRows * cardH + (adjRows - 1) * gapY > innerH && adjCols < count) {
-      adjCols += 1;
-      adjRows = Math.max(1, Math.ceil(count / adjCols));
-    }
-
-    const gridW = adjCols * cardW + (adjCols - 1) * gapX;
-    const gridH = adjRows * cardH + (adjRows - 1) * gapY;
-    if (gridW <= innerW && gridH <= innerH) {
-      return {
-        positions: computeInitialPositions({
-          containerW,
-          containerH,
-          cardW,
-          cardH,
-          count,
-        }),
-        baseSizes: Array.from({ length: count }, () => ({
-          w: Math.round(BASE_CARD_W * fit),
-          h: Math.round(BASE_CARD_H * fit),
-        })),
-      };
-    }
-  }
-
-  // Worst case fallback: still return something deterministic.
-  const fallbackFit = minFit;
-  return {
-    positions: computeInitialPositions({
-      containerW,
-      containerH,
-      cardW: Math.round(BASE_CARD_W * getScale(containerW) * fallbackFit),
-      cardH: Math.round(BASE_CARD_H * getScale(containerW) * fallbackFit),
-      count,
-    }),
-    baseSizes: Array.from({ length: count }, () => ({
-      w: Math.round(BASE_CARD_W * fallbackFit),
-      h: Math.round(BASE_CARD_H * fallbackFit),
-    })),
+  // Explicit per-card positions matching the intended layout:
+  // [0] Eidolon     — well into the canvas from the left
+  const p0: Pos = { x: Math.round(cw * 0.22), y: 8 };
+  // [1] Buddy       — 20% inset from right edge, 30px lower than Eidolon
+  const p1: Pos = { x: cw - cardW - 30 - Math.round(cw * 0.20), y: 38 };
+  // [2] E*Trade     — centred, below the bottoms of both Eidolon and Buddy, 20px higher
+  const p2: Pos = {
+    x: Math.round((cw - cardW) / 2),
+    y: Math.max(p0.y + (h[0] ?? 0), p1.y + (h[1] ?? 0)) + 10,
   };
+  // [3] Fither      — 30px below E*Trade, shifted right + extra 10% of canvas
+  const p3: Pos = {
+    x: clamp(p2.x + Math.round(180 * sc) + Math.round(cw * 0.10), PAD, cw - cardW - 30),
+    y: p2.y + (h[2] ?? 0) + 30,
+  };
+  // [4] N1ghtterrors — 30px below Fither, more to the right
+  const p4: Pos = {
+    x: clamp(PAD + Math.round(200 * sc), PAD, cw - cardW - 30),
+    y: p3.y + (h[3] ?? 0) + 30,
+  };
+  // [5] JAHN         — below N1ghtterrors, horizontally centred + 20px right/down
+  const p5: Pos = {
+    x: clamp(Math.round((cw - cardW) / 2) + 20, PAD, cw - cardW - PAD),
+    y: p4.y + (h[4] ?? 0) + 50,
+  };
+
+  const explicit: Pos[] = [p0, p1, p2, p3, p4, p5];
+
+  return projects.map((_, i) => explicit[i] ?? { x: PAD, y: p5.y + (h[5] ?? 0) + 30 * (i - 4) });
 }
 
-// Each handle's resize direction vector.
-// dx/dy = -1 (shrink/move that edge left/up), 0 (no effect), 1 (grow right/down)
+// ─── Overlap resolution ───────────────────────────────────────────────────────
+const OVERLAP_MARGIN = 20; // min gap between cards in px (screen space)
+
+function resolveOverlaps(
+  idx: number,
+  pos: Pos,
+  allPositions: Pos[],
+  allSizes: CardSize[],
+  sc: number,
+  projectsList: GalleryProject[],
+): Pos {
+  const base  = allSizes[idx] ?? getDefaultSize(projectsList[idx]);
+  const cardW = Math.round(base.w * sc);
+  const cardH = Math.round(base.h * sc);
+  const M     = OVERLAP_MARGIN;
+
+  let p = { ...pos };
+
+  for (let iter = 0; iter < 10; iter++) {
+    let moved = false;
+    for (let j = 0; j < allPositions.length; j++) {
+      if (j === idx) continue;
+      const jBase = allSizes[j] ?? getDefaultSize(projectsList[j]);
+      const jW    = Math.round(jBase.w * sc);
+      const jH    = Math.round(jBase.h * sc);
+      const jp    = allPositions[j];
+      if (!jp) continue;
+
+      const ox = p.x < jp.x + jW + M && p.x + cardW > jp.x - M;
+      const oy = p.y < jp.y + jH + M && p.y + cardH > jp.y - M;
+      if (!ox || !oy) continue;
+
+      // Push in the direction of minimum displacement
+      const pushRight = jp.x + jW + M - p.x;
+      const pushLeft  = p.x + cardW - (jp.x - M);
+      const pushDown  = jp.y + jH + M - p.y;
+      const pushUp    = p.y + cardH - (jp.y - M);
+
+      const min = Math.min(pushRight, pushLeft, pushDown, pushUp);
+      if      (min === pushRight) p.x += pushRight;
+      else if (min === pushLeft)  p.x -= pushLeft;
+      else if (min === pushDown)  p.y += pushDown;
+      else                        p.y -= pushUp;
+
+      moved = true;
+    }
+    if (!moved) break;
+  }
+
+  return p;
+}
+
+// ─── Persistence ──────────────────────────────────────────────────────────────
+function loadSizes(key: string, projects: GalleryProject[]): CardSize[] | null {
+  try {
+    const raw = localStorage.getItem(`${key}-sizes-by-slug`);
+    if (!raw) return null;
+    const map = JSON.parse(raw) as Record<string, CardSize>;
+    return projects.map((p) => {
+      const s   = map[p.slug];
+      const def = getDefaultSize(p);
+      return s?.w && s?.h
+        ? { w: clamp(s.w, MIN_CARD_W, def.w * 3), h: clamp(s.h, MIN_CARD_H, def.h * 3) }
+        : { ...def };
+    });
+  } catch { return null; }
+}
+function saveSizes(key: string, projects: GalleryProject[], sizes: CardSize[]) {
+  const map: Record<string, CardSize> = {};
+  projects.forEach((p, i) => { map[p.slug] = sizes[i] ?? getDefaultSize(p); });
+  localStorage.setItem(`${key}-sizes-by-slug`, JSON.stringify(map));
+}
+
+// ─── Resize handles ───────────────────────────────────────────────────────────
 const HANDLE_DIRS = [
-  { dx: -1, dy: -1 }, // 0 top-left
-  { dx:  0, dy: -1 }, // 1 top-mid
-  { dx:  1, dy: -1 }, // 2 top-right
-  { dx: -1, dy:  0 }, // 3 left-mid
-  { dx:  1, dy:  0 }, // 4 right-mid
-  { dx: -1, dy:  1 }, // 5 bottom-left
-  { dx:  0, dy:  1 }, // 6 bottom-mid
-  { dx:  1, dy:  1 }, // 7 bottom-right
+  { dx: -1, dy: -1 }, { dx: 0, dy: -1 }, { dx: 1, dy: -1 },
+  { dx: -1, dy:  0 },                     { dx: 1, dy:  0 },
+  { dx: -1, dy:  1 }, { dx: 0, dy:  1 }, { dx: 1, dy:  1 },
 ] as const;
-
 const HANDLE_CURSORS = [
-  "nwse-resize",
-  "ns-resize",
-  "nesw-resize",
-  "ew-resize",
-  "ew-resize",
-  "nesw-resize",
-  "ns-resize",
-  "nwse-resize",
+  "nwse-resize","ns-resize","nesw-resize",
+  "ew-resize",            "ew-resize",
+  "nesw-resize","ns-resize","nwse-resize",
 ] as const;
 
-/** Eight Figma-style selection handles, deep green, each with its resize cursor. */
-function Handles({
-  onMouseDown,
-}: {
-  onMouseDown: (e: React.MouseEvent, handleIdx: number) => void;
-}) {
+function Handles({ onMouseDown }: { onMouseDown: (e: React.MouseEvent, i: number) => void }) {
   const pts = [
-    "top-[-6px] left-[-6px]",
-    "top-[-6px] left-1/2 -translate-x-1/2",
-    "top-[-6px] right-[-6px]",
-    "top-1/2 -translate-y-1/2 left-[-6px]",
-    "top-1/2 -translate-y-1/2 right-[-6px]",
-    "bottom-[-6px] left-[-6px]",
-    "bottom-[-6px] left-1/2 -translate-x-1/2",
-    "bottom-[-6px] right-[-6px]",
+    "top-[-6px] left-[-6px]", "top-[-6px] left-1/2 -translate-x-1/2", "top-[-6px] right-[-6px]",
+    "top-1/2 -translate-y-1/2 left-[-6px]",                            "top-1/2 -translate-y-1/2 right-[-6px]",
+    "bottom-[-6px] left-[-6px]", "bottom-[-6px] left-1/2 -translate-x-1/2", "bottom-[-6px] right-[-6px]",
   ];
   return (
     <>
       {pts.map((p, i) => (
-        <span
-          key={i}
-          className={cn("pointer-events-auto absolute z-30 h-3 w-3 rounded-[2px]", p)}
-          style={{
-            border: `1.5px solid ${SEL_GREEN}`,
-            background: "#fff",
-            cursor: HANDLE_CURSORS[i],
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-            onMouseDown(e, i);
-          }}
+        <span key={i}
+          className={cn("pointer-events-auto absolute z-50 h-3 w-3 rounded-[2px]", p)}
+          style={{ border: `1.5px solid ${SEL_GREEN}`, background: "#fff", cursor: HANDLE_CURSORS[i] }}
+          onMouseDown={(e) => { e.stopPropagation(); onMouseDown(e, i); }}
           aria-hidden
         />
       ))}
@@ -386,620 +210,408 @@ function Handles({
   );
 }
 
-export function CategoryGallery({
-  projects,
-  storageKey,
-}: {
-  projects: GalleryProject[];
-  storageKey: string;
+// ─── Pills ────────────────────────────────────────────────────────────────────
+function TypePills({ typeTags }: { typeTags: string }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {typeTags.split(" · ").map((t) => t.trim()).filter(Boolean).map((tag) => (
+        <span key={tag} className="rounded-full bg-lime-500/[0.09] px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-lime-700 ring-1 ring-lime-400/55">
+          {tag}
+        </span>
+      ))}
+    </div>
+  );
+}
+function MetricPills({ tags }: { tags: [string, string] }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {tags.map((tag) => (
+        <span key={tag} className="rounded-full px-2.5 py-1 font-mono text-[9px] font-medium tracking-[0.04em]"
+          style={{ background: "rgba(0,0,0,0.055)", color: "#52525b", border: "0.5px solid rgba(0,0,0,0.09)" }}>
+          {tag}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// ─── Shared glass style ───────────────────────────────────────────────────────
+const GLASS: React.CSSProperties = {
+  background:           "linear-gradient(160deg, rgba(255,255,255,0.18) 0%, rgba(240,255,240,0.12) 100%)",
+  backdropFilter:       "blur(56px) saturate(280%) brightness(1.12)",
+  WebkitBackdropFilter: "blur(56px) saturate(280%) brightness(1.12)",
+  borderTop:            "1px solid rgba(163,230,53,0.55)",
+  boxShadow:            "inset 0 2px 0 rgba(255,255,255,0.98), inset 0 -1px 0 rgba(163,230,53,0.14), 0 -12px 36px rgba(255,255,255,0.45)",
+};
+
+// ─── Mobile card ──────────────────────────────────────────────────────────────
+function MobileCard({ project, priority, revealed, revealDelay }: {
+  project: GalleryProject; priority: boolean; revealed: boolean; revealDelay: number;
 }) {
-  const isStackLayout = useStackGalleryLayout();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerSize, setContainerSize] = useState({ w: 1200, h: 700 });
-  const [positions, setPositions] = useState<Pos[]>([]);
-  const [baseSizes, setBaseSizes] = useState<CardSize[]>(() =>
-    projects.map(() => ({ w: BASE_CARD_W, h: BASE_CARD_H }))
+  const [hovered, setHovered] = useState(false);
+  const videoRef   = useRef<HTMLVideoElement>(null);
+  const videoCover = project.useVideoAsCover && !!project.hoverVideo;
+  const variant    = project.cardVariant ?? "standard";
+  const bg         = project.coverColor ?? "#ffffff";
+  const objFit     = project.coverImageFit === "cover" ? "object-cover" : "object-contain";
+  const imgCls     = project.imageAreaClassName ?? IMG_H_CLASS[variant];
+
+  const handleEnter = () => { setHovered(true);  videoRef.current?.play().catch(() => {}); };
+  const handleLeave = () => {
+    setHovered(false);
+    if (videoCover && videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
+  };
+
+  return (
+    <div className="relative"
+      style={{
+        boxShadow: hovered
+          ? `0 0 0 1.5px ${SEL_GREEN}, 0 0 36px -6px ${SEL_GLOW}`
+          : "0 0 0 0.5px rgba(58,97,72,0.22), 0 4px 20px -6px rgba(0,0,0,0.10)",
+        transition: "box-shadow 240ms cubic-bezier(0.4,0,0.2,1)",
+        opacity: revealed ? undefined : 0,
+        animation: revealed
+          ? `gallery-card-enter 0.7s cubic-bezier(0.22,1,0.36,1) ${revealDelay}ms both`
+          : undefined,
+      }}
+      onMouseEnter={handleEnter} onMouseLeave={handleLeave}
+    >
+      <Link href={project.href} className="absolute inset-0 z-20" aria-label={`Open ${project.title}`} />
+
+      <div className={cn("relative w-full overflow-hidden", imgCls)} style={{ background: bg }}>
+        {project.coverImage && !videoCover && (
+          <Image src={galleryCoverSrc(project.coverImage) ?? project.coverImage} alt={project.title} fill
+            className={cn(objFit, "object-center pointer-events-none transition-opacity duration-300",
+              hovered && project.hoverVideo ? "opacity-0" : "opacity-100", project.coverImageClassName)}
+            sizes="(max-width: 640px) 96vw, 48vw" quality={80} priority={priority}
+            loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"}
+            draggable={false} unoptimized />
+        )}
+        {project.hoverVideo && (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
+          <video ref={videoRef} src={project.hoverVideo} autoPlay={!videoCover} muted loop playsInline
+            preload={videoCover ? "metadata" : "auto"}
+            className={cn("absolute inset-0 h-full w-full transition-opacity duration-300", objFit,
+              videoCover ? "opacity-100" : hovered ? "opacity-100" : "opacity-0", project.coverImageClassName)}
+            aria-hidden />
+        )}
+      </div>
+
+      <div className="relative z-10 flex flex-col gap-3 px-5 pt-4 pb-6" style={GLASS}>
+        {project.typeTags && <TypePills typeTags={project.typeTags} />}
+        <p className="font-mono text-[15.5px] font-semibold leading-snug tracking-tight text-zinc-800">{project.title}</p>
+        <p className="text-[12px] leading-relaxed text-zinc-500">{project.description}</p>
+        {project.tags && <MetricPills tags={project.tags} />}
+      </div>
+    </div>
   );
-  const [zOrder, setZOrder] = useState<number[]>(() =>
-    projects.map((_, i) => i)
-  );
-  const [ready, setReady] = useState(false);
+}
 
-  const dragRef = useRef<{
-    idx: number;
-    startMX: number;
-    startMY: number;
-    startPX: number;
-    startPY: number;
-  } | null>(null);
-
-  const resizeRef = useRef<{
-    idx: number;
-    handleIdx: number;
-    startMX: number;
-    startMY: number;
-    startW: number;
-    startH: number;
-    startPX: number;
-    startPY: number;
-  } | null>(null);
-
-  const hasDragged = useRef(false);
-  const [draggingIdx, setDraggingIdx] = useState<number | null>(null);
-
-  // Keep a ref to the current scale so event handlers always see a fresh value
-  // without needing to be re-registered on every container resize.
-  const scale = getScale(containerSize.w);
-  const labelTitlePx = galleryLabelPx(GALLERY_LABEL_TITLE_PX, scale, 10);
-  const labelDescPx = galleryLabelPx(GALLERY_LABEL_DESC_PX, scale, 9);
-  const labelMetricPx = galleryLabelPx(GALLERY_LABEL_METRIC_PX, scale, 8);
-  const labelTagsPx = galleryLabelPx(GALLERY_LABEL_TAGS_PX, scale, 9);
-  const scaleRef = useRef(scale);
+// ─── Desktop canvas gallery ───────────────────────────────────────────────────
+export function CategoryGallery({ projects, storageKey }: { projects: GalleryProject[]; storageKey: string }) {
+  // Detect desktop
+  const [isDesktop, setIsDesktop] = useState(false);
   useEffect(() => {
-    scaleRef.current = scale;
-  }, [scale]);
-
-  // Track container size via ResizeObserver
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([entry]) => {
-      const { width, height } = entry.contentRect;
-      setContainerSize({ w: width, h: height });
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const on = () => setIsDesktop(mq.matches);
+    on(); mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
   }, []);
 
-  // Set initial positions + sizes from localStorage or defaults
+  // Scroll reveal
+  const [revealed,   setRevealed]   = useState(false);
+  const mobileRef    = useRef<HTMLDivElement>(null);
+
+  // Canvas state
+  const containerRef  = useRef<HTMLDivElement>(null);
+  const [containerW, setContainerW] = useState(1100);
+  const [positions,  setPositions]  = useState<Pos[]>([]);
+  const [baseSizes,  setBaseSizes]  = useState<CardSize[]>(() => projects.map(getDefaultSize));
+  const [zOrder,     setZOrder]     = useState<number[]>(() => projects.map((_, i) => i));
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [draggingIdx,setDraggingIdx]= useState<number | null>(null);
+  const [ready,      setReady]      = useState(false);
+
+  const dragRef      = useRef<{ idx: number; startMX: number; startMY: number; startPX: number; startPY: number } | null>(null);
+  const resizeRef    = useRef<{ idx: number; handleIdx: number; startMX: number; startMY: number; startW: number; startH: number; startPX: number; startPY: number } | null>(null);
+  const hasDragged   = useRef(false);
+  const scaleRef     = useRef(getScale(1100));
+  // Keep refs in sync so the global mouse handler always sees fresh state
+  const baseSizesRef = useRef(baseSizes);
+  useEffect(() => { baseSizesRef.current = baseSizes; }, [baseSizes]);
+
+  // Video refs per card
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>(projects.map(() => null));
+
+  const scale = getScale(containerW);
+  useEffect(() => { scaleRef.current = scale; }, [scale]);
+
+  // Scroll-reveal: observe whichever container is active
   useEffect(() => {
-    if (isStackLayout) return;
+    if (revealed) return;
+    const el = isDesktop ? containerRef.current : mobileRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // rAF ensures React first paints opacity:0, then triggers the transition/animation
+          requestAnimationFrame(() => setRevealed(true));
+          io.disconnect();
+        }
+      },
+      { threshold: 0.06, rootMargin: "0px 0px -40px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [isDesktop, revealed]);
+
+  // Track container width
+  useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const { width: cw, height: ch } = el.getBoundingClientRect();
-    // Sync containerSize state with the real measured width immediately so the
-    // re-clamping effect never sees a stale initial value (1200×700) and
-    // incorrectly rescales saved positions on the second visit.
-    setContainerSize({ w: cw, h: ch });
+    const ro = new ResizeObserver(([e]) => setContainerW(e.contentRect.width));
+    ro.observe(el); return () => ro.disconnect();
+  }, []);
+
+  // Initial layout
+  useEffect(() => {
+    if (!isDesktop) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const cw = el.getBoundingClientRect().width;
+    setContainerW(cw);
     const sc = getScale(cw);
-    const cw_ = Math.round(BASE_CARD_W * sc);
-    const ch_ = Math.round(BASE_CARD_H * sc);
-
-    // Read stored sizes first so we can check overlap with actual card dimensions.
-    let storedSizes: CardSize[] | null = loadSizesBySlug(storageKey, projects);
-    if (!storedSizes) {
-      const rawSizes = localStorage.getItem(`${storageKey}-sizes`);
-      if (rawSizes) {
-        try {
-          const parsed: CardSize[] = JSON.parse(rawSizes);
-          if (Array.isArray(parsed) && parsed.length === projects.length) {
-            // Legacy index-based sizes — map by order once, then prefer slug keys.
-            storedSizes = projects.map((p, i) => {
-              const legacy = parsed[i];
-              if (legacy && typeof legacy.w === "number" && typeof legacy.h === "number") {
-                return normalizeCardSize({
-                  w: clamp(legacy.w, MIN_CARD_W, BASE_CARD_W * 2),
-                  h: clamp(legacy.h, MIN_CARD_H, BASE_CARD_H * 2),
-                });
-              }
-              return { ...DEFAULT_CARD_SIZE };
-            });
-            saveSizesBySlug(storageKey, projects, storedSizes);
-          }
-        } catch { /* ignore */ }
-      }
-    }
-
-    // --- positions ---
-    let usedStoredPositions = false;
-    const storedPos = localStorage.getItem(storageKey);
+    const storedSizes = loadSizes(storageKey, projects);
+    const storedPos   = localStorage.getItem(storageKey);
+    let restored      = false;
     if (storedPos) {
       try {
         const parsed: Pos[] = JSON.parse(storedPos);
         if (Array.isArray(parsed) && parsed.length === projects.length) {
-          const clamped = parsed.map((pos) => ({
-            x: Math.max(0, Math.min(pos.x, cw - cw_ - 8)),
-            y: Math.max(0, Math.min(pos.y, ch - ch_ - 8)),
-          }));
-          // Check overlap using the actual stored card size so large user-resized
-          // cards aren't laid over each other after a viewport change.
-          const checkW = storedSizes ? Math.round((storedSizes[0]?.w ?? BASE_CARD_W) * sc) : cw_;
-          const checkH = storedSizes ? Math.round((storedSizes[0]?.h ?? BASE_CARD_H) * sc) : ch_;
-          if (!hasOverlap(clamped, checkW, checkH)) {
-            setPositions(clamped);
-            if (storedSizes) setBaseSizes(storedSizes); // Only restore sizes with positions
-            setReady(true);
-            usedStoredPositions = true;
-          }
+          setPositions(parsed);
+          if (storedSizes) setBaseSizes(storedSizes);
+          setReady(true); restored = true;
         }
-      } catch {
-        // fall through
-      }
+      } catch { /* fall through */ }
     }
-
-    if (!usedStoredPositions) {
-      // Fresh grid, ignore any saved sizes; compute a clean fit.
-      const layout = computeInitialGridLayout({
-        containerW: cw,
-        containerH: ch,
-        count: projects.length,
-      });
-      setPositions(layout.positions);
-      setBaseSizes(layout.baseSizes);
+    if (!restored) {
+      const initialSizes = projects.map(getDefaultSize);
+      let initPos = computeInitialPositions(cw, projects, sc);
+      // Sequentially resolve any stagger-induced overlaps
+      for (let i = 0; i < initPos.length; i++) {
+        initPos[i] = resolveOverlaps(i, initPos[i], initPos, initialSizes, sc, projects);
+      }
+      setPositions(initPos);
       setReady(true);
     }
-  }, [isStackLayout, projects, storageKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isDesktop, projects, storageKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Persist positions to localStorage whenever they change
+  // Persist positions
   useEffect(() => {
-    if (isStackLayout) return;
-    if (ready && positions.length === projects.length) {
-      localStorage.setItem(storageKey, JSON.stringify(positions));
-    }
-  }, [isStackLayout, positions, ready, projects.length, storageKey]);
+    if (!isDesktop || !ready || positions.length !== projects.length) return;
+    localStorage.setItem(storageKey, JSON.stringify(positions));
+  }, [isDesktop, positions, ready, projects.length, storageKey]);
 
-  // Persist sizes to localStorage whenever they change
+  // Persist sizes
   useEffect(() => {
-    if (isStackLayout) return;
-    if (ready && baseSizes.length === projects.length) {
-      saveSizesBySlug(storageKey, projects, baseSizes);
-    }
-  }, [baseSizes, isStackLayout, ready, projects.length, storageKey]);
+    if (!isDesktop || !ready || baseSizes.length !== projects.length) return;
+    saveSizes(storageKey, projects, baseSizes);
+  }, [baseSizes, isDesktop, ready, projects.length, storageKey]);
 
-  // Re-clamp + proportionally scale positions when the container resizes
-  const prevSize = useRef({ w: 0, h: 0 });
+  // Re-clamp positions on container resize
+  const prevW = useRef(0);
   useEffect(() => {
-    if (isStackLayout) return;
-    if (!ready || positions.length === 0) return;
-    const { w: newW, h: newH } = containerSize;
-    const { w: oldW, h: oldH } = prevSize.current;
-    if (oldW === 0) {
-      prevSize.current = { w: newW, h: newH };
-      return;
-    }
-    if (newW === oldW && newH === oldH) return;
+    if (!isDesktop || !ready || positions.length === 0) return;
+    if (prevW.current === 0) { prevW.current = containerW; return; }
+    if (prevW.current === containerW) return;
+    const ratio = containerW / prevW.current;
+    setPositions((prev) => prev.map((p) => ({ x: Math.max(0, p.x * ratio), y: Math.max(0, p.y) })));
+    prevW.current = containerW;
+  }, [containerW, isDesktop, ready]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const sc = getScale(newW);
-    const cw_ = Math.round(BASE_CARD_W * sc);
-    const ch_ = Math.round(BASE_CARD_H * sc);
-
-    setPositions((prev) => {
-      const clamped = prev.map((pos) => ({
-        x: Math.max(0, Math.min(pos.x * (newW / oldW), newW - cw_ - 8)),
-        y: Math.max(0, Math.min(pos.y * (newH / oldH), newH - ch_ - 8)),
-      }));
-      // If re-clamping produced overlapping cards, reset to a clean grid layout.
-      if (hasOverlap(clamped, cw_, ch_)) {
-        const layout = computeInitialGridLayout({ containerW: newW, containerH: newH, count: prev.length });
-        // Schedule the size reset outside the state updater.
-        queueMicrotask(() => setBaseSizes(layout.baseSizes));
-        return layout.positions;
-      }
-      return clamped;
-    });
-    prevSize.current = { w: newW, h: newH };
-  }, [containerSize, isStackLayout, ready]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Global mousemove / mouseup, handles both drag and resize
+  // Global mouse handlers
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      // ── Drag ──────────────────────────────────────────────────────────────
       const d = dragRef.current;
       if (d) {
-        const dx = e.clientX - d.startMX;
-        const dy = e.clientY - d.startMY;
+        const dx = e.clientX - d.startMX, dy = e.clientY - d.startMY;
         if (Math.abs(dx) > 3 || Math.abs(dy) > 3) hasDragged.current = true;
-        setPositions((prev) => {
-          const next = [...prev];
-          next[d.idx] = { x: d.startPX + dx, y: d.startPY + dy };
-          return next;
-        });
+        setPositions((prev) => { const n = [...prev]; n[d.idx] = { x: d.startPX + dx, y: d.startPY + dy }; return n; });
         return;
       }
-
-      // ── Resize ────────────────────────────────────────────────────────────
       const r = resizeRef.current;
       if (!r) return;
-
       const sc = scaleRef.current;
-      // Convert screen delta to "base" (scale=1) coordinates
-      const rawDx = (e.clientX - r.startMX) / sc;
-      const rawDy = (e.clientY - r.startMY) / sc;
-
-      if (
-        Math.abs(e.clientX - r.startMX) > 2 ||
-        Math.abs(e.clientY - r.startMY) > 2
-      ) {
-        hasDragged.current = true;
-      }
-
+      if (Math.abs(e.clientX - r.startMX) > 2 || Math.abs(e.clientY - r.startMY) > 2) hasDragged.current = true;
+      const rdx = (e.clientX - r.startMX) / sc, rdy = (e.clientY - r.startMY) / sc;
       const { dx: ndx, dy: ndy } = HANDLE_DIRS[r.handleIdx];
+      let nw = r.startW, nh = r.startH, nx = r.startPX, ny = r.startPY;
+      if (ndx !== 0) { nw = Math.max(MIN_CARD_W, r.startW + rdx * ndx); if (ndx < 0) nx = r.startPX + (r.startW - nw) * sc; }
+      if (ndy !== 0) { nh = Math.max(MIN_CARD_H, r.startH + rdy * ndy); if (ndy < 0) ny = r.startPY + (r.startH - nh) * sc; }
+      setBaseSizes((prev) => prev.map((s, j) => j === r.idx ? { w: nw, h: nh } : s));
+      if (ndx < 0 || ndy < 0) setPositions((prev) => { const n = [...prev]; n[r.idx] = { x: nx, y: ny }; return n; });
+    };
+    const onUp = () => {
+      const wasDrag = dragRef.current !== null && hasDragged.current;
+      const dragIdx = dragRef.current?.idx ?? -1;
+      dragRef.current = resizeRef.current = null;
+      setDraggingIdx(null);
 
-      let newW = r.startW;
-      let newH = r.startH;
-      let newPX = r.startPX;
-      let newPY = r.startPY;
-
-      if (ndx !== 0) {
-        // ndx > 0 → right handle: grows rightward (rawDx > 0 = bigger)
-        // ndx < 0 → left handle: grows leftward (rawDx < 0 = bigger, i.e. -rawDx)
-        const deltaW = rawDx * ndx;
-        newW = Math.max(MIN_CARD_W, r.startW + deltaW);
-        if (ndx < 0) {
-          // Left edge moved, anchor the right side, shift position
-          newPX = r.startPX + (r.startW - newW) * sc;
-        }
-      }
-
-      if (ndy !== 0) {
-        const deltaH = rawDy * ndy;
-        newH = Math.max(MIN_CARD_H, r.startH + deltaH);
-        if (ndy < 0) {
-          // Top edge moved, anchor the bottom side, shift position
-          newPY = r.startPY + (r.startH - newH) * sc;
-        }
-      }
-
-      setBaseSizes((prev) => {
-        return prev.map((s, j) => (j === r.idx ? { w: newW, h: newH } : s));
-      });
-
-      // Only update position when a left or top handle is active
-      if (ndx < 0 || ndy < 0) {
+      if (wasDrag && dragIdx >= 0) {
+        // Snap the dropped card out of any card it landed on
         setPositions((prev) => {
-          const next = [...prev];
-          next[r.idx] = { x: newPX, y: newPY };
+          const sc       = scaleRef.current;
+          const resolved = resolveOverlaps(dragIdx, prev[dragIdx], prev, baseSizesRef.current, sc, projects);
+          if (resolved.x === prev[dragIdx].x && resolved.y === prev[dragIdx].y) return prev;
+          const next     = [...prev];
+          next[dragIdx]  = resolved;
           return next;
         });
       }
     };
-
-    const onUp = () => {
-      dragRef.current = null;
-      resizeRef.current = null;
-      setDraggingIdx(null);
-    };
-
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-    };
-  }, []); // scaleRef is a ref, always fresh, no dep needed
-
-  const startDrag = useCallback(
-    (e: React.MouseEvent, idx: number) => {
-      e.preventDefault();
-      hasDragged.current = false;
-      setDraggingIdx(idx);
-      dragRef.current = {
-        idx,
-        startMX: e.clientX,
-        startMY: e.clientY,
-        startPX: positions[idx]?.x ?? 0,
-        startPY: positions[idx]?.y ?? 0,
-      };
-      setZOrder((prev) => {
-        const next = prev.filter((n) => n !== idx);
-        return [...next, idx];
-      });
-    },
-    [positions]
-  );
-
-  const startResize = useCallback(
-    (e: React.MouseEvent, idx: number, handleIdx: number) => {
-      e.preventDefault();
-      hasDragged.current = false;
-      setDraggingIdx(idx);
-      resizeRef.current = {
-        idx,
-        handleIdx,
-        startMX: e.clientX,
-        startMY: e.clientY,
-        startW: baseSizes[idx]?.w ?? BASE_CARD_W,
-        startH: baseSizes[idx]?.h ?? BASE_CARD_H,
-        startPX: positions[idx]?.x ?? 0,
-        startPY: positions[idx]?.y ?? 0,
-      };
-      setZOrder((prev) => {
-        const next = prev.filter((n) => n !== idx);
-        return [...next, idx];
-      });
-    },
-    [baseSizes, positions]
-  );
-
-  const bringToFront = useCallback((idx: number) => {
-    setZOrder((prev) => {
-      const next = prev.filter((n) => n !== idx);
-      return [...next, idx];
-    });
+    window.addEventListener("mouseup",   onUp);
+    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseup", onUp); };
   }, []);
 
-  if (isStackLayout) {
-    return (
-      <div
-        ref={containerRef}
-        className="w-full px-4 pb-28 pt-5 sm:px-6"
-      >
-        <ul
-          className="mx-auto flex max-w-lg flex-col gap-10"
-          aria-label="Projects in this category"
-        >
-          {projects.map((project, frameIdx) => (
-            <li key={project.slug}>
-              <Link
-                href={project.href}
-                className="group block outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-zinc-400"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-visible">
-                  {/* Figma-style selection handles on hover/focus */}
-                  <div className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100">
-                    {[
-                      "top-[-6px] left-[-6px]",
-                      "top-[-6px] left-1/2 -translate-x-1/2",
-                      "top-[-6px] right-[-6px]",
-                      "top-1/2 -translate-y-1/2 left-[-6px]",
-                      "top-1/2 -translate-y-1/2 right-[-6px]",
-                      "bottom-[-6px] left-[-6px]",
-                      "bottom-[-6px] left-1/2 -translate-x-1/2",
-                      "bottom-[-6px] right-[-6px]",
-                    ].map((pos) => (
-                      <span
-                        key={pos}
-                        className={`absolute h-3 w-3 rounded-[2px] bg-white ${pos}`}
-                        style={{ border: "1.5px solid #3a6148" }}
-                        aria-hidden
-                      />
-                    ))}
-                  </div>
+  const startDrag = useCallback((e: React.MouseEvent, idx: number) => {
+    e.preventDefault(); hasDragged.current = false; setDraggingIdx(idx);
+    dragRef.current = { idx, startMX: e.clientX, startMY: e.clientY, startPX: positions[idx]?.x ?? 0, startPY: positions[idx]?.y ?? 0 };
+    setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
+  }, [positions]);
 
-                  <div
-                    className={[
-                      "absolute inset-0 overflow-hidden rounded-none",
-                      "border-[0.5px] border-white/55 ring-1 ring-black/[0.06]",
-                      "shadow-[0_22px_70px_-44px_rgba(0,0,0,0.35),inset_0_1px_0_0_rgba(255,255,255,0.55)]",
-                      "bg-white/[0.22] backdrop-blur-lg backdrop-saturate-[1.35]",
-                    ].join(" ")}
-                  >
-                    <div
-                      className="pointer-events-none absolute inset-0"
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.46) 0%, rgba(255,255,255,0.12) 40%, rgba(114,140,105,0.10) 100%)",
-                      }}
-                      aria-hidden
-                    />
-                    <div className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 [box-shadow:inset_0_0_0_1.5px_#3a6148]" />
-                    <div className="absolute inset-2.5 overflow-hidden">
-                      {project.coverImage && (
-                        <Image
-                          src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
-                          alt={project.title}
-                          fill
-                          className={cn(
-                            project.coverImageFit === "contain"
-                              ? "object-contain"
-                              : "object-cover",
-                            "object-center",
-                            project.coverImageClassName
-                          )}
-                          sizes="(max-width: 640px) min(92vw, 420px), min(46vw, 400px)"
-                          quality={75}
-                          priority
-                          loading="eager"
-                          fetchPriority="high"
-                          draggable={false}
-                          unoptimized
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-3 font-mono text-[0.95rem] font-normal tracking-tight text-zinc-900">
-                  {project.title}
-                  <span className="mx-1.5 font-light text-zinc-400">·</span>
-                  <span className="text-[10px] tracking-[0.06em] text-zinc-400">{project.year}</span>
-                </p>
-                <p className="mt-1 font-mono text-[10px] tracking-[0.06em] text-zinc-500">
-                  {project.description}
-                </p>
-                {project.metric && (
-                  <p className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-0.5 font-mono text-[9px] font-medium tracking-[0.06em] text-zinc-600">
-                    {project.metric}
-                  </p>
-                )}
-                {project.tags && project.tagsInline && (
-                  <ProjectTags
-                    tags={project.tags}
-                    labelTone={project.labelTextTone ?? "light"}
-                    variant="list"
-                  />
-                )}
-              </Link>
-            </li>
+  const startResize = useCallback((e: React.MouseEvent, idx: number, handleIdx: number) => {
+    e.preventDefault(); hasDragged.current = false; setDraggingIdx(idx);
+    resizeRef.current = { idx, handleIdx, startMX: e.clientX, startMY: e.clientY, startW: baseSizes[idx]?.w ?? BASE_CARD_W, startH: baseSizes[idx]?.h ?? getDefaultSize(projects[idx]).h, startPX: positions[idx]?.x ?? 0, startPY: positions[idx]?.y ?? 0 };
+    setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
+  }, [baseSizes, positions, projects]);
+
+  // ── Mobile ────────────────────────────────────────────────────────────────
+  if (!isDesktop) {
+    return (
+      <div ref={mobileRef} className="w-full px-4 py-6 sm:px-6">
+        <div className="mx-auto grid max-w-[min(900px,96vw)] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+          {projects.map((project, i) => (
+            <MobileCard key={project.slug} project={project} priority={i < 2}
+              revealed={revealed} revealDelay={i * 70} />
           ))}
-        </ul>
+        </div>
       </div>
     );
   }
 
+  // ── Desktop canvas ────────────────────────────────────────────────────────
+  const sc = scale;
+
+  // Compute canvas height from actual card positions
+  let cvH = 600;
+  positions.forEach((pos, i) => {
+    const base  = baseSizes[i] ?? getDefaultSize(projects[i]);
+    const cardH = Math.round(base.h * sc);
+    cvH = Math.max(cvH, pos.y + cardH + PAD + 60);
+  });
+
   return (
-    <div
-      ref={containerRef}
-      className="relative h-full w-full overflow-hidden select-none"
-    >
-      {ready &&
-        projects.map((project, i) => {
-          const pos = positions[i] ?? { x: 0, y: 0 };
-          const z = zOrder.indexOf(i);
-          const base = baseSizes[i] ?? { w: BASE_CARD_W, h: BASE_CARD_H };
-          const cardW = Math.round(base.w * scale);
-          const cardH = Math.round(base.h * scale);
-          const labelTone = project.labelTextTone ?? "light";
-          const glassH = Math.round(GLASS_LABEL_H * scale);
-          const aboveFold = i < 3;
+    <div ref={containerRef} className="relative w-full select-none" style={{ height: cvH }}>
+      {ready && projects.map((project, i) => {
+        const pos    = positions[i] ?? { x: 0, y: 0 };
+        const z      = zOrder.indexOf(i);
+        const base   = baseSizes[i] ?? getDefaultSize(project);
+        const cardW  = Math.round(base.w * sc);
+        const cardH  = Math.round(base.h * sc);
+        const metaH  = Math.round(CANVAS_META_H * sc);
+        const imageH = Math.max(0, cardH - metaH);
+        const bg     = project.coverColor ?? "#ffffff";
+        const objFit = project.coverImageFit === "cover" ? "object-cover" : "object-contain";
+        const isHov  = hoveredIdx === i && draggingIdx === null;
+        const videoCover = project.useVideoAsCover && !!project.hoverVideo;
 
-          return (
-            <div
-              key={project.slug}
-              className="absolute"
-              style={{
-                left: pos.x,
-                top: pos.y,
-                width: cardW,
-                zIndex: z + 1,
-                cursor:
-                  draggingIdx === i ? "grabbing" : "grab",
+        return (
+          <div key={project.slug}
+            className="absolute"
+            style={{
+              left: pos.x, top: pos.y, width: cardW, zIndex: z + 1,
+              cursor: draggingIdx === i ? "grabbing" : "grab",
+              opacity: revealed ? undefined : 0,
+              animation: revealed
+                ? `gallery-card-enter 0.72s cubic-bezier(0.22,1,0.36,1) ${i * 80}ms both`
+                : undefined,
+              willChange: revealed ? "opacity, transform" : undefined,
+            }}
+            onMouseDown={(e) => startDrag(e, i)}
+          >
+            <div className="group relative"
+              style={{ width: cardW, height: cardH }}
+              onMouseDown={() => setZOrder((prev) => [...prev.filter((n) => n !== i), i])}
+              onMouseEnter={() => {
+                setHoveredIdx(i);
+                const vr = videoRefs.current[i];
+                if (vr) vr.play().catch(() => {});
               }}
-              onMouseDown={(e) => startDrag(e, i)}
+              onMouseLeave={() => {
+                setHoveredIdx(null);
+                const vr = videoRefs.current[i];
+                if (vr && videoCover) { vr.pause(); vr.currentTime = 0; }
+              }}
             >
-              {/* Card */}
-              <div
-                className="group relative"
-                style={{ width: cardW, height: cardH }}
-                onMouseDown={() => bringToFront(i)}
-              >
-                {/* Selection border on hover */}
-                <div
-                  className="pointer-events-none absolute inset-0 z-30 transition-opacity duration-150 opacity-0 group-hover:opacity-100 group-active:opacity-100"
-                  style={{ boxShadow: `inset 0 0 0 1.5px ${SEL_GREEN}` }}
-                />
+              {/* Selection border */}
+              <div className="pointer-events-none absolute inset-0 z-40 transition-opacity duration-150"
+                style={{ opacity: isHov ? 1 : 0, boxShadow: `inset 0 0 0 1.5px ${SEL_GREEN}` }} />
 
-                {/* Resize handles on hover, outside overflow-hidden so they aren't clipped */}
-                <div className="pointer-events-none absolute inset-0 z-30 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-150">
-                  <Handles
-                    onMouseDown={(e, handleIdx) => startResize(e, i, handleIdx)}
-                  />
-                </div>
-
-                {/* Card content, clipped to frame bounds */}
-                <div className="absolute inset-0 overflow-hidden">
-                  {/* Background colour */}
-                  <div
-                    className="absolute inset-0"
-                    style={{ background: project.coverColor ?? "#ffffff" }}
-                  />
-
-                  {/* Cover image */}
-                  {project.coverImage && (
-                    <Image
-                      src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
-                      alt={project.title}
-                      fill
-                      className={cn(
-                        project.coverImageFit === "contain"
-                          ? "object-contain"
-                          : "object-cover",
-                        "pointer-events-none",
-                        project.coverImageClassName
-                      )}
-                      sizes={`${Math.min(cardW * 2, 640)}px`}
-                      quality={75}
-                      priority
-                      loading="eager"
-                      fetchPriority="high"
-                      draggable={false}
-                      unoptimized
-                    />
-                  )}
-
-                  {/* Liquid glass label */}
-                  <div
-                    className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex flex-col justify-center gap-1 px-4"
-                    style={{
-                      height: glassH,
-                      backdropFilter: "blur(14px) saturate(160%)",
-                      WebkitBackdropFilter: "blur(14px) saturate(160%)",
-                      background:
-                        project.labelGlassTint === "moss"
-                          ? "rgba(114,140,105,0.22)"
-                          : "rgba(255,255,255,0.18)",
-                      borderTop:
-                        project.labelGlassTint === "moss"
-                          ? "0.5px solid rgba(114,140,105,0.38)"
-                          : "0.5px solid rgba(255,255,255,0.38)",
-                      boxShadow:
-                        project.labelGlassTint === "moss"
-                          ? "inset 0 1px 0 rgba(255,255,255,0.18)"
-                          : "inset 0 1px 0 rgba(255,255,255,0.28)",
-                    }}
-                  >
-                    <p
-                      className={cn(
-                        "font-medium leading-snug tracking-tight drop-shadow-sm",
-                        labelTone === "dark" ? "text-black/90" : "text-white"
-                      )}
-                      style={{ fontSize: labelTitlePx }}
-                    >
-                      {project.title}
-                      <span
-                        className={cn(
-                          "mx-1.5 font-light",
-                          labelTone === "dark" ? "text-black/40" : "text-white/50"
-                        )}
-                      >
-                        ·
-                      </span>
-                      <span
-                        className={cn(
-                          "font-normal",
-                          labelTone === "dark" ? "text-black/55" : "text-white/60"
-                        )}
-                      >
-                        {project.year}
-                      </span>
-                    </p>
-                    <p
-                      className={cn(
-                        "leading-snug line-clamp-1",
-                        labelTone === "dark" ? "text-black/60" : "text-white/65"
-                      )}
-                      style={{ fontSize: labelDescPx }}
-                    >
-                      {project.description}
-                    </p>
-                    {project.metric && (
-                      <p
-                        className={cn(
-                          "mt-0.5 font-mono font-medium leading-none",
-                          labelTone === "dark" ? "text-black/85" : "text-white/85"
-                        )}
-                        style={{ fontSize: labelMetricPx }}
-                      >
-                        {project.metric}
-                      </p>
-                    )}
-                    {project.tags && project.tagsInline && (
-                      <ProjectTags
-                        tags={project.tags}
-                        labelTone={labelTone}
-                        variant="glass"
-                        fontSizePx={labelTagsPx}
-                      />
-                    )}
-                  </div>
-
-                  {/* Click-through link, suppressed if user dragged */}
-                  <Link
-                    href={project.href}
-                    className="absolute inset-0 z-20"
-                    onClick={(e) => {
-                      if (hasDragged.current) e.preventDefault();
-                    }}
-                    aria-label={`Open ${project.title}`}
-                  />
-                </div>
+              {/* Resize handles */}
+              <div className="pointer-events-none absolute inset-0 z-40 transition-opacity duration-150"
+                style={{ opacity: isHov ? 1 : 0 }}>
+                <Handles onMouseDown={(e, hi) => startResize(e, i, hi)} />
               </div>
 
-            </div>
-          );
-        })}
+              {/* Image area */}
+              <div className="absolute inset-x-0 top-0 overflow-hidden" style={{ height: imageH, background: bg }}>
+                {project.coverImage && !videoCover && (
+                  <Image src={galleryCoverSrc(project.coverImage) ?? project.coverImage} alt={project.title} fill
+                    className={cn(objFit, "object-center pointer-events-none transition-opacity duration-300",
+                      isHov && project.hoverVideo ? "opacity-0" : "opacity-100", project.coverImageClassName)}
+                    sizes="420px" quality={80} priority={i < 2} draggable={false} unoptimized />
+                )}
+                {project.hoverVideo && (
+                  // eslint-disable-next-line jsx-a11y/media-has-caption
+                  <video
+                    ref={(el) => { videoRefs.current[i] = el; }}
+                    src={project.hoverVideo} autoPlay={!videoCover} muted loop playsInline
+                    preload={videoCover ? "metadata" : "auto"}
+                    className={cn("absolute inset-0 h-full w-full transition-opacity duration-300", objFit,
+                      videoCover ? "opacity-100" : isHov ? "opacity-100" : "opacity-0",
+                      project.coverImageClassName)}
+                    aria-hidden />
+                )}
+              </div>
 
-      {/* Hint */}
-      <p className="pointer-events-none absolute bottom-5 right-5 text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+              {/* Liquid glass metadata — absolute so it's a sibling of image, not nested */}
+              <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-between px-4 pt-3 pb-4"
+                style={{ top: imageH, ...GLASS }}>
+                <div className="flex flex-col gap-2">
+                  {project.typeTags && <TypePills typeTags={project.typeTags} />}
+                  <p className="font-mono font-semibold leading-snug tracking-tight text-zinc-800"
+                    style={{ fontSize: Math.round(15 * sc) }}>
+                    {project.title}
+                  </p>
+                  <p className="leading-relaxed text-zinc-500"
+                    style={{ fontSize: Math.round(11.5 * sc) }}>
+                    {project.description}
+                  </p>
+                </div>
+                {project.tags && <MetricPills tags={project.tags} />}
+              </div>
+
+              {/* Click overlay — above glass, below handles */}
+              <Link href={project.href} className="absolute inset-0 z-20"
+                onClick={(e) => { if (hasDragged.current) e.preventDefault(); }}
+                aria-label={`Open ${project.title}`} />
+            </div>
+          </div>
+        );
+      })}
+
+      <p className="pointer-events-none absolute bottom-4 right-6 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
         Drag to rearrange
       </p>
     </div>

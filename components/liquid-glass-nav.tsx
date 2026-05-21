@@ -1,8 +1,9 @@
 ﻿"use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
 
 const LINKS = [
@@ -19,10 +20,22 @@ function workRouteActive(path: string) {
   return ["/branding", "/product-design", "/architecture"].includes(path);
 }
 
+const WORK_DROPDOWN = [
+  { href: "/#product-design", label: "Product Design" },
+  { href: "/architecture",    label: "Architecture"   },
+  { href: "/branding",        label: "Branding"       },
+] as const;
+
 export function LiquidGlassNav() {
   const pathname = usePathname();
   const reduced = useReducedMotion();
   const isDark = pathname.startsWith("/work/fither");
+
+  // Work hover dropdown
+  const [workOpen, setWorkOpen] = useState(false);
+  const workTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openWork  = () => { if (workTimer.current) clearTimeout(workTimer.current); setWorkOpen(true); };
+  const closeWork = () => { workTimer.current = setTimeout(() => setWorkOpen(false), 160); };
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -66,10 +79,13 @@ export function LiquidGlassNav() {
 
         {/* Outer glow */}
         <div className={cn("relative rounded-full p-px", isDark ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)]" : "shadow-[0_12px_36px_-14px_rgba(0,0,0,0.12)]")}>
-          {/* Glass pill */}
-          <div className={cn("relative isolate overflow-hidden rounded-full border backdrop-blur-2xl backdrop-saturate-125", isDark ? "border-white/[0.09] bg-zinc-950/[0.48] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]" : "border-black/[0.06] bg-white/[0.38] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5)]")}>
-            <div className={cn("pointer-events-none absolute inset-0 rounded-full bg-gradient-to-b from-white/18 to-transparent", isDark ? "opacity-[0.22]" : "opacity-[0.35]")} aria-hidden />
-            <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
+          {/* Glass pill — no overflow-hidden here so the Work dropdown can escape below */}
+          <div className={cn("relative isolate rounded-full border backdrop-blur-2xl backdrop-saturate-125", isDark ? "border-white/[0.09] bg-zinc-950/[0.48] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]" : "border-black/[0.06] bg-white/[0.38] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5)]")}>
+            {/* Decorative layers clipped to the pill shape via their own overflow-hidden wrapper */}
+            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-full" aria-hidden>
+              <div className={cn("absolute inset-0 rounded-full bg-gradient-to-b from-white/18 to-transparent", isDark ? "opacity-[0.22]" : "opacity-[0.35]")} />
+              <div className="liquid-glass-nav-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            </div>
 
             <div className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-5 md:py-3">
               {/* Brand wordmark, smaller on narrow viewports so four nav links fit comfortably */}
@@ -98,7 +114,7 @@ export function LiquidGlassNav() {
                       isDark ? "text-white/50" : "text-[#5a6648]/65"
                     )}
                   >
-                    designer
+                    Product Designer + Code
                   </span>
                 </motion.span>
               </Link>
@@ -116,10 +132,25 @@ export function LiquidGlassNav() {
               <nav className="flex min-w-0 flex-1 items-center justify-around" aria-label="Primary">
                 {LINKS.map(({ href, label }, i) => {
                   const active = isActive(href);
+                  const isWork = href === "/work";
+                  const linkEl = (
+                    <Link
+                      href={isWork ? "/#product-design" : href}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "block text-center whitespace-nowrap leading-tight rounded-full px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.11em] transition-colors duration-150 sm:px-2.5 sm:py-1.5 sm:text-[9.5px] sm:tracking-[0.15em] md:px-3 md:text-[11px] md:tracking-[0.22em]",
+                        linkBase,
+                        active && linkActive
+                      )}
+                    >
+                      {label}
+                    </Link>
+                  );
+
                   return (
                     <motion.div
                       key={href}
-                      className="min-w-0 flex-1"
+                      className={cn("min-w-0 flex-1", isWork && "relative")}
                       initial={reduced ? false : { opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       whileHover={reduced ? {} : { y: -2, scale: 1.06 }}
@@ -129,18 +160,64 @@ export function LiquidGlassNav() {
                         y: { duration: 0.3, ease: "easeOut", delay: 0.2 + 0.07 * i },
                         scale: spring,
                       }}
+                      {...(isWork ? { onMouseEnter: openWork, onMouseLeave: closeWork } : {})}
                     >
-                      <Link
-                        href={href}
-                        aria-current={active ? "page" : undefined}
-                        className={cn(
-                          "block text-center whitespace-nowrap leading-tight rounded-full px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.11em] transition-colors duration-150 sm:px-2.5 sm:py-1.5 sm:text-[9.5px] sm:tracking-[0.15em] md:px-3 md:text-[11px] md:tracking-[0.22em]",
-                          linkBase,
-                          active && linkActive
-                        )}
-                      >
-                        {label}
-                      </Link>
+                      {linkEl}
+
+                      {/* Work dropdown — same layer cake as the nav pill */}
+                      {isWork && (
+                        <AnimatePresence>
+                          {workOpen && (
+                            <motion.div
+                              className="absolute left-1/2 top-[calc(100%-2px)] z-50 -translate-x-1/2"
+                              initial={{ opacity: 0, y: -4, scale: 0.97 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -4, scale: 0.97 }}
+                              transition={{ duration: 0.14, ease: [0.23, 1, 0.32, 1] }}
+                              onMouseEnter={openWork}
+                              onMouseLeave={closeWork}
+                            >
+                              {/* Conic rim — only on sides + bottom so top merges with pill */}
+                              <div className="absolute -inset-x-px -bottom-px overflow-hidden rounded-b-xl" aria-hidden>
+                                <div className="absolute left-1/2 top-1/2 aspect-square w-[220%] -translate-x-1/2 -translate-y-1/2">
+                                  <div className="liquid-glass-nav-conic h-full w-full" style={{
+                                    background: isDark
+                                      ? "conic-gradient(from 0deg, rgba(90,102,72,0.55), rgba(52,66,38,0.4), rgba(140,158,110,0.32), rgba(215,228,190,0.14), rgba(90,102,72,0.55))"
+                                      : "conic-gradient(from 0deg, rgba(90,102,72,0.22), rgba(140,158,110,0.16), rgba(255,255,255,0.45), rgba(167,185,140,0.18), rgba(90,102,72,0.22))",
+                                  }} />
+                                </div>
+                              </div>
+                              {/* Outer shadow + p-px glow — flat top, rounded bottom */}
+                              <div className={cn("relative rounded-b-xl p-px pt-0", isDark ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)]" : "shadow-[0_12px_36px_-14px_rgba(0,0,0,0.12)]")}>
+                                {/* Glass inner — flat top, no top inner-highlight so it reads as continuous with the pill */}
+                                <div className={cn("relative isolate rounded-b-xl backdrop-blur-2xl backdrop-saturate-125", isDark ? "bg-zinc-950/[0.48]" : "bg-white/[0.38]")}>
+                                  {/* Bottom-only decorative gradient (no top-light — pill already provides it) */}
+                                  <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-b-xl" aria-hidden>
+                                    <div className={cn("absolute inset-0 bg-gradient-to-b from-transparent to-black/[0.02]", isDark ? "opacity-[0.22]" : "opacity-[0.35]")} />
+                                  </div>
+                                  <div className="relative px-1.5 pt-2 pb-1.5 flex flex-col gap-0.5">
+                                    {WORK_DROPDOWN.map((item) => (
+                                      <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={() => setWorkOpen(false)}
+                                        className={cn(
+                                          "block rounded-lg px-3 py-2 font-mono text-[9.5px] uppercase tracking-[0.16em] whitespace-nowrap transition-colors duration-100",
+                                          isDark
+                                            ? "text-white/70 hover:bg-white/[0.09] hover:text-white"
+                                            : "text-[#3d4830]/80 hover:bg-[#5a6648]/[0.08] hover:text-[#3d4830]"
+                                        )}
+                                      >
+                                        {item.label}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      )}
                     </motion.div>
                   );
                 })}

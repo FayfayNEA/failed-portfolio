@@ -99,7 +99,7 @@ const projects: GalleryProject[] = [
 
 export default function ProductDesignPage() {
   return (
-    <div className="flex h-[calc(100dvh-4rem)] flex-col overflow-hidden md:h-[calc(100dvh-5rem)]">
+    <div className="flex flex-col">
       {/* Breadcrumb header */}
       <div className="shrink-0 border-b border-zinc-200/50 px-8 pt-8 pb-3 md:px-12">
         <CaseBreadcrumb
@@ -109,9 +109,7 @@ export default function ProductDesignPage() {
           ]}
         />
       </div>
-      <div className="min-h-0 flex-1">
-        <CategoryGallery projects={projects} storageKey="gallery-product-design" />
-      </div>
+      <CategoryGallery projects={projects} storageKey="gallery-product-design" />
     </div>
   );
 }
