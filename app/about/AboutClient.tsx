@@ -102,7 +102,9 @@ export default function AboutClient() {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const zoomPanelRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    queueMicrotask(() => setMounted(true));
+  }, []);
 
   /** Single scroll: lock page behind overlay; open panel scrolled to bio. */
   useEffect(() => {

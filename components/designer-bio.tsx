@@ -1,41 +1,43 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/cn";
+import { shouldShowHomeAside } from "@/lib/home-aside-visibility";
 
 export function DesignerBio() {
-  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const collage = document.getElementById("home-collage");
-    if (!collage) return;
-
-    const update = () => {
-      // Hide once the collage's bottom edge has scrolled above the viewport.
-      setScrolled(collage.getBoundingClientRect().bottom <= 0);
+    const check = () => {
+      if (pathname !== "/") {
+        setVisible(false);
+        return;
+      }
+      setVisible(shouldShowHomeAside());
     };
-
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check, { passive: true });
     return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div
-      className={[
-        "pointer-events-auto fixed z-[99]",
-        "hidden xl:block",
+      className={cn(
+        "fixed z-[40] hidden xl:block",
         "bottom-6 left-[6rem]",
         "font-mono max-w-[300px]",
-        "transition-opacity duration-500 ease-in-out",
         "cursor-default select-none",
-        scrolled
-          ? "opacity-0 pointer-events-none"
-          : "opacity-25 hover:opacity-90",
-      ].join(" ")}
+        "transition-opacity duration-500",
+        visible
+          ? "pointer-events-auto opacity-25 hover:opacity-90"
+          : "pointer-events-none opacity-0",
+      )}
     >
       <p className="m-0 text-[11px] leading-[1.7] text-zinc-700">
         <span className="text-[17px] font-black text-zinc-900 leading-none">

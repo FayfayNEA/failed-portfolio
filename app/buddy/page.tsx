@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
+import { BUDDY_VIDEO_ZOOM } from "@/lib/buddy-media";
 import { CaseStudySidebar } from "@/components/case-study-sidebar";
 import { ImageLightbox } from "@/components/image-lightbox";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
@@ -450,15 +451,15 @@ export default function BuddyPage() {
           {BUDDY_DESCRIPTION}
         </p>
 
-        {/* Hero video, 16:9 frame; 9:16 source fills via object-cover */}
+        {/* Hero video — same contain + scale as cover image / gallery card still */}
         <div className="mb-14 flex w-full justify-center">
-          <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">
+          <div className="aspect-video w-full max-w-[min(1280px,calc(100vw-1.5rem))] overflow-hidden rounded-2xl bg-white shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]">
             <video
               controls
               playsInline
               preload="none"
               poster="/coverimages/buddy.png"
-              className="aspect-video w-full rounded-2xl object-cover shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
+              className="h-full w-full object-cover object-center"
               src="/buddy/sequence-04.mp4"
             >
               Your browser does not support video playback.

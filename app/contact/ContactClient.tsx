@@ -105,7 +105,9 @@ export default function ContactClient() {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const zoomPanelRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    queueMicrotask(() => setMounted(true));
+  }, []);
 
   useEffect(() => {
     if (!zoomed) return;

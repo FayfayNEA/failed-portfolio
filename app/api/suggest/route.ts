@@ -207,16 +207,33 @@ function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
 }
 
-function normalizeSuggestion(raw: any) {
-  const name = typeof raw?.name === "string" ? raw.name.slice(0, 40) : "";
-  const explanation =
-    typeof raw?.explanation === "string" ? raw.explanation.slice(0, 400) : "";
+interface SuggestionRaw {
+  name?: unknown;
+  explanation?: unknown;
+  renderStyle?: unknown;
+  parameters?: unknown;
+}
 
-  const rsRaw = typeof raw?.renderStyle === "string" ? raw.renderStyle : "organic";
+type ChatUserContent =
+  | string
+  | ReadonlyArray<
+      | { type: "text"; text: string }
+      | { type: "image_url"; image_url: { url: string } }
+    >;
+
+function normalizeSuggestion(raw: SuggestionRaw) {
+  const name = typeof raw.name === "string" ? raw.name.slice(0, 40) : "";
+  const explanation =
+    typeof raw.explanation === "string" ? raw.explanation.slice(0, 400) : "";
+
+  const rsRaw = typeof raw.renderStyle === "string" ? raw.renderStyle : "organic";
   const renderStyle = ALLOWED_RENDER_STYLES.has(rsRaw) ? rsRaw : "organic";
 
   const outParams: Record<string, number> = {};
-  const params = raw?.parameters && typeof raw.parameters === "object" ? raw.parameters : {};
+  const params =
+    raw.parameters && typeof raw.parameters === "object" && !Array.isArray(raw.parameters)
+      ? (raw.parameters as Record<string, unknown>)
+      : {};
 
   for (const [k, v] of Object.entries(params)) {
     const spec = PARAM_RANGES[k];
@@ -291,7 +308,7 @@ export async function POST(req: Request) {
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         // groq-sdk uses OpenAI-compatible message shape
-        { role: "user", content: userContent as any },
+        { role: "user", content: userContent as ChatUserContent },
       ],
       temperature: 1.0,
       max_tokens: 1024,
@@ -306,12 +323,15 @@ export async function POST(req: Request) {
       );
     }
 
-    const suggestion = JSON.parse(jsonMatch[0]);
+    const suggestion = JSON.parse(jsonMatch[0]) as SuggestionRaw;
     const normalized = normalizeSuggestion(suggestion);
     return NextResponse.json(normalized, { headers: corsHeaders() });
-  } catch (err: any) {
-    const msg = err?.message || "Unknown error";
-    const status = err?.status || err?.statusCode;
+  } catch (err: unknown) {
+    const groqErr = typeof err === "object" && err !== null
+      ? (err as { message?: string; status?: number; statusCode?: number })
+      : {};
+    const msg = groqErr.message ?? (err instanceof Error ? err.message : "Unknown error");
+    const status = groqErr.status ?? groqErr.statusCode;
 
     if (status === 429) {
       const isRateLimit = /rate.limit|per.minute|rpm/i.test(msg);

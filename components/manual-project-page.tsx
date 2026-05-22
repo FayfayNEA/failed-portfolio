@@ -228,7 +228,7 @@ function HeroCarousel({
             onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
             aria-label="Previous image"
-            className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[1.2rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
           >
             ‹
           </button>
@@ -248,7 +248,7 @@ function HeroCarousel({
             onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
             aria-label="Next image"
-            className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[1.2rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
           >
             ›
           </button>
@@ -395,7 +395,7 @@ function HeroVideoCarousel({
               onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
               aria-label="Previous video"
-              className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[1.2rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
             >
               ‹
             </button>
@@ -415,7 +415,7 @@ function HeroVideoCarousel({
               onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
               aria-label="Next video"
-              className="flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-[2.8rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[1.2rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
             >
               ›
             </button>

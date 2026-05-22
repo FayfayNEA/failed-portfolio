@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: projectRoot,
   },
+  async redirects() {
+    return [
+      { source: "/product-design", destination: "/#product-design", permanent: false },
+    ];
+  },
   // Aggressive cache headers for immutable static assets (videos, images, fonts in /public)
   async headers() {
     return [

@@ -1,11 +1,31 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { CategoryGallery } from "@/components/category-gallery";
-import type { GalleryProject } from "@/components/category-gallery";
+import type { GalleryProject, GalleryInitialLayout } from "@/components/category-gallery";
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 
 export const metadata: Metadata = {
   title: "Architecture",
   description: "Failenn Aselta, Architecture and spatial design work.",
+};
+
+const ARCHITECTURE_LAYOUT: GalleryInitialLayout = {
+  refWidth: 1900,
+  positions: [
+    { x: 74.48,   y: 10  },
+    { x: 481.11,  y: 190 },
+    { x: 969.96,  y: 334 },
+    { x: 1451.96, y: 79  },
+    { x: 114.11,  y: 411 },
+    { x: 865.11,  y: 23  },
+  ],
+  sizesBySlug: {
+    venice:       { w: 364, h: 305 },
+    "the-other":  { w: 350, h: 357 },
+    "tiny-home":  { w: 444, h: 384 },
+    buddhist:     { w: 424, h: 398 },
+    "villain-home": { w: 351, h: 329 },
+    "mindful-path": { w: 445, h: 256 },
+  },
 };
 
 const projects: GalleryProject[] = [
@@ -16,9 +36,9 @@ const projects: GalleryProject[] = [
     year: "2025",
     coverImage:
       "https://framerusercontent.com/images/HL1ELAt4La6b4g71kQ2glWHA7Yk.png?width=2725&height=2044",
-    coverImageFit: "contain",
-    coverImageClassName: "scale-[1.1]",
+    coverImageFit: "cover",
     coverColor: "#ffffff",
+    canvasImageH: 375,
     href: "/venice",
   },
   {
@@ -28,6 +48,8 @@ const projects: GalleryProject[] = [
     year: "2025",
     coverImage:
       "https://framerusercontent.com/images/EXJyfxkNEc9CeYLBNbMyBKX2jyo.png",
+    coverImageFit: "cover",
+    canvasImageH: 375,
     href: "/the-other",
   },
   {
@@ -37,9 +59,9 @@ const projects: GalleryProject[] = [
     year: "2026",
     coverImage:
       "https://framerusercontent.com/images/WV7DQ5qHriMXRViKYOfKPf3mU.jpg?width=1536&height=952",
-    coverImageFit: "contain",
-    coverImageClassName: "origin-center scale-[1.4]",
+    coverImageFit: "cover",
     coverColor: "#ffffff",
+    canvasImageH: 310,
     href: "/tiny-home",
   },
   {
@@ -49,9 +71,10 @@ const projects: GalleryProject[] = [
     year: "2026",
     coverImage:
       "https://framerusercontent.com/images/g9lxBwTvLeVzbGb9MZYAGzdiJgY.jpg?width=5400&height=3600",
-    coverImageClassName: "scale-[2.12]",
+    coverImageFit: "cover",
     coverColor: "#ffffff",
     labelTextTone: "dark",
+    canvasImageH: 333,
     href: "/buddhist",
   },
   {
@@ -61,8 +84,9 @@ const projects: GalleryProject[] = [
     year: "2023",
     coverImage:
       "https://framerusercontent.com/images/z2Le2qNS73xhaqzUlkqG2jC8.png?width=2570&height=1708",
-    coverImageClassName: "scale-[1]",
+    coverImageFit: "cover",
     coverColor: "transparent",
+    canvasImageH: 332,
     href: "/villain-home",
   },
   {
@@ -71,19 +95,19 @@ const projects: GalleryProject[] = [
     description: "algae-driven biofabrication for sustainable spatial intervention",
     year: "2024",
     coverColor: "transparent",
-    coverImageClassName: "scale-[1]",
-    coverImageFit: "contain",
+    coverImageFit: "cover",
     coverImage:
       "https://framerusercontent.com/images/CO5CFV63T9ovG2mqEQIDopHkw.png?width=3368&height=1052",
     labelTextTone: "dark",
+    canvasCardW: 640,
+    canvasImageH: 200,
     href: "/mindful-path",
   },
 ];
 
 export default function ArchitecturePage() {
   return (
-    <div className="flex h-[calc(100dvh-4rem)] flex-col overflow-hidden md:h-[calc(100dvh-5rem)]">
-      {/* Breadcrumb header */}
+    <div className="flex flex-col">
       <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:px-12">
         <CaseBreadcrumb
           segments={[
@@ -92,9 +116,12 @@ export default function ArchitecturePage() {
           ]}
         />
       </div>
-      <div className="min-h-0 flex-1">
-        <CategoryGallery projects={projects} storageKey="gallery-architecture" />
-      </div>
+      <CategoryGallery
+        projects={projects}
+        storageKey="gallery-architecture-v6"
+        cardMetaHeight={110}
+        initialLayout={ARCHITECTURE_LAYOUT}
+      />
     </div>
   );
 }

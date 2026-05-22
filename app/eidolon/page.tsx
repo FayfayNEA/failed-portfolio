@@ -43,7 +43,7 @@ export default async function EidolonPage() {
       descriptionClassName="text-center"
       slug="eidolon"
       category="product-design"
-      hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], size: "wide", controls: true }}
+      hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], controls: true }}
       heroBelow={
         <div className="flex flex-col items-center gap-3">
           <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
@@ -578,7 +578,7 @@ export default async function EidolonPage() {
                     n: "04",
                     stat: "58%",
                     insight: "Haptic touch felt more in-control, but micro transactions raised real concern.",
-                    action: <>Where's the line between controlled spending and automation?</>,
+                    action: <>Where&apos;s the line between controlled spending and automation?</>,
                   },
                 ].map(({ n, stat, insight, action }) => (
                   <div key={n} className="flex flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110">
