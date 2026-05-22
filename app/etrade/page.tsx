@@ -32,7 +32,7 @@ export default function EtradePage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
-      descriptionClassName="text-center"
+      descriptionClassName="text-left"
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "video", src: HERO_VIDEO }}
