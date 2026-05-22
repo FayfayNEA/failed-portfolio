@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
+import type { ChatCompletionUserMessageParam } from "groq-sdk/resources/chat/completions";
 
 export const runtime = "nodejs";
 
@@ -284,18 +285,18 @@ export async function POST(req: Request) {
     const userText =
       (prompt || "What dithering preset would make this image look best?").slice(0, 500);
 
-    const userContent: string | Array<
-      | { type: "text"; text: string }
-      | { type: "image_url"; image_url: { url: string } }
-    > = imageBase64
-      ? [
-          {
-            type: "image_url",
-            image_url: { url: `data:${imageMediaType};base64,${imageBase64}` },
-          },
-          { type: "text", text: userText },
-        ]
-      : userText;
+    const userMessage: ChatCompletionUserMessageParam = imageBase64
+      ? {
+          role: "user",
+          content: [
+            {
+              type: "image_url",
+              image_url: { url: `data:${imageMediaType};base64,${imageBase64}` },
+            },
+            { type: "text", text: userText },
+          ],
+        }
+      : { role: "user", content: userText };
 
     // Lazy-init to avoid build-time failures when env is missing.
     const groq = new Groq({ apiKey });
@@ -303,7 +304,7 @@ export async function POST(req: Request) {
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
-        { role: "user", content: userContent },
+        userMessage,
       ],
       temperature: 1.0,
       max_tokens: 1024,
