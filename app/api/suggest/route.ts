@@ -214,13 +214,6 @@ interface SuggestionRaw {
   parameters?: unknown;
 }
 
-type ChatUserContent =
-  | string
-  | ReadonlyArray<
-      | { type: "text"; text: string }
-      | { type: "image_url"; image_url: { url: string } }
-    >;
-
 function normalizeSuggestion(raw: SuggestionRaw) {
   const name = typeof raw.name === "string" ? raw.name.slice(0, 40) : "";
   const explanation =
@@ -291,14 +284,17 @@ export async function POST(req: Request) {
     const userText =
       (prompt || "What dithering preset would make this image look best?").slice(0, 500);
 
-    const userContent = imageBase64
-      ? ([
+    const userContent: string | Array<
+      | { type: "text"; text: string }
+      | { type: "image_url"; image_url: { url: string } }
+    > = imageBase64
+      ? [
           {
             type: "image_url",
             image_url: { url: `data:${imageMediaType};base64,${imageBase64}` },
           },
           { type: "text", text: userText },
-        ] as const)
+        ]
       : userText;
 
     // Lazy-init to avoid build-time failures when env is missing.
@@ -307,8 +303,7 @@ export async function POST(req: Request) {
       model: "meta-llama/llama-4-scout-17b-16e-instruct",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
-        // groq-sdk uses OpenAI-compatible message shape
-        { role: "user", content: userContent as ChatUserContent },
+        { role: "user", content: userContent },
       ],
       temperature: 1.0,
       max_tokens: 1024,
