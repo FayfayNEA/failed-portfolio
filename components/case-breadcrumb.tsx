@@ -75,7 +75,9 @@ export function buildProjectBreadcrumb(
     { label: "work", href: "/work" },
   ];
   if (category) {
-    segments.push({ label: category, href: `/${category}` });
+    // Product design lives on the home page as a scrollable section, not a standalone route.
+    const categoryHref = category === "product-design" ? "/#product-design" : `/${category}`;
+    segments.push({ label: category, href: categoryHref });
   }
   segments.push({ label: slug }); // current page, no link
   return segments;

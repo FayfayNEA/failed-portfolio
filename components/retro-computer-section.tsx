@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
@@ -34,6 +36,15 @@ export function RetroComputerSection({
   productDesignHref,
   showHint = true,
 }: RetroComputerSectionProps) {
+  const handleProductDesignClick = (e: React.MouseEvent) => {
+    // If we're already on the home page (href is a hash-only anchor), smooth scroll instead of jumping.
+    if (productDesignHref.startsWith("#")) {
+      e.preventDefault();
+      const id = productDesignHref.slice(1);
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const FOLDER_STRIPS: FolderStrip[] = [
     { href: "/branding",         label: "Branding",       center: "35%", desktopWidth: "7.5%", mobileWidth: "38px", desktopScale: 0.98 },
     { href: productDesignHref,   label: "Product design", center: "50%", desktopWidth: "9.5%", mobileWidth: "50px", desktopScale: 0.98 },
@@ -60,6 +71,7 @@ export function RetroComputerSection({
               <Link
                 key={f.label}
                 href={f.href}
+                onClick={f.label === "Product design" ? handleProductDesignClick : undefined}
                 className={cn(
                   "group relative flex flex-col items-center outline-offset-2",
                   "transition-transform duration-200 active:scale-[0.98]",
@@ -113,6 +125,7 @@ export function RetroComputerSection({
                 >
                   <Link
                     href={f.href}
+                    onClick={f.label === "Product design" ? handleProductDesignClick : undefined}
                     className={cn(
                       "group relative flex flex-col items-center outline-offset-2",
                       "transition-transform duration-200 hover:scale-[1.04] hover:drop-shadow-[0_12px_24px_rgba(0,0,0,0.22)]",

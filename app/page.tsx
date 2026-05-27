@@ -5,6 +5,7 @@ import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { DesignerBio } from "@/components/designer-bio";
 import { RetroComputerSection } from "@/components/retro-computer-section";
 import { ScrollBounceIn } from "@/components/scroll-bounce-in";
+import { HomeScrollListener } from "@/components/home-scroll-listener";
 
 const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1692,
@@ -38,6 +39,7 @@ const PROJECTS: GalleryProject[] = [
 export default function Home() {
   return (
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
+      <HomeScrollListener />
       <DesignerBio />
 
       {/* Collage iframe */}

@@ -41,18 +41,21 @@ const portfolioAssets = [
     name: "Concrete_Block",
     filename: "colored block.png",
     href: WORK_PAGE_HREF,
+    scrollId: "product-design",
     hoverLabel: "Work"
   },
   {
     name: "Large_Tree",
     filename: "bush tree.png",
     href: WORK_PAGE_HREF,
+    scrollId: "product-design",
     hoverLabel: "Work"
   },
   {
     name: "Computer2",
     filename: "computer2.png",
     href: WORK_PAGE_HREF,
+    scrollId: "product-design",
     hoverLabel: "Work"
   },
   { name: "Radio", filename: "radio color.png", link: "contact", hoverLabel: "Contact" },
@@ -1007,6 +1010,12 @@ portfolioAssets.forEach((asset, index) => {
     anchor.href = asset.href ?? `${SITE_PATH_PREFIX}/${asset.link}`;
     anchor.target = "_top";
     anchor.setAttribute("aria-label", `${asset.name} — ${asset.hoverLabel ?? asset.link}`);
+    if (asset.scrollId) {
+      anchor.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.parent.postMessage({ type: "smoothScrollTo", id: asset.scrollId }, window.location.origin || "*");
+      });
+    }
   }
   anchor.style.zIndex =
     asset.name === "Orb"
