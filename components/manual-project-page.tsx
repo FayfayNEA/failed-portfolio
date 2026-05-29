@@ -108,6 +108,8 @@ export type ManualProjectPageProps = {
   heroSpacing?: "default" | "none";
   /** Scale hero carousel images inside their card (zoom without growing the card). */
   heroImageZoom?: boolean;
+  /** Accent color for carousel arrow buttons and dot indicators. Defaults to site olive. */
+  heroAccentColor?: string;
   /** Optional styling for the page surface wrapper. */
   surfaceClassName?: string;
   /** Grain overlay on the surface. */
@@ -130,6 +132,7 @@ function HeroCarousel({
   tallSize = "default",
   imageZoom = false,
   noSidePadding = false,
+  accentColor = "#5a6648",
 }: {
   images: string[];
   alt?: string;
@@ -137,6 +140,7 @@ function HeroCarousel({
   tallSize?: "default" | "smaller" | "tiny";
   imageZoom?: boolean;
   noSidePadding?: boolean;
+  accentColor?: string;
 }) {
   const [index, setIndex] = useState(0);
   const n = images.length;
@@ -194,7 +198,7 @@ function HeroCarousel({
     <div
       className={cn(
         "relative w-full touch-manipulation touch-pan-y overscroll-x-contain",
-        layout === "tall" && "flex justify-center",
+        layout === "tall" && "flex flex-col items-center",
         layout === "full" &&
           "relative left-1/2 right-1/2 w-screen -ml-[50vw] -mr-[50vw]",
         n > 1 && "pointer-fine:cursor-grab pointer-fine:active:cursor-grabbing select-none"
@@ -228,7 +232,8 @@ function HeroCarousel({
             onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); prev(); }}
             aria-label="Previous image"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[1.2rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-[1.2rem] leading-none shadow-sm backdrop-blur-md transition-colors touch-manipulation"
+            style={{ background: `color-mix(in srgb, ${accentColor} 9%, white 91%)`, color: accentColor, outline: `1px solid color-mix(in srgb, ${accentColor} 18%, transparent)` }}
           >
             ‹
           </button>
@@ -240,7 +245,13 @@ function HeroCarousel({
                 aria-label={`Go to image ${i + 1}`}
                 className="flex h-12 w-12 items-center justify-center touch-manipulation focus:outline-none"
               >
-                <span className={cn("block rounded-full transition-all duration-200", i === index ? "h-3 w-7 bg-zinc-700" : "h-3 w-3 bg-zinc-300")} />
+                <span
+                  className="block rounded-full transition-all duration-200"
+                  style={i === index
+                    ? { height: "10px", width: "26px", background: accentColor }
+                    : { height: "10px", width: "10px", background: `color-mix(in srgb, ${accentColor} 28%, transparent)` }
+                  }
+                />
               </button>
             ))}
           </div>
@@ -248,7 +259,8 @@ function HeroCarousel({
             onPointerDown={(e) => { e.preventDefault(); e.stopPropagation(); }}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); next(); }}
             aria-label="Next image"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-[1.2rem] leading-none text-zinc-600 shadow-sm ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white active:bg-zinc-100 touch-manipulation"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-[1.2rem] leading-none shadow-sm backdrop-blur-md transition-colors touch-manipulation"
+            style={{ background: `color-mix(in srgb, ${accentColor} 9%, white 91%)`, color: accentColor, outline: `1px solid color-mix(in srgb, ${accentColor} 18%, transparent)` }}
           >
             ›
           </button>
@@ -459,6 +471,7 @@ export function ManualProjectPage({
   heroTallFrame = "default",
   heroSpacing = "default",
   heroImageZoom = false,
+  heroAccentColor,
   surfaceClassName,
   showGrain = true,
   descriptionClassName,
@@ -679,6 +692,7 @@ export function ManualProjectPage({
                       tallSize={heroTallSize}
                       imageZoom={heroImageZoom}
                       noSidePadding={heroNoSidePadding}
+                      accentColor={heroAccentColor}
                     />
                   </div>
                 </div>

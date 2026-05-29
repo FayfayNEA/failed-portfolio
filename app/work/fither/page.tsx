@@ -22,7 +22,7 @@ export default function FitherWorkPage() {
             work
           </Link>
           <span className="opacity-40">/</span>
-          <Link href="/product-design" className="hover:underline underline-offset-2">
+          <Link href="/#product-design" className="hover:underline underline-offset-2">
             product-design
           </Link>
           <span className="opacity-40">/</span>
