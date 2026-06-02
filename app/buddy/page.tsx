@@ -664,7 +664,7 @@ export default function BuddyPage() {
         {/* THE CHALLENGE */}
         <section id="the-challenge" className="scroll-mt-24">
           <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
-          <p className="mt-5 max-w-[min(56rem,100%)] text-[1.35rem] font-normal leading-[1.45] text-zinc-800">
+          <p className="mt-5 max-w-[min(56rem,100%)] text-[1.05rem] font-normal leading-[1.55] text-zinc-800">
             We could create a tool which generates visual interpretations of conversation to allows users to surface cultural bias and reach shared understanding faster than words alone.
           </p>
         </section>
