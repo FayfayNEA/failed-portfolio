@@ -950,41 +950,40 @@ export default function BuddyPage() {
           </p>
 
           {/* Stack decision table — 4 columns */}
-          <div className="mb-10">
+          <div className="mb-10 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
             {/* Column headers */}
-            <div className="mb-1 hidden grid-cols-[90px_110px_1fr_1.6fr] gap-px md:grid">
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Category</p>
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Chose</p>
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Alternatives</p>
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Why</p>
+            <div className="grid border-b border-white/40" style={{ gridTemplateColumns: "90px 110px 1fr 1.6fr" }}>
+              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Category</p>
+              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Chose</p>
+              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Alternatives</p>
+              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Why</p>
             </div>
-            <div className="overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
-              {ENGINEERING_DECISIONS.map(({ category, alternatives, chose, why }, i, arr) => (
-                <div
-                  key={category}
-                  className={`grid grid-cols-1 md:grid-cols-[90px_110px_1fr_1.6fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
-                >
-                  {/* Category */}
-                  <div className="flex items-center bg-white/[0.18] px-4 py-4 md:border-r md:border-white/40">
-                    <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.1em] text-zinc-400">{category}</p>
-                  </div>
-                  {/* Chose */}
-                  <div className="flex items-center px-4 py-4 md:border-r md:border-white/40">
-                    <p className="font-mono text-[0.82rem] font-semibold text-violet-600">{chose}</p>
-                  </div>
-                  {/* Alternatives */}
-                  <div className="flex flex-wrap content-center gap-1.5 px-4 py-4 md:border-r md:border-white/40">
-                    {alternatives.map((alt) => (
-                      <span key={alt} className="rounded-full bg-zinc-500/[0.07] px-2.5 py-0.5 font-mono text-[0.62rem] tracking-wide text-zinc-400 ring-1 ring-zinc-200/60">{alt}</span>
-                    ))}
-                  </div>
-                  {/* Why */}
-                  <div className="flex items-center px-4 py-4">
-                    <p className="text-[0.78rem] leading-relaxed text-zinc-500">{why}</p>
-                  </div>
+            {ENGINEERING_DECISIONS.map(({ category, alternatives, chose, why }, i, arr) => (
+              <div
+                key={category}
+                className={`grid${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
+                style={{ gridTemplateColumns: "90px 110px 1fr 1.6fr" }}
+              >
+                {/* Category */}
+                <div className="flex items-center bg-white/[0.18] px-4 py-4 border-r border-white/40">
+                  <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.1em] text-zinc-400">{category}</p>
                 </div>
-              ))}
-            </div>
+                {/* Chose */}
+                <div className="flex items-center px-4 py-4 border-r border-white/40">
+                  <p className="font-mono text-[0.82rem] font-semibold text-violet-600">{chose}</p>
+                </div>
+                {/* Alternatives */}
+                <div className="flex flex-wrap content-center gap-1.5 px-4 py-4 border-r border-white/40">
+                  {alternatives.map((alt) => (
+                    <span key={alt} className="rounded-full bg-zinc-500/[0.07] px-2.5 py-0.5 font-mono text-[0.62rem] tracking-wide text-zinc-400 ring-1 ring-zinc-200/60">{alt}</span>
+                  ))}
+                </div>
+                {/* Why */}
+                <div className="flex items-center px-4 py-4">
+                  <p className="text-[0.78rem] leading-relaxed text-zinc-500">{why}</p>
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
