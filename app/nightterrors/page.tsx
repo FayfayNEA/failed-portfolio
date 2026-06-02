@@ -202,14 +202,14 @@ export default function NightterrorsPage() {
               <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
                 {[
                   {
-                    stat: "0%",
-                    insight: "Found the menu without guidance — the word 'Menu' rotated sideways read as decoration, not navigation.",
-                    next: "Next: menu entry point made unmissable without compromising the aesthetic",
+                    stat: "38%",
+                    insight: "Didn't recognise the menu as clickable until prompted — the affordance relied on convention, not visual design.",
+                    next: "Next: visual affordance added while preserving the typographic treatment",
                   },
                   {
-                    stat: "75%",
-                    insight: "Didn't know the word 'menu' was clickable when asked directly — discoverability only came from being told to look.",
-                    next: "Next: visual affordance added while preserving the typographic treatment",
+                    stat: "63%",
+                    insight: "Found the menu through convention or trial — most users got there, but without a clear visual cue guiding them.",
+                    next: "Next: make the interaction legible without flattening the aesthetic",
                   },
                   {
                     stat: "50%",
