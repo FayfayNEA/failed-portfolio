@@ -191,60 +191,6 @@ export default function NightterrorsPage() {
           ),
         },
         {
-          id: "ideation",
-          label: "IDEATION",
-          content: (
-            <>
-              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                Three visual directions explored before committing.
-              </h2>
-              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                The brief was specific: the site had to feel like their music, abrupt, nocturnal,
-                confrontational. Not just dark-mode, but genuinely hostile to comfort. Three directions were
-                explored before landing on the final language.
-              </p>
-
-              <div className="my-8 rounded-2xl border-l-[3px] border-[#71717a] bg-[#71717a]/[0.05] p-5">
-                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-[#71717a]/80">Decision</p>
-                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why organic motion over static layout</p>
-                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">Static dark layouts for band sites are common to the point of genre convention, they signal &apos;band website&apos; without signaling anything specific about this band. The sway animation was chosen because it references the physical experience of being at a show: the way the crowd moves, the way sound pressure feels. It&apos;s also technically achievable within WordPress constraints using CSS keyframes, which meant it wouldn&apos;t add load time the way a JS animation library would.</p>
-              </div>
-
-              <div className="space-y-6">
-                {[
-                  {
-                    iteration: "01",
-                    title: "High Contrast Brutalism",
-                    description: "Stark white-on-black grid, dense type, no imagery. Felt technically correct but lifeless, the music has texture and this didn't.",
-                    outcome: "Rejected, too clean",
-                  },
-                  {
-                    iteration: "02",
-                    title: "Degraded Grain + Video Overlay",
-                    description: "Full-screen video background with heavy film grain and disrupted typography. Energy was right but load time was unacceptable on mobile data.",
-                    outcome: "Partially adopted, grain kept, video removed from background",
-                  },
-                  {
-                    iteration: "03",
-                    title: "Dark Glass with Organic Motion",
-                    description: "Glass-morphism over dark photography with the site&apos;s signature swaying animation. This was the one, it captured the band&apos;s aesthetic without sacrificing performance.",
-                    outcome: "Final direction",
-                  },
-                ].map(({ iteration, title, description, outcome }) => (
-                  <div key={iteration} className="flex gap-5 rounded-2xl bg-zinc-900/5 p-6 ring-1 ring-zinc-200/60">
-                    <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-zinc-400">{iteration}</span>
-                    <div className="min-w-0">
-                      <p className="mb-1.5 font-mono text-[0.85rem] font-medium text-zinc-900">{title}</p>
-                      <p className="mb-2 text-[0.85rem] leading-[1.7] text-zinc-600">{description}</p>
-                      <p className="font-mono text-[9px] uppercase tracking-[0.16em] text-zinc-400">{outcome}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ),
-        },
-        {
           id: "user-testing",
           label: "USER TESTING",
           content: (
