@@ -952,7 +952,7 @@ export default function BuddyPage() {
           {/* Stack decision table — 4 columns */}
           <div className="mb-10 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
             {/* Column headers */}
-            <div className="grid border-b border-white/40" style={{ gridTemplateColumns: "90px 110px 1fr 1.6fr" }}>
+            <div className="grid border-b border-white/40" style={{ gridTemplateColumns: "140px 110px 1fr 1.6fr" }}>
               <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Category</p>
               <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Chose</p>
               <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Alternatives</p>
@@ -962,7 +962,7 @@ export default function BuddyPage() {
               <div
                 key={category}
                 className={`grid${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
-                style={{ gridTemplateColumns: "90px 110px 1fr 1.6fr" }}
+                style={{ gridTemplateColumns: "140px 110px 1fr 1.6fr" }}
               >
                 {/* Category */}
                 <div className="flex items-center bg-white/[0.18] px-4 py-4 border-r border-white/40">
