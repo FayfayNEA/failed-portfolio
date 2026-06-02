@@ -257,23 +257,23 @@ export default function NightterrorsPage() {
                 {[
                   {
                     stat: "0%",
-                    insight: "Of users found the menu unprompted on first visit — it wasn't visible enough to register as a navigation entry point.",
-                    next: "Next: menu entry point made discoverable without breaking the aesthetic",
+                    insight: "Found the menu without guidance — the word 'Menu' rotated sideways read as decoration, not navigation.",
+                    next: "Next: menu entry point made unmissable without compromising the aesthetic",
                   },
                   {
-                    stat: "3×",
-                    insight: "Longer average session time compared to comparable streetwear sites — atmospheric content kept users exploring.",
-                    next: "Next: expand editorial content to deepen session engagement",
+                    stat: "75%",
+                    insight: "Didn't know the word 'menu' was clickable when asked directly — discoverability only came from being told to look.",
+                    next: "Next: visual affordance added while preserving the typographic treatment",
                   },
                   {
                     stat: "50%",
-                    insight: "Of launch inventory sold in the first week — the site carried the brand's psychological edge into the purchase flow.",
-                    next: "Next: restock cycle and inventory tracking automated in v2",
+                    insight: "Said the scroll felt too long before reaching products, or didn't realise items were below the fold.",
+                    next: "Next: shorten landing scroll distance and add a below-the-fold indicator",
                   },
                   {
-                    stat: "0",
-                    insight: "Redesign requests from the brand after delivery — the visual language landed on first delivery.",
-                    next: "Next: v2 scoped for expanded merch integration",
+                    stat: "38%",
+                    insight: "Found the smaller body fonts hard to read — the typeface worked for mood but strained at reading scale.",
+                    next: "Next: increase body copy contrast and size while preserving display font",
                   },
                 ].map(({ stat, insight, next }) => (
                   <div
