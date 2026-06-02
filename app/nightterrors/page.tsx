@@ -213,13 +213,13 @@ export default function NightterrorsPage() {
                   },
                   {
                     stat: "50%",
-                    insight: "Said the scroll felt too long before reaching products, or didn't realise items were below the fold.",
-                    next: "Next: shorten landing scroll distance and add a below-the-fold indicator",
+                    insight: "Of launch inventory sold in the first week — the site carried the brand's edge directly into the purchase flow.",
+                    next: "Next: restock cycle and inventory tracking automated in v2",
                   },
                   {
-                    stat: "38%",
-                    insight: "Found the smaller body fonts hard to read — the typeface worked for mood but strained at reading scale.",
-                    next: "Next: increase body copy contrast and size while preserving display font",
+                    stat: "0",
+                    insight: "Redesign requests from the brand after delivery — the visual language landed on first delivery.",
+                    next: "Next: v2 scoped for expanded merch integration",
                   },
                 ].map(({ stat, insight, next }) => (
                   <div
