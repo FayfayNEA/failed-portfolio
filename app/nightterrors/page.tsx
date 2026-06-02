@@ -138,38 +138,8 @@ export default function NightterrorsPage() {
                 Design and ship a website for a clothing line that speaks to its edgy essence.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                N1ghtterrors emerged in response to a call to reintroduce provocation design
-                culture. Conceived as a clothing line rooted in the idea of sublimity, the project
-                explores psychological extremes through narrative-driven graphics. Each garment
-                presents a visual meditation on unseen instability, juxtaposing figures such as
-                Donald Trump and Joe Biden with allegorical references to Lucifer. The imagery
-                examines themes of power, duality, ascent, and collapse, prompting reflection on
-                broader questions surrounding civilization and collective ambition. Rather than
-                prescribing a singular interpretation, N1ghtterrors invites viewers to confront
-                their own perceptions. The work ultimately asks not what is depicted, but what the
-                audience chooses to see.
+                N1ghtterrors is a clothing line rooted in sublimity — each garment is a visual meditation on unseen instability, juxtaposing extremes of power and collapse. The work doesn&apos;t prescribe an interpretation; it asks what the audience chooses to see.
               </p>
-
-              {/* Outcome table */}
-              <div className="mt-8 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
-                {[
-                  { label: "Problem",      value: "Build an e-commerce experience that carries the brand's psychological edge without sacrificing navigability" },
-                  { label: "What I Built", value: "Custom Node.js storefront with unconventional animations and atypical interaction patterns, tested pre-launch with 20-question user survey" },
-                  { label: "What Changed", value: "Menu discoverability redesigned after 0% of users found it unprompted; typeface legibility adjusted while preserving visual character" },
-                ].map(({ label, value }, i, arr) => (
-                  <div
-                    key={label}
-                    className={`grid grid-cols-1 md:grid-cols-[160px_1fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
-                  >
-                    <div className="flex items-start bg-white/[0.18] px-5 py-4 md:border-r md:border-white/40">
-                      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-zinc-500">{label}</p>
-                    </div>
-                    <div className="px-5 py-4">
-                      <p className="text-[0.88rem] leading-relaxed text-zinc-700">{value}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </>
           ),
         },
