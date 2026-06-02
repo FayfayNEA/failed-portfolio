@@ -187,59 +187,6 @@ export default function NightterrorsPage() {
               </p>
               
 
-              <div className="my-14 h-px w-full bg-zinc-200/50" />
-
-              <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                User Feedback
-              </h2>
-              <p className="mb-6 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-                Created with Google Sheets and Napkin.ai
-              </p>
-
-              <ProjectGalleryRow
-                images={[
-                  "https://framerusercontent.com/images/ADS3bcmUYtUWrDQzinRQQ9pFZc.png?width=600&height=371",
-                  "https://framerusercontent.com/images/vbi47xczwLq81S9jqnEwEwiuFc.png?width=500&height=300",
-                  "https://framerusercontent.com/images/kxUNY0ZJVJHxvOQE1l5pAByFaB8.png?width=600&height=371",
-                ]}
-                theme="white"
-                glassVariant="liquid"
-                frameSize="medium"
-                slideImageFit="contain"
-                slidePadding="tight"
-                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
-              />
-
-              <blockquote className="mx-auto my-8 max-w-[min(52rem,100%)] border-l-2 border-zinc-200 pl-5 text-[0.95rem] italic leading-[1.75] text-zinc-500">
-                &ldquo;What menu? But I see the cart button. I would make it a bit more noticeable. It wasn&apos;t clear to me what it was.&rdquo;, User 1
-              </blockquote>
-
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://framerusercontent.com/images/6svTuucpn3TuiSK2BT6UlbIBNU.png?width=2304&height=1424"
-                alt="User feedback survey results"
-                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))] rounded-2xl object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
-              />
-
-              <blockquote className="mx-auto my-8 max-w-[min(52rem,100%)] border-l-2 border-zinc-200 pl-5 text-[0.95rem] italic leading-[1.75] text-zinc-500">
-                &ldquo;My big brain and internet training. Aka an old person might not know but a young person will figure it out fs.&rdquo;, User 6
-              </blockquote>
-
-              
-
-              <div className="mt-10 space-y-4">
-                {RESEARCH_LEARNINGS.map(({ heading, body }) => (
-                  <div
-                    key={heading}
-                    className="rounded-xl bg-zinc-100 p-5 ring-1 ring-zinc-200/70"
-                  >
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
-                      {heading}
-                    </p>
-                    <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
-                  </div>
-                ))}
-              </div>
             </>
           ),
         },
@@ -303,7 +250,7 @@ export default function NightterrorsPage() {
           content: (
             <>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                Tested with band members and a sample of existing listeners.
+                Tested with the brand community and first-time buyers.
               </h2>
 
               <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
@@ -315,7 +262,7 @@ export default function NightterrorsPage() {
                   },
                   {
                     stat: "3×",
-                    insight: "Longer average session time compared to comparable band sites — atmospheric content kept users exploring.",
+                    insight: "Longer average session time compared to comparable streetwear sites — atmospheric content kept users exploring.",
                     next: "Next: expand editorial content to deepen session engagement",
                   },
                   {
@@ -325,8 +272,8 @@ export default function NightterrorsPage() {
                   },
                   {
                     stat: "0",
-                    insight: "Redesign requests from the band after delivery — the visual language landed on first delivery.",
-                    next: "Next: v2 scoped for expanded merch and tour integration",
+                    insight: "Redesign requests from the brand after delivery — the visual language landed on first delivery.",
+                    next: "Next: v2 scoped for expanded merch integration",
                   },
                 ].map(({ stat, insight, next }) => (
                   <div
@@ -344,6 +291,59 @@ export default function NightterrorsPage() {
                     <div className="mt-auto shrink-0 border-t border-white/40 bg-white/[0.22] px-5 py-4">
                       <p className="font-mono text-[0.7rem] tracking-[0.04em] text-zinc-500">{next}</p>
                     </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* User Feedback — moved from research section */}
+              <div className="mt-4 h-px w-full bg-zinc-200/50" />
+
+              <h2 className="mb-2 mt-10 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
+                User Feedback
+              </h2>
+              <p className="mb-6 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+                Created with Google Sheets and Napkin.ai
+              </p>
+
+              <ProjectGalleryRow
+                images={[
+                  "https://framerusercontent.com/images/ADS3bcmUYtUWrDQzinRQQ9pFZc.png?width=600&height=371",
+                  "https://framerusercontent.com/images/vbi47xczwLq81S9jqnEwEwiuFc.png?width=500&height=300",
+                  "https://framerusercontent.com/images/kxUNY0ZJVJHxvOQE1l5pAByFaB8.png?width=600&height=371",
+                ]}
+                theme="white"
+                glassVariant="liquid"
+                frameSize="medium"
+                slideImageFit="contain"
+                slidePadding="tight"
+                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))]"
+              />
+
+              <blockquote className="mx-auto my-8 max-w-[min(52rem,100%)] border-l-2 border-zinc-200 pl-5 text-[0.95rem] italic leading-[1.75] text-zinc-500">
+                &ldquo;What menu? But I see the cart button. I would make it a bit more noticeable. It wasn&apos;t clear to me what it was.&rdquo;, User 1
+              </blockquote>
+
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://framerusercontent.com/images/6svTuucpn3TuiSK2BT6UlbIBNU.png?width=2304&height=1424"
+                alt="User feedback survey results"
+                className="mx-auto my-8 w-full max-w-[min(920px,calc(100vw-1.5rem))] rounded-2xl object-contain shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]"
+              />
+
+              <blockquote className="mx-auto my-8 max-w-[min(52rem,100%)] border-l-2 border-zinc-200 pl-5 text-[0.95rem] italic leading-[1.75] text-zinc-500">
+                &ldquo;My big brain and internet training. Aka an old person might not know but a young person will figure it out fs.&rdquo;, User 6
+              </blockquote>
+
+              <div className="mt-10 space-y-4">
+                {RESEARCH_LEARNINGS.map(({ heading, body }) => (
+                  <div
+                    key={heading}
+                    className="rounded-xl bg-zinc-100 p-5 ring-1 ring-zinc-200/70"
+                  >
+                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-500">
+                      {heading}
+                    </p>
+                    <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
                   </div>
                 ))}
               </div>
