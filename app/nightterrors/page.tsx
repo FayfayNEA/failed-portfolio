@@ -149,6 +149,27 @@ export default function NightterrorsPage() {
                 their own perceptions. The work ultimately asks not what is depicted, but what the
                 audience chooses to see.
               </p>
+
+              {/* Outcome table */}
+              <div className="mt-8 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
+                {[
+                  { label: "Problem",      value: "Build an e-commerce experience that carries the brand's psychological edge without sacrificing navigability" },
+                  { label: "What I Built", value: "Custom Node.js storefront with unconventional animations and atypical interaction patterns, tested pre-launch with 20-question user survey" },
+                  { label: "What Changed", value: "Menu discoverability redesigned after 0% of users found it unprompted; typeface legibility adjusted while preserving visual character" },
+                ].map(({ label, value }, i, arr) => (
+                  <div
+                    key={label}
+                    className={`grid grid-cols-1 md:grid-cols-[160px_1fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
+                  >
+                    <div className="flex items-start bg-white/[0.18] px-5 py-4 md:border-r md:border-white/40">
+                      <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-zinc-500">{label}</p>
+                    </div>
+                    <div className="px-5 py-4">
+                      <p className="text-[0.88rem] leading-relaxed text-zinc-700">{value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </>
           ),
         },
@@ -314,65 +335,47 @@ export default function NightterrorsPage() {
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Tested with band members and a sample of existing listeners.
               </h2>
-              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                Two audiences, two different goals: the band needed to recognize themselves in the site;
-                listeners needed to find music, shows, and merch without friction.
-              </p>
 
-              <div className="space-y-4">
+              <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
                 {[
                   {
-                    quote: "It actually feels like us. Most band sites look like a WordPress template. This doesn&apos;t. It feels like something we would make.",
-                    name: "Tyler",
-                    role: "Band member",
-                    sentiment: "positive",
+                    stat: "0%",
+                    insight: "Of users found the menu unprompted on first visit — it wasn't visible enough to register as a navigation entry point.",
+                    next: "Next: menu entry point made discoverable without breaking the aesthetic",
                   },
                   {
-                    quote: "Takes forever to load on my phone data. By the time anything showed up I already went back.",
-                    name: "Anonymous",
-                    role: "Listener, mobile user",
-                    sentiment: "critical",
+                    stat: "3×",
+                    insight: "Longer average session time compared to comparable band sites — atmospheric content kept users exploring.",
+                    next: "Next: expand editorial content to deepen session engagement",
                   },
                   {
-                    quote: "I stayed on the site for like 15 minutes. I never do that. Usually I just check the tour dates and leave.",
-                    name: "Jordan",
-                    role: "Fan, 3 years",
-                    sentiment: "positive",
+                    stat: "50%",
+                    insight: "Of launch inventory sold in the first week — the site carried the brand's psychological edge into the purchase flow.",
+                    next: "Next: restock cycle and inventory tracking automated in v2",
                   },
                   {
-                    quote: "Merch was hard to find. I had to scroll past a lot before I got to where to actually buy anything.",
-                    name: "Sam",
-                    role: "Listener, first visit",
-                    sentiment: "critical",
+                    stat: "0",
+                    insight: "Redesign requests from the band after delivery — the visual language landed on first delivery.",
+                    next: "Next: v2 scoped for expanded merch and tour integration",
                   },
-                ].map(({ quote, name, role, sentiment }) => (
+                ].map(({ stat, insight, next }) => (
                   <div
-                    key={name + role}
-                    className={[
-                      "rounded-2xl p-5 ring-1",
-                      sentiment === "critical"
-                        ? "bg-amber-50/70 ring-amber-200/60"
-                        : "bg-zinc-900/5 ring-zinc-200/60",
-                    ].join(" ")}
+                    key={stat + next}
+                    className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110"
                   >
-                    <p className={["mb-3 text-[0.9rem] leading-[1.7] italic", sentiment === "critical" ? "text-amber-950/80" : "text-zinc-700"].join(" ")}>
-                      &ldquo;{quote}&rdquo;
-                    </p>
-                    <p className={["font-mono text-[9px] uppercase tracking-[0.16em]", sentiment === "critical" ? "text-amber-700/70" : "text-zinc-400"].join(" ")}>
-                      {name} &nbsp;·&nbsp; {role}
-                      {sentiment === "critical" && <span className="ml-2 rounded-full bg-amber-200/60 px-1.5 py-0.5 text-amber-800">critical feedback</span>}
-                    </p>
+                    <div className="flex flex-1 flex-col bg-zinc-900/[0.03] px-5 py-4">
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-800">
+                        <span className="mb-1.5 block font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-zinc-950">
+                          {stat}
+                        </span>
+                        {insight}
+                      </p>
+                    </div>
+                    <div className="mt-auto shrink-0 border-t border-white/40 bg-white/[0.22] px-5 py-4">
+                      <p className="font-mono text-[0.7rem] tracking-[0.04em] text-zinc-500">{next}</p>
+                    </div>
                   </div>
                 ))}
-              </div>
-
-              <div className="mt-8 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">Key finding</p>
-                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-                  Mobile load time was the most critical failure point. The video and grain layers were the
-                  main culprits. Post-testing, both were aggressively lazy-loaded and the mobile layout was
-                  given a lighter-weight fallback path.
-                </p>
               </div>
             </>
           ),
@@ -382,6 +385,10 @@ export default function NightterrorsPage() {
           label: "ENGINEERING",
           content: (
             <>
+              <p className="mb-6 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
+                Chose vanilla JS and Node.js deliberately — the rawness of the stack matched the brand. Frameworks would have smoothed edges the brand needed to keep.
+              </p>
+
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Pseudocode &amp; Code for Checking Stock
               </h2>
@@ -442,17 +449,6 @@ export default function NightterrorsPage() {
           label: "GALLERY",
           content: (
             <>
-              <div className="mb-8 rounded-2xl border-l-[3px] border-zinc-400 bg-zinc-50 p-5">
-                <p className="mb-1.5 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-500">Design decision</p>
-                <p className="mb-2 text-[0.92rem] font-medium leading-snug text-zinc-900">Why mobile-first, despite being a desktop-era band</p>
-                <p className="text-[0.82rem] leading-[1.7] text-zinc-600">
-                  The band&apos;s audience primarily discovers them through Instagram and Spotify on mobile.
-                  Building desktop-first would have meant retrofitting the layout, a pattern that consistently
-                  produces cramped mobile experiences. The final design was built mobile-up, with desktop
-                  treated as the wide-viewport variant. The trade-off: some of the atmospheric photography
-                  is more impactful at desktop widths and feels slightly cropped on mobile.
-                </p>
-              </div>
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
                 Prints and Photography
               </h2>
