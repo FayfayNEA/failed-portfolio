@@ -182,6 +182,39 @@ const METADATA_ROWS = [
   },
 ];
 
+const ENGINEERING_DECISIONS = [
+  {
+    category: "Backend",
+    alternatives: ["Flask", "Express", "Django", "Hono"],
+    chose: "FastAPI",
+    why: "Lightweight async backend; low latency between audio capture and model response mattered more than framework features",
+  },
+  {
+    category: "Transcription",
+    alternatives: ["Deepgram", "AssemblyAI", "Google STT", "AWS Transcribe"],
+    chose: "Whisper",
+    why: "On-device transcription kept audio in the room; nothing sent to external servers mid-session",
+  },
+  {
+    category: "LLM",
+    alternatives: ["Claude", "Gemini", "Llama", "Mistral"],
+    chose: "GPT-4o",
+    why: "Best at extracting a single coherent intent from messy conversational transcript",
+  },
+  {
+    category: "Diagrams",
+    alternatives: ["D3.js", "Chart.js", "Graphviz", "manual SVG"],
+    chose: "Mermaid.js",
+    why: "Diagrams rendered from structured code, not images; deterministic output, no generation cost",
+  },
+  {
+    category: "Image Gen",
+    alternatives: ["DALL-E", "Stability AI", "Replicate", "Midjourney API"],
+    chose: "fal.ai",
+    why: "Faster cold start than alternatives at the budget; non-diagram outputs needed speed, not quality headroom",
+  },
+];
+
 const KEY_LEARNINGS = [
   {
     heading: "LLM Persona",
@@ -200,17 +233,17 @@ const KEY_LEARNINGS = [
 const REFLECTIONS = [
   {
     n: "1",
-    title: "Budget Is the Real Constraint",
+    title: "AI latency is a trust problem, not a speed problem",
     body: "Budget is the most important constraint in any project. Things you want often have to be sacrificed just to get the product to market—and to earn enough to fund the next version.",
   },
   {
     n: "2",
-    title: "Scale Before You Fabricate",
+    title: "Hardware constraints force architectural clarity",
     body: "Scalability should be thought about earlier. It was fun to get hardware running and learn shell scripting, but building an individual handheld for everyone at this size and scale is too expensive.",
   },
   {
     n: "3",
-    title: "Less Is More",
+    title: "The form factor is part of the argument",
     body: "Complex problems often have simple solutions. It is easy to get caught up in complexity and overdesign—in the words of Mies, less is often more.",
   },
 ];
@@ -223,6 +256,7 @@ const USER_TESTING = [
     insight:
       "Said the layout was easy to understand but felt extreme to be hardware for such a simple concept.",
     action: "How do we bring this into a mobile or desktop version to save costs?",
+    nextTag: "→ Next: right-size to mobile or desktop form factor",
     pillar: "Layout & Form Factor",
     interventions: ["Familiar UI", "Hardware Shell", "Iteration Dial"],
     impact:
@@ -237,6 +271,7 @@ const USER_TESTING = [
     insight:
       "Said it allowed them to focus on the conversation better but now worried if it was generating correctly.",
     action: "How can we monitor the images without having to backtrack?",
+    nextTag: "→ Next: live generation monitor surfaced in session",
     pillar: "Ambient Capture",
     interventions: ["Passive Listening", "Whisper API", "Live Generation HUD"],
     impact:
@@ -251,6 +286,7 @@ const USER_TESTING = [
     insight:
       "Said it helped with miscommunication as they saw what they wanted and the other person.",
     action: "Could this number get raised if we made the screen larger?",
+    nextTag: "→ Next: larger shared display to raise alignment rate",
     pillar: "Visual Alignment",
     interventions: ["Diagram Mode", "fal.ai Images", "Shared Display"],
     impact:
@@ -264,6 +300,7 @@ const USER_TESTING = [
     stat: "32%",
     insight: "Of the time, PDF generation worked perfectly—but it often cut off words.",
     action: "How do we test the backend more thoroughly?",
+    nextTag: "→ Next: automated export QA before every release",
     pillar: "Session Export",
     interventions: ["PDF Export", "Mermaid.js", "FastAPI Backend"],
     impact:
@@ -627,6 +664,9 @@ export default function BuddyPage() {
         {/* THE CHALLENGE */}
         <section id="the-challenge" className="scroll-mt-24">
           <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
+          <p className="mt-5 max-w-[min(56rem,100%)] text-[1.35rem] font-normal leading-[1.45] text-zinc-800">
+            We could create a tool which generates visual interpretations of conversation to allows users to surface cultural bias and reach shared understanding faster than words alone.
+          </p>
         </section>
 
         <Divider />
@@ -818,14 +858,9 @@ export default function BuddyPage() {
           <h2 className={CASE_INTRO_H2}>
             Tested with a group of designers and engineers during a live working session.
           </h2>
-          <p className={CASE_INTRO_BODY}>
-            Participants used Buddy across a real design critique session. Tasks included: capturing a
-            decision, exporting a session summary, and interpreting a generated diagram.
-          </p>
-
           {/* Testing cards */}
           <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
-            {USER_TESTING.map(({ n, stat, insight, action }) => (
+            {USER_TESTING.map(({ n, stat, insight, action, nextTag }) => (
               <div
                 key={n}
                 className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110"
@@ -839,7 +874,9 @@ export default function BuddyPage() {
                   </p>
                 </div>
                 <div className="mt-auto shrink-0 border-t border-white/40 bg-white/[0.22] px-5 py-4">
-                  <p className="text-[0.82rem] leading-[1.65] text-zinc-700">{action}</p>
+                  {nextTag && (
+                    <p className="font-mono text-[0.7rem] tracking-[0.04em] text-violet-600/60">{nextTag.replace("→ ", "")}</p>
+                  )}
                 </div>
               </div>
             ))}
@@ -911,6 +948,36 @@ export default function BuddyPage() {
           <p className="mb-12 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Diagrams made with Mermaid.js (rendered from Python)
           </p>
+
+          {/* Stack decision table — alternatives considered vs what was chosen */}
+          <div className="mb-10">
+            <div className="mb-1 hidden grid-cols-[120px_1fr_1.6fr] gap-px md:grid">
+              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Category</p>
+              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Alternatives Considered</p>
+              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Chose</p>
+            </div>
+            <div className="overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
+              {ENGINEERING_DECISIONS.map(({ category, alternatives, chose, why }, i, arr) => (
+                <div
+                  key={category}
+                  className={`grid grid-cols-1 gap-0 md:grid-cols-[120px_1fr_1.6fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
+                >
+                  <div className="flex items-start bg-white/[0.18] px-5 py-5 md:border-r md:border-white/40">
+                    <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-zinc-500">{category}</p>
+                  </div>
+                  <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-white/40">
+                    {alternatives.map((alt) => (
+                      <span key={alt} className="rounded-full bg-zinc-500/[0.08] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-zinc-500 ring-1 ring-zinc-300/50">{alt}</span>
+                    ))}
+                  </div>
+                  <div className="px-5 py-5">
+                    <p className="mb-1.5 font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-violet-600">{chose}</p>
+                    <p className="text-[0.8rem] leading-relaxed text-zinc-600">{why}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
             <CodeBlock code={CODE_SYSTEM_PROMPT} className="my-0 h-full min-h-0" />
