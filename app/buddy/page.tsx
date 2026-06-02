@@ -949,34 +949,30 @@ export default function BuddyPage() {
             Diagrams made with Mermaid.js (rendered from Python)
           </p>
 
-          {/* Stack decision table — alternatives considered vs what was chosen */}
-          <div className="mb-10">
-            <div className="mb-1 hidden grid-cols-[120px_1fr_1.6fr] gap-px md:grid">
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Category</p>
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Alternatives Considered</p>
-              <p className="px-4 pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Chose</p>
-            </div>
-            <div className="overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
-              {ENGINEERING_DECISIONS.map(({ category, alternatives, chose, why }, i, arr) => (
-                <div
-                  key={category}
-                  className={`grid grid-cols-1 gap-0 md:grid-cols-[120px_1fr_1.6fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
-                >
-                  <div className="flex items-start bg-white/[0.18] px-5 py-5 md:border-r md:border-white/40">
-                    <p className="font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-zinc-500">{category}</p>
-                  </div>
-                  <div className="flex flex-wrap content-start gap-1.5 px-5 py-5 md:border-r md:border-white/40">
+          {/* Stack decision table */}
+          <div className="mb-10 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
+            {ENGINEERING_DECISIONS.map(({ category, alternatives, chose, why }, i, arr) => (
+              <div
+                key={category}
+                className={`grid grid-cols-1 md:grid-cols-[90px_1fr]${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
+              >
+                {/* Category */}
+                <div className="flex items-start bg-white/[0.18] px-4 py-5 md:border-r md:border-white/40">
+                  <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.1em] text-zinc-400">{category}</p>
+                </div>
+
+                {/* Chose (leftmost, underlined) + alternatives on same line, why below */}
+                <div className="px-5 py-4">
+                  <div className="mb-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                    <span className="font-mono text-[0.88rem] font-semibold leading-none text-violet-600 border-b border-violet-300/55 pb-0.5">{chose}</span>
                     {alternatives.map((alt) => (
-                      <span key={alt} className="rounded-full bg-zinc-500/[0.08] px-2.5 py-1 font-mono text-[0.65rem] tracking-wide text-zinc-500 ring-1 ring-zinc-300/50">{alt}</span>
+                      <span key={alt} className="rounded-full bg-zinc-500/[0.07] px-2.5 py-0.5 font-mono text-[0.62rem] tracking-wide text-zinc-400 ring-1 ring-zinc-200/60">{alt}</span>
                     ))}
                   </div>
-                  <div className="px-5 py-5">
-                    <p className="mb-1.5 font-mono text-[1.1rem] font-medium leading-none tracking-[-0.02em] text-violet-600">{chose}</p>
-                    <p className="text-[0.8rem] leading-relaxed text-zinc-600">{why}</p>
-                  </div>
+                  <p className="text-[0.78rem] leading-relaxed text-zinc-500 max-w-[600px]">{why}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
           <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
