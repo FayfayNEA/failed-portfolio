@@ -37,6 +37,8 @@ export interface GalleryProject {
   canvasImageH?: number;       // desktop canvas — overrides VARIANT_IMG_H
   canvasCardW?: number;        // desktop canvas — overrides BASE_CARD_W
   pillTheme?: "green" | "purple" | "blue" | "gray" | "black" | "teal" | "orange";
+  /** When true, the hoverVideo autoplays and loops continuously without needing hover. */
+  autoplaying?: boolean;
   useVideoAsCover?: boolean;
 }
 
@@ -168,22 +170,25 @@ function HoverCrossfadeMedia({
   onVideoEl?: (el: HTMLVideoElement | null) => void;
 }) {
   const ref = useRef<HTMLVideoElement | null>(null);
-  const videoCover = project.useVideoAsCover && !!project.hoverVideo;
+  const videoCover  = project.useVideoAsCover && !!project.hoverVideo;
+  const autoplaying = !!project.autoplaying;
   const [frameReady, setFrameReady] = useState(false);
 
-  // videoCover cards: video is always visible (shows first frame at rest), plays only on hover.
+  // autoplaying cards: video always plays + visible.
+  // videoCover cards: always visible (first frame), plays only on hover.
   // Regular hover videos: fade in when active + frame loaded.
-  const videoVisible = videoCover ? true : active && frameReady;
-  const crossfade    = active && frameReady;
+  const effectiveActive = autoplaying || active;
+  const videoVisible    = videoCover || autoplaying ? true : active && frameReady;
+  const crossfade       = effectiveActive && frameReady;
 
   useEffect(() => {
     const v = ref.current;
     if (!v || !project.hoverVideo) return;
 
-    if (!active) {
+    if (!effectiveActive) {
       const t = window.setTimeout(() => {
         v.pause();
-        if (!videoCover) setFrameReady(false);
+        if (!videoCover && !autoplaying) setFrameReady(false);
       }, MEDIA_CROSSFADE_MS);
       return () => window.clearTimeout(t);
     }
@@ -195,7 +200,7 @@ function HoverCrossfadeMedia({
     v.play().catch(() => {});
 
     return () => v.removeEventListener("loadeddata", markReady);
-  }, [active, project.hoverVideo, videoCover]);
+  }, [effectiveActive, project.hoverVideo, videoCover, autoplaying]);
 
   return (
     <>
