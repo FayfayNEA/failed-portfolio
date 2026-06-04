@@ -10,22 +10,22 @@ import { HomeScrollListener } from "@/components/home-scroll-listener";
 const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1692,
   positions: [
-    { x: 257,  y: 29   },  // eidolon
-    { x: 313,  y: 997  },  // buddy
-    { x: 1013, y: 409  },  // etrade
-    { x: 115,  y: 1950 },  // nightterrors
-    { x: 700,  y: 1350 },  // iris-house
-    { x: 100,  y: 2580 },  // fither
-    { x: 1029, y: 2420 },  // jahn
+    { x: 257, y: 29   },
+    { x: 216, y: 1325 },
+    { x: 996, y: 751  },
+    { x: 915, y: 3022 },
+    { x: 190, y: 2574 },
+    { x: 992, y: 2083 },
+    { x: 132, y: 3654 },
   ],
   sizesBySlug: {
-    eidolon:       { w: 500, h: 728 },
-    buddy:         { w: 533, h: 767 },
-    etrade:        { w: 637, h: 595 },
-    nightterrors:  { w: 736, h: 590 },
-    "iris-house":  { w: 560, h: 420 },
-    fither:        { w: 592, h: 506 },
-    jahn:          { w: 575, h: 487 },
+    eidolon:      { w: 500, h: 728 },
+    buddy:        { w: 533, h: 767 },
+    etrade:       { w: 637, h: 595 },
+    nightterrors: { w: 736, h: 590 },
+    "iris-house": { w: 560, h: 420 },
+    fither:       { w: 592, h: 506 },
+    jahn:         { w: 575, h: 487 },
   },
 };
 
@@ -85,7 +85,7 @@ export default function Home() {
             ]}
           />
         </div>
-        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v111" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v112" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}
