@@ -36,7 +36,7 @@ export interface GalleryProject {
   imageAreaClassName?: string; // mobile grid only
   canvasImageH?: number;       // desktop canvas — overrides VARIANT_IMG_H
   canvasCardW?: number;        // desktop canvas — overrides BASE_CARD_W
-  pillTheme?: "green" | "purple" | "blue" | "gray" | "black" | "teal";
+  pillTheme?: "green" | "purple" | "blue" | "gray" | "black" | "teal" | "orange";
   useVideoAsCover?: boolean;
 }
 
@@ -490,6 +490,7 @@ const PILL_THEMES: Record<string, string> = {
   gray:   "bg-zinc-400/[0.12]   text-zinc-500   ring-1 ring-zinc-400/50",
   black:  "bg-zinc-900          text-white       ring-1 ring-zinc-700",
   teal:   "bg-teal-500/[0.09]   text-teal-700   ring-1 ring-teal-400/55",
+  orange: "bg-orange-500/[0.09] text-orange-700 ring-1 ring-orange-400/55",
 };
 
 function TypePills({ typeTags, pillTheme = "green" }: { typeTags: string; pillTheme?: string }) {
