@@ -16,6 +16,7 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     { x: 1036, y: 1605 },
     { x: 115,  y: 2015 },
     { x: 1029, y: 2420 },
+    { x: 600,  y: 3060 },
   ],
   sizesBySlug: {
     eidolon:      { w: 500, h: 728 },
@@ -24,6 +25,7 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     fither:       { w: 592, h: 506 },
     nightterrors: { w: 736, h: 590 },
     jahn:         { w: 575, h: 487 },
+    "iris-world": { w: 560, h: 420 },
   },
 };
 
@@ -34,6 +36,7 @@ const PROJECTS: GalleryProject[] = [
   { slug: "fither",       title: "Fither",       pillTheme: "gray",       cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",        description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#ffffff", coverImageFit: "cover", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4",                        href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true },
   { slug: "nightterrors", title: "N1ghtterrors", cardVariant: "standard",  canvasImageH: 414, canvasCardW: 736, pillTheme: "black",  typeTags: "Brand · E-commerce · D2C",             description: "Designed and built a full-stack storefront capturing the brand identity of N1ghtterrors.", year: "2024", coverImage: "/coverimages/nightterrors.jpg", coverImageFit: "cover", useVideoAsCover: true, hoverVideo: "/nightterrors/n1ghtterrors%20demo.mp4", href: "/nightterrors", tags: ["Full-stack build", "50% inventory sold in week one", "2021"], tagsInline: true },
   { slug: "jahn",         title: "JAHN",         pillTheme: "teal",         cardVariant: "standard",  typeTags: "Architecture · Visualization · B2B",   description: "Designed a portfolio faithful to Helmut Jahn's design language.",                         year: "2023", coverColor: "#000000", coverImage: "/coverimages/jahn.jpg", coverImageFit: "cover", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/jahn/jahn.mp4", href: "/jahn",         tags: ["Commissioned build", "Live site", "2023"], tagsInline: true },
+  { slug: "iris-world",   title: "Iris's World", pillTheme: "black",      cardVariant: "landscape", typeTags: "Game · Three.js · Creative Code",      description: "A first-person browser game where you live as a tiny dog exploring a cozy house.",       year: "2026", coverColor: "#C03808", coverImage: "/iris-world/iris2_nobg.png", coverImageFit: "contain", href: "/iris-world",   tags: ["Playable in browser", "Procedural textures", "2026"], tagsInline: true },
 ];
 
 export default function Home() {

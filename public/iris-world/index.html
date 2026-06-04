@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iris's World</title>
+
+  <!-- SEO / portfolio meta -->
+  <meta name="description" content="A first-person exploration game. Today you will live as a tiny dog called Iris." />
+  <meta name="author" content="Fay Naselta" />
+
+  <!-- Open Graph (for portfolio / social sharing) -->
+  <meta property="og:title"       content="Iris's World" />
+  <meta property="og:description" content="A first-person exploration game. Today you will live as a tiny dog called Iris." />
+  <meta property="og:image"       content="./iris2_nobg.png" />
+  <meta property="og:type"        content="website" />
+
+  <!-- Pointer-lock notice for browsers that need a click first -->
+  <meta name="theme-color" content="#C03808" />
+
+  <link rel="stylesheet" href="./styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ========== START / LANDING PAGE ========== -->
+  <div id="landing-page">
+    <div class="landing-card">
+      <img src="./iris2_nobg.png" class="landing-iris" alt="Iris" />
+      <h1 class="landing-title">Iris's World</h1>
+      <p class="landing-text">Today you will live as a tiny dog called Iris.</p>
+      <button id="landing-start">Let's start!</button>
+    </div>
+  </div>
+
+  <!-- ========== GAME UI (always visible) ========== -->
+  <div id="game-ui">
+
+    <!-- Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Controls info button + panel -->
+    <button id="info-btn" aria-label="Controls">?</button>
+    <div id="controls-hint">WASD · Mouse · [E] Interact · [Space] Jump · [F] Door</div>
+
+    <!-- Click-to-lock prompt -->
+    <div id="click-prompt">Click to look around</div>
+
+    <!-- Shown at game start until the player first moves -->
+    <div id="begin-wander">Begin to wander.</div>
+
+    <!-- Crosshair -->
+    <div id="crosshair">·</div>
+
+    <!-- Contextual proximity hint -->
+    <div id="proximity-hint"></div>
+
+    <!-- Story speech bubble -->
+    <div id="story-text"></div>
+
+    <!-- Temporary hint bar -->
+    <div id="hint-bar"></div>
+
+    <!-- Perspective label (brief flash on game start) -->
+    <div id="perspective-label"></div>
+
+    <!-- Iris sense indicators -->
+    <div id="smell-indicator" class="sense-indicator">You smell something delicious from the counter...</div>
+    <div id="hear-indicator"  class="sense-indicator">Sounds from outside - something's moving out there</div>
+
+    <!-- Crumb counter -->
+    <div id="crumb-counter"><span id="crumb-count">0</span> crumbs found</div>
+
+    <!-- Objectives tracker -->
+    <div id="objectives">
+      <div class="obj-title">Iris's Adventures</div>
+      <div class="obj-item" id="obj-couch">Claim the couch &amp; look outside</div>
+      <div class="obj-item" id="obj-smell">Sniff the kitchen</div>
+      <div class="obj-item" id="obj-bark">Bark at the door</div>
+      <div class="obj-item" id="obj-rest">Rest in the bedroom</div>
+      <div class="obj-item" id="obj-forage">Forage for crumbs</div>
+      <div class="obj-item" id="obj-loaf">Loaf in the office</div>
+      <div class="obj-item" id="obj-play">Play with a toy</div>
+      <div class="obj-item" id="obj-investigate">Sniff the bathroom</div>
+    </div>
+
+    <!-- Perfect World overlay — pink flash when all objectives complete -->
+    <div id="perfect-world-overlay">
+      <div id="pw-message">Now interact in her ideal world.</div>
+    </div>
+
+  </div>
+
+  <script defer src="./game.bundle.js"></script>
+</body>
+</html>

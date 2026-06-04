@@ -1,0 +1,505 @@
+/* ============================================
+   Iris's World — RPG Callout Style (Parchment)
+   ============================================ */
+
+/* Font loaded once in index.html — no duplicate import here */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #0C1018;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  user-select: none;
+  image-rendering: pixelated;
+}
+
+/* ========== LANDING PAGE ========== */
+#landing-page {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #C03808;          /* deep orange — matches the game's wall colour */
+  background: radial-gradient(ellipse at 50% 40%, #D84A10 0%, #8A2000 100%);
+  transition: opacity 0.7s ease;
+}
+#landing-page.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.landing-card {
+  text-align: center;
+  padding: 56px 64px 48px;
+  background: #F4EDD8;
+  border: 3px solid #B87828;
+  outline: 2px solid #C8A060;
+  outline-offset: -8px;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.55);
+  max-width: 440px;
+  width: 90%;
+  animation: cardIn 0.55s cubic-bezier(0.175,0.885,0.32,1.275) both;
+}
+@keyframes cardIn {
+  from { transform: scale(0.85); opacity:0; }
+  to   { transform: scale(1);    opacity:1; }
+}
+
+.landing-iris {
+  width: 200px;
+  height: 220px;
+  object-fit: contain;          /* show whole dog, no crop — she's on transparent bg */
+  object-position: center bottom;
+  margin-bottom: 12px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  animation: irisFloat 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.45));
+}
+@keyframes irisFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.landing-title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #B87828;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  margin-bottom: 18px;
+}
+
+.landing-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2C1A0A;
+  line-height: 1.65;
+  margin-bottom: 36px;
+}
+
+#landing-start {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #2C1A0A;
+  background: #E8C870;
+  border: 2px solid #B87828;
+  border-radius: 0;
+  padding: 12px 36px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.40);
+  transition: all 0.10s;
+}
+#landing-start:hover {
+  background: #F5DFA0;
+  transform: translate(-2px,-2px);
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.40);
+}
+#landing-start:active {
+  transform: translate(1px,1px);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.40);
+}
+
+#game-ui { position: fixed; inset: 0; }
+#canvas-container { position: absolute; inset: 0; }
+#canvas-container canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* Subtle vignette */
+#game-ui::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(
+    ellipse 80% 75% at 50% 50%,
+    transparent 0%,
+    transparent 50%,
+    rgba(4, 6, 10, 0.15) 70%,
+    rgba(4, 6, 10, 0.40) 100%
+  );
+}
+
+/*
+  DARK FOREST FANTASY PALETTE
+  bg:        #F4EDD8  deep forest dark
+  border:    #B87828  forest green
+  text:      #2C1A0A  pale mint
+  accent:    #C08828  bright forest green (title, highlights)
+  subtext:   #60A878  muted sage for secondary text
+  shadow:    solid pixel drop  rgba(0,0,0,0.6) offset 3px
+
+  FONT SIZES (two only):
+  --fs-sm:  0.72rem  — small labels: obj title, controls hint, crumb counter
+  --fs-base: 0.88rem — everything else: hints, story, prompts, overlay text
+*/
+
+:root {
+  --fs-sm:   0.72rem;
+  --fs-base: 0.88rem;
+}
+
+/* ========== OBJECTIVES TRACKER ========== */
+/* Hidden by default — revealed (with the controls panel) by the ? info button */
+#objectives {
+  position: absolute;
+  top: 92px;
+  right: 16px;
+  padding: 10px 14px 12px;
+  z-index: 100;
+  pointer-events: none;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.55);
+  border-radius: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#objectives.visible { opacity: 1; }
+#objectives.hidden { opacity: 0; }
+
+.obj-title {
+  font-size: var(--fs-sm);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #B87828;
+  margin-bottom: 7px;
+  border-bottom: 1px solid #C8A060;
+  padding-bottom: 5px;
+}
+
+.obj-item {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: #2C1A0A;
+  padding: 2px 0;
+  transition: color 0.4s;
+}
+
+.obj-item.done {
+  color: #A07830;
+  text-decoration: line-through;
+  text-decoration-color: #C08828;
+  text-decoration-thickness: 1.5px;
+}
+
+/* ========== INFO BUTTON ========== */
+#info-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  font-family: 'Nunito', sans-serif;
+  font-size: var(--fs-sm);
+  font-weight: 900;
+  color: #2C1A0A;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+  cursor: pointer;
+  transition: opacity 0.4s, background 0.12s;
+  z-index: 200;
+  line-height: 1;
+  padding: 0;
+}
+#info-btn:hover { background: #E8D4A0; }
+
+/* ========== CONTROLS HINT PANEL ========== */
+#controls-hint {
+  position: absolute;
+  top: 50px;
+  right: 16px;
+  padding: 8px 14px;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #2C1A0A;
+  pointer-events: none;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 199;
+}
+#controls-hint.visible { opacity: 1; }
+
+/* ========== CLICK TO LOCK ========== */
+#click-prompt {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 22px;
+  font-size: var(--fs-base);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #2C1A0A;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  animation: floatUp 2.2s ease-in-out infinite;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+  white-space: nowrap;
+}
+
+@keyframes floatUp {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* ========== BEGIN TO WANDER ========== */
+#begin-wander {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 14px 32px;
+  font-size: var(--fs-base);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #2C1A0A;
+  pointer-events: none;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+  white-space: nowrap;
+  animation: floatUp 2.8s ease-in-out infinite;
+}
+
+/* ========== CROSSHAIR ========== */
+#crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -54%);
+  width: 8px; height: 8px;
+  border-radius: 0;
+  border: 2px solid rgba(220,230,245,0.55);
+  pointer-events: none;
+}
+
+/* ========== PROXIMITY HINT ========== */
+#proximity-hint {
+  position: absolute;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 20px;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #2C1A0A;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+}
+
+/* ========== STORY TEXT — RPG dialogue box ========== */
+#story-text {
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  max-width: 400px;
+  padding: 16px 20px 18px;
+  text-align: left;
+  line-height: 1.65;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #2C1A0A;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  z-index: 10;
+
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  /* inner highlight line for that classic RPG double-border feel */
+  outline: 1px solid #C8A060;
+  outline-offset: -5px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.55);
+  border-radius: 0;
+}
+
+#story-text.visible { opacity: 1; }
+
+/* RPG dialogue tail — gold outer, parchment inner */
+#story-text.visible::after {
+  content: '';
+  position: absolute;
+  bottom: -11px;
+  left: 18px;
+  border-width: 10px 7px 0;
+  border-style: solid;
+  border-color: #B87828 transparent transparent;
+}
+#story-text.visible::before {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 20px;
+  border-width: 8px 5px 0;
+  border-style: solid;
+  border-color: #F4EDD8 transparent transparent;
+  z-index: 1;
+}
+
+/* ========== HINT BAR ========== */
+#hint-bar {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 22px;
+  font-size: var(--fs-base);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #2C1A0A;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 9;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+}
+#hint-bar.visible { opacity: 1; }
+
+/* ========== PERSPECTIVE LABEL ========== */
+#perspective-label {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--fs-base);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #2C1A0A;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+  white-space: nowrap;
+}
+#perspective-label.visible { opacity: 1; }
+
+/* ========== PERFECT WORLD OVERLAY — pink flash ========== */
+#perfect-world-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  background: #F0A0C8;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+}
+#perfect-world-overlay.pw-in  { opacity: 1; }
+#perfect-world-overlay.pw-out { opacity: 0; transition: opacity 1.4s ease; }
+
+#pw-message {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #5A1030;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-shadow: 2px 2px 0 rgba(255,255,255,0.45);
+}
+
+/* ========== SENSE INDICATORS (smell / hear) ========== */
+.sense-indicator {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 7px 20px;
+  font-size: var(--fs-base);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #2C1A0A;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 12;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+}
+
+#hear-indicator { top: 112px; }
+.sense-indicator.visible { opacity: 1; }
+
+/* ========== CRUMB COUNTER ========== */
+#crumb-counter {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  padding: 5px 12px;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #2C1A0A;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 10;
+  background: #F4EDD8;
+  border: 2px solid #B87828;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 0;
+}
+#crumb-counter.visible { opacity: 1; }
+
+/* ========== PLAY AGAIN BUTTON (inside pw-box) ========== */
+#btn-play-again {
+  margin-top: 8px;
+  padding: 11px 26px;
+  font-family: 'Nunito', sans-serif;
+  font-size: var(--fs-base);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  color: #2C1A0A;
+  background: #E8A0B8;
+  border: 2px solid #9B4060;
+  border-radius: 0;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.45);
+  transition: all 0.12s;
+}
+#btn-play-again:hover {
+  background: #F5C0D0;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+}

@@ -15,6 +15,15 @@ export type ProjectEntry = {
 export const PROJECTS_REGISTRY: ProjectEntry[] = [
   // ── Product Design ──────────────────────────────────────────────────────────
   {
+    slug: "iris-world",
+    title: "Iris's World",
+    description: "First-person browser game · Three.js · dog physics",
+    year: "2026",
+    coverImage: "/iris-world/iris2_nobg.png",
+    href: "/iris-world",
+    category: "product-design",
+  },
+  {
     slug: "eidolon",
     title: "Eidolon",
     description: "AI agent interface · trust & transparency",
