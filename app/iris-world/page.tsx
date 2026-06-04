@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ManualProjectPage } from "@/components/manual-project-page";
+import { IrisPlay } from "./iris-play";
 
 const SLUG = "iris-world";
 const CATEGORY = "product-design";
@@ -23,14 +24,14 @@ export default function IrisWorldPage() {
       challengeSummary="Build a fully explorable 3D home from Iris's perspective: nose-level camera, dog-physics, and a world that transforms when all her objectives are met."
       meta={{
         timeline: "2026",
-        roles: ["Design", "3D Environment", "Game Dev"],
+        roles: ["Solo Developer", "3D Environment", "Game Design"],
         tools: ["Three.js", "WebGL", "esbuild", "Vanilla JS"],
         team: ["Failenn Aselta"],
       }}
       sections={[
         {
           id: "overview",
-          label: "OVERVIEW",
+          label: "ABOUT THE GAME",
           content: (
             <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
               Iris&apos;s World is a browser-based first-person game built entirely in Three.js. You play
@@ -45,25 +46,7 @@ export default function IrisWorldPage() {
         {
           id: "play",
           label: "PLAY",
-          content: (
-            <div className="flex flex-col gap-4">
-              <p className="font-mono text-[0.78rem] tracking-[0.04em] text-zinc-400">
-                WASD to move · mouse to look · [E] to interact · [Space] to jump · click the window to lock your cursor
-              </p>
-              <div
-                className="w-full overflow-hidden rounded-xl border border-zinc-200 bg-black shadow-lg"
-                style={{ aspectRatio: "16 / 9" }}
-              >
-                <iframe
-                  src="/iris-world/index.html"
-                  className="h-full w-full border-0"
-                  title="Iris's World — playable"
-                  allow="pointer-lock"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          ),
+          content: <IrisPlay />,
         },
         {
           id: "technical",
