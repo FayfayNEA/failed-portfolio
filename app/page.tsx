@@ -14,7 +14,7 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     { x: 216, y: 1325 },
     { x: 996, y: 751  },
     { x: 915, y: 3022 },
-    { x: 190, y: 2574 },
+    { x: 190, y: 2500 },
     { x: 992, y: 2083 },
     { x: 132, y: 3654 },
   ],
@@ -23,7 +23,7 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     buddy:        { w: 533, h: 767 },
     etrade:       { w: 637, h: 595 },
     nightterrors: { w: 736, h: 590 },
-    "iris-house": { w: 560, h: 420 },
+    "iris-house": { w: 536, h: 494 },
     fither:       { w: 592, h: 506 },
     jahn:         { w: 575, h: 487 },
   },
@@ -34,7 +34,7 @@ const PROJECTS: GalleryProject[] = [
   { slug: "buddy",        title: "Buddy",        pillTheme: "purple", cardVariant: "portrait",  typeTags: "AI Hardware · IoT · B2B",                   description: "Created an LLM that captures group conversations as real-time images and diagrams.",      year: "2026", coverColor: "#ffffff", coverImageFit: "cover", coverObjectPosition: "50% 54%", coverImage: "/coverimages/buddy-frame-2.jpg", canvasCardW: 550, canvasImageH: 609, hoverVideo: "/buddy/sequence-04.mp4", href: "/buddy",        tags: ["64% intuitive on first use", "40% stopped taking notes", "2026"], tagsInline: true },
   { slug: "etrade",       title: "E*Trade",      pillTheme: "blue",   cardVariant: "landscape", typeTags: "Fintech · Web App · B2C",                   description: "Redesigned a financial trading platform to reduce cognitive load and speed up trades.",    year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverBlendMode: "multiply", coverImage: "/coverimages/etrade-frame.jpg", imageAreaClassName: "h-[260px] sm:h-[295px] lg:h-[330px]", canvasImageH: 455, canvasCardW: 580, hoverVideo: "/etrade/hero.mp4", href: "/etrade",       tags: ["83% found the layout faster", "67% felt mentally lighter", "2026"], tagsInline: true },
   { slug: "nightterrors", title: "N1ghtterrors", pillTheme: "black",  cardVariant: "standard",  typeTags: "Brand · E-commerce · D2C",                  description: "Designed and built a full-stack storefront capturing the brand identity of N1ghtterrors.", year: "2024", coverImage: "/coverimages/nightterrors.jpg", coverImageFit: "cover", useVideoAsCover: true, canvasImageH: 414, canvasCardW: 736, hoverVideo: "/nightterrors/n1ghtterrors%20demo.mp4", href: "/nightterrors", tags: ["Full-stack build", "50% inventory sold in week one", "2021"], tagsInline: true },
-  { slug: "iris-house",   title: "Iris House",   pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "cover", canvasImageH: 320, useVideoAsCover: true, autoplaying: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
+  { slug: "iris-house",   title: "Iris House",   pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", canvasImageH: 320, useVideoAsCover: true, autoplaying: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
   { slug: "fither",       title: "Fither",       pillTheme: "gray",   cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",             description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#ffffff", coverImageFit: "cover", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4", href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true },
   { slug: "jahn",         title: "JAHN",         pillTheme: "teal",   cardVariant: "standard",  typeTags: "Architecture · Visualization · B2B",        description: "Designed a portfolio faithful to Helmut Jahn's design language.",                         year: "2023", coverColor: "#000000", coverImage: "/coverimages/jahn.jpg", coverImageFit: "cover", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/jahn/jahn.mp4", href: "/jahn",         tags: ["Commissioned build", "Live site", "2023"], tagsInline: true },
 ];
@@ -85,7 +85,7 @@ export default function Home() {
             ]}
           />
         </div>
-        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v112" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v113" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}
