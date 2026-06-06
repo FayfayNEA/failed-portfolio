@@ -46,14 +46,14 @@ export default function Home() {
       <DesignerBio />
 
       {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[3rem] md:pt-[3rem]">
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[3rem] md:pt-0">
         {/* Gradient masks */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[8rem]"
           style={{ background: "linear-gradient(to bottom, #e8e8e8 62%, transparent)" }}
         />
-        <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-5rem)]">
+        <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-12rem)]">
           <iframe
             src="/home/index.html"
             className="block h-full w-full border-0"
@@ -71,7 +71,7 @@ export default function Home() {
       {/* Product design gallery */}
       <section
         id="product-design-section"
-        className="mt-[3rem] flex flex-col sm:mt-[4rem] md:mt-[7rem]"
+        className="mt-[3rem] flex flex-col sm:mt-[4rem] md:mt-0"
         aria-label="Product Design work"
       >
         <div
