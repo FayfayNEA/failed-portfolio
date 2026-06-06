@@ -10,13 +10,13 @@ import { HomeScrollListener } from "@/components/home-scroll-listener";
 const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1692,
   positions: [
-    { x: 400, y: 17   },  // eidolon
-    { x: 365, y: 819  },  // buddy      (17  + 682 + 120)
-    { x: 480, y: 1718 },  // etrade     (819 + 779 + 120)
-    { x: 518, y: 2476 },  // nightterrors (1718 + 638 + 120)
-    { x: 455, y: 3186 },  // iris-house (2476 + 590 + 120)
-    { x: 519, y: 3981 },  // fither     (3186 + 675 + 120)
-    { x: 589, y: 4668 },  // jahn       (3981 + 567 + 120)
+    { x: 399, y: 17   },  // eidolon      centered (846 - 894/2)
+    { x: 366, y: 1577 },  // buddy        819 + 638 + 120 — swapped after etrade
+    { x: 463, y: 819  },  // etrade       17 + 682 + 120  — swapped before buddy
+    { x: 478, y: 2476 },  // nightterrors 1577 + 779 + 120
+    { x: 427, y: 3186 },  // iris-house   2476 + 590 + 120
+    { x: 487, y: 3981 },  // fither       3186 + 675 + 120
+    { x: 559, y: 4668 },  // jahn         3981 + 567 + 120
   ],
   sizesBySlug: {
     eidolon:      { w: 894, h: 682 },
