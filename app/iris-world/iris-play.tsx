@@ -60,8 +60,27 @@ export function IrisPlay() {
 
   return (
     <>
-      {/* Inline embed */}
-      <div className="flex flex-col gap-4">
+      {/* Mobile gate — shown on small screens, hidden on md+ */}
+      <div className="flex md:hidden w-full">
+        <div
+          className="flex w-full flex-col items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50/60 px-6 py-12 text-center"
+          style={{ aspectRatio: "16 / 9" }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden className="text-zinc-400">
+            <rect x="2" y="4" width="20" height="13" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M8 21h8M12 17v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <p className="font-mono text-[0.75rem] uppercase tracking-[0.12em] text-zinc-500">
+            desktop only
+          </p>
+          <p className="max-w-[22ch] text-[0.8rem] leading-relaxed text-zinc-400">
+            this game requires a keyboard and mouse. open it on a desktop browser to play.
+          </p>
+        </div>
+      </div>
+
+      {/* Inline embed — hidden on mobile, shown on md+ */}
+      <div className="hidden md:flex flex-col gap-4">
         <p className="font-mono text-[0.78rem] tracking-[0.04em] text-zinc-400">
           WASD to move · mouse to look · [E] to interact · [Space] to jump · click the window to lock your cursor
         </p>
