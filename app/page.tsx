@@ -10,21 +10,21 @@ import { HomeScrollListener } from "@/components/home-scroll-listener";
 const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1692,
   positions: [
-    { x: 257, y: 29   },
-    { x: 216, y: 1325 },
-    { x: 996, y: 751  },
-    { x: 915, y: 3022 },
-    { x: 190, y: 2500 },
-    { x: 992, y: 2083 },
-    { x: 132, y: 3654 },
+    { x: 400, y: 17   },  // eidolon
+    { x: 365, y: 819  },  // buddy      (17  + 682 + 120)
+    { x: 480, y: 1718 },  // etrade     (819 + 779 + 120)
+    { x: 518, y: 2476 },  // nightterrors (1718 + 638 + 120)
+    { x: 455, y: 3186 },  // iris-house (2476 + 590 + 120)
+    { x: 519, y: 3981 },  // fither     (3186 + 675 + 120)
+    { x: 589, y: 4668 },  // jahn       (3981 + 567 + 120)
   ],
   sizesBySlug: {
-    eidolon:      { w: 500, h: 728 },
-    buddy:        { w: 533, h: 767 },
-    etrade:       { w: 637, h: 595 },
+    eidolon:      { w: 894, h: 682 },
+    buddy:        { w: 961, h: 779 },
+    etrade:       { w: 766, h: 638 },
     nightterrors: { w: 736, h: 590 },
-    "iris-house": { w: 536, h: 494 },
-    fither:       { w: 592, h: 506 },
+    "iris-house": { w: 838, h: 675 },
+    fither:       { w: 718, h: 567 },
     jahn:         { w: 575, h: 487 },
   },
 };
