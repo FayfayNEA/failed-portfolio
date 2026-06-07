@@ -11,10 +11,10 @@ import { HomeScrollListener } from "@/components/home-scroll-listener";
 const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1692,
   positions: [
-    { x: 399, y: 17   },  // eidolon      centered (846 - 894/2)
-    { x: 366, y: 1577 },  // buddy        819 + 638 + 120 — swapped after etrade
-    { x: 463, y: 819  },  // etrade       17 + 682 + 120  — swapped before buddy
-    { x: 478, y: 2476 },  // nightterrors 1577 + 779 + 120
+    { x: 366, y: 17   },  // buddy        first
+    { x: 399, y: 1674 },  // eidolon      916 + 638 + 120
+    { x: 463, y: 916  },  // etrade       17 + 779 + 120
+    { x: 478, y: 2476 },  // nightterrors 1674 + 682 + 120
     { x: 427, y: 3186 },  // iris-house   2476 + 590 + 120
     { x: 487, y: 3981 },  // fither       3186 + 675 + 120
     { x: 559, y: 4668 },  // jahn         3981 + 567 + 120
@@ -31,8 +31,8 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
 };
 
 const PROJECTS: GalleryProject[] = [
-  { slug: "eidolon",      title: "Eidolon",      pillTheme: "green",  cardVariant: "portrait",  typeTags: "AI Tool · Mobile · B2B · B2B2C",            description: "Created a visual AI agent to help users trust automation.",                                 year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", useVideoAsCover: true,                                                                      hoverVideo: "/eidolon/hero-alpha.webm",                     href: "/eidolon",      tags: ["80% clearer agent in motion", "58% more control with haptics", "2026"], tagsInline: true },
   { slug: "buddy",        title: "Buddy",        pillTheme: "purple", cardVariant: "portrait",  typeTags: "AI Hardware · IoT · B2B",                   description: "Created an LLM that captures group conversations as real-time images and diagrams.",      year: "2026", coverColor: "#ffffff", coverImageFit: "cover", coverObjectPosition: "50% 54%", coverImage: "/coverimages/buddy-frame-2.jpg", canvasCardW: 550, canvasImageH: 609, hoverVideo: "/buddy/sequence-04.mp4", href: "/buddy",        tags: ["64% intuitive on first use", "40% stopped taking notes", "2026"], tagsInline: true },
+  { slug: "eidolon",      title: "Eidolon",      pillTheme: "green",  cardVariant: "portrait",  typeTags: "AI Tool · Mobile · B2B · B2B2C",            description: "Created a visual AI agent to help users trust automation.",                                 year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", useVideoAsCover: true,                                                                      hoverVideo: "/eidolon/hero-alpha.webm",                     href: "/eidolon",      tags: ["80% clearer agent in motion", "58% more control with haptics", "2026"], tagsInline: true },
   { slug: "etrade",       title: "E*Trade",      pillTheme: "blue",   cardVariant: "landscape", typeTags: "Fintech · Web App · B2C",                   description: "Redesigned a financial trading platform to reduce cognitive load and speed up trades.",    year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverBlendMode: "multiply", coverImage: "/coverimages/etrade-frame.jpg", imageAreaClassName: "h-[260px] sm:h-[295px] lg:h-[330px]", canvasImageH: 455, canvasCardW: 580, hoverVideo: "/etrade/hero.mp4", href: "/etrade",       tags: ["83% found the layout faster", "67% felt mentally lighter", "2026"], tagsInline: true },
   { slug: "nightterrors", title: "N1ghtterrors", pillTheme: "black",  cardVariant: "standard",  typeTags: "Brand · E-commerce · D2C",                  description: "Designed and built a full-stack storefront capturing the brand identity of N1ghtterrors.", year: "2024", coverImage: "/coverimages/nightterrors.jpg", coverImageFit: "cover", useVideoAsCover: true, canvasImageH: 414, canvasCardW: 736, hoverVideo: "/nightterrors/n1ghtterrors%20demo.mp4", href: "/nightterrors", tags: ["Full-stack build", "50% inventory sold in week one", "2021"], tagsInline: true },
   { slug: "iris-house",   title: "Iris House",   pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", canvasImageH: 320, useVideoAsCover: true, autoplaying: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
