@@ -44,9 +44,9 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
               <Link
                 href={seg.href}
                 className={cn(
-                  "max-w-[30vw] truncate font-mono text-[11px] font-light leading-none tracking-[0.04em]",
+                  "font-mono text-[11px] font-light leading-none tracking-[0.04em]",
                   "text-zinc-400 transition-colors duration-150",
-                  "hover:text-zinc-700 active:text-zinc-700"
+                  "underline-offset-2 hover:underline hover:text-zinc-700 active:underline active:text-zinc-700"
                 )}
               >
                 {seg.label}
@@ -54,7 +54,7 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
             ) : (
               <span
                 aria-current={isLast ? "page" : undefined}
-                className="max-w-[40vw] truncate font-mono text-[11px] font-light leading-none tracking-[0.04em] text-zinc-400 hover:text-zinc-700 transition-colors duration-150"
+                className="font-mono text-[11px] font-light leading-none tracking-[0.04em] text-zinc-400 underline-offset-2 hover:underline hover:text-zinc-700 transition-colors duration-150"
               >
                 {seg.label}
               </span>
