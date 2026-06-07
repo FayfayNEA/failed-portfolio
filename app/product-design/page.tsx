@@ -104,7 +104,7 @@ export default function ProductDesignPage() {
       <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:pl-[95px] md:pr-12">
         <CaseBreadcrumb
           segments={[
-            { label: "work", href: "/work" },
+            { label: "work", href: "/#retro-computer" },
             { label: "product-design" },
           ]}
         />

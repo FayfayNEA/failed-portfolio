@@ -81,7 +81,7 @@ export default function Home() {
         >
           <CaseBreadcrumb
             segments={[
-              { label: "work", href: "/work" },
+              { label: "work", href: "/#retro-computer" },
               { label: "product-design" },
             ]}
           />

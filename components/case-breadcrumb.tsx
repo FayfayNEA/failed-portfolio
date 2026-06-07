@@ -15,7 +15,7 @@ export type BreadcrumbSegment = {
  * Usage:
  *   <CaseBreadcrumb segments={[
  *     { label: "home", href: "/" },
- *     { label: "work", href: "/work" },
+ *     { label: "work", href: "/#retro-computer" },
  *     { label: "product-design", href: "/product-design" },
  *     { label: "buddy" },         // current page, no href
  *   ]} />
@@ -72,7 +72,7 @@ export function buildProjectBreadcrumb(
   category?: string
 ): BreadcrumbSegment[] {
   const segments: BreadcrumbSegment[] = [
-    { label: "work", href: "/work" },
+    { label: "work", href: "/#retro-computer" },
   ];
   if (category) {
     // Product design lives on the home page as a scrollable section, not a standalone route.
