@@ -188,6 +188,14 @@ body::before {
   animation: liquid-glass-nav-shimmer 9.8s ease-in-out infinite;
 }
 
+/* ── Intro animation (home-intro.tsx) ────────────────────────────────────── */
+/* The inline <script> in app/page.tsx sets this attribute synchronously on
+   first visit, before React hydrates, so the curtain is visible from the very
+   first paint with no flash. */
+html[data-intro="pending"] [data-intro-curtain] {
+  opacity: 1 !important;
+}
+
 /* Why Failenn cards — Eidolon-style lime outline + glass */
 .why-card {
   background: rgba(255, 255, 255, 0.12);

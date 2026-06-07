@@ -3,6 +3,7 @@ import type { GalleryProject, GalleryInitialLayout } from "@/components/category
 import { BUDDY_VIDEO_ZOOM } from "@/lib/buddy-media";
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { DesignerBio } from "@/components/designer-bio";
+import { HomeIntro } from "@/components/home-intro";
 import { RetroComputerSection } from "@/components/retro-computer-section";
 import { ScrollBounceIn } from "@/components/scroll-bounce-in";
 import { HomeScrollListener } from "@/components/home-scroll-listener";
@@ -41,19 +42,30 @@ const PROJECTS: GalleryProject[] = [
 
 export default function Home() {
   return (
+    <>
+      {/*
+        Synchronously sets data-intro="pending" on <html> for first-time visitors
+        BEFORE React hydrates, so the CSS curtain rule fires on the very first paint
+        with no flash. Wrapped in try/catch for private-browsing sessionStorage errors.
+      */}
+      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
+      <script dangerouslySetInnerHTML={{ __html:
+        `try{if(!sessionStorage.getItem('intro-played')){document.documentElement.setAttribute('data-intro','pending')}}catch(e){}`
+      }} />
+      <HomeIntro />
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
       <HomeScrollListener />
       <DesignerBio />
 
       {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[3rem] md:pt-0">
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[3rem] md:pt-[3rem]">
         {/* Gradient masks */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[8rem]"
           style={{ background: "linear-gradient(to bottom, #e8e8e8 62%, transparent)" }}
         />
-        <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-12rem)]">
+        <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-5rem)]">
           <iframe
             src="/home/index.html"
             className="block h-full w-full border-0"
@@ -99,5 +111,6 @@ export default function Home() {
         </ScrollBounceIn>
       </section>
     </main>
+    </>
   );
 }

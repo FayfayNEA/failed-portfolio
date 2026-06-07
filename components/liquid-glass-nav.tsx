@@ -48,6 +48,19 @@ export function LiquidGlassNav() {
   const [workOpen, setWorkOpen] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(true);
 
+  // Delay nav entrance until the intro animation completes (first visit only).
+  // On returning visits (no data-intro attribute) navReady is set immediately.
+  const [navReady, setNavReady] = useState(false);
+  useEffect(() => {
+    if (!document.documentElement.hasAttribute("data-intro")) {
+      setNavReady(true);
+      return;
+    }
+    const handler = () => setNavReady(true);
+    window.addEventListener("intro-complete", handler, { once: true });
+    return () => window.removeEventListener("intro-complete", handler);
+  }, []);
+
   useEffect(() => {
     if (pathname !== "/") return;
     const scrollFromHash = () => {
@@ -106,9 +119,9 @@ export function LiquidGlassNav() {
     >
       <motion.div
         className="pointer-events-auto relative w-full max-w-[min(900px,96vw)]"
-        initial={reduced ? false : { opacity: 0, y: -18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
+        initial={{ opacity: 0, y: reduced ? 0 : -18 }}
+        animate={{ opacity: navReady ? 1 : 0, y: navReady ? 0 : (reduced ? 0 : -18) }}
+        transition={{ duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] }}
       >
         {/* ── Nav pill ─────────────────────────────────────────────────────── */}
 
@@ -132,7 +145,7 @@ export function LiquidGlassNav() {
               {/* Brand wordmark */}
               <Link href="/" aria-label="Home, Failenn Aselta" className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]">
                 <motion.span whileHover={reduced ? {} : { scale: 1.03, y: -1 }} whileTap={reduced ? {} : { scale: 0.96 }} transition={spring} className="block text-center">
-                  <span className={cn("block font-mono text-[9px] font-semibold tracking-[0.06em] sm:text-[10px] sm:tracking-[0.08em] md:text-[12px] md:tracking-[0.1em]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
+                  <span data-intro-name className={cn("block font-mono text-[9px] font-semibold tracking-[0.06em] sm:text-[10px] sm:tracking-[0.08em] md:text-[12px] md:tracking-[0.1em]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
                     failenn aselta
                   </span>
                   <span
