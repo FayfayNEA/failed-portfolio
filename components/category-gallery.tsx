@@ -582,7 +582,7 @@ function MobileCard({ project, priority, revealed, revealDelay }: {
 
       <div className="relative z-10 flex flex-1 flex-col gap-3 px-5 pt-[calc(1rem+7px)] pb-6 rounded-b-2xl overflow-hidden" style={CARD_META_GLASS}>
         {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
-        <p className={cn("font-mono text-[19px] font-semibold leading-snug tracking-tight transition-colors duration-200", hovered ? "text-zinc-950" : "text-zinc-600")}>{project.title}</p>
+        <p className={cn("font-mono text-[19px] font-semibold leading-snug tracking-tight transition-colors duration-200 mt-[10px]", hovered ? "text-zinc-950" : "text-zinc-600")}>{project.title}</p>
         <p className={cn("text-[14px] leading-relaxed transition-colors duration-200", hovered ? "text-zinc-800" : "text-zinc-400")}>{project.description}</p>
         {project.tags && <MetricPills tags={project.tags} />}
       </div>
@@ -936,7 +936,7 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, initialL
               >
                 <div className="flex flex-col gap-2 mt-[7px]">
                   {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
-                  <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200", isHov ? "text-zinc-950" : "text-zinc-600")}
+                  <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200 mt-[10px]", isHov ? "text-zinc-950" : "text-zinc-600")}
                     style={{ fontSize: Math.round(19 * sc) }}>
                     {project.title}
                   </p>
