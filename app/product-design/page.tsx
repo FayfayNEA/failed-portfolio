@@ -101,7 +101,7 @@ export default function ProductDesignPage() {
   return (
     <div className="flex flex-col">
       {/* Breadcrumb header */}
-      <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:pl-[88px] md:pr-12">
+      <div className="shrink-0 border-b border-zinc-200/50 px-8 py-3 md:pl-[93px] md:pr-12">
         <CaseBreadcrumb
           segments={[
             { label: "work", href: "/work" },
