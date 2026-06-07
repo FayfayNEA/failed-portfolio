@@ -59,6 +59,7 @@ export default async function EidolonPage() {
           </a>
         </div>
       }
+      hideCaseStudyLabel
       challengeSummary={CHALLENGE}
       meta={METADATA}
       sections={[

@@ -116,6 +116,8 @@ export type ManualProjectPageProps = {
   showGrain?: boolean;
   /** Buddy-style expandable challenge panel shown near the top. */
   challengeSummary?: string;
+  /** Hide the "Case Study" label in the sidebar (for projects that aren't case studies). */
+  hideCaseStudyLabel?: boolean;
   meta?: {
     timeline?: string;
     roles?: string[];
@@ -477,6 +479,7 @@ export function ManualProjectPage({
   descriptionClassName,
   descriptionPlacement = "above",
   challengeSummary,
+  hideCaseStudyLabel = false,
   meta,
   sections,
 }: ManualProjectPageProps) {
@@ -503,6 +506,7 @@ export function ManualProjectPage({
         sections={sidebarSections}
         breadcrumb={breadcrumb}
         hideRailAtMaxWidthPx={1000}
+        hideCaseStudyLabel={hideCaseStudyLabel}
       />
 
       <main

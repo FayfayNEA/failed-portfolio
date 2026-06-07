@@ -463,6 +463,7 @@ export default function BuddyPage() {
         sections={SECTIONS.filter((s) => !("hideFromNav" in s && s.hideFromNav))}
         breadcrumb={BUDDY_BREADCRUMB}
         hideRailAtMaxWidthPx={1000}
+        hideCaseStudyLabel
       />
 
       {/*

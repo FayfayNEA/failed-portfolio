@@ -36,6 +36,7 @@ export default function JahnPage() {
           </a>
         </div>
       }
+      hideCaseStudyLabel
       challengeSummary="Helmut Jahn's firm has a strong and iconic legacy, but their website barely shows the work."
       meta={{
         timeline: "2 Months",

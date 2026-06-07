@@ -106,6 +106,7 @@ export default function NightterrorsPage() {
           </a>
         </div>
       }
+      hideCaseStudyLabel
       challengeSummary="N1ghtterrors' unique and raw style needs a website that further speaks to the brand collective it has created."
       meta={{
         timeline: "3 years",

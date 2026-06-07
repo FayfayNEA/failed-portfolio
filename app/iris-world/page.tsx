@@ -21,6 +21,7 @@ export default function IrisWorldPage() {
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "video-carousel", videos: ["/iris-world/iris-walkthrough.mp4"], size: "wide", landscape: true }}
+      hideCaseStudyLabel
       challengeSummary="Build a fully explorable 3D home from Iris's perspective: nose-level camera, dog-physics, and a world that transforms when all her objectives are met."
       meta={{
         timeline: "2026",

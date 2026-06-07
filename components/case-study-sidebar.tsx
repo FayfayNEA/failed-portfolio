@@ -25,6 +25,8 @@ type CaseStudySidebarProps = {
    * Uses the site canvas background and sans hierarchy; rail matches other case chrome.
    */
   hideRailAtMaxWidthPx?: 1000;
+  /** Hide the "Case Study" label above the project name. */
+  hideCaseStudyLabel?: boolean;
 };
 
 export function CaseStudySidebar({
@@ -33,6 +35,7 @@ export function CaseStudySidebar({
   sections,
   breadcrumb,
   hideRailAtMaxWidthPx,
+  hideCaseStudyLabel = false,
 }: CaseStudySidebarProps) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
 
@@ -91,14 +94,16 @@ export function CaseStudySidebar({
         {studioRail ? (
           <>
             <div className="mb-8 shrink-0 border-b border-zinc-200/50 pb-6">
-              <p
-                className={cn(
-                  "mb-2 text-[clamp(0.5rem,0.95vw,0.65rem)] font-normal uppercase tracking-[0.16em]",
-                  STUDIO_MUTED
-                )}
-              >
-                Case Study
-              </p>
+              {!hideCaseStudyLabel && (
+                <p
+                  className={cn(
+                    "mb-2 text-[clamp(0.5rem,0.95vw,0.65rem)] font-normal uppercase tracking-[0.16em]",
+                    STUDIO_MUTED
+                  )}
+                >
+                  Case Study
+                </p>
+              )}
               <p
                 className={cn(
                   "break-words text-[clamp(1.35rem,2vw,1.75rem)] font-semibold leading-snug tracking-[-0.03em] text-zinc-950",
@@ -143,9 +148,11 @@ export function CaseStudySidebar({
         ) : (
           <>
             <div className="mb-8">
-              <p className="mb-1.5 font-mono text-[9px] font-normal uppercase tracking-[0.22em] text-zinc-400">
-                Case Study
-              </p>
+              {!hideCaseStudyLabel && (
+                <p className="mb-1.5 font-mono text-[9px] font-normal uppercase tracking-[0.22em] text-zinc-400">
+                  Case Study
+                </p>
+              )}
               <p
                 className={cn(
                   "font-mono text-[1.1rem] font-semibold leading-snug text-zinc-800",
