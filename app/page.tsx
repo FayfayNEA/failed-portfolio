@@ -47,7 +47,7 @@ export default function Home() {
       <DesignerBio />
 
       {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[3rem] md:pt-[3rem]">
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[28px] md:pt-[28px]">
         {/* Gradient masks */}
         <div
           aria-hidden
@@ -86,7 +86,7 @@ export default function Home() {
             ]}
           />
         </div>
-        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v113" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v114" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}
