@@ -42,17 +42,6 @@ const PROJECTS: GalleryProject[] = [
 
 export default function Home() {
   return (
-    <>
-      {/*
-        Synchronously sets data-intro="pending" on <html> for first-time visitors
-        BEFORE React hydrates, so the CSS curtain rule fires on the very first paint
-        with no flash. Wrapped in try/catch for private-browsing sessionStorage errors.
-      */}
-      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
-      <script dangerouslySetInnerHTML={{ __html:
-        `try{if(!sessionStorage.getItem('intro-played')){document.documentElement.setAttribute('data-intro','pending')}}catch(e){}`
-      }} />
-      <HomeIntro />
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
       <HomeScrollListener />
       <DesignerBio />
@@ -111,6 +100,5 @@ export default function Home() {
         </ScrollBounceIn>
       </section>
     </main>
-    </>
   );
 }

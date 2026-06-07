@@ -101,7 +101,7 @@ export function CaseStudySidebar({
               </p>
               <p
                 className={cn(
-                  "break-words text-[clamp(0.85rem,1.35vw,1.05rem)] font-semibold leading-snug tracking-[-0.02em] text-zinc-950",
+                  "break-words text-[clamp(1.35rem,2vw,1.75rem)] font-semibold leading-snug tracking-[-0.03em] text-zinc-950",
                   projectNameClassName
                 )}
               >
@@ -148,7 +148,7 @@ export function CaseStudySidebar({
               </p>
               <p
                 className={cn(
-                  "font-mono text-[0.8rem] font-semibold leading-snug text-zinc-800",
+                  "font-mono text-[1.1rem] font-semibold leading-snug text-zinc-800",
                   projectNameClassName
                 )}
               >

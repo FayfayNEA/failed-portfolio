@@ -28,6 +28,7 @@ export function DesignerBio() {
 
   return (
     <div
+      data-intro-bio
       className={cn(
         "fixed z-[40] hidden xl:block",
         "bottom-6 left-[6rem]",
@@ -41,13 +42,14 @@ export function DesignerBio() {
     >
       <p className="m-0 text-[11px] leading-[1.7] text-zinc-700">
         <span className="text-[17px] font-black text-zinc-900 leading-none">
-          Product Designer who codes.
+          Product Designer + Code.
         </span>
         <br />
-        Architecture background turned interface<br />
-        instinct, creating intuitive software<br />
-        with a programmatic approach and<br />
-        an exceptional command of AI tools.
+        Trained first in code, then in buildings,
+        then in the space between a person and a screen.
+        Each discipline was the same problem wearing a different material.
+        Now the material is AI.
+        0 →1. 1 designer who can solve any problem. {"<3"}
       </p>
     </div>
   );

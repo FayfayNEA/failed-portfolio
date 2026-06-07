@@ -48,19 +48,6 @@ export function LiquidGlassNav() {
   const [workOpen, setWorkOpen] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(true);
 
-  // Delay nav entrance until the intro animation completes (first visit only).
-  // On returning visits (no data-intro attribute) navReady is set immediately.
-  const [navReady, setNavReady] = useState(false);
-  useEffect(() => {
-    if (!document.documentElement.hasAttribute("data-intro")) {
-      setNavReady(true);
-      return;
-    }
-    const handler = () => setNavReady(true);
-    window.addEventListener("intro-complete", handler, { once: true });
-    return () => window.removeEventListener("intro-complete", handler);
-  }, []);
-
   useEffect(() => {
     if (pathname !== "/") return;
     const scrollFromHash = () => {
@@ -120,7 +107,7 @@ export function LiquidGlassNav() {
       <motion.div
         className="pointer-events-auto relative w-full max-w-[min(900px,96vw)]"
         initial={{ opacity: 0, y: reduced ? 0 : -18 }}
-        animate={{ opacity: navReady ? 1 : 0, y: navReady ? 0 : (reduced ? 0 : -18) }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] }}
       >
         {/* ── Nav pill ─────────────────────────────────────────────────────── */}
