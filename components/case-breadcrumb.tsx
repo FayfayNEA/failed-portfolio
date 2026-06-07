@@ -54,7 +54,7 @@ export function CaseBreadcrumb({ segments }: { segments: BreadcrumbSegment[] }) 
             ) : (
               <span
                 aria-current={isLast ? "page" : undefined}
-                className="max-w-[40vw] truncate font-mono text-[11px] font-light leading-none tracking-[0.04em] text-zinc-400"
+                className="max-w-[40vw] truncate font-mono text-[11px] font-light leading-none tracking-[0.04em] text-zinc-400 underline-offset-2 hover:underline"
               >
                 {seg.label}
               </span>
