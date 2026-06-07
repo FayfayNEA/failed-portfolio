@@ -504,7 +504,7 @@ export default function BuddyPage() {
           </div>
         </div>
 
-        {/* Figma prototype link */}
+        {/* Prototype + live demo links */}
         <div className="mb-10 flex flex-col items-center gap-3">
           <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Interactive Figma prototype
@@ -517,11 +517,14 @@ export default function BuddyPage() {
           >
             View Figma Prototype <span aria-hidden>↗</span>
           </a>
+          {/* TODO: replace href with your Vercel URL once deployed */}
           <a
-            href="mailto:failennaselta@gmail.com?subject=Buddy%20Live%20Demo%20Request&body=Hi%2C%20I%27d%20love%20to%20demo%20Buddy!"
-            className="inline-flex items-center gap-2 rounded-full bg-zinc-50/80 px-4 py-2 text-[0.85rem] font-medium text-zinc-600 ring-1 ring-zinc-200/60 transition-colors hover:bg-zinc-100/80"
+            href="https://buddy-demo.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-2.5 text-[0.85rem] font-semibold text-white shadow-[0_4px_16px_-4px_rgba(124,92,252,0.45)] transition-all hover:bg-violet-700 hover:shadow-[0_6px_20px_-4px_rgba(124,92,252,0.55)] hover:-translate-y-px"
           >
-            Live desktop version on request <span className="text-zinc-400 text-[0.75rem]">(API costs)</span> <span aria-hidden>✉</span>
+            Try Buddy live <span aria-hidden>↗</span>
           </a>
         </div>
 
