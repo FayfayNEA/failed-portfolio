@@ -77,7 +77,7 @@ export default function Home() {
       >
         <div
           id="product-design"
-          className="scroll-mt-[5.5rem] shrink-0 border-b border-zinc-200/50 px-8 py-3 md:scroll-mt-[6.5rem] md:pl-[58px] md:pr-12"
+          className="scroll-mt-[5.5rem] shrink-0 border-b border-zinc-200/50 px-8 py-3 md:scroll-mt-[6.5rem] md:pl-[78px] md:pr-12"
         >
           <CaseBreadcrumb
             segments={[
