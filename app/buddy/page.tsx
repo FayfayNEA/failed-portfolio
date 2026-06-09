@@ -519,7 +519,7 @@ export default function BuddyPage() {
             View Figma Prototype <span aria-hidden>↗</span>
           </a>
           <a
-            href="https://buddy-demo.vercel.app"
+            href="https://buddy-self.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-2.5 text-[0.85rem] font-semibold text-white shadow-[0_4px_16px_-4px_rgba(124,92,252,0.45)] transition-all hover:bg-violet-700 hover:shadow-[0_6px_20px_-4px_rgba(124,92,252,0.55)] hover:-translate-y-px"
