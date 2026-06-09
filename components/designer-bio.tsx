@@ -31,7 +31,7 @@ export function DesignerBio() {
       data-intro-bio
       className={cn(
         "fixed z-[40] hidden xl:block",
-        "bottom-6 left-[6rem]",
+        "top-[5rem] left-[6rem]",
         "font-mono max-w-[300px]",
         "cursor-default select-none",
         "transition-opacity duration-500",

@@ -598,7 +598,7 @@ export interface GalleryInitialLayout {
   sizesBySlug: Record<string, { w: number; h: number }>;
 }
 
-export function CategoryGallery({ projects, storageKey, cardMetaHeight, initialLayout }: { projects: GalleryProject[]; storageKey: string; cardMetaHeight?: number; initialLayout?: GalleryInitialLayout }) {
+export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFontScale, initialLayout }: { projects: GalleryProject[]; storageKey: string; cardMetaHeight?: number; cardFontScale?: number; initialLayout?: GalleryInitialLayout }) {
   const effMetaH = cardMetaHeight ?? CANVAS_META_H;
 
   // Below 800px → CSS-grid layout (no drag/resize, just visual handles on hover).
@@ -937,11 +937,11 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, initialL
                 <div className="flex flex-col gap-2 mt-[2px]">
                   {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
                   <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200 mt-[15px]", isHov ? "text-zinc-950" : "text-zinc-600")}
-                    style={{ fontSize: Math.round(19 * sc) }}>
+                    style={{ fontSize: Math.round(19 * sc * (cardFontScale ?? 1)) }}>
                     {project.title}
                   </p>
                   <p className={cn("leading-relaxed transition-colors duration-200", isHov ? "text-zinc-800" : "text-zinc-400")}
-                    style={{ fontSize: Math.round(14 * sc) }}>
+                    style={{ fontSize: Math.round(14 * sc * (cardFontScale ?? 1)) }}>
                     {project.description}
                   </p>
                 </div>

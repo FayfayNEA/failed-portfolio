@@ -99,6 +99,7 @@ export default function BrandingPage() {
         projects={projects}
         storageKey="gallery-branding-v5"
         cardMetaHeight={110}
+        cardFontScale={0.78}
         initialLayout={BRANDING_LAYOUT}
       />
     </div>
