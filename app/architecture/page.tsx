@@ -120,7 +120,7 @@ export default function ArchitecturePage() {
         projects={projects}
         storageKey="gallery-architecture-v6"
         cardMetaHeight={110}
-        cardFontScale={0.78}
+        cardFontScale={0.88}
         initialLayout={ARCHITECTURE_LAYOUT}
       />
     </div>
