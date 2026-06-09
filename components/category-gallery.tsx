@@ -936,7 +936,7 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
               >
                 <div className="flex flex-col gap-2 mt-[2px]">
                   {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
-                  <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200 mt-[15px]", isHov ? "text-zinc-950" : "text-zinc-600")}
+                  <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200", project.typeTags ? "mt-[15px]" : "mt-[4px]", isHov ? "text-zinc-950" : "text-zinc-600")}
                     style={{ fontSize: Math.round(19 * sc * (cardFontScale ?? 1)) }}>
                     {project.title}
                   </p>
