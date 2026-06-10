@@ -36,7 +36,7 @@ export function DesignerBio() {
         "cursor-default select-none",
         "transition-opacity duration-500",
         visible
-          ? "pointer-events-auto opacity-25 hover:opacity-90"
+          ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0",
       )}
     >
