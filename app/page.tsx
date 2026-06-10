@@ -7,11 +7,12 @@ import { HomeIntro } from "@/components/home-intro";
 import { RetroComputerSection } from "@/components/retro-computer-section";
 import { ScrollBounceIn } from "@/components/scroll-bounce-in";
 import { HomeScrollListener } from "@/components/home-scroll-listener";
+import { CollageScrollHint } from "@/components/collage-scroll-hint";
 
 const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1692,
   positions: [
-    { x: 366, y: 17   },  // buddy        first
+    { x: 366, y: -18  },  // buddy        first — slight peek below collage on desktop
     { x: 399, y: 1674 },  // eidolon      916 + 638 + 120
     { x: 463, y: 916  },  // etrade       17 + 779 + 120
     { x: 478, y: 2476 },  // nightterrors 1674 + 682 + 120
@@ -44,17 +45,18 @@ export default function Home() {
   return (
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
       <HomeScrollListener />
+      <CollageScrollHint />
       <DesignerBio />
 
       {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-[28px] md:pt-[28px]">
-        {/* Gradient masks */}
+      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-6 md:pt-[28px]">
+        {/* Gradient masks — minimal on mobile; scene now fills the iframe height */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[8rem]"
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-12 md:h-[8rem]"
           style={{ background: "linear-gradient(to bottom, #e8e8e8 62%, transparent)" }}
         />
-        <div className="h-[60dvh] -mb-[24dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:h-[calc(100dvh-5rem)]">
+        <div className="h-[58dvh] -mb-[20dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:-mb-[4rem] md:h-[calc(100dvh-5rem)]">
           <iframe
             src="/home/index.html"
             className="block h-full w-full border-0"
@@ -64,7 +66,7 @@ export default function Home() {
         </div>
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden h-8 md:block"
           style={{ background: "linear-gradient(to top, #e8e8e8 0%, transparent 100%)" }}
         />
       </div>
@@ -72,7 +74,7 @@ export default function Home() {
       {/* Product design gallery */}
       <section
         id="product-design-section"
-        className="mt-[3rem] flex flex-col sm:mt-[4rem] md:mt-0"
+        className="mt-0 flex flex-col sm:mt-8 md:mt-10"
         aria-label="Product Design work"
       >
         <div
@@ -86,7 +88,7 @@ export default function Home() {
             ]}
           />
         </div>
-        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v115" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v121" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}

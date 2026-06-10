@@ -29,6 +29,28 @@
   }
 }
 
+@keyframes collage-hint-arrow {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 0.85;
+  }
+}
+
+.collage-hint-arrow {
+  animation: collage-hint-arrow 1.15s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collage-hint-arrow {
+    animation: none;
+  }
+}
+
 /* ── Designer bio animations ─────────────────────────────────────────────── */
 @keyframes bio-credit-in {
   from { opacity: 0; transform: translateX(-8px); }

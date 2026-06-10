@@ -700,6 +700,17 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
     return () => io.disconnect();
   }, [isDesktop, projects]);
 
+  // Buddy peeks below the collage on desktop — reveal immediately, not on scroll
+  useEffect(() => {
+    if (!isDesktop || !ready) return;
+    setRevealedCards((prev) => {
+      if (prev.has(0)) return prev;
+      const next = new Set(prev);
+      next.add(0);
+      return next;
+    });
+  }, [isDesktop, ready]);
+
   // Desktop: bounce each card in when it scrolls into view
   useEffect(() => {
     if (!isDesktop || !ready) return;
@@ -846,7 +857,7 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
   // ── Mobile ────────────────────────────────────────────────────────────────
   if (!isDesktop) {
     return (
-      <div ref={mobileRef} className="relative z-[80] w-full px-4 py-6 sm:px-6">
+      <div ref={mobileRef} className="relative z-[80] w-full px-4 py-4 sm:px-6 sm:py-6">
         <div className="mx-auto grid max-w-[min(900px,96vw)] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
           {projects.map((project, i) => (
             <MobileCard key={project.slug} project={project} priority={i < 2}

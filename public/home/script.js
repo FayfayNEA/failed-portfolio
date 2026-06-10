@@ -3,8 +3,10 @@ const DESIGN_WIDTH = 1024;
 const DESIGN_HEIGHT = 580;
 const SCENE_Y_SHIFT_PERCENT = -54;
 const SCENE_SHIFT_UP_PX = 120;
-/** Mobile-only vertical nudge (px) to center the asset cluster */
-const MOBILE_SCENE_SHIFT_DOWN_PX = 78;
+/** Mobile-only vertical nudge (px) after height-fill scale */
+const MOBILE_SCENE_SHIFT_DOWN_PX = 65;
+/** Fill this much of the iframe height on mobile (default width-scale letterboxes) */
+const MOBILE_SCENE_HEIGHT_FILL = 0.52;
 /** Extra leftward shift (px) so the map isn’t clipped on the right */
 const SCENE_SHIFT_LEFT_EXTRA_PX = 20;
 /** Extra scale for hotspot width on mobile only (≤ MOBILE_BACKGROUND_MAX_WIDTH_PX) */
@@ -1923,8 +1925,11 @@ function refreshSceneScale() {
     }
   }
 
-  // 3. Your original, flawless math
-  const rawScale = Math.min(iw / DESIGN_WIDTH, ih / DESIGN_HEIGHT);
+  // 3. Scale — on mobile fill iframe height (width-only scale leaves a tiny floating island)
+  let rawScale = Math.min(iw / DESIGN_WIDTH, ih / DESIGN_HEIGHT);
+  if (isMobileViewportWidth(iw)) {
+    rawScale = (ih / DESIGN_HEIGHT) * MOBILE_SCENE_HEIGHT_FILL;
+  }
   const scale = Math.round(rawScale * 1e6) / 1e6;
 
   // Added a fallback to 1 to mathematically guarantee Infinity cannot occur
@@ -2012,5 +2017,9 @@ window.addEventListener("pageshow", () => requestAnimationFrame(refreshSceneScal
   requestAnimationFrame(pump);
 }
 
-
+// Parent page renders its own scroll hint when this map is embedded in an iframe.
+if (window.self !== window.top) {
+  const embedHint = document.querySelector(".map-explore-hint");
+  if (embedHint) embedHint.hidden = true;
+}
 

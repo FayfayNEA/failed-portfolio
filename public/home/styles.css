@@ -288,10 +288,10 @@ body {
   pointer-events: none;
 }
 
-/* `waterfall.png` on narrow viewports — smaller than desktop bg (~0.3 less scale) */
+/* `waterfall.png` on narrow viewports */
 .spatial-bg.spatial-bg--mobile {
-  transform: translate(70px, 88px) scale(0.87);
-  object-position: 50% 22%;
+  transform: translate(52px, 48px) scale(0.92);
+  object-position: 50% 38%;
 }
 
 
