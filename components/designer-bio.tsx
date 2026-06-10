@@ -49,7 +49,7 @@ export function DesignerBio() {
         then in the space between a person and a screen.
         Each discipline was the same problem wearing a different material.
         Now the material is AI.
-        0 →1. 1 designer who can solve any problem. {"<3"}
+        0 → 1. Designer who can solve any problem. {"<3"}
       </p>
     </div>
   );
