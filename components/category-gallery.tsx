@@ -36,7 +36,7 @@ export interface GalleryProject {
   imageAreaClassName?: string; // mobile grid only
   canvasImageH?: number;       // desktop canvas — overrides VARIANT_IMG_H
   canvasCardW?: number;        // desktop canvas — overrides BASE_CARD_W
-  pillTheme?: "green" | "purple" | "blue" | "gray" | "black" | "teal" | "orange";
+  pillTheme?: "green" | "purple" | "blue" | "gray" | "black" | "teal" | "orange" | "parchment";
   /** When true, the hoverVideo autoplays and loops continuously without needing hover. */
   autoplaying?: boolean;
   useVideoAsCover?: boolean;
@@ -489,13 +489,14 @@ function Handles({ onMouseDown, interactive = true }: { onMouseDown?: (e: React.
 
 // ─── Pills ────────────────────────────────────────────────────────────────────
 const PILL_THEMES: Record<string, string> = {
-  green:  "bg-lime-500/[0.09]   text-lime-700   ring-1 ring-lime-400/55",
-  purple: "bg-purple-500/[0.09] text-purple-700 ring-1 ring-purple-400/55",
-  blue:   "bg-blue-500/[0.09]   text-blue-700   ring-1 ring-blue-400/55",
-  gray:   "bg-zinc-400/[0.12]   text-zinc-500   ring-1 ring-zinc-400/50",
-  black:  "bg-zinc-900          text-white       ring-1 ring-zinc-700",
-  teal:   "bg-teal-500/[0.09]   text-teal-700   ring-1 ring-teal-400/55",
-  orange: "bg-orange-500/[0.09] text-orange-700 ring-1 ring-orange-400/55",
+  green:     "bg-lime-500/[0.09]   text-lime-700   ring-1 ring-lime-400/55",
+  purple:    "bg-purple-500/[0.09] text-purple-700 ring-1 ring-purple-400/55",
+  blue:      "bg-blue-500/[0.09]   text-blue-700   ring-1 ring-blue-400/55",
+  gray:      "bg-zinc-400/[0.12]   text-zinc-500   ring-1 ring-zinc-400/50",
+  black:     "bg-zinc-900          text-white       ring-1 ring-zinc-700",
+  teal:      "bg-teal-500/[0.09]   text-teal-700   ring-1 ring-teal-400/55",
+  orange:    "bg-orange-500/[0.09] text-orange-700 ring-1 ring-orange-400/55",
+  parchment: "bg-[#f1e6d2]         text-[#8a6642]  ring-1 ring-[#c9ad8a]/60",
 };
 
 function TypePills({ typeTags, pillTheme = "green" }: { typeTags: string; pillTheme?: string }) {

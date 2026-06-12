@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { LiquidGlassNav } from "@/components/liquid-glass-nav";
@@ -62,13 +63,26 @@ const SOCIAL_BUBBLES = [
  * Full-bleed routes: nav floats over content (no top padding).
  */
 function isFullBleed(pathname: string) {
-  return pathname === "/";
+  return pathname === "/" || pathname === "/teatimer" || pathname.startsWith("/work/fither");
+}
+
+function isLiveToolRoute(pathname: string) {
+  return pathname === "/teatimer" || pathname.startsWith("/work/fither");
 }
 
 export function NavShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const pathname  = usePathname();
   const fullBleed = isFullBleed(pathname);
-  const fitherBg = pathname.startsWith("/work/fither");
+  const fitherBg  = pathname.startsWith("/work/fither");
+  const liveTool  = isLiveToolRoute(pathname);
+
+  // Live tool routes are locked to the viewport and don't scroll, so release
+  // the reserved scrollbar gutter that would otherwise show a sliver of canvas.
+  useEffect(() => {
+    if (!liveTool) return;
+    document.documentElement.classList.add("no-scroll-gutter");
+    return () => document.documentElement.classList.remove("no-scroll-gutter");
+  }, [liveTool]);
 
   return (
     <>
@@ -79,8 +93,8 @@ export function NavShell({ children }: { children: React.ReactNode }) {
         <MobileHamburgerNav />
       </div>
 
-      {/* Floating social bubbles, bottom-left, desktop only */}
-      <div className="hidden md:flex fixed bottom-6 left-6 z-[90] flex-col gap-2.5">
+      {/* Floating social bubbles, bottom-left, desktop only — hidden on live tool pages */}
+      <div className={cn("hidden fixed bottom-6 left-6 z-[90] flex-col gap-2.5", !liveTool && "md:flex")}>
         {SOCIAL_BUBBLES.map(({ href, label, icon }, i) => (
           <motion.a
             key={href}
@@ -129,8 +143,10 @@ export function NavShell({ children }: { children: React.ReactNode }) {
           className={cn(
             "relative z-[1] flex min-h-full flex-1 flex-col",
             !fullBleed && "pt-[4rem] md:pt-[5rem]",
-            "pb-[calc(60px+env(safe-area-inset-bottom,0px))] md:pb-0",
-            fitherBg && "fither-page-canvas min-h-[100dvh]"
+            !liveTool && "pb-[calc(60px+env(safe-area-inset-bottom,0px))] md:pb-0",
+            liveTool && "h-[100dvh] overflow-hidden",
+            fitherBg && "fither-page-canvas",
+            pathname === "/teatimer" && "bg-[#faf5ee]"
           )}
         >
           {children}

@@ -43,10 +43,40 @@ function scrollToAnchor(id: string) {
 export function LiquidGlassNav() {
   const pathname = usePathname();
   const reduced = useReducedMotion();
-  const isDark = pathname.startsWith("/work/fither");
+  const isDark      = pathname.startsWith("/work/fither");
+  const isLiveTool  = pathname === "/teatimer" || pathname.startsWith("/work/fither");
 
   const [workOpen, setWorkOpen] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const scheduleCollapse = (delay: number) => {
+    if (collapseTimer.current) clearTimeout(collapseTimer.current);
+    collapseTimer.current = setTimeout(() => setIsCollapsed(true), delay);
+  };
+
+  useEffect(() => {
+    if (!isLiveTool) {
+      if (collapseTimer.current) clearTimeout(collapseTimer.current);
+      setIsCollapsed(false);
+      return;
+    }
+    setIsCollapsed(false);
+    scheduleCollapse(2400);
+    return () => {
+      if (collapseTimer.current) clearTimeout(collapseTimer.current);
+    };
+  }, [isLiveTool]);
+
+  /** On a live tool, clicking the shrunken pill re-opens the full menu for 4s. */
+  const handleBrandClick = (e: React.MouseEvent) => {
+    if (isLiveTool && isCollapsed) {
+      e.preventDefault();
+      setIsCollapsed(false);
+      scheduleCollapse(4000);
+    }
+  };
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -101,14 +131,21 @@ export function LiquidGlassNav() {
 
   return (
     <header
-      className="pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[100] flex justify-center px-3 md:top-[calc(env(safe-area-inset-top)+1.25rem)]"
+      className={cn(
+        "pointer-events-none fixed inset-x-0 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[100] flex px-3 md:top-[calc(env(safe-area-inset-top)+1.25rem)]",
+        isCollapsed ? "justify-start" : "justify-center"
+      )}
       aria-label="Site navigation"
     >
       <motion.div
-        className="pointer-events-auto relative w-full max-w-[min(900px,96vw)]"
+        layout
+        className={cn("pointer-events-auto relative", isCollapsed ? "" : "w-full max-w-[min(900px,96vw)]")}
         initial={{ opacity: 0, y: reduced ? 0 : -18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] }}
+        transition={{
+          layout:  { duration: reduced ? 0 : 0.5, ease: [0.23, 1, 0.32, 1] },
+          default: { duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] },
+        }}
       >
         {/* ── Nav pill ─────────────────────────────────────────────────────── */}
 
@@ -128,9 +165,9 @@ export function LiquidGlassNav() {
               <div className="liquid-glass-nav-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
 
-            <div className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-5 md:py-3">
+            <motion.div layout transition={{ layout: { duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] } }} className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-5 md:py-3">
               {/* Brand wordmark */}
-              <Link href="/" aria-label="Home, Failenn Aselta" className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]">
+              <Link href="/" onClick={handleBrandClick} aria-label="Home, Failenn Aselta" className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]">
                 <motion.span whileHover={reduced ? {} : { scale: 1.03, y: -1 }} whileTap={reduced ? {} : { scale: 0.96 }} transition={spring} className="block text-center">
                   <span data-intro-name className={cn("block font-mono text-[9px] font-semibold tracking-[0.06em] sm:text-[10px] sm:tracking-[0.08em] md:text-[12px] md:tracking-[0.1em]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
                     failenn aselta
@@ -149,6 +186,19 @@ export function LiquidGlassNav() {
                 </motion.span>
               </Link>
 
+              <AnimatePresence initial={false}>
+                {!isCollapsed && (
+                  <motion.div
+                    key="nav-section"
+                    className="flex min-w-0 flex-1 items-center overflow-hidden"
+                    initial={{ maxWidth: 0, opacity: 0 }}
+                    animate={{ maxWidth: 700, opacity: 1 }}
+                    exit={{ maxWidth: 0, opacity: 0 }}
+                    transition={{
+                      maxWidth: { duration: reduced ? 0 : 0.5, ease: [0.23, 1, 0.32, 1] },
+                      opacity:  { duration: reduced ? 0 : 0.3 },
+                    }}
+                  >
               {/* Divider */}
               <span className={cn("mx-2 h-4 w-px shrink-0 sm:mx-2.5 sm:h-5 md:mx-4", isDark ? "bg-gradient-to-b from-transparent via-white/20 to-transparent" : "bg-gradient-to-b from-transparent via-black/[0.08] to-transparent")} aria-hidden />
 
@@ -262,7 +312,10 @@ export function LiquidGlassNav() {
                   );
                 })}
               </nav>
-            </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           </div>
         </div>
 

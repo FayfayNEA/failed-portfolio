@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -15,29 +14,11 @@ export function FitherClient() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="fither-page-canvas relative -mt-[4rem] flex min-h-[100dvh] flex-col pt-[4rem] md:-mt-[5rem] md:pt-[5rem]">
-      {/* Breadcrumb */}
-      <div className="shrink-0 px-6 pt-2 pb-1 md:px-10">
-        <nav className="flex items-center gap-1 font-mono text-[11px] font-light tracking-[0.04em] text-black">
-          <Link href="/" className="hover:underline underline-offset-2">home</Link>
-          <span className="opacity-40">/</span>
-          <Link href="/work" className="hover:underline underline-offset-2">work</Link>
-          <span className="opacity-40">/</span>
-          <Link href="/#product-design" className="hover:underline underline-offset-2">product-design</Link>
-          <span className="opacity-40">/</span>
-          <span>fither</span>
-        </nav>
-      </div>
-
-      {/* Live Tool label */}
-      <div className="shrink-0 px-6 pb-2 md:px-10">
-        <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Live Tool</p>
-      </div>
-
-      {/* Embed */}
+    <div className="relative min-h-[100dvh]">
+      {/* iframe fills the entire background */}
       <iframe
         src="/fither/index.html"
-        className="min-h-0 w-full flex-1 border-0"
+        className="absolute inset-0 h-full w-full border-0"
         title="Fither"
       />
 

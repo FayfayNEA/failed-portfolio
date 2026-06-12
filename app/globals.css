@@ -93,6 +93,13 @@ html {
   overscroll-behavior-y: none;
 }
 
+/* Full-bleed live tool routes don't scroll, so drop the reserved scrollbar
+   gutter that would otherwise show a sliver of the portfolio canvas. */
+html.no-scroll-gutter {
+  scrollbar-gutter: auto;
+  overflow: hidden;
+}
+
 /* ── Touch / iOS ─────────────────────────────────────────────────────────── */
 /* Remove 300ms tap delay and the blue flash on iOS */
 a, button, [role="button"], [role="slider"], input, select, textarea, label {
