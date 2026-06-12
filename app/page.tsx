@@ -16,8 +16,8 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     { x: 399, y: 1674 },  // eidolon
     { x: 463, y: 916  },  // etrade
     { x: 478, y: 2476 },  // nightterrors
-    { x: 428, y: 3191 },  // teatimer
-    { x: 487, y: 3873 },  // fither
+    { x: 524, y: 3193 },  // teatimer
+    { x: 461, y: 3848 },  // fither
     { x: 427, y: 4560 },  // iris-house
     { x: 559, y: 5355 },  // jahn
   ],
@@ -26,8 +26,8 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     eidolon:      { w: 894, h: 682 },
     etrade:       { w: 766, h: 638 },
     nightterrors: { w: 736, h: 590 },
-    teatimer:     { w: 835, h: 567 },
-    fither:       { w: 718, h: 567 },
+    teatimer:     { w: 648, h: 563 },
+    fither:       { w: 776, h: 627 },
     "iris-house": { w: 838, h: 675 },
     jahn:         { w: 575, h: 487 },
   },
@@ -38,7 +38,7 @@ const PROJECTS: GalleryProject[] = [
   { slug: "eidolon",      title: "Eidolon",      pillTheme: "green",  cardVariant: "portrait",  typeTags: "AI Tool · Mobile · B2B · B2B2C",            description: "Created a visual AI agent to help users trust automation.",                                 year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", useVideoAsCover: true,                                                                      hoverVideo: "/eidolon/hero-alpha.webm",                     href: "/eidolon",      tags: ["80% clearer agent in motion", "58% more control with haptics", "2026"], tagsInline: true },
   { slug: "etrade",       title: "E*Trade",      pillTheme: "blue",   cardVariant: "landscape", typeTags: "Fintech · Web App · B2C",                   description: "Redesigned a financial trading platform to reduce cognitive load and speed up trades.",    year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverBlendMode: "multiply", coverImage: "/coverimages/etrade-frame.jpg", imageAreaClassName: "h-[260px] sm:h-[295px] lg:h-[330px]", canvasImageH: 455, canvasCardW: 580, hoverVideo: "/etrade/hero.mp4", href: "/etrade",       tags: ["83% found the layout faster", "67% felt mentally lighter", "2026"], tagsInline: true },
   { slug: "nightterrors", title: "N1ghtterrors", pillTheme: "black",  cardVariant: "standard",  typeTags: "Brand · E-commerce · D2C",                  description: "Designed and built a full-stack storefront capturing the brand identity of N1ghtterrors.", year: "2024", coverImage: "/coverimages/nightterrors.jpg", coverImageFit: "cover", useVideoAsCover: true, canvasImageH: 414, canvasCardW: 736, hoverVideo: "/nightterrors/n1ghtterrors%20demo.mp4", href: "/nightterrors", tags: ["Full-stack build", "50% inventory sold in week one", "2021"], tagsInline: true },
-  { slug: "teatimer",     title: "TeaTimer",     pillTheme: "parchment", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "A vintage botanical focus-session timer with mood companions and collectible sticker rewards.", year: "2026", coverColor: "#f1e6d2", coverImageFit: "cover", canvasImageH: 281, href: "/teatimer", tags: ["Vite + React", "Framer Motion", "2026"], tagsInline: true },
+  { slug: "teatimer",     title: "TeaTimer",     pillTheme: "parchment", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "A vintage botanical focus-session timer with mood companions and collectible sticker rewards.", year: "2026", coverColor: "#f1e6d2", coverImageFit: "contain", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/teatimer/tea-timer.mp4", href: "/teatimer", tags: ["Vite + React", "Framer Motion", "2026"], tagsInline: true },
   { slug: "fither",       title: "Fither",       pillTheme: "gray",   cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",             description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#ffffff", coverImageFit: "cover", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4", href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true },
   { slug: "iris-house",   title: "Iris House",   pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", canvasImageH: 320, useVideoAsCover: true, autoplaying: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
   { slug: "jahn",         title: "JAHN",         pillTheme: "teal",   cardVariant: "standard",  typeTags: "Architecture · Visualization · B2B",        description: "Designed a portfolio faithful to Helmut Jahn's design language.",                         year: "2023", coverColor: "#000000", coverImage: "/coverimages/jahn.jpg", coverImageFit: "cover", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/jahn/jahn.mp4", href: "/jahn",         tags: ["Commissioned build", "Live site", "2023"], tagsInline: true },
