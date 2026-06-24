@@ -845,7 +845,7 @@ export default function ContactClient() {
 
           {/* Mobile about layout */}
           <div className="w-full max-w-[520px] md:hidden">
-            <div className="relative mx-auto mb-6 flex w-[72%] translate-y-[30px] justify-center overflow-hidden rounded-[2px] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
+            <div className="relative mx-auto mb-14 flex w-[72%] translate-y-[30px] justify-center overflow-hidden rounded-[2px] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.14)] ring-1 ring-black/[0.06]">
               <Image
                 src={PORTRAIT_SRC}
                 alt="Faílenn Aselta"
