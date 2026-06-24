@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { TargetAndTransition, Transition } from "framer-motion";
 
 const ITERATIONS = [
   {
@@ -251,7 +252,7 @@ export function BuddyResetCard() {
 /* ── AI Indicator card — iteration viewer ── */
 type IndicatorState = { label: string; color: string; anim?: "pulse" | "spin" };
 
-const RING_BY_ANIM: Record<string, { animate: object; transition: object }> = {
+const RING_BY_ANIM: Record<string, { animate: TargetAndTransition; transition: Transition }> = {
   pulse: { animate: { scale: [1, 1.8, 1], opacity: [0.6, 0, 0.6] }, transition: { duration: 1.4, repeat: Infinity, ease: "easeOut" } },
   spin: { animate: { rotate: 360 }, transition: { duration: 1.1, repeat: Infinity, ease: "linear" } },
 };
