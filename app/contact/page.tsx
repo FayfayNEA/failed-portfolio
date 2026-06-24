@@ -2,7 +2,6 @@
 import { ContactGate } from "./ContactGate";
 
 export const metadata: Metadata = {
-  title: "Contact",
   description: "Get in touch, email, resume, and social links.",
 };
 

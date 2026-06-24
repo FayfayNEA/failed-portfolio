@@ -37,7 +37,7 @@ const WORK_PAGE_HREF = `${SITE_PATH_PREFIX}/#product-design`;
 const renderedPersistentLabels = new Set();
 
 const portfolioAssets = [
-  { name: "Jaguar", filename: "panther reflection.png", link: "about", hoverLabel: "About" },
+  { name: "Jaguar", filename: "panther reflection.png", href: `${SITE_PATH_PREFIX}/contact?panel=1`, hoverLabel: "About" },
   { name: "Rocks_Foliage", filename: "glowing tablet.png", noLink: true },
   {
     name: "Concrete_Block",

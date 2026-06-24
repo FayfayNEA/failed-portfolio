@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Rosario } from "next/font/google";
+import { BuddyHeroVideo } from "@/components/buddy-hero-video";
 import { CaseChallengeDisclosure } from "@/components/case-challenge-disclosure";
 import { buildProjectBreadcrumb } from "@/components/case-breadcrumb";
 import { BUDDY_VIDEO_ZOOM } from "@/lib/buddy-media";
@@ -10,6 +11,8 @@ import { PersonaCards } from "@/components/persona-cards";
 import { ProjectSurface } from "@/components/project-surface";
 import { cn } from "@/lib/cn";
 import { CategoryProjectsFooter } from "@/components/category-projects-footer";
+import { BuddyButtonIterations, BuddyResetCard, BuddyAIIndicatorCard, BuddyStartingBgCard } from "@/components/buddy-button-iterations";
+import { BuddyComparisonDiagram } from "@/components/buddy-comparison-diagram";
 
 const BUDDY_BREADCRUMB = buildProjectBreadcrumb("buddy", "product-design");
 
@@ -22,7 +25,6 @@ const rosario = Rosario({
 });
 
 export const metadata: Metadata = {
-  title: "Buddy",
   description:
     "Failenn Aselta, Buddy, a handheld LLM stenographer for group communication.",
 };
@@ -31,6 +33,7 @@ const SECTIONS = [
   { id: "project-overview", label: "PROJECT OVERVIEW" },
   { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "the-research", label: "THE RESEARCH" },
+  { id: "why", label: "DESIGN DECISIONS" },
   { id: "the-solution", label: "IDEATION" },
   { id: "user-testing", label: "USER TESTING" },
   { id: "engineering", label: "ENGINEERING" },
@@ -38,7 +41,6 @@ const SECTIONS = [
   { id: "final-product", label: "FINAL PRODUCT" },
   { id: "impact", label: "IMPACT" },
   { id: "what-i-learned", label: "WHAT I LEARNED" },
-  { id: "considerations", label: "CONSIDERATIONS", hideFromNav: true as const },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
 
@@ -80,8 +82,8 @@ const BUDDY_RESEARCH_LENS_SRC =
     "Why Teams Struggle to Design and Invest Together - visual selection (1) 1.png"
   );
 
-/** Process clips section, watercolour frame behind iteration videos. */
-const BUDDY_PROCESS_CLIPS_BG = "/buddy/process-clips-bg.png";
+/** Process clips section, desert-dune frame behind iteration videos. */
+const BUDDY_PROCESS_CLIPS_BG = "/buddybackground.jpg";
 
 /** Thumbnail chrome for System Creation diagram lightboxes. */
 const BUDDY_SYSTEM_DIAGRAM_IMG_CLASS =
@@ -94,7 +96,7 @@ const BUDDY_SYSTEM_DIAGRAM_LIGHTBOX_WRAP = cn("overflow-hidden !rounded-2xl");
  * so corners stay visibly filleted with `object-contain`.
  */
 const EARLY_DRAWING_FILLET =
-  "!rounded-[2.5rem] md:!rounded-[3.25rem] overflow-hidden";
+  "!rounded-2xl overflow-hidden";
 
 const EARLY_DRAWING_IMG_CLASS = cn(
   "block h-auto w-full shadow-[0_2px_20px_-4px_rgba(0,0,0,0.08)] ring-1 ring-black/[0.04] mx-auto max-h-[min(64vw,440px)] max-w-[440px] object-contain md:max-h-[400px] md:max-w-none",
@@ -175,7 +177,6 @@ const METADATA_ROWS = [
     value: "Full Stack Engineer\nProduct Designer\nHardware Engineer\nIndustrial Designer",
   },
   { label: "Budget", value: "$300" },
-  { label: "Team", value: "Failenn Aselta" },
   {
     label: "Tools",
     value: "Figma · Cursor · Gemini\nRaspberry Pi · React\nFastAPI · Linux",
@@ -218,15 +219,15 @@ const ENGINEERING_DECISIONS = [
 const KEY_LEARNINGS = [
   {
     heading: "LLM Persona",
-    body: "Had to clearly define the LLM's persona, ultimately assigning it the role of a Visual Assistant for the cleanest outputs.",
+    body: "Clearly defining the LLM's persona as Visual Assistant produced the cleanest outputs.",
   },
   {
     heading: "Image Generation",
-    body: "A major technical hurdle was training the model to generate proper images without relying on explicit keywords.",
+    body: "Training the model to generate proper images without explicit keywords was the major technical hurdle.",
   },
   {
     heading: "Session Export",
-    body: "Engineered a session-commit function that dynamically zips all generated assets and transcripts into a universal PDF. Transformed a transient AI conversation into a professional leave-behind artifact.",
+    body: "Engineered a session-commit function that zips all assets and transcripts into a universal PDF, turning a transient AI conversation into a professional leave-behind.",
   },
 ];
 
@@ -234,17 +235,17 @@ const REFLECTIONS = [
   {
     n: "1",
     title: "AI latency is a trust problem, not a speed problem",
-    body: "Budget is the most important constraint in any project. Things you want often have to be sacrificed just to get the product to market—and to earn enough to fund the next version.",
+    body: "Budget is the most important constraint. Things get sacrificed just to ship, and to earn enough to fund the next version.",
   },
   {
     n: "2",
     title: "Hardware constraints force architectural clarity",
-    body: "Scalability should be thought about earlier. It was fun to get hardware running and learn shell scripting, but building an individual handheld for everyone at this size and scale is too expensive.",
+    body: "Scalability needs earlier consideration. Getting hardware running was fun, but a dedicated handheld per person is too expensive at scale.",
   },
   {
     n: "3",
     title: "The form factor is part of the argument",
-    body: "Complex problems often have simple solutions. It is easy to get caught up in complexity and overdesign—in the words of Mies, less is often more.",
+    body: "Complex problems often have simple solutions. It's easy to overdesign. In the words of Mies, less is more.",
   },
 ];
 
@@ -260,7 +261,7 @@ const USER_TESTING = [
     pillar: "Layout & Form Factor",
     interventions: ["Familiar UI", "Hardware Shell", "Iteration Dial"],
     impact:
-      "said the layout was easy to understand but felt extreme as hardware for such a simple concept—mobile or desktop could reduce cost and intimidation.",
+      "said the layout was easy to understand but felt extreme as hardware for such a simple concept. Mobile or desktop could reduce cost and intimidation.",
     nextLead: "Mobile or desktop form factor.",
     nextBody:
       "Bring the same layout to phone or desktop software to save costs and right-size the concept away from dedicated hardware.",
@@ -271,14 +272,14 @@ const USER_TESTING = [
     insight:
       "Said it allowed them to focus on the conversation better but now worried if it was generating correctly.",
     action: "How can we monitor the images without having to backtrack?",
-    nextTag: "→ Next: live generation monitor surfaced in session",
+    nextTag: "→ Next: Add live text generation in the future for better monitoring of speech.",
     pillar: "Ambient Capture",
     interventions: ["Passive Listening", "Whisper API", "Live Generation HUD"],
     impact:
-      "said it let them focus on the conversation but worried whether output was generating correctly—monitoring images without backtracking is the next UX pass.",
-    nextLead: "Live generation monitor.",
+      "said it let them focus on the conversation but worried whether output was generating correctly. Monitoring images without backtracking is the next UX pass.",
+    nextLead: "Live text generation.",
     nextBody:
-      "Surface diagram and image status in session so users trust output without leaving the conversation to verify.",
+      "Add live text generation in the future so users can monitor speech as it is captured without leaving the conversation.",
   },
   {
     n: "03",
@@ -290,24 +291,24 @@ const USER_TESTING = [
     pillar: "Visual Alignment",
     interventions: ["Diagram Mode", "fal.ai Images", "Shared Display"],
     impact:
-      "said it reduced miscommunication because both parties saw the same artifact—a larger screen could raise alignment further.",
+      "said it reduced miscommunication because both parties saw the same artifact. A larger screen could raise alignment further.",
     nextLead: "Larger shared display.",
     nextBody:
       "Test screen size and placement so both people can read generated visuals without squinting or crowding the device.",
   },
   {
     n: "04",
-    stat: "32%",
-    insight: "Of the time, PDF generation worked perfectly—but it often cut off words.",
-    action: "How do we test the backend more thoroughly?",
-    nextTag: "→ Next: automated export QA before every release",
+    stat: "73%",
+    insight: "Liked the less extreme colors and the small, subtle movements of elements on the page.",
+    action: "How do we keep focus without the motion becoming distracting?",
+    nextTag: "→ Next: Keep the subtle motion and colors to allow for best focus.",
     pillar: "Session Export",
     interventions: ["PDF Export", "Mermaid.js", "FastAPI Backend"],
     impact:
-      "of the time, PDF generation worked perfectly but often cut off words—backend layout QA and export tests need to run before every release.",
-    nextLead: "PDF export QA.",
+      "said they preferred the calmer colors and small element movements. Subtle motion and gentle color keep focus where it matters.",
+    nextLead: "Subtle motion and color.",
     nextBody:
-      "Add automated export tests and layout checks so truncated words and broken pages are caught before users download.",
+      "Keep gentle color and small, purposeful movement so the interface holds focus instead of pulling attention away.",
   },
 ] as const;
 
@@ -386,8 +387,8 @@ const OVERVIEW_SUBLABEL =
 
 function buddyStatCard(hi: boolean) {
   return hi
-    ? "rounded-2xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35"
-    : "rounded-2xl border border-white/55 bg-white/[0.14] p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125";
+    ? "rounded-xl bg-violet-500/[0.08] p-5 ring-1 ring-violet-300/35"
+    : "rounded-xl border border-white/55 bg-white/[0.14] p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125";
 }
 
 function Divider() {
@@ -489,47 +490,27 @@ export default function BuddyPage() {
           {BUDDY_DESCRIPTION}
         </p>
 
-        {/* Hero video — same contain + scale as cover image / gallery card still */}
-        <div className="mb-14 flex w-full justify-center">
-          <div className="aspect-video w-full max-w-[min(1280px,calc(100vw-1.5rem))] overflow-hidden rounded-2xl bg-white shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]">
-            <video
-              controls
-              playsInline
-              preload="none"
-              poster="/coverimages/buddy.png"
-              className="h-full w-full object-cover object-center"
-              src="/buddy/sequence-04.mp4"
-            >
-              Your browser does not support video playback.
-            </video>
-          </div>
-        </div>
+        {/* Hero video — software demo first, hardware clip on toggle */}
+        <BuddyHeroVideo
+          softwareSrc="/buddy/buddydemo-full.mp4"
+          hardwareSrc="/buddy/sequence-04.mp4"
+          poster="/buddy/buddydemo-full-poster.jpg"
+        />
 
-        {/* Prototype + live demo links */}
-        <div className="mb-10 flex flex-col items-center gap-3">
-          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-            Interactive Figma prototype
-          </p>
+        {/* Figma prototype pill — above the metadata grid */}
+        <div className="-mt-7 mb-6 flex justify-center">
           <a
             href="https://www.figma.com/proto/1qfQiHq6t99qW3v0J1Iwz6/buddy?node-id=11-113&p=f&t=kcxrkomqe2ZNeUk3-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A100&show-proto-sidebar=1"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-violet-50/80 px-4 py-2 text-[0.85rem] font-medium text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
+            className="inline-flex items-center justify-center rounded-full bg-violet-50/80 px-5 py-2 text-[0.75rem] font-medium text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
           >
-            View Figma Prototype <span aria-hidden>↗</span>
-          </a>
-          <a
-            href="https://buddy-self.vercel.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-violet-600 px-5 py-2.5 text-[0.85rem] font-semibold text-white shadow-[0_4px_16px_-4px_rgba(124,92,252,0.45)] transition-all hover:bg-violet-700 hover:shadow-[0_6px_20px_-4px_rgba(124,92,252,0.55)] hover:-translate-y-px"
-          >
-            Click for live demo! <span aria-hidden>↗</span>
+            View Figma Prototype
           </a>
         </div>
 
         {/* Metadata grid, Timeline, Role, Budget, Team, Tools */}
-        <div className="mb-14 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10">
+        <div className="mb-10 grid grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-10">
           {METADATA_ROWS.map(({ label, value }) => (
             <div key={label}>
               <p className="mb-2 font-sans text-[10px] font-normal uppercase tracking-[0.16em] text-[#A0A0A0]">
@@ -542,19 +523,42 @@ export default function BuddyPage() {
           ))}
         </div>
 
+        {/* Live demo */}
+        <div className="mb-14 flex flex-col items-start gap-3">
+          <a
+            href="https://buddy-self.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex w-full items-center justify-between gap-4 rounded-2xl bg-violet-500/[0.08] px-6 py-5 ring-1 ring-violet-300/40 transition-colors hover:bg-violet-500/[0.12]"
+          >
+            <div className="flex flex-col items-start gap-1">
+              <p className="text-[1.05rem] font-semibold text-violet-700">Demo Buddy!</p>
+              <p className="text-[0.72rem] text-violet-500/60">buddy-self.vercel.app</p>
+            </div>
+            <span
+              aria-hidden
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-500/10 text-[0.95rem] text-violet-700 ring-1 ring-violet-300/50 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            >
+              ↗
+            </span>
+          </a>
+        </div>
+
         <Divider />
 
         {/* PROJECT OVERVIEW */}
         <section id="project-overview" className="scroll-mt-24">
           <SectionLabel>Project Overview</SectionLabel>
           <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-            Design a handheld device that generates real-time visuals of conversation.
+            What if designers didn&apos;t need to spend time creating mockups to understand each other?
           </h2>
-          <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-            Buddy resolves the disconnect of group work by acting as an intermediary that captures conversations in real time through LLM-powered image generation. Built with rapid prototyping, electronics, and full-stack software development, it preserves discussions as a visual history and saves valuable concepts from being lost to misarticulation.
+          <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
+            So I designed a handheld device that generates real-time visuals of conversation.
           </p>
 
-          <p className={OVERVIEW_SUBLABEL}>The Problems</p>
+          <BuddyComparisonDiagram />
+
+          <p className={OVERVIEW_SUBLABEL}>Why it matters</p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { n: "01", stat: "40%",  problem: "Lost Spoken Insights",   bibRef: "#bib-brubaker", cite: "(MIT, 2022)",         hi: false },
@@ -590,76 +594,21 @@ export default function BuddyPage() {
             ))}
           </div>
 
-          <p className={OVERVIEW_SUBLABEL}>Our Goals</p>
+          <p className={OVERVIEW_SUBLABEL}>Impact</p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { n: "01", stat: "2s",   goal: "Real-time Capture",    bibRef: "https://github.com/ggerganov/whisper.cpp", cite: "(Whisper.cpp)",       hi: true  },
-              {
-                n: "02",
-                stat: "35%",
-                goal: "Faster Mockups",
-                bibRef: "#bib-forrester",
-                cite: "(Forrester TEI, 2024)",
-                hi: false,
-              },
-              {
-                n: "03",
-                stat: "56%",
-                goal: "More Time Saved in Meetings",
-                bibRef: "#bib-fellow",
-                cite: "(Fellow, 2024)",
-                hi: false,
-              },
-              {
-                n: "04",
-                stat: "$3.5M",
-                goal: "Equivalent Money Saved in Meetings",
-                bibRef: "#bib-grammarly",
-                cite: "(Grammarly / Harris Poll, 2023)",
-                hi: false,
-              },
-            ].map(({ n, stat, goal, bibRef, cite, hi }) => (
+              { n: "01", stat: "64%", goal: "found the layout intuitive on first use", hi: true },
+              { n: "02", stat: "40%", goal: "stopped taking notes once capture was running", hi: false },
+              { n: "03", stat: "30%", goal: "said visuals aligned the room faster than talk", hi: false },
+              { n: "04", stat: "73%", goal: "liked the calmer colors and subtle motion for focus", hi: false },
+            ].map(({ n, stat, goal, hi }) => (
               <div key={n} className={`${buddyStatCard(hi)} flex flex-col`}>
                 <p className={`mb-1 font-mono text-[9px] uppercase tracking-[0.2em] ${hi ? "text-violet-600/70" : "text-zinc-400"}`}>{n}</p>
                 <p className={`mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] ${hi ? "text-violet-600" : "text-zinc-700"}`}>{stat}</p>
-                <p className={`mb-3 text-[0.88rem] font-medium leading-snug ${hi ? "text-violet-950" : "text-zinc-800"}`}>{goal}</p>
-                <a
-                  href={bibRef}
-                  target={bibRef.startsWith("http") ? "_blank" : undefined}
-                  rel={bibRef.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className={`mt-auto shrink-0 font-mono text-[9px] font-medium tracking-[0.12em] underline underline-offset-2 transition-colors ${hi ? "text-violet-700/85 hover:text-violet-900" : "text-zinc-400/80 hover:text-zinc-600"}`}
-                >
-                  {cite}
-                </a>
+                <p className={`text-[0.88rem] font-medium leading-snug ${hi ? "text-violet-950" : "text-zinc-800"}`}>{goal}</p>
               </div>
             ))}
           </div>
-
-          <div className="relative mb-10 mt-10 flex min-h-[min(42vh,420px)] w-full flex-col overflow-hidden rounded-2xl border-[0.5px] border-white/70 shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35 md:mt-14 md:min-h-[min(46vh,480px)]">
-            <div
-              className="pointer-events-none absolute inset-0 bg-white/50 backdrop-blur-xl"
-              aria-hidden
-            />
-            <div className="relative z-[1] flex min-h-0 flex-1 flex-row gap-1 px-4 py-6 md:gap-2 md:px-10 md:py-8 lg:px-12 lg:py-10">
-              <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center md:justify-end">
-                <img
-                  src={BUDDY_RESEARCH_TREE_SRC}
-                  alt="Illustration: ineffective team collaboration"
-                  className="max-h-[min(40vh,440px)] w-full max-w-full object-contain md:max-h-[min(44vh,500px)]"
-                />
-              </div>
-              <div className="flex min-h-0 min-w-0 flex-1 items-center justify-center md:justify-start">
-                <img
-                  src={BUDDY_RESEARCH_LENS_SRC}
-                  alt="Diagram: aligning inputs through a shared focal point"
-                  className="max-h-[min(40vh,440px)] w-full max-w-full object-contain md:max-h-[min(44vh,500px)]"
-                />
-              </div>
-            </div>
-          </div>
-          <p className="-mt-4 mb-2 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-            Diagrams made with Napkin.ai and Figma
-          </p>
         </section>
 
         <Divider />
@@ -668,7 +617,7 @@ export default function BuddyPage() {
         <section id="the-challenge" className="scroll-mt-24">
           <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
           <p className="mt-5 max-w-[min(56rem,100%)] text-[1.05rem] font-normal leading-[1.55] text-zinc-800">
-            We could create a tool which generates visual interpretations of conversation to allows users to surface cultural bias and reach shared understanding faster than words alone.
+            We could create a tool that generates visual interpretations of conversation, helping users surface cultural bias and reach shared understanding faster than words alone.
           </p>
         </section>
 
@@ -680,8 +629,8 @@ export default function BuddyPage() {
           
 
           <h2 className="mb-6 w-full max-w-none text-pretty text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
-            <span className="tabular-nums text-violet-600">7.5 hrs</span>
-            {"\u00a0per week lost to miscommunication in knowledge work."}
+            <span className="tabular-nums text-violet-600">73%</span> of users say they
+            liked the less extreme colors and small movements of the elements on the page.
           </h2>
 
           <PersonaCards
@@ -691,11 +640,10 @@ export default function BuddyPage() {
             rightColumnHeading="Frustrations"
             personas={JSON.stringify([
               {
-                name: "Adam",
-                photo: "/buddy/Gemini_Generated_Image_pxbxv9pxbxv9pxbx.png",
-                age: "31",
-                role: "Product Designer",
-                photoCaption: "Portrait generated with Gemini",
+                name: "Soren",
+                photo: "/buddy/user for buddy.png",
+                age: "27",
+                role: "Industrial Designer at USM",
                 bullets: [
                   "Hard to regain alignment when spoken ideas are interpreted differently by each teammate.",
                   "Little visibility into what was actually agreed on once a working session ends.",
@@ -713,7 +661,7 @@ export default function BuddyPage() {
               Improve group communication by clarifying ideas visually through real-time LLM image generation?
             </p>
             <p className="mt-4 text-[0.85rem] leading-relaxed text-violet-800/50">
-              By implementing a technology that helps clarify ideas visually through LLM image generation.
+              By giving every spoken idea a visual form the moment it leaves the room.
             </p>
           </div>
 
@@ -758,7 +706,7 @@ export default function BuddyPage() {
                 detail: "Ambient, never the focus.",
               },
             ].map(({ n, area, detail }) => (
-              <div key={n} className="rounded-2xl border border-zinc-300/60 bg-transparent p-5 shadow-[0_2px_16px_-8px_rgba(0,0,0,0.08)]">
+              <div key={n} className="rounded-xl border border-zinc-300/60 bg-transparent p-5 shadow-[0_2px_16px_-8px_rgba(0,0,0,0.08)]">
                 <p className="mb-2 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{n}</p>
                 <p className="mb-2 text-[0.88rem] font-medium leading-snug text-zinc-950">{area}</p>
                 <p className="text-[0.75rem] leading-relaxed text-zinc-600">{detail}</p>
@@ -814,25 +762,18 @@ export default function BuddyPage() {
             Hand-drawn sketches
           </p>
 
-          <div className="mt-19">
-            <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Full Figma Board</p>
-            <div className="overflow-hidden rounded-2xl border-[0.5px] border-white/60 shadow-[0_8px_32px_-16px_rgba(0,0,0,0.12)]">
-              <iframe
-                title="Buddy Figma board"
-                src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2F1qfQiHq6t99qW3v0J1Iwz6%2Fbuddy%3Fnode-id%3D0-1%26t%3Dg61S93lNRgBtflTR-1"
-                className="h-[520px] w-full border-0"
-                allowFullScreen
-              />
-            </div>
-            <div className="mt-3 flex justify-end">
-              <a
-                href="https://www.figma.com/design/1qfQiHq6t99qW3v0J1Iwz6/buddy?node-id=0-1&t=g61S93lNRgBtflTR-1"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full bg-violet-50/80 px-3 py-1.5 font-mono text-[0.72rem] text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
-              >
-                Open in Figma <span aria-hidden>↗</span>
-              </a>
+          <div id="why" className="mt-19 scroll-mt-24">
+            <h2 className="mb-3 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+              Design Decisions
+            </h2>
+            <p className="mb-8 max-w-2xl text-[0.95rem] leading-relaxed text-zinc-600">
+              The final interaction came from the realization that slight motion, gentle colors and interactive materiality is the most powerful tool in user focus.
+            </p>
+            <div className="grid grid-cols-1 gap-3 md:auto-rows-fr md:grid-cols-2">
+              <BuddyButtonIterations />
+              <BuddyResetCard />
+              <BuddyAIIndicatorCard />
+              <BuddyStartingBgCard />
             </div>
           </div>
 
@@ -852,7 +793,6 @@ export default function BuddyPage() {
           </div>
         </section>
 
-
         <Divider />
 
         {/* USER TESTING */}
@@ -866,7 +806,7 @@ export default function BuddyPage() {
             {USER_TESTING.map(({ n, stat, insight, action, nextTag }) => (
               <div
                 key={n}
-                className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110"
+                className="flex h-full flex-col overflow-hidden rounded-xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110"
               >
                 <div className="flex flex-1 flex-col bg-violet-500/[0.04] px-5 py-4">
                   <p className="text-[0.82rem] leading-[1.65] text-zinc-800">
@@ -888,17 +828,17 @@ export default function BuddyPage() {
           {/* Reactions */}
           <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Some thinkable quotes</p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+            <div className="rounded-xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
               <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
                 &ldquo;I stopped taking notes halfway through and just focused on the convo.&rdquo;
               </p>
             </div>
-            <div className="rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+            <div className="rounded-xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
               <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
                 &ldquo;The diagram it made was close but not exactly what we were saying.&rdquo;
               </p>
             </div>
-            <div className="rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+            <div className="rounded-xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
               <p className="text-[0.875rem] italic leading-[1.7] text-zinc-700">
                 &ldquo;I&apos;d want this on my phone so I could reference it throughout the day.&rdquo;
               </p>
@@ -913,7 +853,47 @@ export default function BuddyPage() {
         <section id="engineering" className="scroll-mt-24">
           <SectionLabel>Engineering</SectionLabel>
 
-          <div className="mb-3 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
+          <p className="mb-4 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Stack decisions</p>
+          <div className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {[
+              {
+                decision: "Hardware over app",
+                chose: "Raspberry Pi device",
+                alt: "Mobile app",
+                why: "A device on the table is ambient. A phone in hand is a distraction. The form factor is the argument.",
+              },
+              {
+                decision: "On-device transcription",
+                chose: "Whisper (local)",
+                alt: "Cloud STT",
+                why: "Audio never leaves the room. Privacy is not a feature. It is the architecture.",
+              },
+              {
+                decision: "Structured diagrams first",
+                chose: "Mermaid.js",
+                alt: "Always image gen",
+                why: "Deterministic code-rendered diagrams have no per-call cost. fal.ai only fires when intent is explicitly visual.",
+              },
+              {
+                decision: "Lightweight backend",
+                chose: "FastAPI",
+                alt: "Flask / Django",
+                why: "Sub-100ms handoff between Whisper and GPT-4o. Every added framework feature is latency the conversation pays.",
+              },
+            ].map(({ decision, chose, alt, why }) => (
+              <div key={decision} className="rounded-xl border border-zinc-200/60 bg-white/60 p-5 backdrop-blur-sm">
+                <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{decision}</p>
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-violet-500/10 px-2.5 py-1 font-mono text-[0.7rem] text-violet-800 ring-1 ring-violet-300/40">{chose}</span>
+                  <span className="font-mono text-[0.65rem] text-zinc-300">vs</span>
+                  <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[0.7rem] text-zinc-400 line-through ring-1 ring-zinc-200/60">{alt}</span>
+                </div>
+                <p className="text-[0.85rem] leading-relaxed text-zinc-600">{why}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 rounded-2xl border-[0.5px] border-white/70 bg-white/[0.26] p-5 shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
             <p className="text-[0.88rem] font-medium text-zinc-800">How the stack works end to end</p>
             <p className="mt-3 text-[0.85rem] leading-relaxed text-zinc-600">
               Audio is captured and sent to the Whisper API for transcription. The transcript is passed to GPT-4 for
@@ -922,10 +902,6 @@ export default function BuddyPage() {
               frontend on Vite.
             </p>
           </div>
-          <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-6 max-w-[640px]">
-            Diagrams created with Mermaid.js code and Python in a Figma plugin.
-          </p>
-
           <div className="mb-4 flex w-full flex-col items-center justify-center gap-10 md:flex-row md:flex-wrap md:items-start md:justify-center md:gap-x-16 lg:gap-x-20">
             <div className="flex w-full justify-center md:w-auto md:max-w-[min(280px,42vw)]">
               <div className="w-full max-w-[min(100%,260px)] sm:max-w-[min(100%,300px)]">
@@ -948,47 +924,9 @@ export default function BuddyPage() {
               />
             </div>
           </div>
-          <p className="mb-12 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
+          <p className="mb-10 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
             Diagrams made with Mermaid.js (rendered from Python)
           </p>
-
-          {/* Stack decision table — 4 columns */}
-          <div className="mb-10 overflow-hidden rounded-2xl border-[0.5px] border-white/60 bg-white/40 backdrop-blur-xl">
-            {/* Column headers */}
-            <div className="grid border-b border-white/40" style={{ gridTemplateColumns: "140px 110px 1fr 1.6fr" }}>
-              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Category</p>
-              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Chose</p>
-              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Alternatives</p>
-              <p className="px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Why</p>
-            </div>
-            {ENGINEERING_DECISIONS.map(({ category, alternatives, chose, why }, i, arr) => (
-              <div
-                key={category}
-                className={`grid${i < arr.length - 1 ? " border-b border-white/40" : ""}`}
-                style={{ gridTemplateColumns: "140px 110px 1fr 1.6fr" }}
-              >
-                {/* Category */}
-                <div className="flex items-center bg-white/[0.18] px-4 py-4 border-r border-white/40">
-                  <p className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.1em] text-zinc-400">{category}</p>
-                </div>
-                {/* Chose */}
-                <div className="flex items-center px-4 py-4 border-r border-white/40">
-                  <p className="font-mono text-[0.82rem] font-semibold text-violet-600">{chose}</p>
-                </div>
-                {/* Alternatives */}
-                <div className="flex flex-wrap content-center gap-1.5 px-4 py-4 border-r border-white/40">
-                  {alternatives.map((alt) => (
-                    <span key={alt} className="rounded-full bg-zinc-500/[0.07] px-2.5 py-0.5 font-mono text-[0.62rem] tracking-wide text-zinc-400 ring-1 ring-zinc-200/60">{alt}</span>
-                  ))}
-                </div>
-                {/* Why */}
-                <div className="flex items-center px-4 py-4">
-                  <p className="text-[0.78rem] leading-relaxed text-zinc-500">{why}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
           <div className="mb-8 grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
             <CodeBlock code={CODE_SYSTEM_PROMPT} className="my-0 h-full min-h-0" />
             <CodeBlock code={CODE_PDF_EXPORT} className="my-0 h-full min-h-0" />
@@ -1023,7 +961,7 @@ export default function BuddyPage() {
             Progress Photos
           </h2>
           <p className="text-[0.85rem] leading-relaxed text-zinc-500 mb-8">
-            Building the physical enclosure on a Raspberry Pi, hardware constraints forced architectural clarity that cloud deployment never would have.
+            I designed and 3D-printed the enclosure around a Raspberry Pi. Hardware constraints forced architectural clarity that cloud deployment never would have.
           </p>
 
           <div className="mt-19 mb-8 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-start">
@@ -1069,48 +1007,6 @@ export default function BuddyPage() {
 
         <Divider />
 
-        {/* IMPACT */}
-        <section id="impact" className="scroll-mt-24">
-          <SectionLabel>Impact</SectionLabel>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {IMPACT_STATS.map(({ stat, label }) => (
-              <div
-                key={stat}
-                className={
-                  stat === "64%"
-                    ? "rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35"
-                    : "rounded-2xl border border-white/55 bg-white/[0.14] p-6 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
-                }
-              >
-                <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-violet-700">
-                  {stat}
-                </p>
-                <p
-                  className={`text-[0.82rem] font-medium ${stat === "64%" ? "text-violet-950/80" : "text-zinc-600"}`}
-                >
-                  {label}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
-            <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-violet-600/70">Next Steps</p>
-            <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
-              {USER_TESTING.map(({ n, nextLead, nextBody }) => (
-                <li key={n} className="flex gap-3">
-                  <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-violet-600">{n}</span>
-                  <p>
-                    <span className="font-medium text-zinc-800">{nextLead}</span> {nextBody}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <Divider />
-
         {/* WHAT I LEARNED */}
         <section id="what-i-learned" className="scroll-mt-24">
           <SectionLabel>What I Learned</SectionLabel>
@@ -1120,8 +1016,8 @@ export default function BuddyPage() {
                 <div
                   className={
                     i === 1
-                      ? "flex gap-5 rounded-2xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35"
-                      : "flex gap-5 rounded-2xl border border-white/55 bg-white/[0.14] p-6 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
+                      ? "flex gap-5 rounded-xl bg-violet-500/[0.08] p-6 ring-1 ring-violet-300/35"
+                      : "flex gap-5 rounded-xl border border-white/55 bg-white/[0.14] p-6 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
                   }
                 >
                   <span className="mt-0.5 flex-shrink-0 font-mono text-[0.75rem] font-medium text-violet-600/70">{i + 1}</span>
@@ -1137,9 +1033,9 @@ export default function BuddyPage() {
 
         <Divider />
 
-        {/* CONSIDERATIONS */}
-        <section id="considerations" className="scroll-mt-24">
-          <SectionLabel>Considerations</SectionLabel>
+        {/* IMPACT */}
+        <section id="impact" className="scroll-mt-24">
+          <SectionLabel>Impact</SectionLabel>
 
           {/* 4-pillar table */}
           <div className="mb-1 hidden grid-cols-[1fr_1.2fr_1.4fr] gap-px md:grid">
@@ -1170,6 +1066,21 @@ export default function BuddyPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Next Steps */}
+          <div className="mb-8 rounded-2xl border border-violet-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(139,92,246,0.18)]">
+            <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-violet-600/70">Next Steps</p>
+            <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
+              {USER_TESTING.map(({ n, nextLead, nextBody }) => (
+                <li key={n} className="flex gap-3">
+                  <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-violet-600">{n}</span>
+                  <p>
+                    <span className="font-medium text-zinc-800">{nextLead}</span> {nextBody}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
 
           {/* Tradeoff card */}
@@ -1225,12 +1136,20 @@ export default function BuddyPage() {
 
         <Divider />
 
-        {/* VIDEO */}
-        <section id="video" className="scroll-mt-24">
-
-        </section>
-
-        <CategoryProjectsFooter category="product-design" currentSlug="buddy" />
+        <div className="py-6">
+          <a
+            href="https://buddy-self.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex w-full flex-col items-start gap-1 rounded-2xl bg-violet-500/[0.08] px-6 py-5 ring-1 ring-violet-300/40 transition-colors hover:bg-violet-500/[0.12]"
+          >
+            <p className="flex items-center gap-1.5 text-[1.05rem] font-semibold text-violet-700">
+              Demo Buddy!
+              <span aria-hidden className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            </p>
+            <p className="text-[0.72rem] text-violet-500/60">buddy-self.vercel.app</p>
+          </a>
+        </div>
 
       </main>
       </div>

@@ -11,15 +11,15 @@ import { getContentBySlug } from "@/lib/content";
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
 
 const TITLE       = "Eidolon";
-const DESCRIPTION = "created a visual AI agent to help users trust automation";
+const DESCRIPTION = "designing the interfaces for a web that is 98% AI and 2% human";
 /** Local encode: video-only (no audio). */
-const HERO_VIDEOS = ["/eidolon/Video Project 1.1.mp4", "/eidolon/video2.mp4"] as const;
-const CHALLENGE   = "Most people worry about what the internet will look like when it becomes 98% AI and 2% human. How do we design it without causing confusion?";
+const HERO_VIDEOS = ["/eidolon/hero1-clean.mp4", "/eidolon/hero2-clean.mp4"] as const;
+const CHALLENGE   = "The internet will become 98% AI, 2% human. The trust infrastructure doesn't exist yet. How do we design it?";
 
 const METADATA = {
   timeline: "1 week",
   roles:    ["Full Stack Engineer", "Product Designer"],
-  team:     ["Failenn Aselta"],
+  team:     ["Failenn Aselta (solo)"],
   tools:    [
     "React 19 · Vite 6 · TypeScript",
     "Tailwind CSS 4 · Motion · Lucide",
@@ -30,7 +30,7 @@ const METADATA = {
 
 // ───────────────────────────────────────────────────────────────────────────────
 
-export const metadata: Metadata = { title: TITLE, description: `Failenn Aselta, ${DESCRIPTION}` };
+export const metadata: Metadata = { description: `Failenn Aselta, ${DESCRIPTION}` };
 
 export default async function EidolonPage() {
   const page = await getContentBySlug("eidolon");
@@ -44,18 +44,17 @@ export default async function EidolonPage() {
       slug="eidolon"
       category="product-design"
       hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], controls: true }}
-      heroBelow={
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-            Interactive Figma prototype
-          </p>
+      metaBelow={
+        <div className="flex flex-col gap-3">
           <a
             href="https://www.figma.com/proto/iXvq0vPTzw4IPXs8kwiNAd/eidolon?node-id=1-56&p=f&t=giHAp2JoHXE7ibfJ-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A56&show-proto-sidebar=1"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-lime-500/[0.08] px-4 py-2 text-[0.85rem] font-medium text-lime-700 ring-1 ring-lime-300/50 transition-colors hover:bg-lime-500/[0.14]"
+            className="flex w-full flex-col items-center gap-1 rounded-2xl bg-lime-500/[0.08] px-6 py-5 ring-1 ring-lime-300/40 transition-colors hover:bg-lime-500/[0.12]"
           >
-            View Figma Prototype <span aria-hidden>↗</span>
+            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/60">Interactive Prototype</p>
+            <p className="text-[1.05rem] font-semibold text-lime-700">Demo Eidolon</p>
+            <p className="text-[0.72rem] text-lime-500/60">figma.com/proto/eidolon</p>
           </a>
         </div>
       }
@@ -73,13 +72,12 @@ export default async function EidolonPage() {
               </h2>
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
                 What happens when the internet is no longer human-navigated, but optimized for
-                machine-to-machine interaction? The future internet will likely be a hybrid space,
-                allowing individuals to choose how much control they delegate and how much they
-                retain. Eidolon uses AI as a visual tool to not only showcase its actions, but to
-                make it an easier place for those who fear its new shape.
+                machine-to-machine interaction? The future internet will be a hybrid space, letting
+                individuals choose how much control they delegate. Eidolon uses AI as a visual tool
+                to showcase its actions and make it an easier place for those who fear its new shape.
               </p>
 
-              <p className="mt-19 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">The Problems</p>
+              <p className="mt-19 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Why it matters</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { n: "01", stat: "25%",  problem: "Search Engine Decline",       bibRef: "#bib-gartner", cite: "(Gartner, 2024)",        hi: false },
@@ -99,22 +97,21 @@ export default async function EidolonPage() {
                 ))}
               </div>
 
-              <p className="mt-19 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Our Goals</p>
+              <p className="mt-19 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Impact</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
-                  { n: "01", stat: "22×",  goal: "more trust through transparency",    bibRef: "#bib-bruner",  cite: "(Bruner, 1986)",       hi: true  },
-                  { n: "02", stat: "20%",  goal: "Cognitive Load Reduction",            bibRef: "#bib-nng",     cite: "(NNg)",                hi: false },
-                  { n: "03", stat: "67%",  goal: "Environment Sanitation",              bibRef: "#bib-edelman", cite: "(Edelman, 2024)",      hi: false },
-                  { n: "04", stat: "46%",  goal: "raise in human authority over AI",   bibRef: "#bib-apa",     cite: "(APA, 2025)",          hi: false },
-                ].map(({ n, stat, goal, bibRef, cite, hi }) => (
+                  { n: "01", stat: "78%", goal: "said the agent felt legible in motion", hi: true },
+                  { n: "02", stat: "60%", goal: "wanted more agency, validating manual mode", hi: false },
+                  { n: "03", stat: "58%", goal: "gained confidence through haptic confirmation", hi: false },
+                  { n: "04", stat: "16%", goal: "felt less intense than a regular chatbot", hi: false },
+                ].map(({ n, stat, goal, hi }) => (
                   <div key={n} className={hi
                     ? "rounded-2xl bg-lime-500/[0.08] p-5 ring-1 ring-lime-300/35"
                     : "rounded-2xl border border-white/55 bg-white/[0.14] p-5 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
                   }>
                     <p className={`mb-1 font-mono text-[9px] uppercase tracking-[0.2em] ${hi ? "text-lime-600/70" : "text-zinc-400"}`}>{n}</p>
                     <p className={`mb-1 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] ${hi ? "text-lime-600" : "text-zinc-700"}`}>{stat}</p>
-                    <p className={`mb-3 text-[0.88rem] font-medium leading-snug ${hi ? "text-lime-950" : "text-zinc-800"}`}>{goal}</p>
-                    <a href={bibRef} className={`font-mono text-[8px] tracking-[0.12em] underline underline-offset-2 transition-colors ${hi ? "text-lime-700/60 hover:text-lime-800" : "text-zinc-400/80 hover:text-zinc-600"}`}>{cite}</a>
+                    <p className={`text-[0.88rem] font-medium leading-snug ${hi ? "text-lime-950" : "text-zinc-800"}`}>{goal}</p>
                   </div>
                 ))}
               </div>
@@ -543,6 +540,55 @@ export default async function EidolonPage() {
           ),
         },
         {
+          id: "why",
+          label: "WHY",
+          content: (
+            <>
+              <h2 className="mb-8 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                Four decisions that make agent logic visible instead of invisible.
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {[
+                  {
+                    decision: "Game HUD over dashboard",
+                    chose: "Narrative layout",
+                    alt: "Data dashboard",
+                    why: "Narrative is 22x more memorable than raw data. A story of what the agent is doing beats a log of what it did. (Bruner, 1986)",
+                  },
+                  {
+                    decision: "Non-gendered character, gold skin",
+                    chose: "Stylized illustration",
+                    alt: "Photorealistic avatar",
+                    why: "Uncanny valley avoided at 10 to 30% stylization. Gold skin correlates with trust and wisdom. Non-gendered reduces projection and bias.",
+                  },
+                  {
+                    decision: "Haptic plus visual plus sound",
+                    chose: "Multi-sensory confirmation",
+                    alt: "Button tap alone",
+                    why: "High-stakes actions need a signature the AI cannot forge. Multi-sensory gates keep humans in authority, not automated out.",
+                  },
+                  {
+                    decision: "Green palette, no pure white",
+                    chose: "Muted green on warm off-white",
+                    alt: "Neutral gray or bright white",
+                    why: "Green correlates with lower cortisol. Pure white causes halation for 50% of people with astigmatism. Calm design is physiological, not aesthetic.",
+                  },
+                ].map(({ decision, chose, alt, why }) => (
+                  <div key={decision} className="rounded-2xl border border-zinc-200/60 bg-white/60 p-5 backdrop-blur-sm">
+                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{decision}</p>
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-lime-500/10 px-2.5 py-1 font-mono text-[0.7rem] text-lime-800 ring-1 ring-lime-300/40">{chose}</span>
+                      <span className="font-mono text-[0.65rem] text-zinc-300">vs</span>
+                      <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[0.7rem] text-zinc-400 line-through ring-1 ring-zinc-200/60">{alt}</span>
+                    </div>
+                    <p className="text-[0.85rem] leading-relaxed text-zinc-600">{why}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
           id: "user-testing",
           label: "USER TESTING",
           content: (
@@ -625,7 +671,6 @@ export default async function EidolonPage() {
                 {
                   img: "/eidolon/dr1.png",
                   label: "01",
-                  heading: "Color and type tuned for neurological calm",
                   points: [
                     { lead: "Green reduces cortisol", detail: "Green tones correlate with lower stress and help the brain reset between hard tasks. (APA, 2023)", bibRef: "#bib-apa" },
                     { lead: "Montserrat for warmth & legibility", detail: "Rounded forms feel approachable while staying clean and readable. 14% higher advice-following when typography reads as optimistic and clear. (Google, 2023)", bibRef: "#bib-google" },
@@ -635,7 +680,6 @@ export default async function EidolonPage() {
                 {
                   img: "/eidolon/dr2.png",
                   label: "02",
-                  heading: "A game HUD, not a dashboard — narrative over data",
                   points: [
                     { lead: "Information as story: 22x more memorable", detail: "Narrative beats raw data for recall, so the agent explains its reasoning as a story rather than a log. (Bruner, 1986)", bibRef: "#bib-bruner" },
                     { lead: "Persistent profile for spatial anchoring", detail: "A constant user anchor keeps orientation as flows get deeper. Gamified environments improve knowledge retention. (MIT Media Lab)", bibRef: "#bib-mit" },
@@ -646,7 +690,6 @@ export default async function EidolonPage() {
                 {
                   img: "/eidolon/dr3.png",
                   label: "03",
-                  heading: "Multi-sensory confirmation — a signature the AI can't forge",
                   points: [
                     { lead: "Haptic + sound + visual = faster, stickier decisions", detail: "The brain merges multi-sensory information for faster decisions and stronger recall on critical actions. (Neuroscience, 2022)" },
                     { lead: "A gesture only humans can make", detail: "High-stakes actions require a human swipe. The agent cannot execute them autonomously, preserving human authority. (APA, 2023)", bibRef: "#bib-apa" },
@@ -656,7 +699,6 @@ export default async function EidolonPage() {
                 {
                   img: "/eidolon/dr4.png",
                   label: "04",
-                  heading: "Human and AI solving problems together — trust through shared agency",
                   points: [
                     { lead: "AI shows confusion, users forgive more", detail: "Visible uncertainty increases forgiveness when the system fails. Seeing an agent's inner state builds more trust than a clean facade. (Robot Transparency, 2017)", bibRef: "#bib-robot" },
                     { lead: "User control, users respect AI more", detail: "Real agency builds long-term trust. Users who steer the AI rather than just receive from it report higher satisfaction. (MIT Media Lab)", bibRef: "#bib-mit" },
@@ -737,7 +779,7 @@ export default async function EidolonPage() {
           content: (
             <>
               <p className="mb-8 w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                A slice of Eidolon was built out to play around with current AI image-generation capabilities. The internet isn&apos;t ready for a new face, but AI is.
+                I built a slice of Eidolon to test current AI image-generation capabilities. The internet isn&apos;t ready for a new face, but AI is.
               </p>
               {/* Architecture diagram */}
               <div className="mb-8 flex flex-col items-center gap-5">
@@ -836,50 +878,6 @@ export default async function EidolonPage() {
           ),
         },
         {
-          id: "impact",
-          label: "IMPACT",
-          content: (
-            <>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {[
-                  { stat: "80%", label: "said the agent felt legible in motion" },
-                  { stat: "60%", label: "wanted more agency, validating manual mode" },
-                  { stat: "58%", label: "gained confidence through haptic confirmation" },
-                ].map(({ stat, label }) => (
-                  <div
-                    key={stat}
-                    className={
-                      stat === "80%"
-                        ? "rounded-2xl bg-lime-500/[0.08] p-6 ring-1 ring-lime-300/35"
-                        : "rounded-2xl border border-white/55 bg-white/[0.14] p-6 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125"
-                    }
-                  >
-                    <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-lime-700">{stat}</p>
-                    <p className={`text-[0.82rem] font-medium ${stat === "80%" ? "text-lime-950/80" : "text-zinc-600"}`}>{label}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 rounded-2xl border border-lime-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(132,204,22,0.18)]">
-                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/70">Next Version</p>
-                <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
-                  {[
-                    { n: "01", lead: "Customizable character.", body: "Full skin, style, and personality options so the agent feels like yours." },
-                    { n: "02", lead: "Longer setup with diagrams.", body: "A visual onboarding that explains why this kind of app matters, not just what it does." },
-                    { n: "03", lead: "Override system beyond haptics.", body: "A visible, always-accessible layer so users can halt or redirect the agent at any point." },
-                    { n: "04", lead: "All spending requires a response.", body: "Every transaction waits for an explicit user confirmation before it goes through." },
-                    { n: "05", lead: "Future: make it a video game.", body: "A full game loop with quests, rewards, and progression could make AI-assisted living genuinely fun." },
-                  ].map(({ n, lead, body }) => (
-                    <li key={n} className="flex gap-3">
-                      <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-lime-600">{n}</span>
-                      <p><span className="font-medium text-zinc-800">{lead}</span> {body}</p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </>
-          ),
-        },
-        {
           id: "what-i-learned",
           label: "WHAT I LEARNED",
           content: (
@@ -912,9 +910,8 @@ export default async function EidolonPage() {
           ),
         },
         {
-          id: "considerations",
-          label: "CONSIDERATIONS",
-          hideFromNav: true,
+          id: "impact",
+          label: "IMPACT",
           content: (
             <>
               {/* Header row */}
@@ -979,6 +976,24 @@ export default async function EidolonPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="mt-8 rounded-2xl border border-lime-400/45 bg-transparent p-5 shadow-[0_0_24px_-10px_rgba(132,204,22,0.18)]">
+                <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/70">Next Steps</p>
+                <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
+                  {[
+                    { n: "01", lead: "Customizable character.", body: "Full skin, style, and personality options so the agent feels like yours." },
+                    { n: "02", lead: "Longer setup with diagrams.", body: "A visual onboarding that explains why this kind of app matters, not just what it does." },
+                    { n: "03", lead: "Override system beyond haptics.", body: "A visible, always-accessible layer so users can halt or redirect the agent at any point." },
+                    { n: "04", lead: "All spending requires a response.", body: "Every transaction waits for an explicit user confirmation before it goes through." },
+                    { n: "05", lead: "Future: make it a video game.", body: "A full game loop with quests, rewards, and progression could make AI-assisted living genuinely fun." },
+                  ].map(({ n, lead, body }) => (
+                    <li key={n} className="flex gap-3">
+                      <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-lime-600">{n}</span>
+                      <p><span className="font-medium text-zinc-800">{lead}</span> {body}</p>
+                    </li>
+                  ))}
+                </ol>
               </div>
 
               <p className="mb-3 mt-19 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">

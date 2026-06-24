@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 const ContactClient = dynamic(() => import("./ContactClient"), {
@@ -10,5 +11,9 @@ const ContactClient = dynamic(() => import("./ContactClient"), {
 });
 
 export function ContactGate() {
-  return <ContactClient />;
+  return (
+    <Suspense fallback={<div className="min-h-[100dvh] bg-transparent" />}>
+      <ContactClient />
+    </Suspense>
+  );
 }

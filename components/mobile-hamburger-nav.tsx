@@ -10,7 +10,6 @@ const LINKS = [
   { href: "/", label: "home" },
   { href: "/work", label: "work" },
   { href: "/contact", label: "contact" },
-  { href: "/about", label: "about" },
 ] as const;
 
 function workRouteActive(path: string) {

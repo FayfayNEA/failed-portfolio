@@ -27,6 +27,8 @@ type CaseStudySidebarProps = {
   hideRailAtMaxWidthPx?: 1000;
   /** Hide the "Case Study" label above the project name. */
   hideCaseStudyLabel?: boolean;
+  /** Optional byline rendered below the project name. */
+  subtitle?: string;
 };
 
 export function CaseStudySidebar({
@@ -36,6 +38,7 @@ export function CaseStudySidebar({
   breadcrumb,
   hideRailAtMaxWidthPx,
   hideCaseStudyLabel = false,
+  subtitle,
 }: CaseStudySidebarProps) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? "");
 
@@ -112,6 +115,11 @@ export function CaseStudySidebar({
               >
                 {projectName}
               </p>
+              {subtitle && (
+                <p className="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-zinc-400">
+                  {subtitle}
+                </p>
+              )}
             </div>
             <nav className="min-h-0 min-w-0 flex-1">
               <ul className="space-y-4">

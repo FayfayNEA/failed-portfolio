@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { RetroComputerSection } from "@/components/retro-computer-section";
 
 export const metadata: Metadata = {
-  title: "Work",
   description: "Branding, product design, and architecture, retro work console.",
 };
 

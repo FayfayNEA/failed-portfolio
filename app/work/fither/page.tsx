@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { FitherClient } from "./fither-client";
 
 export const metadata: Metadata = {
-  title: "Fither",
   description: "Organic dithering playground.",
 };
 

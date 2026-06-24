@@ -11,7 +11,6 @@ const HERO = "/jahn/jahn image.jpg";
 const HERO_VIDEO = "/jahn/jahn.mp4";
 
 export const metadata: Metadata = {
-  title: TITLE,
   description: `Failenn Aselta, ${TITLE}. ${DESCRIPTION}`,
 };
 

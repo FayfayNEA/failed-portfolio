@@ -37,9 +37,19 @@ export interface GalleryProject {
   canvasImageH?: number;       // desktop canvas — overrides VARIANT_IMG_H
   canvasCardW?: number;        // desktop canvas — overrides BASE_CARD_W
   pillTheme?: "green" | "purple" | "blue" | "gray" | "black" | "teal" | "orange" | "parchment";
+  statusLabel?: "Shipped" | "Case Study";
   /** When true, the hoverVideo autoplays and loops continuously without needing hover. */
   autoplaying?: boolean;
   useVideoAsCover?: boolean;
+  /** Always-on cover video; hoverVideo crossfades over it on hover. */
+  coverVideo?: string;
+  /** object-fit for the coverVideo layer (defaults to coverImageFit). Use "contain"
+   *  with a matching coverColor to show the full frame without visible letterbox bars. */
+  coverVideoFit?: "cover" | "contain" | "fill";
+  /** Seconds into the cover video to seek to on load (e.g. 1 to skip a fade-in frame). */
+  coverVideoStartTime?: number;
+  /** When true, the cover video is loaded but kept paused at its first frame (no autoplay). */
+  coverVideoStatic?: boolean;
 }
 
 // ─── Mobile grid heights ──────────────────────────────────────────────────────
@@ -66,8 +76,8 @@ const MIN_CARD_W    = 220;
 const MIN_CARD_H    = CANVAS_META_H + 80;
 
 
-const SEL_GREEN = "#3a6148";
-const SEL_GLOW  = "rgba(132,204,22,0.22)";
+const SEL_GREEN = "#b0b0b0";
+const SEL_GLOW  = "rgba(0,0,0,0.08)";
 
 /** Hover dissolve — light opacity + hint of blur (no scale animation). */
 const MEDIA_CROSSFADE_MS = 50;
@@ -169,96 +179,128 @@ function HoverCrossfadeMedia({
   sizes: string;
   onVideoEl?: (el: HTMLVideoElement | null) => void;
 }) {
-  const ref = useRef<HTMLVideoElement | null>(null);
-  const videoCover  = project.useVideoAsCover && !!project.hoverVideo;
-  const autoplaying = !!project.autoplaying;
+  const ref      = useRef<HTMLVideoElement | null>(null);
+  const coverRef = useRef<HTMLVideoElement | null>(null);
+  const hasCoverVideo = !!project.coverVideo;
+  const videoCover    = project.useVideoAsCover && !!project.hoverVideo && !hasCoverVideo;
+  const autoplaying   = !!project.autoplaying;
   const [frameReady, setFrameReady] = useState(false);
 
-  // autoplaying cards: video always plays + visible.
-  // videoCover cards: always visible (first frame), plays only on hover.
-  // Regular hover videos: fade in when active + frame loaded.
   const effectiveActive = autoplaying || active;
   const videoVisible    = videoCover || autoplaying ? true : active && frameReady;
   const crossfade       = effectiveActive && frameReady;
 
+  // Play the cover video unless it's set to static (first-frame only).
+  useEffect(() => {
+    if (!project.coverVideoStatic) {
+      coverRef.current?.play().catch(() => {});
+    }
+  }, [project.coverVideoStatic]);
+
   useEffect(() => {
     const v = ref.current;
     if (!v || !project.hoverVideo) return;
-
     if (!effectiveActive) {
       const t = window.setTimeout(() => {
         v.pause();
-        if (!videoCover && !autoplaying) setFrameReady(false);
+        if (!videoCover && !autoplaying && !hasCoverVideo) setFrameReady(false);
       }, MEDIA_CROSSFADE_MS);
       return () => window.clearTimeout(t);
     }
-
     const markReady = () => setFrameReady(true);
     if (v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) markReady();
     else v.addEventListener("loadeddata", markReady, { once: true });
-
     v.play().catch(() => {});
-
     return () => v.removeEventListener("loadeddata", markReady);
-  }, [effectiveActive, project.hoverVideo, videoCover, autoplaying]);
+  }, [effectiveActive, project.hoverVideo, videoCover, autoplaying, hasCoverVideo]);
 
   return (
     <>
+      {/* Background fill for contained cover video — sits behind the video so letterbox edges show the image */}
+      {project.coverImage && hasCoverVideo && project.coverVideoFit === "contain" && (
+        <Image
+          src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
+          alt="" aria-hidden fill
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center"
+          sizes={sizes} quality={80} priority={priority}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          draggable={false} unoptimized
+        />
+      )}
+
+      {/* Cover video — always playing; fades out when hover video takes over.
+          Videos always object-cover so they fill the card with no letterbox bars. */}
+      {project.coverVideo && (
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            ref={coverRef}
+            src={project.coverVideo}
+            poster={project.coverImage}
+            autoPlay={!project.coverVideoStatic} muted loop={!project.coverVideoStatic} playsInline preload="auto"
+            onLoadedMetadata={(e) => { e.currentTarget.currentTime = project.coverVideoStartTime ?? 0; }}
+            className={cn(
+              "absolute inset-0 h-full w-full object-center transition-opacity duration-[400ms]",
+              project.coverVideoFit === "contain" ? "object-contain" : project.coverVideoFit === "fill" ? "object-fill" : project.coverVideoFit === "cover" ? "object-cover" : objFit,
+              active && frameReady ? "opacity-0" : "opacity-100",
+            )}
+            style={project.coverObjectPosition ? { objectPosition: project.coverObjectPosition } : undefined}
+            aria-hidden
+          />
+        </div>
+      )}
+
+      {/* Hover video — crossfades over cover video (or still image) on hover */}
       {project.hoverVideo && (
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
-          style={project.coverBlendMode ? { mixBlendMode: project.coverBlendMode as CSSProperties["mixBlendMode"] } : undefined}>
-          <div
-            className="absolute inset-0 will-change-[transform,filter]"
-            style={galleryHoverVideoWrapStyle(project)}
-          >
+        <div
+          className="pointer-events-none absolute inset-0 overflow-hidden"
+          style={{
+            zIndex: hasCoverVideo ? 1 : 0,
+            ...(project.coverBlendMode && !hasCoverVideo
+              ? { mixBlendMode: project.coverBlendMode as CSSProperties["mixBlendMode"] }
+              : {}),
+          }}
+        >
+          <div className="absolute inset-0 will-change-[transform,filter]" style={galleryHoverVideoWrapStyle(project)}>
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
             <video
-              ref={(el) => {
-                ref.current = el;
-                onVideoEl?.(el);
-              }}
+              ref={(el) => { ref.current = el; onVideoEl?.(el); }}
               src={project.hoverVideo}
-              poster={project.coverImage}
-              autoPlay={false}
-              muted
-              loop
-              playsInline
-              preload="auto"
+              poster={hasCoverVideo ? undefined : project.coverImage}
+              autoPlay={false} muted loop playsInline preload="auto"
               className={galleryHoverVideoClassName(
-                project,
-                objFit,
-                videoVisible ? "opacity-100" : "opacity-0",
+                project, objFit,
+                hasCoverVideo
+                  ? (active && frameReady ? "opacity-100" : "opacity-0")
+                  : (videoVisible ? "opacity-100" : "opacity-0"),
               )}
-              style={galleryHoverVideoStyle(project, videoVisible)}
+              style={hasCoverVideo
+                ? { transition: MEDIA_LAYER_TRANSITION }
+                : galleryHoverVideoStyle(project, videoVisible)}
               aria-hidden
             />
           </div>
         </div>
       )}
-      {project.coverImage && (
+
+      {/* Static cover image — only when no coverVideo */}
+      {project.coverImage && !hasCoverVideo && (
         <Image
           src={galleryCoverSrc(project.coverImage) ?? project.coverImage}
           alt={project.title}
           fill
           className={cn(
-            galleryStillImageClassName(
-              project,
-              objFit,
-              crossfade && project.hoverVideo ? "opacity-0" : "opacity-100",
-            ),
+            galleryStillImageClassName(project, objFit, crossfade && project.hoverVideo ? "opacity-0" : "opacity-100"),
             "z-[1]",
           )}
           style={project.hoverVideo ? galleryStillImageStyle(project, crossfade) : undefined}
-          sizes={sizes}
-          quality={80}
-          priority={priority}
+          sizes={sizes} quality={80} priority={priority}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
-          draggable={false}
-          unoptimized
+          draggable={false} unoptimized
         />
       )}
-      {/* Match video letterboxing when still is hidden */}
     </>
   );
 }
@@ -406,15 +448,16 @@ const HANDLE_CURSORS = [
   "nesw-resize","ns-resize","nwse-resize",
 ] as const;
 
-const HANDLE_SZ = 48;
+const HANDLE_SZ = 38;
 const HANDLE_BRACKET_STYLE: React.CSSProperties = {
   filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.28)) drop-shadow(0 0 6px rgba(255,255,255,0.18))",
   display: "block",
+  // Round caps extend ~4px past the path ends; without this the viewBox clips them flat.
+  overflow: "visible",
   pointerEvents: "none",
 };
 
 function ResizeBracket({ d }: { d: string }) {
-  const P = 3;
   const SW = 8;
   return (
     <svg width={HANDLE_SZ} height={HANDLE_SZ} viewBox={`0 0 ${HANDLE_SZ} ${HANDLE_SZ}`} fill="none" style={HANDLE_BRACKET_STYLE}>
@@ -424,10 +467,11 @@ function ResizeBracket({ d }: { d: string }) {
   );
 }
 
-function Handles({ onMouseDown, interactive = true }: { onMouseDown?: (e: React.MouseEvent, i: number) => void; interactive?: boolean }) {
+function Handles({ onMouseDown, interactive = true, borderRadius = 15 }: { onMouseDown?: (e: React.MouseEvent, i: number) => void; interactive?: boolean; borderRadius?: number }) {
   const P  = 3;
   const far = HANDLE_SZ - P;
-  const R  = 22;
+  // Elbow radius tracks the card's corner radius so the bracket hugs it instead of floating.
+  const R  = Math.min(Math.max(6, borderRadius), Math.round((far - P) * 0.72));
 
   const paths = {
     tl: `M ${far} ${P} L ${P+R} ${P} Q ${P} ${P} ${P} ${P+R} L ${P} ${far}`,
@@ -452,7 +496,7 @@ function Handles({ onMouseDown, interactive = true }: { onMouseDown?: (e: React.
   return (
     <>
       {/* 0 TL */ }
-      <span className={w} style={{ top: -4, left: -4, cursor: interactive ? "nwse-resize" : "default" }}
+      <span className={w} style={{ top: -1, left: -1, cursor: interactive ? "nwse-resize" : "default" }}
         onMouseDown={mk(0)} aria-hidden>
         <ResizeBracket d={paths.tl} /></span>
       {/* 1 TM */}
@@ -460,7 +504,7 @@ function Handles({ onMouseDown, interactive = true }: { onMouseDown?: (e: React.
         onMouseDown={mk(1)} aria-hidden>
         <span style={midPill(18, 5)} /></span>
       {/* 2 TR */}
-      <span className={w} style={{ top: -4, right: -4, cursor: interactive ? "nesw-resize" : "default" }}
+      <span className={w} style={{ top: -1, right: -1, cursor: interactive ? "nesw-resize" : "default" }}
         onMouseDown={mk(2)} aria-hidden>
         <ResizeBracket d={paths.tr} /></span>
       {/* 3 ML */}
@@ -472,7 +516,7 @@ function Handles({ onMouseDown, interactive = true }: { onMouseDown?: (e: React.
         onMouseDown={mk(4)} aria-hidden>
         <span style={midPill(5, 18)} /></span>
       {/* 5 BL */}
-      <span className={w} style={{ bottom: -4, left: -4, cursor: interactive ? "nesw-resize" : "default" }}
+      <span className={w} style={{ bottom: -1, left: -1, cursor: interactive ? "nesw-resize" : "default" }}
         onMouseDown={mk(5)} aria-hidden>
         <ResizeBracket d={paths.bl} /></span>
       {/* 6 BM */}
@@ -480,7 +524,7 @@ function Handles({ onMouseDown, interactive = true }: { onMouseDown?: (e: React.
         onMouseDown={mk(6)} aria-hidden>
         <span style={midPill(18, 5)} /></span>
       {/* 7 BR */}
-      <span className={w} style={{ bottom: -4, right: -4, cursor: interactive ? "nwse-resize" : "default" }}
+      <span className={w} style={{ bottom: -1, right: -1, cursor: interactive ? "nwse-resize" : "default" }}
         onMouseDown={mk(7)} aria-hidden>
         <ResizeBracket d={paths.br} /></span>
     </>
@@ -499,28 +543,58 @@ const PILL_THEMES: Record<string, string> = {
   parchment: "bg-[#f1e6d2]         text-[#8a6642]  ring-1 ring-[#c9ad8a]/60",
 };
 
-function TypePills({ typeTags, pillTheme = "green" }: { typeTags: string; pillTheme?: string }) {
+function TypePills({ typeTags, pillTheme = "green", scale = 1 }: { typeTags: string; pillTheme?: string; scale?: number }) {
   const cls = PILL_THEMES[pillTheme] ?? PILL_THEMES.green;
+  const fs  = Math.max(6, Math.round(8 * scale));
+  const px  = Math.max(6, Math.round(10 * scale));
+  const py  = Math.max(2, Math.round(4 * scale));
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap" style={{ gap: Math.max(4, Math.round(6 * scale)) }}>
       {typeTags.split(" · ").map((t) => t.trim()).filter(Boolean).map((tag) => (
-        <span key={tag} className={cn("rounded-full px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.14em]", cls)}>
+        <span key={tag}
+          className={cn("rounded-full font-mono font-semibold uppercase", cls)}
+          style={{ fontSize: fs, paddingLeft: px, paddingRight: px, paddingTop: py, paddingBottom: py, letterSpacing: "0.14em" }}>
           {tag}
         </span>
       ))}
     </div>
   );
 }
-function MetricPills({ tags }: { tags: [string, string] | [string, string, string] }) {
+function MetricPills({ tags, scale = 1 }: { tags: [string, string] | [string, string, string]; scale?: number }) {
+  const fs = Math.max(6, Math.round(8 * scale));
+  const px = Math.max(6, Math.round(10 * scale));
+  const py = Math.max(2, Math.round(4 * scale));
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="flex flex-wrap" style={{ gap: Math.max(4, Math.round(6 * scale)) }}>
       {tags.map((tag) => (
-        <span key={tag} className="rounded-full px-2.5 py-1 font-mono text-[9px] font-medium tracking-[0.04em]"
-          style={{ background: "rgba(0,0,0,0.055)", color: "#52525b", border: "0.5px solid rgba(0,0,0,0.09)" }}>
+        <span key={tag} className="rounded-full font-mono font-medium"
+          style={{ fontSize: fs, paddingLeft: px, paddingRight: px, paddingTop: py, paddingBottom: py,
+            letterSpacing: "0.04em", background: "rgba(0,0,0,0.055)", color: "#52525b", border: "0.5px solid rgba(0,0,0,0.09)" }}>
           {tag}
         </span>
       ))}
     </div>
+  );
+}
+
+/** Shipped / Case Study pill — sized to sit beside the type pills at the top of the card. */
+function StatusPill({ label, className, scale = 1 }: { label: NonNullable<GalleryProject["statusLabel"]>; className?: string; scale?: number }) {
+  const fs = Math.max(6, Math.round(8 * scale));
+  const px = Math.max(6, Math.round(10 * scale));
+  const py = Math.max(2, Math.round(4 * scale));
+  return (
+    <span
+      className={cn(
+        "shrink-0 rounded-full font-mono font-semibold uppercase",
+        label === "Shipped"
+          ? "bg-emerald-500/[0.10] text-emerald-700 ring-1 ring-emerald-400/50"
+          : "bg-zinc-400/[0.10] text-zinc-500 ring-1 ring-zinc-400/40",
+        className,
+      )}
+      style={{ fontSize: fs, paddingLeft: px, paddingRight: px, paddingTop: py, paddingBottom: py, letterSpacing: "0.14em" }}
+    >
+      {label}
+    </span>
   );
 }
 
@@ -582,9 +656,16 @@ function MobileCard({ project, priority, revealed, revealDelay }: {
       </div>
 
       <div className="relative z-10 flex flex-1 flex-col gap-3 px-5 pt-[calc(1rem+2px)] pb-6 rounded-b-2xl overflow-hidden" style={CARD_META_GLASS}>
-        {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
-        <p className={cn("font-mono text-[19px] font-semibold leading-snug tracking-tight transition-colors duration-200 mt-[15px]", hovered ? "text-zinc-950" : "text-zinc-600")}>{project.title}</p>
-        <p className={cn("text-[14px] leading-relaxed transition-colors duration-200", hovered ? "text-zinc-800" : "text-zinc-400")}>{project.description}</p>
+        {(project.typeTags || project.statusLabel) && (
+          <div className="flex flex-wrap items-center gap-1.5">
+            {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
+            {project.statusLabel && <StatusPill label={project.statusLabel} />}
+          </div>
+        )}
+        <div className={cn("mt-[15px] flex items-center gap-2")}>
+          <p className={cn("font-mono text-[15px] font-semibold leading-snug tracking-tight transition-colors duration-200", hovered ? "text-zinc-950" : "text-zinc-600")}>{project.title}</p>
+        </div>
+        <p className={cn("text-[11px] leading-relaxed transition-colors duration-200", hovered ? "text-zinc-800" : "text-zinc-400")}>{project.description}</p>
         {project.tags && <MetricPills tags={project.tags} />}
       </div>
     </div>
@@ -599,17 +680,19 @@ export interface GalleryInitialLayout {
   sizesBySlug: Record<string, { w: number; h: number }>;
 }
 
-export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFontScale, initialLayout }: { projects: GalleryProject[]; storageKey: string; cardMetaHeight?: number; cardFontScale?: number; initialLayout?: GalleryInitialLayout }) {
+export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFontScale, initialLayout, gridOnly }: { projects: GalleryProject[]; storageKey: string; cardMetaHeight?: number; cardFontScale?: number; initialLayout?: GalleryInitialLayout; gridOnly?: boolean }) {
   const effMetaH = cardMetaHeight ?? CANVAS_META_H;
 
-  // Below 800px → CSS-grid layout (no drag/resize, just visual handles on hover).
-  const [isDesktop, setIsDesktop] = useState(false);
+  // Below 800px (or when gridOnly) → CSS-grid layout (no drag/resize, just visual handles on hover).
+  const [isDesktopCanvas, setIsDesktopCanvas] = useState(false);
   useEffect(() => {
+    if (gridOnly) { setIsDesktopCanvas(false); return; }
     const mq = window.matchMedia("(min-width: 800px)");
-    const on = () => setIsDesktop(mq.matches);
+    const on = () => setIsDesktopCanvas(mq.matches);
     on(); mq.addEventListener("change", on);
     return () => mq.removeEventListener("change", on);
-  }, []);
+  }, [gridOnly]);
+  const isDesktop = isDesktopCanvas;
 
   // Scroll reveal — per-card bounce-in on desktop and mobile
   const [revealedCards, setRevealedCards] = useState<Set<number>>(() => new Set());
@@ -701,13 +784,21 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
     return () => io.disconnect();
   }, [isDesktop, projects]);
 
-  // Buddy peeks below the collage on desktop — reveal immediately, not on scroll
+  // On desktop, reveal any cards already in the viewport when the gallery is ready
   useEffect(() => {
     if (!isDesktop || !ready) return;
+    const inView = new Set<number>();
+    cardRevealRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) inView.add(i);
+    });
+    // Always reveal Buddy (0) and Eidolon (1) on first load
+    inView.add(0);
+    inView.add(1);
     setRevealedCards((prev) => {
-      if (prev.has(0)) return prev;
       const next = new Set(prev);
-      next.add(0);
+      inView.forEach((i) => next.add(i));
       return next;
     });
   }, [isDesktop, ready]);
@@ -855,11 +946,11 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
     setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
   }, [baseSizes, positions, projects, effMetaH]);
 
-  // ── Mobile ────────────────────────────────────────────────────────────────
+  // ── Grid (mobile + gridOnly) ────────────────────────────────────────────
   if (!isDesktop) {
     return (
       <div ref={mobileRef} className="relative z-[80] w-full px-4 py-4 sm:px-6 sm:py-6">
-        <div className="mx-auto grid max-w-[min(900px,96vw)] grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+        <div className={cn("mx-auto grid gap-4 sm:gap-5", gridOnly ? "max-w-[min(1200px,96vw)] grid-cols-2" : "max-w-[min(900px,96vw)] grid-cols-1 sm:grid-cols-2")}>
           {projects.map((project, i) => (
             <MobileCard key={project.slug} project={project} priority={i < 2}
               revealed={revealedCards.size > 0} revealDelay={i * 70} />
@@ -894,10 +985,11 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
         const cardH  = Math.round(base.h * sc);
         const metaH  = Math.round(effMetaH * sc);
         const imageH = Math.max(0, cardH - metaH);
-        const bg     = project.coverColor ?? "#ffffff";
+        const bg     = project.coverColor ?? "#111111";
         const objFit = project.coverImageFit === "cover" ? "object-cover" : "object-contain";
-        const isHov  = hoveredIdx === i || resizingIdx === i;
-        const visible = revealedCards.has(i);
+        const isHov       = hoveredIdx === i || resizingIdx === i;
+        const visible     = revealedCards.has(i);
+        const cardRadius  = Math.round(11 * sc);
         return (
           <div
             key={project.slug}
@@ -916,18 +1008,18 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
             {/* Resize handles live outside overflow-hidden so circles aren't clipped */}
             <div className="pointer-events-none absolute inset-0 z-50 transition-opacity duration-150"
               style={{ opacity: isHov ? 1 : 0 }}>
-              <Handles onMouseDown={(e, hi) => startResize(e, i, hi)} />
+              <Handles onMouseDown={(e, hi) => startResize(e, i, hi)} borderRadius={cardRadius} />
             </div>
 
-            <div className="group relative overflow-hidden rounded-2xl"
-              style={{ width: cardW, height: cardH }}
+            <div className="group relative overflow-hidden"
+              style={{ width: cardW, height: cardH, borderRadius: cardRadius }}
               onMouseDown={() => setZOrder((prev) => [...prev.filter((n) => n !== i), i])}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
             >
               {/* Selection border */}
-              <div className="pointer-events-none absolute inset-0 z-40 rounded-2xl transition-opacity duration-150"
-                style={{ opacity: isHov ? 1 : 0, boxShadow: `inset 0 0 0 1.5px ${SEL_GREEN}` }} />
+              <div className="pointer-events-none absolute inset-0 z-40 transition-opacity duration-150"
+                style={{ opacity: isHov ? 1 : 0, borderRadius: cardRadius, boxShadow: `inset 0 0 0 1.5px ${SEL_GREEN}` }} />
 
               {/* Image area */}
               <div className="absolute inset-x-0 top-0 overflow-hidden" style={{ height: imageH, background: bg }}>
@@ -943,21 +1035,35 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
 
               {/* Meta strip — isolated from cover art so frost matches on every card */}
               <div
-                className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-between px-4 pt-3 pb-4"
-                style={{ top: imageH, ...CARD_META_GLASS }}
+                className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-between"
+                style={{
+                  top: imageH,
+                  paddingLeft: Math.round(16 * sc),
+                  paddingRight: Math.round(16 * sc),
+                  paddingTop: Math.round(12 * sc),
+                  paddingBottom: Math.round(16 * sc),
+                  ...CARD_META_GLASS,
+                }}
               >
-                <div className="flex flex-col gap-2 mt-[2px]">
-                  {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} />}
-                  <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200", project.typeTags ? "mt-[15px]" : "mt-[4px]", isHov ? "text-zinc-950" : "text-zinc-600")}
-                    style={{ fontSize: Math.round(19 * sc * (cardFontScale ?? 1)) }}>
-                    {project.title}
-                  </p>
+                <div className="flex flex-col" style={{ gap: Math.round(6 * sc), marginTop: Math.round(2 * sc) }}>
+                  {(project.typeTags || project.statusLabel) && (
+                    <div className="flex flex-wrap items-center" style={{ gap: Math.round(6 * sc) }}>
+                      {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} scale={sc} />}
+                      {project.statusLabel && <StatusPill label={project.statusLabel} scale={sc} />}
+                    </div>
+                  )}
+                  <div className="flex items-center" style={{ gap: Math.round(8 * sc), marginTop: project.typeTags ? Math.round(12 * sc) : Math.round(4 * sc) }}>
+                    <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200", isHov ? "text-zinc-950" : "text-zinc-600")}
+                      style={{ fontSize: Math.round(15 * sc * (cardFontScale ?? 1)) }}>
+                      {project.title}
+                    </p>
+                  </div>
                   <p className={cn("leading-relaxed transition-colors duration-200", isHov ? "text-zinc-800" : "text-zinc-400")}
-                    style={{ fontSize: Math.round(14 * sc * (cardFontScale ?? 1)) }}>
+                    style={{ fontSize: Math.round(11 * sc * (cardFontScale ?? 1)) }}>
                     {project.description}
                   </p>
                 </div>
-                {project.tags && <MetricPills tags={project.tags} />}
+                {project.tags && <MetricPills tags={project.tags} scale={sc} />}
               </div>
 
               {/* Click overlay — above glass, below handles */}

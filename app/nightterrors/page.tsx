@@ -8,7 +8,7 @@ const SLUG = "nightterrors";
 const CATEGORY = "product-design";
 
 const TITLE = "N1ghtterrors";
-const DESCRIPTION = "a website designed to capture the essence of n1ghtterrors";
+const DESCRIPTION = "designed and built a full-stack storefront for n1ghtterrors";
 const HERO = "https://framerusercontent.com/images/AL4WyDyvVZgsOwghkwSyqiMdo.jpg";
 
 // ── Engineering diagram constants (matching Buddy pattern) ───────────────────
@@ -77,7 +77,6 @@ const PILLARS = [
 // ────────────────────────────────────────────────────────────────────────────
 
 export const metadata: Metadata = {
-  title: TITLE,
   description: `Failenn Aselta, ${TITLE}. ${DESCRIPTION}`,
 };
 
@@ -139,7 +138,7 @@ export default function NightterrorsPage() {
                 Design and ship a website for a clothing line that speaks to its edgy essence.
               </h2>
               <p className="max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                N1ghtterrors is a clothing line rooted in sublimity — each garment is a visual meditation on unseen instability, juxtaposing extremes of power and collapse. The work doesn&apos;t prescribe an interpretation; it asks what the audience chooses to see.
+                N1ghtterrors is a clothing line rooted in sublimity — each garment is a visual meditation on unseen instability, juxtaposing extremes of power and collapse. I designed the site, coded the full stack, and shot the photography.
               </p>
             </>
           ),
@@ -251,7 +250,7 @@ export default function NightterrorsPage() {
           content: (
             <>
               <p className="mb-6 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                Chose vanilla JS and Node.js deliberately — the rawness of the stack matched the brand. Frameworks would have smoothed edges the brand needed to keep.
+                I chose vanilla JS and Node.js deliberately — the rawness of the stack matched the brand. Frameworks would have smoothed edges the brand needed to keep.
               </p>
 
               <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
@@ -297,6 +296,55 @@ export default function NightterrorsPage() {
                       {heading}
                     </p>
                     <p className="text-[0.85rem] font-medium leading-relaxed text-zinc-800">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
+          id: "why",
+          label: "WHY",
+          content: (
+            <>
+              <h2 className="mb-8 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                Four decisions that made the site feel like the brand.
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {[
+                  {
+                    decision: "Vanilla JS over React",
+                    chose: "Raw stack",
+                    alt: "React / Next.js",
+                    why: "Frameworks smooth edges. N1ghtterrors' edge needed to stay. The architecture had to feel like the clothes: nothing processed, nothing softened.",
+                  },
+                  {
+                    decision: "Unconventional nav",
+                    chose: "Typographic entry point",
+                    alt: "Hamburger or top nav",
+                    why: "A standard menu would have made the site read as e-commerce. Post-testing copy fixed discoverability without touching the layout. Brand fidelity won.",
+                  },
+                  {
+                    decision: "Film grain and sway animation",
+                    chose: "Atmospheric motion",
+                    alt: "Static or fade transitions",
+                    why: "Every animation was chosen to match the brand register: abrupt, textured, unresolved. Motion communicates what copy cannot.",
+                  },
+                  {
+                    decision: "Stripe plus Supabase",
+                    chose: "Custom full-stack",
+                    alt: "Shopify / Squarespace",
+                    why: "Shopify and Squarespace impose template logic on the brand experience. Full-stack control meant the purchase flow could match the site, not fight it.",
+                  },
+                ].map(({ decision, chose, alt, why }) => (
+                  <div key={decision} className="rounded-2xl border border-zinc-200/60 bg-white/60 p-5 backdrop-blur-sm">
+                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{decision}</p>
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-zinc-900/[0.08] px-2.5 py-1 font-mono text-[0.7rem] text-zinc-800 ring-1 ring-zinc-300/50">{chose}</span>
+                      <span className="font-mono text-[0.65rem] text-zinc-300">vs</span>
+                      <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[0.7rem] text-zinc-400 line-through ring-1 ring-zinc-200/60">{alt}</span>
+                    </div>
+                    <p className="text-[0.85rem] leading-relaxed text-zinc-600">{why}</p>
                   </div>
                 ))}
               </div>
@@ -361,9 +409,9 @@ export default function NightterrorsPage() {
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
-                  { stat: "Live", label: "client-approved site" },
-                  { stat: "3 yrs", label: "in active production" },
-                  { stat: "0", label: "redesign requests" },
+                  { stat: "50%", label: "of launch inventory sold in week one" },
+                  { stat: "38%", label: "of users needed a navigation cue. Fixed post-testing without a layout change." },
+                  { stat: "0", label: "redesign requests after delivery" },
                 ].map(({ stat, label }) => (
                   <div key={stat} className="rounded-2xl bg-zinc-900/[0.06] p-6 ring-1 ring-zinc-300/40">
                     <p className="mb-1 font-mono text-[2rem] font-medium leading-none tracking-[-0.04em] text-zinc-900">{stat}</p>

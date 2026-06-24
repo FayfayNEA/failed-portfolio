@@ -4,7 +4,6 @@ import type { GalleryProject, GalleryInitialLayout } from "@/components/category
 import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 
 export const metadata: Metadata = {
-  title: "Architecture",
   description: "Failenn Aselta, Architecture and spatial design work.",
 };
 

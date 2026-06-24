@@ -8,7 +8,6 @@ const TITLE = "Iris's World";
 const DESCRIPTION = "a first-person game about being a tiny dog in a very big house";
 
 export const metadata: Metadata = {
-  title: TITLE,
   description: "Failenn Aselta — Iris's World, a browser-based 3D exploration game built with Three.js",
 };
 

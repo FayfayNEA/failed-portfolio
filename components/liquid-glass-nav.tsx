@@ -5,13 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
-import { shouldShowHomeAside } from "@/lib/home-aside-visibility";
 
 const LINKS = [
   { href: "/", label: "home" },
   { href: "/work", label: "work" },
   { href: "/contact", label: "contact" },
-  { href: "/about", label: "about" },
 ] as const;
 
 const spring = { type: "spring", stiffness: 420, damping: 22 } as const;
@@ -47,8 +45,10 @@ export function LiquidGlassNav() {
   const isLiveTool  = pathname === "/teatimer" || pathname.startsWith("/work/fither");
 
   const [workOpen, setWorkOpen] = useState(false);
-  const [showSubtitle, setShowSubtitle] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  // Lets the nav-section show its dropdown once the expand animation finishes
+  // (overflow stays hidden while the width animates, then opens so Work's menu isn't clipped).
+  const [navOverflowVisible, setNavOverflowVisible] = useState(false);
   const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scheduleCollapse = (delay: number) => {
@@ -91,22 +91,11 @@ export function LiquidGlassNav() {
     return () => window.removeEventListener("hashchange", scrollFromHash);
   }, [pathname]);
 
+  // Collapsing the nav (live tools) must re-clip the section before it animates closed.
   useEffect(() => {
-    const check = () => {
-      if (pathname !== "/") {
-        setShowSubtitle(true);
-        return;
-      }
-      setShowSubtitle(shouldShowHomeAside());
-    };
-    check();
-    window.addEventListener("scroll", check, { passive: true });
-    window.addEventListener("resize", check, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", check);
-      window.removeEventListener("resize", check);
-    };
-  }, [pathname]);
+    if (isCollapsed) setNavOverflowVisible(false);
+  }, [isCollapsed]);
+
   const workTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const openWork  = () => { if (workTimer.current) clearTimeout(workTimer.current); setWorkOpen(true); };
   const closeWork = () => { workTimer.current = setTimeout(() => setWorkOpen(false), 160); };
@@ -118,8 +107,12 @@ export function LiquidGlassNav() {
   };
 
   const linkBase = isDark
-    ? "text-white/75 hover:text-white hover:bg-white/[0.09]"
-    : "text-[#5a6648]/75 hover:text-[#3d4830] hover:bg-[#5a6648]/[0.07]";
+    ? "text-white/75 hover:text-white"
+    : "text-[#5a6648]/75 hover:text-[#3d4830]";
+
+  const linkHover = isDark
+    ? "hover:bg-white/[0.09]"
+    : "hover:bg-[#5a6648]/[0.07]";
 
   const linkActive = isDark
     ? "bg-white/[0.1] text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
@@ -139,7 +132,7 @@ export function LiquidGlassNav() {
     >
       <motion.div
         layout
-        className={cn("pointer-events-auto relative", isCollapsed ? "" : "w-full max-w-[min(900px,96vw)]")}
+        className={cn("pointer-events-auto relative", isCollapsed ? "" : "w-full max-w-[min(800px,96vw)]")}
         initial={{ opacity: 0, y: reduced ? 0 : -18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
@@ -165,21 +158,15 @@ export function LiquidGlassNav() {
               <div className="liquid-glass-nav-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
             </div>
 
-            <motion.div layout transition={{ layout: { duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] } }} className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-5 md:py-3">
+            <motion.div layout transition={{ layout: { duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] } }} className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-6 md:py-2.5">
               {/* Brand wordmark */}
               <Link href="/" onClick={handleBrandClick} aria-label="Home, Failenn Aselta" className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]">
                 <motion.span whileHover={reduced ? {} : { scale: 1.03, y: -1 }} whileTap={reduced ? {} : { scale: 0.96 }} transition={spring} className="block text-center">
-                  <span data-intro-name className={cn("block font-mono text-[9px] font-semibold tracking-[0.06em] sm:text-[10px] sm:tracking-[0.08em] md:text-[12px] md:tracking-[0.1em]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
+                  <span data-intro-name className={cn("block font-mono text-[10px] font-semibold tracking-[0.06em] sm:text-[11px] sm:tracking-[0.08em] md:text-[13px] md:tracking-[0.09em]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
                     failenn aselta
                   </span>
                   <span
-                    className={cn("block font-sans text-[7.5px] italic tracking-[0.04em] sm:text-[8.5px] md:text-[10px] md:tracking-[0.05em]", isDark ? "text-white/50" : "text-[#5a6648]/65")}
-                    style={{
-                      opacity: showSubtitle ? 1 : 0,
-                      transform: showSubtitle ? "translateY(0)" : "translateY(-4px)",
-                      transition: "opacity 0.4s ease, transform 0.4s ease",
-                      pointerEvents: showSubtitle ? undefined : "none",
-                    }}
+                    className={cn("block font-sans text-[8px] italic tracking-[0.03em] sm:text-[9px] md:text-[10px] md:tracking-[0.04em]", isDark ? "text-white/50" : "text-[#5a6648]/65")}
                   >
                     Product Designer + Code
                   </span>
@@ -190,7 +177,7 @@ export function LiquidGlassNav() {
                 {!isCollapsed && (
                   <motion.div
                     key="nav-section"
-                    className="flex min-w-0 flex-1 items-center overflow-hidden"
+                    className={cn("flex min-w-0 flex-1 items-center", (navOverflowVisible || !isLiveTool) ? "overflow-visible" : "overflow-hidden")}
                     initial={{ maxWidth: 0, opacity: 0 }}
                     animate={{ maxWidth: 700, opacity: 1 }}
                     exit={{ maxWidth: 0, opacity: 0 }}
@@ -198,6 +185,7 @@ export function LiquidGlassNav() {
                       maxWidth: { duration: reduced ? 0 : 0.5, ease: [0.23, 1, 0.32, 1] },
                       opacity:  { duration: reduced ? 0 : 0.3 },
                     }}
+                    onAnimationComplete={() => { if (!isCollapsed) setNavOverflowVisible(true); }}
                   >
               {/* Divider */}
               <span className={cn("mx-2 h-4 w-px shrink-0 sm:mx-2.5 sm:h-5 md:mx-4", isDark ? "bg-gradient-to-b from-transparent via-white/20 to-transparent" : "bg-gradient-to-b from-transparent via-black/[0.08] to-transparent")} aria-hidden />
@@ -213,7 +201,7 @@ export function LiquidGlassNav() {
                       className="relative min-w-0 flex-1"
                       initial={reduced ? false : { opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      whileHover={reduced || isWork ? {} : { y: -2, scale: 1.06 }}
+                      whileHover={reduced ? {} : { y: -2, scale: 1.06 }}
                       whileTap={reduced ? {} : { scale: 0.93 }}
                       transition={{
                         opacity: { duration: 0.3, ease: "easeOut", delay: 0.2 + 0.07 * i },
@@ -232,12 +220,17 @@ export function LiquidGlassNav() {
                           window.history.replaceState(null, "", "#retro-computer");
                         } : undefined}
                         className={cn(
-                          "block text-center whitespace-nowrap leading-tight rounded-full px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.11em] transition-colors duration-150 sm:px-2.5 sm:py-1.5 sm:text-[9.5px] sm:tracking-[0.15em] md:px-3 md:text-[11px] md:tracking-[0.22em]",
+                          "flex items-center justify-center whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.11em] transition-colors duration-150 sm:text-[10px] sm:tracking-[0.13em] md:text-[12px] md:tracking-[0.18em]",
                           linkBase,
-                          active && linkActive
                         )}
                       >
-                        {label}
+                        <span className={cn(
+                          "rounded-full px-4 py-1.5 transition-colors duration-150 sm:px-4.5 sm:py-1.5 md:px-5 md:py-2",
+                          linkHover,
+                          active && linkActive
+                        )}>
+                          {label}
+                        </span>
                       </Link>
 
                       {/* Dropdown anchored under Work link */}

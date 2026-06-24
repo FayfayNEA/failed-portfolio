@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { Fragment } from "react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useState, useCallback, useLayoutEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useCarouselSwipe } from "@/lib/carousel-swipe";
@@ -14,6 +14,17 @@ import { CoolPageCursor } from "@/components/cool-page-cursor";
 import { AutoPlayVideo } from "@/components/autoplay-video";
 import { cn } from "@/lib/cn";
 import { CategoryProjectsFooter } from "@/components/category-projects-footer";
+
+/**
+ * Solid canvas backdrop painted directly behind a mockup video so
+ * `mix-blend-multiply` has a guaranteed local backdrop (Framer Motion transforms
+ * otherwise create stacking contexts that block the blend from reaching the body).
+ * Solid color (no dots / no fixed attachment) so it renders identically on mobile,
+ * where `background-attachment: fixed` is disabled for being glitchy.
+ */
+const DOT_CANVAS_STYLE: CSSProperties = {
+  backgroundColor: "var(--canvas)",
+};
 
 type Hero =
   | {
@@ -89,6 +100,8 @@ export type ManualProjectPageProps = {
   descriptionPlacement?: "above" | "overlay";
   /** Optional content rendered directly under the hero block. */
   heroBelow?: ReactNode;
+  /** Optional content rendered directly under the metadata (tech stack) grid. */
+  metaBelow?: ReactNode;
   /** Optional styling for the hero frame (e.g. liquid glass on select pages). */
   heroFrameVariant?: "default" | "liquid";
   /** Remove rounded corners / shadow / ring from hero images. */
@@ -352,8 +365,7 @@ function HeroVideoCarousel({
           <div
             className={cn(
               "flex justify-center",
-              // Eidolon hero (portrait only): video 2 needs a white mat to match video 1 framing.
-              !landscape && index === 1 && "bg-white px-[30px]"
+              !landscape && index === 1 && "px-[30px]"
             )}
           >
             <AutoPlayVideo
@@ -374,32 +386,6 @@ function HeroVideoCarousel({
             />
           </div>
 
-          {/* Beveled edge overlay */}
-          <div
-            aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute inset-0 rounded-2xl",
-              "ring-1 ring-black/[0.08]",
-              // inner rim: bright top/left, darker bottom/right
-              "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.72),inset_1px_0_0_0_rgba(255,255,255,0.35),inset_0_-1px_0_0_rgba(0,0,0,0.28),inset_-1px_0_0_0_rgba(0,0,0,0.18)]"
-            )}
-          />
-          <div
-            aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute inset-0 rounded-2xl",
-              // 3D bevel sweep: highlight from top-left, shadow to bottom-right
-              "[background:linear-gradient(135deg,rgba(255,255,255,0.22),rgba(255,255,255,0.06)_22%,rgba(0,0,0,0)_55%,rgba(0,0,0,0.18))]"
-            )}
-          />
-          <div
-            aria-hidden="true"
-            className={cn(
-              "pointer-events-none absolute inset-[1px] rounded-[calc(theme(borderRadius.2xl)-1px)]",
-              // micro-specular rim to sell depth
-              "opacity-[0.95] [background:linear-gradient(180deg,rgba(255,255,255,0.20),rgba(255,255,255,0)_26%,rgba(0,0,0,0)_74%,rgba(0,0,0,0.16))]"
-            )}
-          />
         </div>
 
         {/* Controls row: arrows + dots below the video */}
@@ -467,6 +453,7 @@ export function ManualProjectPage({
   heroNoSidePadding = false,
   mobileHeading = "title",
   heroBelow,
+  metaBelow,
   heroFrameVariant = "default",
   heroSize = "default",
   heroTallSize = "default",
@@ -563,7 +550,7 @@ export function ManualProjectPage({
                   className={cn(
                     "w-full",
                     heroSize === "wide"
-                      ? "max-w-[min(1280px,calc(100vw-1.5rem))]"
+                      ? "max-w-[min(1216px,calc(100vw-1.5rem))]"
                       : "max-w-[min(520px,88vw)] sm:max-w-[min(580px,86vw)] md:max-w-[min(640px,84vw)]"
                   )}
                 >
@@ -581,19 +568,18 @@ export function ManualProjectPage({
                   <div
                     className={cn(
                       "relative overflow-hidden rounded-2xl",
+                      // Liquid pages (E*Trade) sit frameless so the multiplied video drops
+                      // its baked-in white mat against the page canvas.
                       heroFrameVariant === "liquid"
-                        ? cn(
-                            "isolate border-[0.5px] border-white/55",
-                            "bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.65)]",
-                            "ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125"
-                          )
+                        ? ""
                         : "border-[0.5px] border-zinc-200/80 bg-white"
                     )}
+                    style={heroFrameVariant === "liquid" ? DOT_CANVAS_STYLE : undefined}
                   >
                     <div
                       className={cn(
                         "relative flex justify-center",
-                        heroFrameVariant === "liquid" ? "p-3 sm:p-4 md:p-5" : "p-4 sm:p-5 md:p-6"
+                        heroFrameVariant === "liquid" ? "" : "p-4 sm:p-5 md:p-6"
                       )}
                     >
                       <AutoPlayVideo
@@ -602,7 +588,7 @@ export function ManualProjectPage({
                         className={cn(
                           "h-auto w-full max-h-[min(92dvh,960px)] rounded-xl object-contain",
                           heroFrameVariant === "liquid"
-                            ? "bg-white ring-[0.5px] ring-zinc-200/60"
+                            ? "mix-blend-multiply"
                             : "bg-white ring-[0.5px] ring-zinc-200/60"
                         )}
                         src={hero.src}
@@ -617,8 +603,8 @@ export function ManualProjectPage({
                   className={cn(
                     "w-full",
                     (hero.size ?? heroSize) === "wide"
-                      ? "max-w-[min(1280px,calc(100vw-1.5rem))]"
-                      : "max-w-[min(880px,calc(100vw-1.5rem))]"
+                      ? "max-w-[min(1216px,calc(100vw-1.5rem))]"
+                      : "max-w-[min(836px,calc(100vw-1.5rem))]"
                   )}
                 >
                   {description && (
@@ -652,7 +638,7 @@ export function ManualProjectPage({
                     hero.layout === "tall" && (heroNoSidePadding ? "w-full" : "w-fit"),
                     hero.layout !== "full" &&
                       hero.layout !== "tall" &&
-                      "mx-auto w-full max-w-[min(1280px,calc(100vw-1.5rem))]",
+                      "mx-auto w-full max-w-[min(1216px,calc(100vw-1.5rem))]",
                     hero.layout === "tall" &&
                       (heroTallSize === "tiny"
                         ? heroNoSidePadding
@@ -730,8 +716,8 @@ export function ManualProjectPage({
                         hero.layout !== "full" &&
                           hero.layout !== "tall" &&
                           (hero.layout === "compact"
-                            ? "max-w-[min(880px,calc(100vw-1.5rem))]"
-                            : "max-w-[min(1280px,calc(100vw-1.5rem))]"),
+                            ? "max-w-[min(836px,calc(100vw-1.5rem))]"
+                            : "max-w-[min(1216px,calc(100vw-1.5rem))]"),
                         hero.layout === "tall" &&
                           (heroTallSize === "tiny"
                             ? heroNoSidePadding
@@ -781,10 +767,10 @@ export function ManualProjectPage({
                           hero.layout === "compact"
                             ? heroNoSidePadding
                               ? "max-w-[min(880px,100vw)]"
-                              : "max-w-[min(880px,calc(100vw-1.5rem))]"
+                              : "max-w-[min(836px,calc(100vw-1.5rem))]"
                             : heroNoSidePadding
                               ? "max-w-[min(1280px,100vw)]"
-                              : "max-w-[min(1280px,calc(100vw-1.5rem))]"
+                              : "max-w-[min(1216px,calc(100vw-1.5rem))]"
                         )
                     )}
                   >
@@ -855,11 +841,11 @@ export function ManualProjectPage({
                                     "mx-auto",
                                     heroNoSidePadding
                                       ? "max-w-[min(880px,100vw)]"
-                                      : "max-w-[min(880px,calc(100vw-1.5rem))]"
+                                      : "max-w-[min(836px,calc(100vw-1.5rem))]"
                                   )
                                 : heroNoSidePadding
                                   ? "max-w-[min(1280px,100vw)]"
-                                  : "max-w-[min(1280px,calc(100vw-1.5rem))]"
+                                  : "max-w-[min(1216px,calc(100vw-1.5rem))]"
                             )
                     )}
                   />
@@ -869,7 +855,7 @@ export function ManualProjectPage({
 
             {heroBelow && (
               <div className="mt-4 flex w-full justify-center">
-                <div className="w-full max-w-[min(1280px,calc(100vw-1.5rem))]">{heroBelow}</div>
+                <div className="w-full max-w-[min(1216px,calc(100vw-1.5rem))]">{heroBelow}</div>
               </div>
             )}
           </div>
@@ -889,6 +875,7 @@ export function ManualProjectPage({
                 </div>
               ))}
             </div>
+            {metaBelow && <div className="mb-12">{metaBelow}</div>}
             <Divider />
           </>
         )}

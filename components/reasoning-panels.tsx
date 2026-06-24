@@ -12,7 +12,7 @@ interface Point {
 interface Panel {
   img: string;
   label: string;
-  heading: string;
+  heading?: string;
   points: Point[];
 }
 
@@ -114,10 +114,12 @@ export function ReasoningPanels({ panels, theme = "lime", imageSize = "phone" }:
             viewport={{ once: true, amount: 0.12 }}
             className="flex flex-col justify-center"
           >
-            <div className={`mb-3 h-px w-8 rounded-full ${t.rule}`} />
-            <h3 className="mb-5 text-[1.05rem] font-semibold leading-snug tracking-[-0.02em] text-zinc-950">
-              {panel.heading}
-            </h3>
+            <div className={`mb-5 h-px w-8 rounded-full ${t.rule}`} />
+            {panel.heading && (
+              <h3 className="mb-5 text-[1.05rem] font-semibold leading-snug tracking-[-0.02em] text-zinc-950">
+                {panel.heading}
+              </h3>
+            )}
             <ul className={panel.points.length > 4 ? "grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-6" : "space-y-3"}>
               {panel.points.map(({ lead, detail, bibRef }) => (
                 <li key={lead} className="min-w-0">

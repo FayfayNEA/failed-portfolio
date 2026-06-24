@@ -47,3 +47,6 @@ Untitled
 
 # Large videos tracked via Git LFS
 # (see .gitattributes)
+
+# Unused oversized video (exceeds GitHub 100MB limit)
+/public/buddy2.0.mp4

@@ -13,20 +13,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Failenn Aselta",
+  title: "Failenn Aselta - Product Designer",
   description: "Product designer, design engineer, and design technologist. Research-led work that ships in real code.",
   metadataBase: new URL("https://failennaselta.com"),
   openGraph: {
-    title: "Failenn Aselta",
+    title: "Failenn Aselta - Product Designer",
     description: "Product designer, design engineer, and design technologist. Research-led work that ships in real code.",
     url: "https://failennaselta.com",
-    siteName: "Failenn Aselta",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Failenn Aselta — Designer" }],
+    siteName: "Failenn Aselta - Product Designer",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Failenn Aselta — Product Designer" }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Failenn Aselta",
+    title: "Failenn Aselta - Product Designer",
     description: "Product designer, design engineer, and design technologist. Research-led work that ships in real code.",
     images: ["/opengraph-image"],
   },

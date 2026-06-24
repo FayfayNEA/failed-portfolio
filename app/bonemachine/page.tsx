@@ -10,7 +10,6 @@ const DESCRIPTION = "hand-screen-printed merch translating a band's raw energy i
 const HERO = "/bonemachine/Screenshot 2026-01-28 173317.png";
 
 export const metadata: Metadata = {
-  title: TITLE,
   description: "Failenn Aselta, BoneMachine",
 };
 

@@ -23,7 +23,6 @@ const HERO = "https://framerusercontent.com/images/NvG3dp6QgMIWgEFMHXnQsAmc3lc.p
 const HERO_VIDEO = "/etrade/hero.mp4";
 
 export const metadata: Metadata = {
-  title: TITLE,
   description: `Failenn Aselta, ${TITLE}. ${DESCRIPTION}`,
 };
 
@@ -57,7 +56,7 @@ export default function EtradePage() {
       meta={{
         timeline: "1 week",
         roles: ["Full Stack Engineer", "Product Designer"],
-        team: ["Failenn Aselta"],
+        team: ["Failenn Aselta (solo)"],
         tools: ["Figma", "Photoshop", "Illustrator"],
       }}
       sections={[
@@ -70,14 +69,10 @@ export default function EtradePage() {
                 Design E*Trade to a modern standard with clean UI, lower cognitive load and an AI to help with behavioral errors.
               </h2>
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                E*Trade has constant complaints from users about site usability, many are now
-                switching to more modern platforms like TradingView, Webull, and Interactive
-                Brokers. Users cite a lack of control and an inability to see multiple data points
-                at once. To retain and attract new clients, E*Trade needs to address these concerns
-                while implementing tools that match modern trading workflows.
+                E*Trade has constant complaints from users about site usability, many are now switching to more modern platforms like TradingView, Webull, and Interactive Brokers. Users cite a lack of control and an inability to see multiple data points at once. To retain and attract new clients, E*Trade needs to address these concerns while implementing tools that match modern trading workflows.
               </p>
 
-              <p className={ETRADE.labelSection}>The Problems</p>
+              <p className={ETRADE.labelSection}>Why it matters</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   {
@@ -124,54 +119,18 @@ export default function EtradePage() {
                 ))}
               </div>
 
-              <p className={ETRADE.labelSection}>Our Goals</p>
+              <p className={ETRADE.labelSection}>Impact</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {[
-                  {
-                    n: "01",
-                    stat: "60%",
-                    goal: "Faster Execution Speed",
-                    bibRef: "https://developer.apple.com/design/human-interface-guidelines/buttons",
-                    cite: "(Fitts / NNg)",
-                    hi: false,
-                  },
-                  {
-                    n: "02",
-                    stat: "55%",
-                    goal: "Faster Reaction Time",
-                    bibRef: "#bib-smu",
-                    cite: "(SMU / Design Index)",
-                    hi: false,
-                  },
-                  {
-                    n: "03",
-                    stat: "40%",
-                    goal: "User Retention Lift",
-                    bibRef: "#how-might-we",
-                    cite: "(HMW target)",
-                    hi: true,
-                  },
-                  {
-                    n: "04",
-                    stat: "15%",
-                    goal: "Cortisol Reduction",
-                    bibRef: "#bib-nih",
-                    cite: "(NIH / SMU)",
-                    hi: false,
-                  },
-                ].map(({ n, stat, goal, bibRef, cite, hi }) => (
+                  { n: "01", stat: "83%", goal: "said the layout felt faster and less in the way", hi: true },
+                  { n: "02", stat: "67%", goal: "found the interface mentally lighter than before", hi: false },
+                  { n: "03", stat: "100%", goal: "navigated to their destination unassisted", hi: false },
+                  { n: "04", stat: "25%", goal: "disabled the AI — trust is the next design problem", hi: false },
+                ].map(({ n, stat, goal, hi }) => (
                   <div key={n} className={`${etradeStatCard(hi)} flex flex-col`}>
                     <p className={ETRADE.label}>{n}</p>
                     <p className={`${ETRADE.stat} ${ETRADE.statMuted}`}>{stat}</p>
-                    <p className={`mb-3 text-[0.88rem] font-medium leading-snug ${ETRADE.problemMuted}`}>{goal}</p>
-                    <a
-                      href={bibRef}
-                      target={bibRef.startsWith("http") ? "_blank" : undefined}
-                      rel={bibRef.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className={`${ETRADE.citeLink} ${ETRADE.citeLinkMuted}`}
-                    >
-                      {cite}
-                    </a>
+                    <p className={`text-[0.88rem] font-medium leading-snug ${ETRADE.problemMuted}`}>{goal}</p>
                   </div>
                 ))}
               </div>
@@ -488,6 +447,61 @@ export default function EtradePage() {
           ),
         },
         {
+          id: "why",
+          label: "WHY",
+          content: (
+            <>
+              <h2 className="mb-8 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                Five decisions that turn display disorder into systemic clarity.
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {[
+                  {
+                    decision: "Right sidebar over top nav",
+                    chose: "Persistent sidebar",
+                    alt: "Top navigation bar",
+                    why: "F-pattern scanning keeps eyes left and top. A persistent sidebar puts buy/sell inside that zone without requiring eye travel. Top nav costs a deliberate scan on every action.",
+                  },
+                  {
+                    decision: "High-contrast buy button",
+                    chose: "90%+ contrast trade button",
+                    alt: "Subdued brand color",
+                    why: "Color is processed faster than shape. 90%+ contrast cuts decision lag. Traders react, not deliberate.",
+                  },
+                  {
+                    decision: "Humanist typeface",
+                    chose: "Humanist sans",
+                    alt: "Geometric sans",
+                    why: "MIT-confirmed: humanist sans outperforms geometric on legibility per character at speed and under stress. Glance time drops 10.6%.",
+                  },
+                  {
+                    decision: "Rounded edges, 8 to 12px",
+                    chose: "Soft geometry",
+                    alt: "Sharp corners",
+                    why: "NIH-sourced. Soft geometry reduces physiological stress response versus sharp corners under pressure. A calm interface produces better trades.",
+                  },
+                  {
+                    decision: "Glass-box AI agent",
+                    chose: "Visible reasoning coach",
+                    alt: "No AI or black-box alerts",
+                    why: "80% of trading is behavioral. An agent that explains its reasoning before a trade builds trust. Alerts after losses do not.",
+                  },
+                ].map(({ decision, chose, alt, why }) => (
+                  <div key={decision} className="rounded-2xl border border-zinc-200/60 bg-white/60 p-5 backdrop-blur-sm">
+                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{decision}</p>
+                    <div className="mb-3 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full bg-sky-500/10 px-2.5 py-1 font-mono text-[0.7rem] text-sky-800 ring-1 ring-sky-300/40">{chose}</span>
+                      <span className="font-mono text-[0.65rem] text-zinc-300">vs</span>
+                      <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[0.7rem] text-zinc-400 line-through ring-1 ring-zinc-200/60">{alt}</span>
+                    </div>
+                    <p className="text-[0.85rem] leading-relaxed text-zinc-600">{why}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          ),
+        },
+        {
           id: "user-testing",
           label: "USER TESTING",
           content: (
@@ -581,7 +595,6 @@ export default function EtradePage() {
                     {
                       img: "/etrade/et1.png",
                       label: "01",
-                      heading: "F-theory layout, humanist type, and an AI behavioral coach",
                       points: [
                         { lead: "F-Theory page logic", detail: "Critical info stays left/top so traders find data fast without hunting." },
                         { lead: "Humanist fonts cut glance time by 10.6%", detail: "Humanist sans reduces read-time per data point, improving reaction speed (MIT)." },
@@ -593,7 +606,6 @@ export default function EtradePage() {
                     {
                       img: "/etrade/et2.png",
                       label: "02",
-                      heading: "Visual hierarchy, contrast, and stress-reduction by design",
                       points: [
                         { lead: "Visual hierarchy speeds traders up by 40%", detail: "Clear layering guides attention to what matters first, improving speed (Design Index)." },
                         { lead: "Trading icon always in reach", detail: "Primary action stays persistent so traders don’t search mid-decision." },
@@ -607,7 +619,6 @@ export default function EtradePage() {
                     {
                       img: "/etrade/et3.png",
                       label: "03",
-                      heading: "Collapsible UI, color-first data, and eliminating fat-finger errors",
                       points: [
                         { lead: "Collapsible sidebar enables Gaze Lock, +12% speed", detail: "Collapsing chrome keeps focus on chart + core data, improving speed (eScholarship)." },
                         { lead: "Easily accessible, live-updating information", detail: "Key metrics update in place so traders absorb changes without context switching." },
@@ -621,50 +632,6 @@ export default function EtradePage() {
                   ]}
                 />
               </div>
-            </>
-          ),
-        },
-        {
-          id: "impact",
-          label: "IMPACT",
-          content: (
-            <>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {[
-                  { stat: "83%", label: "said the layout felt faster and less in the way" },
-                  { stat: "67%", label: "found the interface mentally lighter than before" },
-                  { stat: "100%", label: "got to where they needed without being shown how" },
-                ].map(({ stat, label }, i) => (
-                  <div
-                    key={stat}
-                    className={i === 0 ? ETRADE.hiCardP6 : ETRADE.glassCard}
-                  >
-                    <p className={ETRADE.statHero}>{stat}</p>
-                    <p className={`text-[0.82rem] font-medium ${i === 0 ? "text-sky-950/80" : "text-zinc-600"}`}>{label}</p>
-                  </div>
-                ))}
-              </div>
-              <div className={`mt-19 ${ETRADE.nextStepsBox}`}>
-                <p className={ETRADE.nextStepsLabel}>Next Steps</p>
-                <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
-                  {[
-                    { n: "01", lead: "A/B test against live E*Trade.", body: "Validate speed and clarity gains with a larger sample on the production interface." },
-                    { n: "02", lead: "Refine AI agent defaults.", body: "Keep opt-out visibility for new traders while giving power users a persistent one-tap dismiss." },
-                    { n: "03", lead: "Expand watchlist density modes.", body: "Test compact vs. comfortable row height for different screen sizes and asset counts." },
-                    { n: "04", lead: "Ship sidebar onboarding.", body: "Short first-visit tooltips to reorient users coming from top-nav muscle memory." },
-                  ].map(({ n, lead, body }) => (
-                    <li key={n} className="flex gap-3">
-                      <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-sky-600">{n}</span>
-                      <p>
-                        <span className="font-medium text-zinc-800">{lead}</span> {body}
-                      </p>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-              <p className="mt-6 text-[0.85rem] leading-relaxed text-zinc-500">
-                Small sample, not statistically significant. A/B testing against the live E*Trade interface would validate these findings at scale.
-              </p>
             </>
           ),
         },
@@ -707,9 +674,8 @@ export default function EtradePage() {
           ),
         },
         {
-          id: "considerations",
-          label: "CONSIDERATIONS",
-          hideFromNav: true,
+          id: "impact",
+          label: "IMPACT",
           content: (
             <>
               {/* Header row */}
@@ -776,16 +742,29 @@ export default function EtradePage() {
                 ))}
               </div>
 
-              <div className={`mt-19 ${ETRADE.glassCard}`}>
-                <p className={ETRADE.subLabelMb2}>Tradeoff made</p>
-                <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-                  Sidebar over top nav — all trade actions within 44px, in peripheral view. Cost: existing users need to reorient on first load. Accepted because vertical scanning outperforms horizontal on every session after the first.
-                </p>
+              <div className={`mt-8 ${ETRADE.nextStepsBox}`}>
+                <p className={ETRADE.nextStepsLabel}>Next Steps</p>
+                <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
+                  {[
+                    { n: "01", lead: "A/B test against live E*Trade.", body: "Validate speed and clarity gains with a larger sample on the production interface." },
+                    { n: "02", lead: "Refine AI agent defaults.", body: "Keep opt-out visibility for new traders while giving power users a persistent one-tap dismiss." },
+                    { n: "03", lead: "Expand watchlist density modes.", body: "Test compact vs. comfortable row height for different screen sizes and asset counts." },
+                    { n: "04", lead: "Ship sidebar onboarding.", body: "Short first-visit tooltips to reorient users coming from top-nav muscle memory." },
+                  ].map(({ n, lead, body }) => (
+                    <li key={n} className="flex gap-3">
+                      <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-sky-600">{n}</span>
+                      <p><span className="font-medium text-zinc-800">{lead}</span> {body}</p>
+                    </li>
+                  ))}
+                </ol>
               </div>
 
               <div className={`mt-6 ${ETRADE.glassCard}`}>
-                <p className={ETRADE.subLabelMb2}>Tradeoff made</p>
+                <p className={ETRADE.subLabelMb2}>Tradeoffs made</p>
                 <p className="text-[0.88rem] leading-relaxed text-zinc-600">
+                  Sidebar over top nav — all trade actions within 44px, in peripheral view. Cost: existing users need to reorient on first load. Accepted because vertical scanning outperforms horizontal on every session after the first.
+                </p>
+                <p className="mt-4 text-[0.88rem] leading-relaxed text-zinc-600">
                   AI agent opt-out over opt-in — newer traders see it on first load, directly addressing E*Trade&apos;s retention problem. Power users get a one-tap dismiss that persists. The retention upside outweighed the alienation risk.
                 </p>
               </div>

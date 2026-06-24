@@ -99,8 +99,8 @@ export function RetroComputerSection({
       {/* Desktop: CRT hero + horizontal folder strips */}
       <div className="hidden w-full md:block">
         <div
-          className="relative mx-auto w-full -mt-5"
-          style={{ maxWidth: "min(1200px, 86vw, calc(85dvh * 1.321))" }}
+          className="relative mx-auto w-full"
+          style={{ maxWidth: "min(98vw, calc((100dvh - 8rem) * 1.321))" }}
         >
           <div className="relative w-full" style={{ aspectRatio: "1670 / 1264" }}>
             <Image
