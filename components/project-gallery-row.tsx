@@ -149,7 +149,9 @@ export function ProjectGalleryRow({
       : isLiquidLime
         ? cn(
             "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-lime-200/60",
-            "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(132,204,22,0.28),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+            // Phone screenshots have white UI; a lighter tint keeps those whites from washing out.
+            frameSize === "phone" ? "bg-white/[0.10]" : "bg-white/[0.26]",
+            "shadow-[0_10px_40px_-16px_rgba(132,204,22,0.28),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
             "ring-1 ring-lime-300/50 backdrop-blur-2xl backdrop-saturate-125"
           )
         : isLiquidViolet
@@ -433,7 +435,10 @@ export function ProjectGalleryRow({
           ) : isLiquidLime ? (
             <>
               <div
-                className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-lime-100/[0.14]"
+                className={cn(
+                  "pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b via-white/[0.06] to-lime-100/[0.14]",
+                  frameSize === "phone" ? "from-white/12" : "from-white/30"
+                )}
                 aria-hidden
               />
               <div
