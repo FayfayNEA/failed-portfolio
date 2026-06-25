@@ -3,7 +3,10 @@ import { ManualProjectPage } from "@/components/manual-project-page";
 import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { BeforeAfterSlider } from "@/components/before-after-slider";
-import { ReasoningPanels } from "@/components/reasoning-panels";
+import { EtradeComparisonDiagram } from "@/components/etrade-comparison-diagram";
+import { EtradeIterationCards } from "@/components/etrade-iteration-cards";
+import { EtradeAgentDiagram } from "@/components/etrade-agent-diagram";
+import { ReasoningFlipCards } from "@/components/reasoning-flip-cards";
 import {
   CASE_INTRO_BODY,
   CASE_INTRO_H2,
@@ -52,7 +55,8 @@ export default function EtradePage() {
       }
       heroFrameVariant="liquid"
       heroSize="wide"
-      challengeSummary="Redesign E*Trade for a swing trader while keeping the old edge."
+      challengeSummary="One of the largest complaints from E*Trade users is the poor UI of the site. What if we modernized the interface?"
+      challengeSubtext="We could redesign E*Trade by reducing spurts of data, rounded edges, using tabular font and research to support the best financial UI."
       meta={{
         timeline: "1 week",
         roles: ["Full Stack Engineer", "Product Designer"],
@@ -66,11 +70,13 @@ export default function EtradePage() {
           content: (
             <>
               <h2 className={CASE_SECTION_H2}>
-                Design E*Trade to a modern standard with clean UI, lower cognitive load and an AI to help with behavioral errors.
+                What if E*Trade users didn&apos;t get overloaded by data on the site and instead the site helped their trades?
               </h2>
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                E*Trade has constant complaints from users about site usability, many are now switching to more modern platforms like TradingView, Webull, and Interactive Brokers. Users cite a lack of control and an inability to see multiple data points at once. To retain and attract new clients, E*Trade needs to address these concerns while implementing tools that match modern trading workflows.
+                So I designed E*Trade to a modern standard with clean UI, lower cognitive load and an AI to help with behavioral errors.
               </p>
+
+              <EtradeComparisonDiagram />
 
               <p className={ETRADE.labelSection}>Why it matters</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -125,7 +131,7 @@ export default function EtradePage() {
                   { n: "01", stat: "83%", goal: "said the layout felt faster and less in the way", hi: true },
                   { n: "02", stat: "67%", goal: "found the interface mentally lighter than before", hi: false },
                   { n: "03", stat: "100%", goal: "navigated to their destination unassisted", hi: false },
-                  { n: "04", stat: "25%", goal: "disabled the AI — trust is the next design problem", hi: false },
+                  { n: "04", stat: "25%", goal: "disabled the AI. Trust is the next design problem", hi: false },
                 ].map(({ n, stat, goal, hi }) => (
                   <div key={n} className={`${etradeStatCard(hi)} flex flex-col`}>
                     <p className={ETRADE.label}>{n}</p>
@@ -153,7 +159,7 @@ export default function EtradePage() {
                 personas={JSON.stringify([
                   {
                     name: "Hannah Goodman",
-                    photo: "/etrade/participant.png",
+                    photo: "/etrade/hannh user etrade.JPG",
                     age: "28",
                     role: "Retail Swing Trader · 100K–1M in Assets",
                     photoCaption: "Portrait generated with Gemini",
@@ -205,6 +211,12 @@ export default function EtradePage() {
           ),
         },
         {
+          id: "how-might-we",
+          label: "HOW MIGHT WE",
+          navOnly: true,
+          content: null,
+        },
+        {
           id: "case-studies",
           label: "CASE STUDIES",
           content: (
@@ -212,12 +224,6 @@ export default function EtradePage() {
               <h2 className="mb-3 text-[1.1rem] font-medium tracking-[-0.02em] text-zinc-950">
                 Three themes emerged from auditing how the best trading platforms reduce friction.
               </h2>
-              <p className="mb-6 w-full text-[0.95rem] leading-[1.75] text-zinc-500">
-                I audited TradingView, Webull, Interactive Brokers, and ThinkorSwim to find
-                where each succeeds at reducing cognitive load and getting traders to decisions faster.
-                These insights shaped the redesign&rsquo;s information architecture.
-              </p>
-
               <div className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
                   {
@@ -283,12 +289,6 @@ export default function EtradePage() {
           ),
         },
         {
-          id: "how-might-we",
-          label: "HOW MIGHT WE",
-          navOnly: true,
-          content: null,
-        },
-        {
           id: "ideation",
           label: "IDEATION",
           content: (
@@ -324,7 +324,7 @@ export default function EtradePage() {
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="https://framerusercontent.com/images/VIvFTqCGOT2R8wlmlXUChjw7Q2Q.jpg?width=2550&height=3167"
+                      src="/etrade/lofi1.jpg"
                       alt="Iteration 1 – most breathing room, sidebar nav"
                       className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                       loading="lazy"
@@ -338,7 +338,7 @@ export default function EtradePage() {
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="https://framerusercontent.com/images/x57QbwbpKltRAJCgXVQmixtFrc.jpg?width=2317&height=3239"
+                      src="/etrade/lofi2.jpg"
                       alt="Iteration 2 – modernized with rounded edges"
                       className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                       loading="lazy"
@@ -349,7 +349,7 @@ export default function EtradePage() {
                     <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Iteration 3</p>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src="https://framerusercontent.com/images/MhdAWjb6YZRulucFGQ6CnivAmA.jpg?width=2550&height=3284"
+                      src="/etrade/lofi3.jpg"
                       alt="Iteration 3 – closest to original E*Trade"
                       className="mx-auto h-[min(56dvh,560px)] w-full rounded-2xl border-[0.5px] border-zinc-200/70 bg-white object-contain shadow-[0_8px_32px_-18px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.05]"
                       loading="lazy"
@@ -357,6 +357,13 @@ export default function EtradePage() {
                     <p className="text-center text-[0.72rem] leading-snug text-zinc-500">Closest to original. Familiar hierarchy but denser layout.</p>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-19">
+                <h2 className="mb-8 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                  Design Decisions
+                </h2>
+                <EtradeIterationCards />
               </div>
 
               <div className="mt-19">
@@ -369,7 +376,7 @@ export default function EtradePage() {
 
                 <BeforeAfterSlider
                   before="/etrade/wireframe1.png"
-                  after="https://framerusercontent.com/images/VUDH0FuU7W2ms48ioo9nOoeiI.png?width=1440&height=1024"
+                  after="/etrade/wireframe2.png"
                   beforeLabel="Wireframe 1"
                   afterLabel="Wireframe 2"
                   className="mx-auto w-full max-w-[min(920px,calc(100vw-1.5rem))] min-h-[220px] aspect-[1444/1028]"
@@ -415,88 +422,6 @@ export default function EtradePage() {
                     </div>
                   </div>
                 </div>
-
-                <div className="mt-19">
-                  <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                    Full Figma Board
-                  </h2>
-                  <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                    All Work, Zoomed Out
-                  </p>
-                  <div className="relative overflow-hidden rounded-2xl border border-white/55 bg-white/[0.14] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
-                    <iframe
-                      title="E*Trade Figma board"
-                      src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2F6BoOsk6H1jDem66V3QoGd8%2FEtrade-redesign%3Fnode-id%3D0-1%26t%3DgkvoBWDCGhbUcwr1-1"
-                      className="h-[min(70dvh,680px)] w-full"
-                      allowFullScreen
-                    />
-                  </div>
-                  <div className="mt-3 flex justify-end">
-                    <a
-                      href="https://www.figma.com/design/6BoOsk6H1jDem66V3QoGd8/Etrade-redesign?node-id=0-1&t=gkvoBWDCGhbUcwr1-1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-mono text-[0.7rem] text-zinc-400 transition-colors hover:text-zinc-600"
-                    >
-                      Open in Figma <span aria-hidden>↗</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </>
-          ),
-        },
-        {
-          id: "why",
-          label: "WHY",
-          content: (
-            <>
-              <h2 className="mb-8 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                Five decisions that turn display disorder into systemic clarity.
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {[
-                  {
-                    decision: "Right sidebar over top nav",
-                    chose: "Persistent sidebar",
-                    alt: "Top navigation bar",
-                    why: "F-pattern scanning keeps eyes left and top. A persistent sidebar puts buy/sell inside that zone without requiring eye travel. Top nav costs a deliberate scan on every action.",
-                  },
-                  {
-                    decision: "High-contrast buy button",
-                    chose: "90%+ contrast trade button",
-                    alt: "Subdued brand color",
-                    why: "Color is processed faster than shape. 90%+ contrast cuts decision lag. Traders react, not deliberate.",
-                  },
-                  {
-                    decision: "Humanist typeface",
-                    chose: "Humanist sans",
-                    alt: "Geometric sans",
-                    why: "MIT-confirmed: humanist sans outperforms geometric on legibility per character at speed and under stress. Glance time drops 10.6%.",
-                  },
-                  {
-                    decision: "Rounded edges, 8 to 12px",
-                    chose: "Soft geometry",
-                    alt: "Sharp corners",
-                    why: "NIH-sourced. Soft geometry reduces physiological stress response versus sharp corners under pressure. A calm interface produces better trades.",
-                  },
-                  {
-                    decision: "Glass-box AI agent",
-                    chose: "Visible reasoning coach",
-                    alt: "No AI or black-box alerts",
-                    why: "80% of trading is behavioral. An agent that explains its reasoning before a trade builds trust. Alerts after losses do not.",
-                  },
-                ].map(({ decision, chose, alt, why }) => (
-                  <div key={decision} className="rounded-2xl border border-zinc-200/60 bg-white/60 p-5 backdrop-blur-sm">
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{decision}</p>
-                    <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-sky-500/10 px-2.5 py-1 font-mono text-[0.7rem] text-sky-800 ring-1 ring-sky-300/40">{chose}</span>
-                      <span className="font-mono text-[0.65rem] text-zinc-300">vs</span>
-                      <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[0.7rem] text-zinc-400 line-through ring-1 ring-zinc-200/60">{alt}</span>
-                    </div>
-                    <p className="text-[0.85rem] leading-relaxed text-zinc-600">{why}</p>
-                  </div>
-                ))}
               </div>
             </>
           ),
@@ -507,45 +432,43 @@ export default function EtradePage() {
           content: (
             <>
               <h2 className={CASE_INTRO_H2}>Tested with a handful of retail traders.</h2>
-              <p className={CASE_INTRO_BODY}>
-                I shared the prototype with a small group of retail traders to find out what they
-                thought if this was their site&apos;s layout.
-              </p>
 
-              <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+              <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
                 {[
                   {
                     n: "01",
                     stat: "83%",
-                    insight: "Felt their needs were met — but several wished they could make the layout completely their own.",
-                    action: "How do we make the experience fully customizable without adding friction?",
+                    insight: "Felt their needs were met, but several wished they could make the layout completely their own.",
+                    action: "Let traders rearrange and save their own layout.",
                   },
                   {
                     n: "02",
-                    stat: "67%",
-                    insight: "Rated the redesign less cognitively demanding than the original.",
-                    action: "How do we extend this clarity to power-user density modes?",
+                    stat: "42%",
+                    insight: "Liked the new buy button better, saying it was easier to find.",
+                    action: "Keep the new buy button to help users find it.",
                   },
                   {
                     n: "03",
                     stat: "100%",
-                    insight: "Appreciated that it felt like a real redesign — though colors read slightly off in dark mode.",
-                    action: "How do we make sure the palette holds up across light and dark? How do we keep data density without overwhelming with brighter colors?",
+                    insight: "Appreciated that it felt like a real redesign, though colors read slightly off in dark mode.",
+                    action: "Refine the palette so it holds up on different types of screens.",
                   },
                   {
                     n: "04",
                     stat: "25%",
-                    insight: "Disabled the AI agent — experienced traders would never trust it in production.",
-                    action: "How do we allow traders to trust AI?",
+                    insight: "Disabled the AI agent. Experienced traders would never trust it in production.",
+                    action: "Make the AI earn trust through transparency and user control.",
                   },
                 ].map(({ n, stat, insight, action }) => (
-                  <div key={n} className="flex flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110">
-                    <div className="bg-sky-500/[0.04] px-5 py-4">
-                      <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-sky-600">{stat}</p>
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-800">{insight}</p>
+                  <div key={n} className="flex h-full flex-col overflow-hidden rounded-xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110">
+                    <div className="flex flex-1 flex-col bg-sky-500/[0.04] px-5 py-4">
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-800">
+                        <span className="mb-1.5 block font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-sky-600">{stat}</span>
+                        {insight}
+                      </p>
                     </div>
-                    <div className="border-t border-white/40 bg-white/[0.22] px-5 py-4">
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-700">{action}</p>
+                    <div className="mt-auto shrink-0 border-t border-white/40 bg-white/[0.22] px-5 py-4">
+                      <p className="font-mono text-[0.7rem] tracking-[0.04em] text-sky-600/60">Next: {action}</p>
                     </div>
                   </div>
                 ))}
@@ -572,65 +495,57 @@ export default function EtradePage() {
           label: "THE SOLUTION",
           content: (
             <>
-              <div className="mb-8 rounded-2xl bg-zinc-50 p-5 ring-1 ring-zinc-200/60">
-                <p className={ETRADE.subLabelMb2}>Technical implementation note</p>
-                <p className="mb-3 text-[0.88rem] font-medium text-zinc-800">How the AI agent would work in production</p>
-                <ul className="space-y-2 text-[0.82rem] leading-relaxed text-zinc-600">
-                  <li>• The agent ingests live position data, market feed, and the user&apos;s stated risk tolerance (set in onboarding). It does not execute, it recommends and explains.</li>
-                  <li>• Confidence scores are derived from a volatility model + the user&apos;s historical win/loss pattern. The lower the confidence, the more prominent the &ldquo;override&rdquo; affordance becomes.</li>
-                  <li>• Recommendations are never shown during an active order entry to prevent interruption at the critical moment, a deliberate UX constraint, not a technical one.</li>
-                  <li>• In a real implementation, this would require a backend ML pipeline and integration with E*Trade&apos;s existing order management API. The prototype simulates this with static state.</li>
-                </ul>
-              </div>
+              <p className={ETRADE.subLabelMb8}>Mockups created with Figma</p>
+              <ReasoningFlipCards
+                theme="sky"
+                imageSize="laptop"
+                panels={[
+                  {
+                    img: "/etrade/et1.png",
+                    label: "01",
+                    points: [
+                      { lead: "F-Theory page logic", detail: "Critical info stays left/top so traders find data fast without hunting." },
+                      { lead: "Humanist fonts cut glance time by 10.6%", detail: "Humanist sans reduces read-time per data point, improving reaction speed (MIT)." },
+                      { lead: "Rounded edges reduce cortisol by 15%", detail: "Soft geometry lowers stress response versus sharp corners under pressure (NIH)." },
+                      { lead: "Customization for individual strategies", detail: "Panels can be rearranged to match each trader’s workflow and reduce friction." },
+                      { lead: "Trading is 80% behavioral", detail: "A visible AI coach surfaces patterns to counter impulse-driven mistakes." },
+                    ],
+                  },
+                  {
+                    img: "/etrade/et2.png",
+                    label: "02",
+                    points: [
+                      { lead: "Visual hierarchy speeds traders up by 40%", detail: "Clear layering guides attention to what matters first, improving speed (Design Index)." },
+                      { lead: "Trading icon always in reach", detail: "Primary action stays persistent so traders don’t search mid-decision." },
+                      { lead: "90% contrast on the buy button", detail: "High contrast reduces hesitation and improves precision under time pressure (JNeurosci)." },
+                      { lead: "Red reduces panic sales by 30%", detail: "Use red as intentional friction, not constant alarm, to slow impulsive sells (SMU)." },
+                      { lead: "Humanist fonts + tabular figures cut errors by 3.1%", detail: "Tabular numerals align data; paired with humanist type, errors drop (MIT)." },
+                      { lead: "Icons over text to reduce clutter", detail: "Icons communicate state/action quickly without adding wordy cognitive load." },
+                      { lead: "High-stress UI raises revenge trading risk by 22%", detail: "Lower noise and calmer color reduce emotional re-entry trades (NIH)." },
+                    ],
+                  },
+                  {
+                    img: "/etrade/et3.png",
+                    label: "03",
+                    points: [
+                      { lead: "Collapsible sidebar enables Gaze Lock, +12% speed", detail: "Collapsing chrome keeps focus on chart + core data, improving speed (eScholarship)." },
+                      { lead: "Easily accessible, live-updating information", detail: "Key metrics update in place so traders absorb changes without context switching." },
+                      { lead: "Buttons larger than 44×44px eliminate fat-finger errors", detail: "44×44px+ targets make buy/sell/confirm accurate when stress is high." },
+                      { lead: "Reduced clutter = 26% more trading efficiency", detail: "Fewer competing elements improves decision speed and quality (eTufts)." },
+                      { lead: "6 data elements per view = 20% better decisions", detail: "Limit visible data to avoid working-memory overload and boost accuracy." },
+                      { lead: "Color processed faster than shape (SMU)", detail: "Use color as the primary signal for state, risk, and action (SMU)." },
+                      { lead: "Visual data mapping improves trading outcomes", detail: "Spatial/visual mapping helps pattern-match faster and act with confidence (Waterloo)." },
+                    ],
+                  },
+                ]}
+              />
 
-              <div>
-                <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                  Reasoning For Design
+              <div className="mt-12">
+                <p className={ETRADE.subLabelMb2}>Technical implementation note</p>
+                <h2 className="mb-6 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                  How the AI agent would work in production
                 </h2>
-                <p className={ETRADE.subLabelMb8}>Mockups created with Figma</p>
-                <ReasoningPanels
-                  theme="sky"
-                  imageSize="laptop"
-                  panels={[
-                    {
-                      img: "/etrade/et1.png",
-                      label: "01",
-                      points: [
-                        { lead: "F-Theory page logic", detail: "Critical info stays left/top so traders find data fast without hunting." },
-                        { lead: "Humanist fonts cut glance time by 10.6%", detail: "Humanist sans reduces read-time per data point, improving reaction speed (MIT)." },
-                        { lead: "Rounded edges reduce cortisol by 15%", detail: "Soft geometry lowers stress response versus sharp corners under pressure (NIH)." },
-                        { lead: "Customization for individual strategies", detail: "Panels can be rearranged to match each trader’s workflow and reduce friction." },
-                        { lead: "Trading is 80% behavioral", detail: "A visible AI coach surfaces patterns to counter impulse-driven mistakes." },
-                      ],
-                    },
-                    {
-                      img: "/etrade/et2.png",
-                      label: "02",
-                      points: [
-                        { lead: "Visual hierarchy speeds traders up by 40%", detail: "Clear layering guides attention to what matters first, improving speed (Design Index)." },
-                        { lead: "Trading icon always in reach", detail: "Primary action stays persistent so traders don’t search mid-decision." },
-                        { lead: "90% contrast on the buy button", detail: "High contrast reduces hesitation and improves precision under time pressure (JNeurosci)." },
-                        { lead: "Red reduces panic sales by 30%", detail: "Use red as intentional friction, not constant alarm, to slow impulsive sells (SMU)." },
-                        { lead: "Humanist fonts + tabular figures cut errors by 3.1%", detail: "Tabular numerals align data; paired with humanist type, errors drop (MIT)." },
-                        { lead: "Icons over text to reduce clutter", detail: "Icons communicate state/action quickly without adding wordy cognitive load." },
-                        { lead: "High-stress UI raises revenge trading risk by 22%", detail: "Lower noise and calmer color reduce emotional re-entry trades (NIH)." },
-                      ],
-                    },
-                    {
-                      img: "/etrade/et3.png",
-                      label: "03",
-                      points: [
-                        { lead: "Collapsible sidebar enables Gaze Lock, +12% speed", detail: "Collapsing chrome keeps focus on chart + core data, improving speed (eScholarship)." },
-                        { lead: "Easily accessible, live-updating information", detail: "Key metrics update in place so traders absorb changes without context switching." },
-                        { lead: "Buttons larger than 44×44px eliminate fat-finger errors", detail: "44×44px+ targets make buy/sell/confirm accurate when stress is high." },
-                        { lead: "Reduced clutter = 26% more trading efficiency", detail: "Fewer competing elements improves decision speed and quality (eTufts)." },
-                        { lead: "6 data elements per view = 20% better decisions", detail: "Limit visible data to avoid working-memory overload and boost accuracy." },
-                        { lead: "Color processed faster than shape (SMU)", detail: "Use color as the primary signal for state, risk, and action (SMU)." },
-                        { lead: "Visual data mapping improves trading outcomes", detail: "Spatial/visual mapping helps pattern-match faster and act with confidence (Waterloo)." },
-                      ],
-                    },
-                  ]}
-                />
+                <EtradeAgentDiagram />
               </div>
             </>
           ),
@@ -647,11 +562,11 @@ export default function EtradePage() {
                 },
                 {
                   title: "Numbers still need UI",
-                  body: "Just because a domain is data-driven doesn't mean UI is optional. A trader overwhelmed by raw numbers fails to execute — not from lack of knowledge, but because the interface never let them think clearly. UI is what converts information into correct decisions.",
+                  body: "Just because a domain is data-driven doesn't mean UI is optional. A trader overwhelmed by raw numbers fails to execute, not from lack of knowledge, but because the interface never let them think clearly. UI is what converts information into correct decisions.",
                 },
                 {
                   title: "Research over vibes",
-                  body: "Looking right and being right are not the same thing. At scale, under pressure, numbers win — a design that feels clean but ignores how users actually process data will still fail them. Every decision here has a citation because that's what holds up when aesthetics aren't enough.",
+                  body: "Looking right and being right are not the same thing. At scale, under pressure, numbers win. A design that feels clean but ignores how users actually process data will still fail them. Every decision here has a citation because that's what holds up when aesthetics aren't enough.",
                 },
               ].map((card, i) => (
                 <li key={card.title}>
@@ -692,28 +607,28 @@ export default function EtradePage() {
                     pillar: "Speed",
                     stat: "60%",
                     interventions: ["Right Sidebar", "44px Buttons", "Customization", "Visual Hierarchy"],
-                    impact: "increase in execution speed. Traders felt their needs were met — though several wanted full layout customization to match their personal workflow.",
+                    impact: "increase in execution speed. Traders felt their needs were met, though several wanted full layout customization to match their personal workflow.",
                   },
                   {
                     n: "02",
                     pillar: "Decisiveness",
                     stat: "55%",
                     interventions: ["High Contrast", "Logic-Anchored AI"],
-                    impact: "increase in reaction time. The redesign tested as mentally lighter — power users wanted even more control over data density.",
+                    impact: "increase in reaction time. The redesign tested as mentally lighter, though power users wanted even more control over data density.",
                   },
                   {
                     n: "03",
                     pillar: "Cognitive Clarity",
                     stat: "15%",
                     interventions: ["8–12px Radius", "Tabular Lining", "Humanist Typography"],
-                    impact: "cortisol reduction. Clinical geometry and humanist type help — but color contrast in dark mode needs refinement to hold up under pressure.",
+                    impact: "cortisol reduction. Clinical geometry and humanist type help, but color contrast in dark mode needs refinement to hold up under pressure.",
                   },
                   {
                     n: "04",
                     pillar: "Emotional Awareness",
                     stat: "40%",
                     interventions: ["Glass Box AI"],
-                    impact: "reduction in improper trades projected. Experienced traders wouldn't trust AI in production — the path to adoption runs through transparency and earned control.",
+                    impact: "reduction in improper trades projected. Experienced traders wouldn't trust AI in production. The path to adoption runs through transparency and earned control.",
                   },
                 ].map(({ n, pillar, stat, interventions, impact }, i, arr) => (
                   <div
@@ -746,10 +661,10 @@ export default function EtradePage() {
                 <p className={ETRADE.nextStepsLabel}>Next Steps</p>
                 <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
                   {[
-                    { n: "01", lead: "A/B test against live E*Trade.", body: "Validate speed and clarity gains with a larger sample on the production interface." },
-                    { n: "02", lead: "Refine AI agent defaults.", body: "Keep opt-out visibility for new traders while giving power users a persistent one-tap dismiss." },
-                    { n: "03", lead: "Expand watchlist density modes.", body: "Test compact vs. comfortable row height for different screen sizes and asset counts." },
-                    { n: "04", lead: "Ship sidebar onboarding.", body: "Short first-visit tooltips to reorient users coming from top-nav muscle memory." },
+                    { n: "01", lead: "Let traders own their layout.", body: "Allow rearranging and saving a custom layout without adding friction." },
+                    { n: "02", lead: "Test that retention holds.", body: "Once implemented, measure whether the redesign actually moves user retention toward the 40% goal." },
+                    { n: "03", lead: "Refine the palette.", body: "Make sure the colors hold up on different types of screens." },
+                    { n: "04", lead: "Earn AI trust.", body: "Build transparency and user control so experienced traders adopt the agent." },
                   ].map(({ n, lead, body }) => (
                     <li key={n} className="flex gap-3">
                       <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-sky-600">{n}</span>
@@ -762,10 +677,10 @@ export default function EtradePage() {
               <div className={`mt-6 ${ETRADE.glassCard}`}>
                 <p className={ETRADE.subLabelMb2}>Tradeoffs made</p>
                 <p className="text-[0.88rem] leading-relaxed text-zinc-600">
-                  Sidebar over top nav — all trade actions within 44px, in peripheral view. Cost: existing users need to reorient on first load. Accepted because vertical scanning outperforms horizontal on every session after the first.
+                  Sidebar over top nav. All trade actions within 44px, in peripheral view. Cost: existing users need to reorient on first load. Accepted because vertical scanning outperforms horizontal on every session after the first.
                 </p>
                 <p className="mt-4 text-[0.88rem] leading-relaxed text-zinc-600">
-                  AI agent opt-out over opt-in — newer traders see it on first load, directly addressing E*Trade&apos;s retention problem. Power users get a one-tap dismiss that persists. The retention upside outweighed the alienation risk.
+                  AI agent opt-out over opt-in. Newer traders see it on first load, directly addressing E*Trade&apos;s retention problem. Power users get a one-tap dismiss that persists. The retention upside outweighed the alienation risk.
                 </p>
               </div>
             </>

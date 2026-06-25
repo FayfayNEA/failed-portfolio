@@ -26,6 +26,10 @@ type Persona = {
   bullets?: string[];
   /** Small italic credit shown inside the card below the role (e.g. "Generated with Gemini"). */
   photoCaption?: string;
+  /** Optional zoom for the portrait (e.g. 1.5 zooms in). Defaults to 1. */
+  photoScale?: number;
+  /** Optional vertical nudge for the portrait (e.g. "-40%" moves it up). */
+  photoOffsetY?: string;
 };
 
 type PersonaCardsProps = {
@@ -238,6 +242,14 @@ export function PersonaCards({
                           src={p.photo}
                           alt={`${p.name}, participant portrait`}
                           className="h-full w-full object-cover object-top contrast-[1.03]"
+                          style={
+                            p.photoScale || p.photoOffsetY
+                              ? {
+                                  transform: [p.photoOffsetY ? `translateY(${p.photoOffsetY})` : "", p.photoScale ? `scale(${p.photoScale})` : ""].join(" ").trim(),
+                                  transformOrigin: "center top",
+                                }
+                              : undefined
+                          }
                         />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center">

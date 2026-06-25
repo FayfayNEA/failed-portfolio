@@ -155,7 +155,9 @@ export default function NightterrorsPage() {
                 personas={JSON.stringify([
                   {
                     name: "Isabella",
-                    photo: "/nightterrors/Gemini_Generated_Image_r1bx8xr1bx8xr1bx.png",
+                    photo: "/nightterrors/user for n1ghtterrors.JPEG",
+                    photoScale: 1.5,
+                    photoOffsetY: "-40%",
                     age: "21",
                     role: "Environmental Studies Student",
                     photoCaption: "Portrait generated with Gemini",
@@ -189,6 +191,12 @@ export default function NightterrorsPage() {
 
             </>
           ),
+        },
+        {
+          id: "how-might-we",
+          label: "HOW MIGHT WE",
+          navOnly: true,
+          content: null,
         },
         {
           id: "user-testing",
@@ -350,12 +358,6 @@ export default function NightterrorsPage() {
               </div>
             </>
           ),
-        },
-        {
-          id: "how-might-we",
-          label: "HOW MIGHT WE",
-          navOnly: true,
-          content: null,
         },
         {
           id: "gallery",

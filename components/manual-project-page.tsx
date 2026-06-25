@@ -129,6 +129,10 @@ export type ManualProjectPageProps = {
   showGrain?: boolean;
   /** Buddy-style expandable challenge panel shown near the top. */
   challengeSummary?: string;
+  /** Optional smaller line(s) shown beneath the challenge summary. */
+  challengeSubtext?: string | string[];
+  /** Challenge copy width: "default" (narrow column) or "display" (full width). */
+  challengeVariant?: "default" | "display";
   /** Hide the "Case Study" label in the sidebar (for projects that aren't case studies). */
   hideCaseStudyLabel?: boolean;
   meta?: {
@@ -466,6 +470,8 @@ export function ManualProjectPage({
   descriptionClassName,
   descriptionPlacement = "above",
   challengeSummary,
+  challengeSubtext,
+  challengeVariant = "default",
   hideCaseStudyLabel = false,
   meta,
   sections,
@@ -900,7 +906,7 @@ export function ManualProjectPage({
         {challengeSummary && (
           <>
             <section id="the-challenge" className="scroll-mt-24">
-              <CaseChallengeDisclosure summary={challengeSummary} />
+              <CaseChallengeDisclosure summary={challengeSummary} subtext={challengeSubtext} variant={challengeVariant} />
             </section>
             {sections.slice(1).some((n) => !n.navOnly) && <Divider />}
           </>

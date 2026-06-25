@@ -196,8 +196,8 @@ export function BuddyComparisonDiagram() {
   }
 
   return (
-    <div className="relative mb-10 mt-10 w-full overflow-hidden rounded-2xl border-[0.5px] border-white/70 font-sans shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)] ring-1 ring-zinc-200/35">
-      <div className="pointer-events-none absolute inset-0 bg-white/50 backdrop-blur-xl" aria-hidden />
+    <div className="relative mb-10 mt-10 w-full overflow-hidden rounded-2xl border border-zinc-200/60 font-sans shadow-[0_2px_28px_-14px_rgba(0,0,0,0.06)]">
+      <div className="pointer-events-none absolute inset-0 bg-white/60 backdrop-blur-sm" aria-hidden />
 
       <div className="relative z-[1] flex flex-col gap-0">
         {/* Spoken in meeting prompt */}

@@ -33,14 +33,13 @@ const SECTIONS = [
   { id: "project-overview", label: "PROJECT OVERVIEW" },
   { id: "the-challenge", label: "THE CHALLENGE" },
   { id: "the-research", label: "THE RESEARCH" },
-  { id: "why", label: "DESIGN DECISIONS" },
   { id: "the-solution", label: "IDEATION" },
   { id: "user-testing", label: "USER TESTING" },
   { id: "engineering", label: "ENGINEERING" },
   { id: "hardware", label: "HARDWARE" },
   { id: "final-product", label: "FINAL PRODUCT" },
-  { id: "impact", label: "IMPACT" },
   { id: "what-i-learned", label: "WHAT I LEARNED" },
+  { id: "impact", label: "IMPACT" },
   { id: "bibliography", label: "BIBLIOGRAPHY" },
 ];
 
@@ -615,7 +614,7 @@ export default function BuddyPage() {
 
         {/* THE CHALLENGE */}
         <section id="the-challenge" className="scroll-mt-24">
-          <CaseChallengeDisclosure summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
+          <CaseChallengeDisclosure variant="display" summary="One of the largest bottlenecks in design is miscommunication, what if we could create a tool to rectify this issue?" />
           <p className="mt-5 max-w-[min(56rem,100%)] text-[1.05rem] font-normal leading-[1.55] text-zinc-800">
             We could create a tool that generates visual interpretations of conversation, helping users surface cultural bias and reach shared understanding faster than words alone.
           </p>
@@ -628,11 +627,6 @@ export default function BuddyPage() {
           <SectionLabel>The Research</SectionLabel>
           
 
-          <h2 className="mb-6 w-full max-w-none text-pretty text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950 md:mb-8">
-            <span className="tabular-nums text-violet-600">73%</span> of users say they
-            liked the less extreme colors and small movements of the elements on the page.
-          </h2>
-
           <PersonaCards
             className="!mt-19"
             accent="violet"
@@ -641,7 +635,7 @@ export default function BuddyPage() {
             personas={JSON.stringify([
               {
                 name: "Soren",
-                photo: "/buddy/user for buddy.png",
+                photo: "/buddy/user for buddy.JPEG",
                 age: "27",
                 role: "Industrial Designer at USM",
                 bullets: [
@@ -766,7 +760,7 @@ export default function BuddyPage() {
             <h2 className="mb-3 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
               Design Decisions
             </h2>
-            <p className="mb-8 max-w-2xl text-[0.95rem] leading-relaxed text-zinc-600">
+            <p className="mb-8 w-full max-w-none text-[0.95rem] leading-relaxed text-zinc-600">
               The final interaction came from the realization that slight motion, gentle colors and interactive materiality is the most powerful tool in user focus.
             </p>
             <div className="grid grid-cols-1 gap-3 md:auto-rows-fr md:grid-cols-2">

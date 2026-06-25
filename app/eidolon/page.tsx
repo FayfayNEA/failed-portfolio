@@ -5,7 +5,9 @@ import { PersonaCards } from "@/components/persona-cards";
 import { ProjectGalleryRow } from "@/components/project-gallery-row";
 import { AutoPlayVideo } from "@/components/autoplay-video";
 import { ImageLightbox } from "@/components/image-lightbox";
-import { ReasoningPanels } from "@/components/reasoning-panels";
+import { ReasoningFlipCards } from "@/components/reasoning-flip-cards";
+import { EidolonComparisonDiagram } from "@/components/eidolon-comparison-diagram";
+import { EidolonIterationCards } from "@/components/eidolon-iteration-cards";
 import { getContentBySlug } from "@/lib/content";
 
 // ─── EDIT THESE ────────────────────────────────────────────────────────────────
@@ -14,7 +16,11 @@ const TITLE       = "Eidolon";
 const DESCRIPTION = "designing the interfaces for a web that is 98% AI and 2% human";
 /** Local encode: video-only (no audio). */
 const HERO_VIDEOS = ["/eidolon/hero1-clean.mp4", "/eidolon/hero2-clean.mp4"] as const;
-const CHALLENGE   = "The internet will become 98% AI, 2% human. The trust infrastructure doesn't exist yet. How do we design it?";
+const CHALLENGE   = "How will people interact with a new web that seems to be coming up on the rise?";
+const CHALLENGE_SUB = [
+  "How do we create trusted interactions for people and agents?",
+  "We could create a tool where AI either shows you the web like it is today or acts as your personal visual agent.",
+];
 
 const METADATA = {
   timeline: "1 week",
@@ -60,6 +66,8 @@ export default async function EidolonPage() {
       }
       hideCaseStudyLabel
       challengeSummary={CHALLENGE}
+      challengeSubtext={CHALLENGE_SUB}
+      challengeVariant="display"
       meta={METADATA}
       sections={[
         {
@@ -68,14 +76,13 @@ export default async function EidolonPage() {
           content: (
             <>
               <h2 className="mb-4 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                Design an app which creates an easily digestible AI internet for everyone.
+                What will the internet look like when it is 98% AI agents and 2% humans?
               </h2>
               <p className="w-full text-[0.95rem] leading-[1.75] text-zinc-600">
-                What happens when the internet is no longer human-navigated, but optimized for
-                machine-to-machine interaction? The future internet will be a hybrid space, letting
-                individuals choose how much control they delegate. Eidolon uses AI as a visual tool
-                to showcase its actions and make it an easier place for those who fear its new shape.
+                So I designed an app which creates an easily digestible AI internet for everyone.
               </p>
+
+              <EidolonComparisonDiagram />
 
               <p className="mt-19 mb-3 font-mono text-[9px] uppercase tracking-[0.22em] text-zinc-400">Why it matters</p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -136,7 +143,7 @@ export default async function EidolonPage() {
                 personas={JSON.stringify([
                   {
                     name: "Cindy",
-                    photo: "/eidolon/cindy.png",
+                    photo: "/eidolon/ediolon cindy.jpg",
                     age: "75",
                     role: "Retiree",
                     photoCaption: "Portrait generated with Gemini",
@@ -147,7 +154,7 @@ export default async function EidolonPage() {
                   },
                   {
                     name: "Ashleigh",
-                    photo: "/eidolon/ashleigh.png",
+                    photo: "/eidolon/eidolon ashleigh.png",
                     age: "22",
                     role: "Tech Enthusiast",
                     photoCaption: "Portrait generated with Gemini",
@@ -353,6 +360,16 @@ export default async function EidolonPage() {
 
               <div className="mt-19">
                 <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
+                  Design Decisions
+                </h2>
+                <p className="mb-8 w-full max-w-none text-[0.95rem] leading-relaxed text-zinc-600">
+                  Iterating on the elements that make agent logic visible instead of invisible.
+                </p>
+                <EidolonIterationCards />
+              </div>
+
+              <div className="mt-19">
+                <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
                   Mid-Fi Wireframes
                 </h2>
                 <p className="mb-8 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
@@ -450,140 +467,6 @@ export default async function EidolonPage() {
                   </div>
                 </div>
 
-                <div className="mt-19">
-                  <h2 className="mb-2 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                    Full Figma Board
-                  </h2>
-                  <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                    All Work, Zoomed Out
-                  </p>
-                  <div className="relative overflow-hidden rounded-2xl border border-white/55 bg-white/[0.14] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
-                    <iframe
-                      title="Eidolon Figma board"
-                      src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2FiXvq0vPTzw4IPXs8kwiNAd%2Feidolon%3Fnode-id%3D0-1%26t%3Dg61S93lNRgBtflTR-1"
-                      className="h-[min(70dvh,680px)] w-full"
-                      allowFullScreen
-                    />
-                  </div>
-                  <div className="mt-3 flex justify-end">
-                    <a
-                      href="https://www.figma.com/design/iXvq0vPTzw4IPXs8kwiNAd/eidolon?node-id=0-1&t=g61S93lNRgBtflTR-1"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-mono text-[0.7rem] text-zinc-400 transition-colors hover:text-zinc-600"
-                    >
-                      Open in Figma <span aria-hidden>↗</span>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="mt-19">
-                  <h2 className="mb-2 font-mono font-medium text-[1.4rem] leading-[1.2] tracking-[-0.02em] text-zinc-950">
-                    Character Creation
-                  </h2>
-                  <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-zinc-500">
-                    Anthropomorphic Trust
-                  </p>
-
-                  <div className="mx-auto w-full max-w-[min(1100px,calc(100vw-1.5rem))]">
-                    <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55 bg-white/[0.26] shadow-[0_18px_60px_-26px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-1 ring-black/[0.06] backdrop-blur-2xl backdrop-saturate-125">
-                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
-                      <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
-                      <div className="relative p-3 sm:p-4 md:p-5">
-                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
-                          {[
-                            { step: "1", src: "/eidolon/b&w 1.png",      alt: "Character creation, non-gendered" },
-                            { step: "2", src: "/eidolon/color (2).png",  alt: "Character creation, gold skin" },
-                            { step: "3", src: "/eidolon/color (3).png",  alt: "Character creation, illustration style" },
-                          ].map(({ step, src, alt }) => (
-                            <div key={step} className="flex flex-col gap-2">
-                              <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">{step}</p>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={encodeURI(src)} alt={alt} className="mx-auto h-[min(56dvh,560px)] w-full rounded-xl object-contain" loading="lazy" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Generated with Gemini</p>
-
-                  <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
-                    <div className="rounded-xl border border-white/55 bg-white/[0.14] px-4 py-3 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
-                      <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Non-gendered</p>
-                      <p className="text-[0.75rem] leading-relaxed text-zinc-500">Allows agent to engage in non-biased action.</p>
-                    </div>
-                    <div className="rounded-xl bg-lime-500/[0.08] px-4 py-3 ring-1 ring-lime-300/35">
-                      <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/70">Gold Skin</p>
-                      <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Leads to feelings of trust and wisdom.</p>
-                    </div>
-                    <div className="rounded-xl border border-white/55 bg-white/[0.14] px-4 py-3 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.10),inset_0_1px_0_0_rgba(255,255,255,0.45)] ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125">
-                      <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">Illustration</p>
-                      <p className="text-[0.75rem] leading-relaxed text-lime-950/70">Uncanny valley is avoided when stylization is between 10&ndash;30%.</p>
-                    </div>
-                  </div>
-
-                  <div className="mx-auto mt-6 w-full max-w-[min(800px,calc(100vw-1.5rem))]">
-                    <div className="relative isolate overflow-hidden rounded-2xl border-[0.5px] border-zinc-200/70 bg-white shadow-[0_18px_60px_-26px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.06]">
-                      <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 via-white/[0.06] to-white/[0.02]" aria-hidden />
-                      <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden />
-                      <div className="relative p-4 sm:p-5 md:p-6">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={encodeURI("/eidolon/items (5).png")} alt="Character creation diagram" className="w-full rounded-xl bg-white object-contain" loading="lazy" />
-                      </div>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">Napkin.ai diagram</p>
-                </div>
-              </div>
-            </>
-          ),
-        },
-        {
-          id: "why",
-          label: "WHY",
-          content: (
-            <>
-              <h2 className="mb-8 text-[1.35rem] font-medium tracking-[-0.02em] text-zinc-950">
-                Four decisions that make agent logic visible instead of invisible.
-              </h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {[
-                  {
-                    decision: "Game HUD over dashboard",
-                    chose: "Narrative layout",
-                    alt: "Data dashboard",
-                    why: "Narrative is 22x more memorable than raw data. A story of what the agent is doing beats a log of what it did. (Bruner, 1986)",
-                  },
-                  {
-                    decision: "Non-gendered character, gold skin",
-                    chose: "Stylized illustration",
-                    alt: "Photorealistic avatar",
-                    why: "Uncanny valley avoided at 10 to 30% stylization. Gold skin correlates with trust and wisdom. Non-gendered reduces projection and bias.",
-                  },
-                  {
-                    decision: "Haptic plus visual plus sound",
-                    chose: "Multi-sensory confirmation",
-                    alt: "Button tap alone",
-                    why: "High-stakes actions need a signature the AI cannot forge. Multi-sensory gates keep humans in authority, not automated out.",
-                  },
-                  {
-                    decision: "Green palette, no pure white",
-                    chose: "Muted green on warm off-white",
-                    alt: "Neutral gray or bright white",
-                    why: "Green correlates with lower cortisol. Pure white causes halation for 50% of people with astigmatism. Calm design is physiological, not aesthetic.",
-                  },
-                ].map(({ decision, chose, alt, why }) => (
-                  <div key={decision} className="rounded-2xl border border-zinc-200/60 bg-white/60 p-5 backdrop-blur-sm">
-                    <p className="mb-3 font-mono text-[9px] uppercase tracking-[0.2em] text-zinc-400">{decision}</p>
-                    <div className="mb-3 flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-lime-500/10 px-2.5 py-1 font-mono text-[0.7rem] text-lime-800 ring-1 ring-lime-300/40">{chose}</span>
-                      <span className="font-mono text-[0.65rem] text-zinc-300">vs</span>
-                      <span className="rounded-full bg-zinc-100 px-2.5 py-1 font-mono text-[0.7rem] text-zinc-400 line-through ring-1 ring-zinc-200/60">{alt}</span>
-                    </div>
-                    <p className="text-[0.85rem] leading-relaxed text-zinc-600">{why}</p>
-                  </div>
-                ))}
               </div>
             </>
           ),
@@ -593,48 +476,47 @@ export default async function EidolonPage() {
           label: "USER TESTING",
           content: (
             <>
-              <h2 className="mb-2 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
-                Testing the solution
+              <h2 className="mb-8 text-[clamp(1.1rem,2.2vw,1.45rem)] font-medium leading-[1.25] tracking-[-0.03em] text-zinc-950">
+                Tested the solution with a handful of old/young people
               </h2>
-              <p className="mb-8 max-w-[min(52rem,100%)] text-[0.95rem] leading-[1.75] text-zinc-600">
-                I shared the prototype with a group of people and asked them a series of questions to understand their reaction after using a new type of AI.
-              </p>
 
               {/* Testing cards */}
-              <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6">
+              <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:items-stretch sm:gap-6">
                 {[
                   {
                     n: "01",
                     stat: "78%",
                     insight: "Seeing the agent move made it feel understandable, but some wanted to steer it, not just prompt it.",
-                    action: <>How do we make AI agents as immersive as a video game?</>,
+                    action: <>Give the possibility of controls to the user.</>,
                   },
                   {
                     n: "02",
                     stat: "16%",
                     insight: "Felt less intense than a regular chatbot, but handing over control still felt strange.",
-                    action: <>How do we give users more perceived control?</>,
+                    action: <>Give users the option for a more in-depth walk-through of the agent as it moves throughout the web.</>,
                   },
                   {
                     n: "03",
                     stat: "60%",
                     insight: "Wanted permanent manual mode. 80% of those users didn't understand why they needed an agent at all.",
-                    action: <>How does onboarding set the right expectation?</>,
+                    action: <>Use artifact to show what the web would look like during onboarding.</>,
                   },
                   {
                     n: "04",
                     stat: "58%",
                     insight: "Haptic touch felt more in-control, but micro transactions raised real concern.",
-                    action: <>Where&apos;s the line between controlled spending and automation?</>,
+                    action: <>Give users the option to accept or deny micro-transactions.</>,
                   },
                 ].map(({ n, stat, insight, action }) => (
-                  <div key={n} className="flex flex-col overflow-hidden rounded-2xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110">
-                    <div className="bg-lime-500/[0.04] px-5 py-4">
-                      <p className="mb-2 font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</p>
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-800">{insight}</p>
+                  <div key={n} className="flex h-full flex-col overflow-hidden rounded-xl border border-white/50 bg-white/[0.07] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.08),inset_0_1px_0_0_rgba(255,255,255,0.40)] ring-[0.5px] ring-black/[0.04] backdrop-blur-xl backdrop-saturate-110">
+                    <div className="flex flex-1 flex-col bg-lime-500/[0.04] px-5 py-4">
+                      <p className="text-[0.82rem] leading-[1.65] text-zinc-800">
+                        <span className="mb-1.5 block font-mono text-[1.4rem] font-medium leading-none tracking-[-0.03em] text-lime-600">{stat}</span>
+                        {insight}
+                      </p>
                     </div>
-                    <div className="border-t border-white/40 bg-white/[0.22] px-5 py-4">
-                      <p className="text-[0.82rem] leading-[1.65] text-zinc-700">{action}</p>
+                    <div className="mt-auto shrink-0 border-t border-white/40 bg-white/[0.22] px-5 py-4">
+                      <p className="font-mono text-[0.7rem] tracking-[0.04em] text-lime-600/60">Next: {action}</p>
                     </div>
                   </div>
                 ))}
@@ -667,7 +549,7 @@ export default async function EidolonPage() {
           label: "THE SOLUTION",
           content: (
             <>
-              <ReasoningPanels panels={[
+              <ReasoningFlipCards panels={[
                 {
                   img: "/eidolon/dr1.png",
                   label: "01",
@@ -982,11 +864,10 @@ export default async function EidolonPage() {
                 <p className="mb-1 font-mono text-[9px] uppercase tracking-[0.22em] text-lime-700/70">Next Steps</p>
                 <ol className="mt-3 space-y-2.5 text-[0.82rem] leading-relaxed text-zinc-600">
                   {[
-                    { n: "01", lead: "Customizable character.", body: "Full skin, style, and personality options so the agent feels like yours." },
-                    { n: "02", lead: "Longer setup with diagrams.", body: "A visual onboarding that explains why this kind of app matters, not just what it does." },
-                    { n: "03", lead: "Override system beyond haptics.", body: "A visible, always-accessible layer so users can halt or redirect the agent at any point." },
-                    { n: "04", lead: "All spending requires a response.", body: "Every transaction waits for an explicit user confirmation before it goes through." },
-                    { n: "05", lead: "Future: make it a video game.", body: "A full game loop with quests, rewards, and progression could make AI-assisted living genuinely fun." },
+                    { n: "01", lead: "Hand controls to the user.", body: "Give the possibility of direct controls so users can steer the agent, not just prompt it." },
+                    { n: "02", lead: "In-depth agent walk-through.", body: "Give users the option for a more in-depth walk-through of the agent as it moves throughout the web." },
+                    { n: "03", lead: "Show the web during onboarding.", body: "Use an artifact to show what the web would look like, so people understand why the agent matters." },
+                    { n: "04", lead: "Approve micro-transactions.", body: "Give users the option to accept or deny micro-transactions before they go through." },
                   ].map(({ n, lead, body }) => (
                     <li key={n} className="flex gap-3">
                       <span className="mt-0.5 shrink-0 font-mono text-[0.65rem] text-lime-600">{n}</span>
