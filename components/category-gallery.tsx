@@ -163,6 +163,21 @@ function galleryStillImageClassName(
   );
 }
 
+/** True on devices with a real hover pointer (desktop). False on touch devices,
+ *  where hover-gated playback never fires, so cover videos must autoplay instead. */
+function useHasHover(): boolean {
+  const [hasHover, setHasHover] = useState(true);
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setHasHover(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
+  return hasHover;
+}
+
 /** Still over video; crossfade only after the frame is ready (poster until then). */
 function HoverCrossfadeMedia({
   project,
@@ -186,16 +201,23 @@ function HoverCrossfadeMedia({
   const autoplaying   = !!project.autoplaying;
   const [frameReady, setFrameReady] = useState(false);
 
-  const effectiveActive = autoplaying || active;
+  // Touch devices have no hover, so the hover-gated playback never triggers. On those
+  // devices we autoplay cover videos (and ignore the "static first frame" setting) so
+  // the card actually shows moving media instead of a blank/poster frame.
+  const hasHover      = useHasHover();
+  const touchAutoplay = !hasHover;
+  const coverStatic   = !!project.coverVideoStatic && !touchAutoplay;
+
+  const effectiveActive = autoplaying || active || (touchAutoplay && !!videoCover);
   const videoVisible    = videoCover || autoplaying ? true : active && frameReady;
   const crossfade       = effectiveActive && frameReady;
 
   // Play the cover video unless it's set to static (first-frame only).
   useEffect(() => {
-    if (!project.coverVideoStatic) {
+    if (hasCoverVideo && !coverStatic) {
       coverRef.current?.play().catch(() => {});
     }
-  }, [project.coverVideoStatic]);
+  }, [coverStatic, hasCoverVideo]);
 
   useEffect(() => {
     const v = ref.current;
@@ -238,7 +260,7 @@ function HoverCrossfadeMedia({
             ref={coverRef}
             src={project.coverVideo}
             poster={project.coverImage}
-            autoPlay={!project.coverVideoStatic} muted loop={!project.coverVideoStatic} playsInline preload="auto"
+            autoPlay={!coverStatic} muted loop={!coverStatic} playsInline preload="auto"
             onLoadedMetadata={(e) => { e.currentTarget.currentTime = project.coverVideoStartTime ?? 0; }}
             className={cn(
               "absolute inset-0 h-full w-full object-center transition-opacity duration-[400ms]",
@@ -268,7 +290,7 @@ function HoverCrossfadeMedia({
               ref={(el) => { ref.current = el; onVideoEl?.(el); }}
               src={project.hoverVideo}
               poster={hasCoverVideo ? undefined : project.coverImage}
-              autoPlay={false} muted loop playsInline preload="auto"
+              autoPlay={autoplaying || (touchAutoplay && !!videoCover)} muted loop playsInline preload="auto"
               className={galleryHoverVideoClassName(
                 project, objFit,
                 hasCoverVideo

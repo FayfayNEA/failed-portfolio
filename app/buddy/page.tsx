@@ -432,6 +432,9 @@ function IterationVideoFrame({ src, caption }: { src: string; caption?: string }
         <div className="relative z-[2] flex justify-center px-2.5 py-5 md:px-[14px] md:py-6">
           <video
             controls
+            autoPlay
+            muted
+            loop
             playsInline
             preload="metadata"
             className="aspect-video w-full max-w-full rounded-lg object-cover shadow-[0_12px_44px_-14px_rgba(0,0,0,0.26)] ring-[0.5px] ring-white/35"

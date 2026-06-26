@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 const WORDS = [
   { text: "product designer", cls: "top-[16%] left-[6%] -rotate-2 text-[1rem] tracking-[0.12em]" },
-  { text: "who codes",        cls: "top-[28%] right-[8%]  rotate-1  text-[0.78rem] tracking-[0.14em]" },
   { text: "AI",               cls: "top-[52%] left-[12%] -rotate-1  text-[0.65rem] tracking-[0.18em]" },
   { text: "UX",               cls: "top-[45%] right-[18%] rotate-2  text-[0.62rem] tracking-[0.18em]" },
   { text: "3D",               cls: "top-[60%] left-[52%] -rotate-3  text-[0.62rem] tracking-[0.18em]" },
