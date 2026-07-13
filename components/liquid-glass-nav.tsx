@@ -187,21 +187,18 @@ export function LiquidGlassNav() {
                     }}
                     onAnimationComplete={() => { if (!isCollapsed) setNavOverflowVisible(true); }}
                   >
-              {/* Divider */}
-              <span className={cn("mx-2 h-4 w-px shrink-0 sm:mx-2.5 sm:h-5 md:mx-4", isDark ? "bg-gradient-to-b from-transparent via-white/20 to-transparent" : "bg-gradient-to-b from-transparent via-black/[0.08] to-transparent")} aria-hidden />
-
-              {/* Nav links */}
-              <nav className="flex min-w-0 flex-1 items-center justify-around" aria-label="Primary">
+              {/* Nav links — all 4 gaps (edge↔links↔edge) are equal via justify-evenly */}
+              <nav className="flex min-w-0 flex-1 items-center justify-evenly" aria-label="Primary">
                 {LINKS.map(({ href, label }, i) => {
                   const active = isActive(href);
                   const isWork = href === "/work";
                   return (
                     <motion.div
                       key={href}
-                      className="relative min-w-0 flex-1"
+                      className="relative shrink-0"
                       initial={reduced ? false : { opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      whileHover={reduced ? {} : { y: -2, scale: 1.06 }}
+                      whileHover={reduced ? {} : { scale: 1.06 }}
                       whileTap={reduced ? {} : { scale: 0.93 }}
                       transition={{
                         opacity: { duration: 0.3, ease: "easeOut", delay: 0.2 + 0.07 * i },

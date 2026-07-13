@@ -426,9 +426,9 @@ const HAPTIC: Stage[] = [
 ];
 
 const AVATAR: Stage[] = [
-  { n: "01", label: "Illustration", reason: "Uncanny valley is avoided when stylization is between 10 to 30%.", render: () => <AvatarShot src="/eidolon/color (3).png" alt="Avatar, illustration style" /> },
-  { n: "02", label: "Non-gendered", reason: "Non gendered allows agent to engage in non-biased action.", render: () => <AvatarShot src="/eidolon/b&w 1.png" alt="Avatar, non-gendered black and white base" /> },
-  { n: "03", label: "Gold Skin", reason: "Gold skin leads to feelings of trust and wisdom.", render: () => <AvatarShot src="/eidolon/color (2).png" alt="Avatar, gold skin pass" /> },
+  { n: "01", label: "Non-gendered", reason: "Non gendered allows agent to engage in non-biased action.", render: () => <AvatarShot src="/eidolon/b&w 1.png" alt="Avatar, non-gendered black and white base" /> },
+  { n: "02", label: "Illustration", reason: "Uncanny valley is avoided when stylization is between 10 to 30%.", render: () => <AvatarShot src="/eidolon/color (2).png" alt="Avatar, illustration style" /> },
+  { n: "03", label: "Gold Skin", reason: "Gold skin leads to feelings of trust and wisdom.", render: () => <AvatarShot src="/eidolon/color (3).png" alt="Avatar, gold skin pass" /> },
 ];
 
 const MONEY: Stage[] = [

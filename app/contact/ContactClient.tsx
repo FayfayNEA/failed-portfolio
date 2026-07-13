@@ -376,17 +376,19 @@ export default function ContactClient() {
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.22 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-xl max-h-[min(82dvh,780px)] overflow-y-auto overscroll-contain rounded-3xl border border-white/60 bg-white/90 p-8 shadow-[0_32px_80px_-20px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.06] backdrop-blur-xl sm:p-10 [scrollbar-width:thin]"
+              className="relative w-full max-w-xl max-h-[min(82dvh,780px)] overflow-hidden rounded-3xl border border-white/60 bg-white/90 shadow-[0_32px_80px_-20px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.06] backdrop-blur-xl"
             >
               <button
                 onClick={() => setZoomed(false)}
                 aria-label="Close zoom"
-                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
+                className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
               >
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
                   <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </button>
+
+              <div className="max-h-[min(82dvh,780px)] overflow-y-auto overscroll-contain p-8 sm:p-10 [scrollbar-width:thin]">
 
               {/* About — full bio, revealed alongside everything else */}
               <div data-zoom-about className="mb-8">
@@ -495,6 +497,7 @@ export default function ContactClient() {
                   loading="lazy"
                   title="Spotify, what I'm listening to"
                 />
+              </div>
               </div>
             </motion.div>
           </motion.div>

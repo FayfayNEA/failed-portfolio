@@ -22,6 +22,8 @@ export interface GalleryProject {
   coverObjectPosition?: string;
   coverColor?: string;
   coverImageFit?: "cover" | "contain";
+  /** Mobile-only object-fit override for the image/video area (defaults to coverImageFit). */
+  mobileCoverImageFit?: "cover" | "contain";
   /** mix-blend-mode applied to both still + video layers — "multiply" removes white backgrounds */
   coverBlendMode?: string;
   labelTextTone?: "light" | "dark";
@@ -50,6 +52,8 @@ export interface GalleryProject {
   coverVideoStartTime?: number;
   /** When true, the cover video is loaded but kept paused at its first frame (no autoplay). */
   coverVideoStatic?: boolean;
+  /** Hidden from the gallery by default; revealed via the "Archive" toggle. */
+  archived?: boolean;
 }
 
 // ─── Mobile grid heights ──────────────────────────────────────────────────────
@@ -72,8 +76,14 @@ const VARIANT_IMG_H: Record<string, number> = {
   standard:  364,
 };
 const CANVAS_META_H = 176;
-const MIN_CARD_W    = 220;
-const MIN_CARD_H    = CANVAS_META_H + 80;
+const MIN_CARD_W    = 160;
+const MIN_CARD_H    = CANVAS_META_H + 20;
+// Meta strip shrinks (and its type/pills scale down) before the image area gives up any size.
+const MIN_META_H    = 90;
+
+function getDefaultImageH(p: GalleryProject): number {
+  return p.canvasImageH ?? VARIANT_IMG_H[p.cardVariant ?? "standard"] ?? 278;
+}
 
 
 const SEL_GREEN = "#b0b0b0";
@@ -505,10 +515,7 @@ function Handles({ onMouseDown, interactive = true, borderRadius = 15 }: { onMou
   const midPill = (w: number, h: number): React.CSSProperties => ({
     display: "block", width: w, height: h, borderRadius: 999,
     background: "rgba(255,255,255,1)",
-    backdropFilter: "blur(10px) saturate(200%)",
-    WebkitBackdropFilter: "blur(10px) saturate(200%)",
-    border: "0.5px solid rgba(255,255,255,1)",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.20), inset 0 0.5px 0 rgba(255,255,255,1)",
+    filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.28)) drop-shadow(0 0 6px rgba(255,255,255,0.18))",
     pointerEvents: "none",
   });
 
@@ -522,29 +529,29 @@ function Handles({ onMouseDown, interactive = true, borderRadius = 15 }: { onMou
         onMouseDown={mk(0)} aria-hidden>
         <ResizeBracket d={paths.tl} /></span>
       {/* 1 TM */}
-      <span className={w} style={{ top: -1, left: "50%", transform: "translate(-50%, -50%)", cursor: interactive ? "ns-resize" : "default" }}
+      <span className={w} style={{ top: 0, left: "50%", transform: "translate(-50%, -50%)", cursor: interactive ? "ns-resize" : "default" }}
         onMouseDown={mk(1)} aria-hidden>
-        <span style={midPill(18, 5)} /></span>
+        <span style={midPill(26, 8)} /></span>
       {/* 2 TR */}
       <span className={w} style={{ top: -1, right: -1, cursor: interactive ? "nesw-resize" : "default" }}
         onMouseDown={mk(2)} aria-hidden>
         <ResizeBracket d={paths.tr} /></span>
       {/* 3 ML */}
-      <span className={w} style={{ top: "50%", left: -1, transform: "translate(-50%, -50%)", cursor: interactive ? "ew-resize" : "default" }}
+      <span className={w} style={{ top: "50%", left: 0, transform: "translate(-50%, -50%)", cursor: interactive ? "ew-resize" : "default" }}
         onMouseDown={mk(3)} aria-hidden>
-        <span style={midPill(5, 18)} /></span>
+        <span style={midPill(8, 26)} /></span>
       {/* 4 MR */}
-      <span className={w} style={{ top: "50%", right: -1, transform: "translate(50%, -50%)", cursor: interactive ? "ew-resize" : "default" }}
+      <span className={w} style={{ top: "50%", right: 0, transform: "translate(50%, -50%)", cursor: interactive ? "ew-resize" : "default" }}
         onMouseDown={mk(4)} aria-hidden>
-        <span style={midPill(5, 18)} /></span>
+        <span style={midPill(8, 26)} /></span>
       {/* 5 BL */}
       <span className={w} style={{ bottom: -1, left: -1, cursor: interactive ? "nesw-resize" : "default" }}
         onMouseDown={mk(5)} aria-hidden>
         <ResizeBracket d={paths.bl} /></span>
       {/* 6 BM */}
-      <span className={w} style={{ bottom: -1, left: "50%", transform: "translate(-50%, 50%)", cursor: interactive ? "ns-resize" : "default" }}
+      <span className={w} style={{ bottom: 0, left: "50%", transform: "translate(-50%, 50%)", cursor: interactive ? "ns-resize" : "default" }}
         onMouseDown={mk(6)} aria-hidden>
-        <span style={midPill(18, 5)} /></span>
+        <span style={midPill(26, 8)} /></span>
       {/* 7 BR */}
       <span className={w} style={{ bottom: -1, right: -1, cursor: interactive ? "nwse-resize" : "default" }}
         onMouseDown={mk(7)} aria-hidden>
@@ -555,23 +562,23 @@ function Handles({ onMouseDown, interactive = true, borderRadius = 15 }: { onMou
 
 // ─── Pills ────────────────────────────────────────────────────────────────────
 const PILL_THEMES: Record<string, string> = {
-  green:     "bg-lime-500/[0.09]   text-lime-700   ring-1 ring-lime-400/55",
-  purple:    "bg-purple-500/[0.09] text-purple-700 ring-1 ring-purple-400/55",
-  blue:      "bg-blue-500/[0.09]   text-blue-700   ring-1 ring-blue-400/55",
-  gray:      "bg-zinc-400/[0.12]   text-zinc-500   ring-1 ring-zinc-400/50",
-  black:     "bg-zinc-900          text-white       ring-1 ring-zinc-700",
-  teal:      "bg-teal-500/[0.09]   text-teal-700   ring-1 ring-teal-400/55",
-  orange:    "bg-orange-500/[0.09] text-orange-700 ring-1 ring-orange-400/55",
-  parchment: "bg-[#f1e6d2]         text-[#8a6642]  ring-1 ring-[#c9ad8a]/60",
+  green:     "bg-lime-500/[0.09]   text-lime-700   ring-1 ring-inset ring-lime-400/55",
+  purple:    "bg-purple-500/[0.09] text-purple-700 ring-1 ring-inset ring-purple-400/55",
+  blue:      "bg-blue-500/[0.09]   text-blue-700   ring-1 ring-inset ring-blue-400/55",
+  gray:      "bg-zinc-400/[0.12]   text-zinc-500   ring-1 ring-inset ring-zinc-400/50",
+  black:     "bg-zinc-900          text-white       ring-1 ring-inset ring-zinc-700",
+  teal:      "bg-teal-500/[0.09]   text-teal-700   ring-1 ring-inset ring-teal-400/55",
+  orange:    "bg-orange-500/[0.09] text-orange-700 ring-1 ring-inset ring-orange-400/55",
+  parchment: "bg-[#f1e6d2]         text-[#8a6642]  ring-1 ring-inset ring-[#c9ad8a]/60",
 };
 
 function TypePills({ typeTags, pillTheme = "green", scale = 1 }: { typeTags: string; pillTheme?: string; scale?: number }) {
   const cls = PILL_THEMES[pillTheme] ?? PILL_THEMES.green;
-  const fs  = Math.max(6, Math.round(8 * scale));
-  const px  = Math.max(6, Math.round(10 * scale));
-  const py  = Math.max(2, Math.round(4 * scale));
+  const fs  = Math.max(4, Math.round(8 * scale));
+  const px  = Math.max(3, Math.round(10 * scale));
+  const py  = Math.max(1, Math.round(4 * scale));
   return (
-    <div className="flex flex-wrap" style={{ gap: Math.max(4, Math.round(6 * scale)) }}>
+    <div className="flex flex-wrap" style={{ gap: Math.max(2, Math.round(6 * scale)) }}>
       {typeTags.split(" · ").map((t) => t.trim()).filter(Boolean).map((tag) => (
         <span key={tag}
           className={cn("rounded-full font-mono font-semibold uppercase", cls)}
@@ -583,11 +590,11 @@ function TypePills({ typeTags, pillTheme = "green", scale = 1 }: { typeTags: str
   );
 }
 function MetricPills({ tags, scale = 1 }: { tags: [string, string] | [string, string, string]; scale?: number }) {
-  const fs = Math.max(6, Math.round(8 * scale));
-  const px = Math.max(6, Math.round(10 * scale));
-  const py = Math.max(2, Math.round(4 * scale));
+  const fs = Math.max(4, Math.round(8 * scale));
+  const px = Math.max(3, Math.round(10 * scale));
+  const py = Math.max(1, Math.round(4 * scale));
   return (
-    <div className="flex flex-wrap" style={{ gap: Math.max(4, Math.round(6 * scale)) }}>
+    <div className="flex flex-wrap" style={{ gap: Math.max(2, Math.round(6 * scale)) }}>
       {tags.map((tag) => (
         <span key={tag} className="rounded-full font-mono font-medium"
           style={{ fontSize: fs, paddingLeft: px, paddingRight: px, paddingTop: py, paddingBottom: py,
@@ -601,16 +608,16 @@ function MetricPills({ tags, scale = 1 }: { tags: [string, string] | [string, st
 
 /** Shipped / Case Study pill — sized to sit beside the type pills at the top of the card. */
 function StatusPill({ label, className, scale = 1 }: { label: NonNullable<GalleryProject["statusLabel"]>; className?: string; scale?: number }) {
-  const fs = Math.max(6, Math.round(8 * scale));
-  const px = Math.max(6, Math.round(10 * scale));
-  const py = Math.max(2, Math.round(4 * scale));
+  const fs = Math.max(4, Math.round(8 * scale));
+  const px = Math.max(3, Math.round(10 * scale));
+  const py = Math.max(1, Math.round(4 * scale));
   return (
     <span
       className={cn(
         "shrink-0 rounded-full font-mono font-semibold uppercase",
         label === "Shipped"
-          ? "bg-emerald-500/[0.10] text-emerald-700 ring-1 ring-emerald-400/50"
-          : "bg-zinc-400/[0.10] text-zinc-500 ring-1 ring-zinc-400/40",
+          ? "bg-emerald-500/[0.10] text-emerald-700 ring-1 ring-inset ring-emerald-400/50"
+          : "bg-zinc-400/[0.10] text-zinc-500 ring-1 ring-inset ring-zinc-400/40",
         className,
       )}
       style={{ fontSize: fs, paddingLeft: px, paddingRight: px, paddingTop: py, paddingBottom: py, letterSpacing: "0.14em" }}
@@ -635,7 +642,8 @@ function MobileCard({ project, priority, revealed, revealDelay }: {
   const [hovered, setHovered] = useState(false);
   const variant    = project.cardVariant ?? "standard";
   const bg         = project.coverColor ?? "#ffffff";
-  const objFit     = project.coverImageFit === "cover" ? "object-cover" : "object-contain";
+  const fit        = project.mobileCoverImageFit ?? project.coverImageFit;
+  const objFit     = fit === "cover" ? "object-cover" : "object-contain";
   // If a custom canvas image height is set, derive a proportional mobile height
   // capped at 360px so tall portrait cards don't dominate the grid.
   const mobileImgH = project.canvasImageH
@@ -732,6 +740,40 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
   const [draggingIdx,setDraggingIdx]  = useState<number | null>(null);
   const [resizingIdx,setResizingIdx]  = useState<number | null>(null);
   const [ready,      setReady]      = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
+  // Archived cards never scroll into view (they're not rendered until toggled),
+  // so the scroll-reveal IntersectionObserver never fires for them — reveal them directly.
+  const revealArchived = useCallback(() => {
+    setShowArchived((v) => {
+      const next = !v;
+      if (next) {
+        setRevealedCards((prev) => {
+          const toAdd = projects.reduce<number[]>((acc, p, i) => (p.archived ? [...acc, i] : acc), []);
+          if (toAdd.every((i) => prev.has(i))) return prev;
+          return new Set([...prev, ...toAdd]);
+        });
+      }
+      return next;
+    });
+  }, [projects]);
+
+  // While nightterrors/jahn are archived (hidden), iris-house steps into nightterrors'
+  // slot so it sits next to fither instead of leaving that row half-empty. When archive
+  // is toggled back on, nightterrors drops in below iris-house instead of reclaiming its
+  // old slot (which would overlap iris-house's own row).
+  const nightterrorsIdx = projects.findIndex((p) => p.slug === "nightterrors");
+  const irisHouseIdx    = projects.findIndex((p) => p.slug === "iris-house");
+  const getEffectivePos = useCallback((i: number): Pos | undefined => {
+    if (!showArchived && i === irisHouseIdx && nightterrorsIdx >= 0) {
+      return positions[nightterrorsIdx] ?? positions[i];
+    }
+    if (showArchived && i === nightterrorsIdx && irisHouseIdx >= 0) {
+      const irisPos  = positions[irisHouseIdx];
+      const irisSize = baseSizes[irisHouseIdx] ?? getDefaultSize(projects[irisHouseIdx], effMetaH);
+      if (irisPos) return { x: irisPos.x, y: irisPos.y + irisSize.h + 90 };
+    }
+    return positions[i];
+  }, [showArchived, positions, baseSizes, projects, effMetaH, nightterrorsIdx, irisHouseIdx]);
 
   const dragRef      = useRef<{ idx: number; startMX: number; startMY: number; startPX: number; startPY: number } | null>(null);
   const resizeRef    = useRef<{ idx: number; handleIdx: number; startMX: number; startMY: number; startW: number; startH: number; startPX: number; startPY: number } | null>(null);
@@ -958,22 +1000,24 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
 
   const startDrag = useCallback((e: React.MouseEvent, idx: number) => {
     e.preventDefault(); hasDragged.current = false; setDraggingIdx(idx);
-    dragRef.current = { idx, startMX: e.clientX, startMY: e.clientY, startPX: positions[idx]?.x ?? 0, startPY: positions[idx]?.y ?? 0 };
+    const p = getEffectivePos(idx);
+    dragRef.current = { idx, startMX: e.clientX, startMY: e.clientY, startPX: p?.x ?? 0, startPY: p?.y ?? 0 };
     setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
-  }, [positions]);
+  }, [getEffectivePos]);
 
   const startResize = useCallback((e: React.MouseEvent, idx: number, handleIdx: number) => {
     e.preventDefault(); hasDragged.current = false; setDraggingIdx(idx); setResizingIdx(idx);
-    resizeRef.current = { idx, handleIdx, startMX: e.clientX, startMY: e.clientY, startW: baseSizes[idx]?.w ?? BASE_CARD_W, startH: baseSizes[idx]?.h ?? getDefaultSize(projects[idx], effMetaH).h, startPX: positions[idx]?.x ?? 0, startPY: positions[idx]?.y ?? 0 };
+    const p = getEffectivePos(idx);
+    resizeRef.current = { idx, handleIdx, startMX: e.clientX, startMY: e.clientY, startW: baseSizes[idx]?.w ?? BASE_CARD_W, startH: baseSizes[idx]?.h ?? getDefaultSize(projects[idx], effMetaH).h, startPX: p?.x ?? 0, startPY: p?.y ?? 0 };
     setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
-  }, [baseSizes, positions, projects, effMetaH]);
+  }, [baseSizes, projects, effMetaH, getEffectivePos]);
 
   // ── Grid (mobile + gridOnly) ────────────────────────────────────────────
   if (!isDesktop) {
     return (
       <div ref={mobileRef} className="relative z-[80] w-full px-4 py-4 sm:px-6 sm:py-6">
         <div className={cn("mx-auto grid gap-4 sm:gap-5", gridOnly ? "max-w-[min(1200px,96vw)] grid-cols-2" : "max-w-[min(900px,96vw)] grid-cols-1 sm:grid-cols-2")}>
-          {projects.map((project, i) => (
+          {projects.filter((p) => !p.archived).map((project, i) => (
             <MobileCard key={project.slug} project={project} priority={i < 2}
               revealed={revealedCards.size > 0} revealDelay={i * 70} />
           ))}
@@ -988,7 +1032,9 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
   // Compute canvas height from actual card positions (design space → screen space).
   let cvH = 600;
   if (ready && positions.length === projects.length) {
-    positions.forEach((pos, i) => {
+    positions.forEach((_pos, i) => {
+      if (projects[i]?.archived && !showArchived) return;
+      const pos   = getEffectivePos(i) ?? { x: 0, y: 0 };
       const base  = baseSizes[i] ?? getDefaultSize(projects[i], effMetaH);
       const cardH = Math.round(base.h * sc);
       cvH = Math.max(cvH, Math.round(pos.y * sc) + cardH + PAD + 60);
@@ -1000,13 +1046,20 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
       <div ref={widthRef} className="pointer-events-none h-0 w-full overflow-hidden" aria-hidden />
       <div ref={canvasRef} className="relative w-full" style={{ height: cvH }}>
       {ready && projects.map((project, i) => {
-        const pos    = positions[i] ?? { x: 0, y: 0 };
+        if (project.archived && !showArchived) return null;
+        const pos    = getEffectivePos(i) ?? { x: 0, y: 0 };
         const z      = zOrder.indexOf(i);
         const base   = baseSizes[i] ?? getDefaultSize(project, effMetaH);
         const cardW  = Math.round(base.w * sc);
         const cardH  = Math.round(base.h * sc);
-        const metaH  = Math.round(effMetaH * sc);
+        // Shrinking a card first compresses the meta strip (text/pills scale down);
+        // the image/video area only gives up size once the meta strip hits its floor.
+        const defaultImageH_design = getDefaultImageH(project);
+        const metaH_design = clamp(base.h - defaultImageH_design, MIN_META_H, effMetaH);
+        const metaScale    = clamp(metaH_design / effMetaH, 0.2, 1);
+        const metaH  = Math.round(metaH_design * sc);
         const imageH = Math.max(0, cardH - metaH);
+        const msc    = sc * metaScale;
         const bg     = project.coverColor ?? "#111111";
         const objFit = project.coverImageFit === "cover" ? "object-cover" : "object-contain";
         const isHov       = hoveredIdx === i || resizingIdx === i;
@@ -1057,35 +1110,39 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
 
               {/* Meta strip — isolated from cover art so frost matches on every card */}
               <div
-                className="absolute inset-x-0 bottom-0 z-10 flex flex-col justify-between"
+                className="absolute inset-x-0 bottom-0 z-10 flex flex-col"
                 style={{
                   top: imageH,
-                  paddingLeft: Math.round(16 * sc),
-                  paddingRight: Math.round(16 * sc),
-                  paddingTop: Math.round(12 * sc),
-                  paddingBottom: Math.round(16 * sc),
+                  paddingLeft: Math.max(8, Math.round(16 * msc)),
+                  paddingRight: Math.max(8, Math.round(16 * msc)),
+                  paddingTop: Math.max(6, Math.round(12 * msc)),
+                  paddingBottom: Math.max(8, Math.round(16 * msc)),
                   ...CARD_META_GLASS,
                 }}
               >
-                <div className="flex flex-col" style={{ gap: Math.round(6 * sc), marginTop: Math.round(2 * sc) }}>
+                <div className="flex-1 min-h-0 overflow-hidden flex flex-col" style={{ gap: Math.round(6 * msc), marginTop: Math.max(2, Math.round(2 * msc)) }}>
                   {(project.typeTags || project.statusLabel) && (
-                    <div className="flex flex-wrap items-center" style={{ gap: Math.round(6 * sc) }}>
-                      {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} scale={sc} />}
-                      {project.statusLabel && <StatusPill label={project.statusLabel} scale={sc} />}
+                    <div className="flex flex-wrap items-center" style={{ gap: Math.round(6 * msc) }}>
+                      {project.typeTags && <TypePills typeTags={project.typeTags} pillTheme={project.pillTheme} scale={msc} />}
+                      {project.statusLabel && <StatusPill label={project.statusLabel} scale={msc} />}
                     </div>
                   )}
-                  <div className="flex items-center" style={{ gap: Math.round(8 * sc), marginTop: project.typeTags ? Math.round(12 * sc) : Math.round(4 * sc) }}>
+                  <div className="flex items-center" style={{ gap: Math.round(8 * msc), marginTop: project.typeTags ? Math.round(12 * msc) : Math.round(4 * msc) }}>
                     <p className={cn("font-mono font-semibold leading-snug tracking-tight transition-colors duration-200", isHov ? "text-zinc-950" : "text-zinc-600")}
-                      style={{ fontSize: Math.round(15 * sc * (cardFontScale ?? 1)) }}>
+                      style={{ fontSize: Math.round(15 * msc * (cardFontScale ?? 1)) }}>
                       {project.title}
                     </p>
                   </div>
-                  <p className={cn("leading-relaxed transition-colors duration-200", isHov ? "text-zinc-800" : "text-zinc-400")}
-                    style={{ fontSize: Math.round(11 * sc * (cardFontScale ?? 1)) }}>
+                  <p className={cn("leading-snug transition-colors duration-200 overflow-hidden", isHov ? "text-zinc-800" : "text-zinc-400")}
+                    style={{ fontSize: Math.max(4, Math.round(11 * msc * (cardFontScale ?? 1))) }}>
                     {project.description}
                   </p>
                 </div>
-                {project.tags && <MetricPills tags={project.tags} scale={sc} />}
+                {project.tags && (
+                  <div className="shrink-0" style={{ marginTop: Math.round(10 * msc) }}>
+                    <MetricPills tags={project.tags} scale={msc} />
+                  </div>
+                )}
               </div>
 
               {/* Click overlay — above glass, below handles */}
@@ -1103,25 +1160,20 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
         </p>
         <button
           type="button"
-          onClick={() => {
-            const layout = {
-              refWidth,
-              positions,
-              sizesBySlug: Object.fromEntries(projects.map((p, i) => [p.slug, baseSizes[i] ?? getDefaultSize(p, effMetaH)])),
-            };
-            navigator.clipboard.writeText(JSON.stringify(layout, null, 2)).catch(() => {});
-          }}
-          className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
-        >
-          Copy layout
-        </button>
-        <button
-          type="button"
           onClick={resetLayout}
           className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
         >
           Reset layout
         </button>
+        {projects.some((p) => p.archived) && (
+          <button
+            type="button"
+            onClick={revealArchived}
+            className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
+          >
+            Archive
+          </button>
+        )}
       </div>
       </div>
     </div>
