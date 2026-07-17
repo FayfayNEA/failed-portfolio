@@ -63,11 +63,11 @@ const SOCIAL_BUBBLES = [
  * Full-bleed routes: nav floats over content (no top padding).
  */
 function isFullBleed(pathname: string) {
-  return pathname === "/" || pathname === "/teatimer" || pathname.startsWith("/work/fither");
+  return pathname === "/" || pathname === "/teatimer" || pathname === "/orb" || pathname.startsWith("/work/fither");
 }
 
 function isLiveToolRoute(pathname: string) {
-  return pathname === "/teatimer" || pathname.startsWith("/work/fither");
+  return pathname === "/teatimer" || pathname === "/orb" || pathname.startsWith("/work/fither");
 }
 
 export function NavShell({ children }: { children: React.ReactNode }) {
@@ -117,8 +117,13 @@ export function NavShell({ children }: { children: React.ReactNode }) {
           </motion.a>
         ))}
       </div>
-      {/* Mobile contact footer, replaces icon stack on small screens */}
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-[90] flex items-center justify-around px-6 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] border-t border-black/[0.06] bg-white/[0.55] backdrop-blur-xl backdrop-saturate-125">
+      {/* Mobile contact footer — hidden on live tool pages */}
+      <div
+        className={cn(
+          "fixed bottom-0 inset-x-0 z-[90] items-center justify-around px-6 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] border-t border-black/[0.06] bg-white/[0.55] backdrop-blur-xl backdrop-saturate-125",
+          liveTool ? "hidden" : "md:hidden flex",
+        )}
+      >
         {SOCIAL_BUBBLES.map(({ href, label, icon }) => (
           <a
             key={href}
@@ -146,7 +151,8 @@ export function NavShell({ children }: { children: React.ReactNode }) {
             !liveTool && "pb-[calc(60px+env(safe-area-inset-bottom,0px))] md:pb-0",
             liveTool && "h-[100dvh] overflow-hidden",
             fitherBg && "fither-page-canvas",
-            pathname === "/teatimer" && "bg-[#faf5ee]"
+            pathname === "/teatimer" && "bg-[#faf5ee]",
+            pathname === "/orb" && "bg-[#0D0D0D]",
           )}
         >
           {children}

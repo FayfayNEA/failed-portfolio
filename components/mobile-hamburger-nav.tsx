@@ -20,7 +20,7 @@ function workRouteActive(path: string) {
 export function MobileHamburgerNav() {
   const pathname = usePathname();
   const reduced = useReducedMotion();
-  const isDark = pathname.startsWith("/work/fither");
+  const isDark = pathname.startsWith("/work/fither") || pathname === "/orb";
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

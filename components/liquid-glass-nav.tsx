@@ -31,8 +31,8 @@ function scrollToAnchor(id: string) {
 export function LiquidGlassNav() {
   const pathname = usePathname();
   const reduced = useReducedMotion();
-  const isDark      = pathname.startsWith("/work/fither");
-  const isLiveTool  = pathname === "/teatimer" || pathname.startsWith("/work/fither");
+  const isDark      = pathname.startsWith("/work/fither") || pathname === "/orb";
+  const isLiveTool  = pathname === "/teatimer" || pathname === "/orb" || pathname.startsWith("/work/fither");
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   // Lets the nav-section show once the expand animation finishes

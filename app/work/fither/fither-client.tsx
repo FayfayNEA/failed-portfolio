@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const META = [
   { label: "Timeline", value: "1 week" },
   { label: "Role",     value: "Creative Technologist\nFull Stack Engineer" },
-  { label: "Tools",    value: "Groq · Llama 4 · p5.js · Vanilla JS · Vercel" },
+  { label: "Tools",    value: "Processing · p5.js · Groq · Llama 4" },
   { label: "Team",     value: "Failenn Aselta" },
 ];
 
@@ -47,7 +47,7 @@ export function FitherClient() {
 
             {/* Panel — upper-center */}
             <motion.div
-              className="fixed left-1/2 top-[12%] z-[60] w-full max-w-[min(620px,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/[0.92] shadow-[0_24px_64px_-16px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
+              className="fixed left-1/2 top-[12%] z-[60] w-full max-w-[min(620px,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-[8px] border border-black/[0.06] bg-white/[0.92] shadow-[0_24px_64px_-16px_rgba(0,0,0,0.18),inset_0_1px_0_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
               initial={{ opacity: 0, y: -12, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.97 }}
@@ -70,7 +70,7 @@ export function FitherClient() {
               {/* Body */}
               <div className="px-6 py-5">
                 <p className="mb-6 text-[0.88rem] leading-[1.8] text-zinc-600">
-                  Fither started as a question about what AI does to analog aesthetics. Dithering is one of the oldest image compression techniques — it turns continuous tone into pattern, loss into texture. The question was whether a language model could learn to describe dither not as a technical filter but as a visual feeling, and whether that description could drive a generative canvas in real time. Built with Groq and Llama 4 for inference speed, p5.js for canvas rendering, and deployed on Vercel. The AI doesn&apos;t apply the dither — it interprets what the user is making and responds in kind. Groq over OpenAI because latency at this interaction speed is the whole experience; a half-second delay kills the feedback loop the tool depends on.
+                  Fither asks what AI does to analog aesthetics. I prototyped the dither engine in Processing first, then rebuilt it in the browser with p5.js so parameters could move in real time. Groq and Llama 4 handle the AI layer: the model doesn&apos;t apply the dither, it reads what you&apos;re making and responds in kind. Latency is the product, so Groq over OpenAI.
                 </p>
 
                 {/* Metadata */}

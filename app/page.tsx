@@ -37,7 +37,7 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     fither:       { w: GRID_W, h: 463 },
     "iris-house": { w: 526, h: GRID_H },
     jahn:         { w: GRID_W, h: 465 },
-    orb:          { w: GRID_W, h: GRID_H },
+    orb:          { w: GRID_W, h: 463 },
     tetonic:      { w: GRID_W, h: GRID_H },
   },
 };
@@ -51,8 +51,7 @@ const PROJECTS: GalleryProject[] = [
   { slug: "fither",       title: "Fither",       statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",             description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4", href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true },
   { slug: "iris-house",   title: "Iris House",   statusLabel: "Shipped",     pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", mobileCoverImageFit: "contain", canvasImageH: 314, useVideoAsCover: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
   { slug: "jahn",         title: "JAHN",         statusLabel: "Shipped",     pillTheme: "teal",   cardVariant: "standard",  typeTags: "Architecture · Visualization · B2B",        description: "Designed a portfolio faithful to Helmut Jahn's design language.",                         year: "2023", coverColor: "#e8e8e8", coverImage: "/coverimages/jahn.jpg", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/jahn/jahn.mp4", href: "/jahn",         tags: ["Commissioned build", "Live site", "2023"], tagsInline: true, archived: true },
-  // TODO: placeholder — swap in real cover image/video, description, and tags once Orb is ready.
-  { slug: "orb",          title: "Orb",          statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "standard",  typeTags: "Placeholder",                               description: "Placeholder description — update with real Orb details.",                                year: "2026", coverColor: "#e5e5e2", href: "/orb",           tags: ["Placeholder", "2026"], tagsInline: true, archived: true },
+  { slug: "orb",          title: "Orb",          statusLabel: "Shipped",     pillTheme: "parchment", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "An animated translucent blob with swirling internal caustics. A small WebGL playground for organic plasma forms.", year: "2026", coverColor: "#f5edd4", coverImageFit: "contain", canvasImageH: 281, href: "/orb",           tags: ["Three.js", "WebGL", "2026"], tagsInline: true, archived: true },
   // TODO: placeholder — swap in real cover image/video, description, and tags once Tetonic is ready.
   { slug: "tetonic",      title: "Tetonic",      statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "standard",  typeTags: "Placeholder",                               description: "Placeholder description — update with real Tetonic details.",                            year: "2026", coverColor: "#e8e6e1", href: "/tetonic",       tags: ["Placeholder", "2026"], tagsInline: true, archived: true },
 ];
@@ -99,7 +98,7 @@ export default function Home() {
         className="relative z-[30] mt-0 flex flex-col sm:mt-8 md:mt-0"
         aria-label="Product Design work"
       >
-        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v142" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v143" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}

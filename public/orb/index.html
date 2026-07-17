@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orb</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0D0D0D;
+      font-family: system-ui, sans-serif;
+    }
+    canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+    canvas:active { cursor: grabbing; }
+
+    .dashboard {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 240px;
+      max-height: calc(100vh - 40px);
+      z-index: 10;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 16px;
+      color: rgba(255, 255, 255, 0.9);
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .dashboard.collapsed {
+      transform: translateX(calc(100% + 40px));
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .reopen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      z-index: 10;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.85);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .reopen-btn.visible {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+    .reopen-btn:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .dashboard-toggle {
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.45);
+      transition: transform 0.25s ease;
+    }
+    .dashboard.collapsed .dashboard-toggle { transform: rotate(180deg); }
+    .dashboard-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      overflow-y: auto;
+      min-height: 0;
+      padding-right: 6px;
+      margin-right: -6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    }
+    .dashboard-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .dashboard-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .dashboard-body::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 3px;
+    }
+    .dashboard-body::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      letter-spacing: 0.03em;
+      text-transform: lowercase;
+      color: rgba(255, 255, 255, 0.45);
+    }
+    .field-label span.val { color: rgba(255, 255, 255, 0.85); font-variant-numeric: tabular-nums; }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 2px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.16);
+      outline: none;
+      accent-color: #fff;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 12px;
+      height: 12px;
+      border: none;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    input[type="color"] {
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      padding: 3px;
+      transition: border-color 0.2s;
+    }
+    input[type="color"]:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 5px; }
+
+    #custom-color { width: 100%; height: 32px; }
+    .highlight-card-head input[type="color"] { width: 26px; height: 26px; padding: 2px; }
+
+    .dashboard-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 2px 0;
+    }
+
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .highlights-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .highlight-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .highlight-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .highlight-remove {
+      width: 22px;
+      height: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      font-size: 13px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .highlight-remove:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.35);
+      color: #fff;
+    }
+
+    .btn-add-highlight {
+      width: 100%;
+      padding: 9px;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .btn-add-highlight:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 255, 255, 0.95);
+    }
+    .btn-add-highlight:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-download {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-download:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .btn-download.recording {
+      background: #fff;
+      border-color: #fff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <button class="reopen-btn" id="dashboard-reopen" title="Show controls">&#8249;</button>
+  <div class="dashboard" id="dashboard">
+    <div class="dashboard-header" id="dashboard-toggle-header">
+      <span class="dashboard-toggle">&#8250;</span>
+    </div>
+    <div class="dashboard-body">
+      <div class="field">
+        <label class="field-label" for="custom-color">color</label>
+        <input id="custom-color" type="color" value="#b98ac4" title="Orb color" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-speed">speed <span class="val" id="val-speed">1.0</span></label>
+        <input id="slider-speed" type="range" min="0" max="3" step="0.05" value="1" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-density">density <span class="val" id="val-density">0.50</span></label>
+        <input id="slider-density" type="range" min="0" max="1" step="0.01" value="0.5" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-puff">puffiness <span class="val" id="val-puff">1.0</span></label>
+        <input id="slider-puff" type="range" min="0.4" max="2.5" step="0.05" value="1" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-wisp">wisps <span class="val" id="val-wisp">0.70</span></label>
+        <input id="slider-wisp" type="range" min="0" max="1.5" step="0.05" value="0.7" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-turbulence">turbulence <span class="val" id="val-turbulence">1.0</span></label>
+        <input id="slider-turbulence" type="range" min="0.3" max="2.5" step="0.05" value="1" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-glow">glow <span class="val" id="val-glow">1.0</span></label>
+        <input id="slider-glow" type="range" min="0" max="2" step="0.05" value="1" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-rotate">rotation <span class="val" id="val-rotate">1.0</span></label>
+        <input id="slider-rotate" type="range" min="0" max="3" step="0.05" value="1" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="slider-size">size <span class="val" id="val-size">1.0</span></label>
+        <input id="slider-size" type="range" min="0.6" max="1.6" step="0.02" value="1" />
+      </div>
+
+      <div class="dashboard-divider"></div>
+      <div class="section-label">highlights</div>
+      <div class="highlights-list" id="highlights-list"></div>
+      <button class="btn-add-highlight" id="btn-add-highlight">+ add highlight</button>
+
+      <div class="dashboard-divider"></div>
+      <div class="actions-row">
+        <button class="btn-download" id="btn-download" title="Download a PNG of the orb">png</button>
+        <button class="btn-download" id="btn-record" title="Record a video of the orb">record video</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    const NOISE_GLSL = /* glsl */`
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+      vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.853735429615513 * r; }
+
+      float snoise(vec3 v) {
+        const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+        vec3 i = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy;
+        vec3 x3 = x0 - D.yyy;
+        i = mod289(i);
+        vec4 p = permute(permute(permute(
+          i.z + vec4(0.0, i1.z, i2.z, 1.0))
+          + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+          + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+        float n_ = 0.142857142857;
+        vec3 ns = n_ * D.wyz - D.xzx;
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+        vec4 x = x_ * ns.x + ns.yyyy;
+        vec4 y = y_ * ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+        vec4 s0 = floor(b0) * 2.0 + 1.0;
+        vec4 s1 = floor(b1) * 2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+        vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+        p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+        vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        m = m * m;
+        return 42.0 * dot(m * m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+
+      float ridged(vec3 p) {
+        float n = 1.0 - abs(snoise(p));
+        return n * n;
+      }
+
+      float smoothFbm(vec3 p) {
+        return snoise(p) * 0.55 + snoise(p * 1.35 + vec3(1.7, 2.3, 0.9)) * 0.45;
+      }
+
+      vec3 warp(vec3 p, float t, float turb) {
+        vec3 q = p;
+        q += vec3(
+          snoise(q * 0.7 + vec3(t * 0.09, 0.0, -t * 0.06)),
+          snoise(q * 0.7 + vec3(4.2, t * 0.07, 1.3)),
+          snoise(q * 0.7 + vec3(1.7, 3.1, t * 0.08))
+        ) * (0.2 + turb * 0.4);
+        return q;
+      }
+
+      float shellDisp(vec3 dir, float t) {
+        float d = smoothFbm(dir * 0.72 + vec3(t * 0.08, t * 0.06, -t * 0.07)) * 0.11;
+        d += snoise(dir * 1.3 + vec3(-t * 0.05, t * 0.06, t * 0.04)) * 0.03;
+        return d;
+      }
+    `;
+
+    const vertexShader = /* glsl */`
+      uniform float uTime;
+      varying vec3 vWorldPos;
+      varying vec3 vNormal;
+      varying vec3 vLocal;
+
+      ${NOISE_GLSL}
+
+      void main() {
+        vec3 dir = normalize(position);
+        vec3 local = dir * (1.0 + shellDisp(dir, uTime));
+        vLocal = local;
+        vec4 world = modelMatrix * vec4(local, 1.0);
+        vWorldPos = world.xyz;
+
+        // build an orthonormal tangent basis perpendicular to dir so the
+        // finite-difference normal never degenerates (no seam / hemisphere flip)
+        vec3 ref = abs(dir.y) < 0.99 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0);
+        vec3 tang = normalize(cross(ref, dir));
+        vec3 bitang = cross(dir, tang);
+
+        float e = 0.02;
+        vec3 d1 = normalize(dir + tang * e);
+        vec3 d2 = normalize(dir + bitang * e);
+        vec3 p1 = d1 * (1.0 + shellDisp(d1, uTime));
+        vec3 p2 = d2 * (1.0 + shellDisp(d2, uTime));
+        vec3 nrm = normalize(cross(p1 - local, p2 - local));
+        // guarantee it points outward
+        nrm *= sign(dot(nrm, dir));
+        vNormal = normalize(normalMatrix * nrm);
+
+        gl_Position = projectionMatrix * viewMatrix * world;
+      }
+    `;
+
+    const fragmentShader = /* glsl */`
+      uniform float uTime;
+      uniform vec3 uCustom;
+      uniform vec3 uCameraLocal;
+      uniform float uCoverage;
+      uniform float uPuff;
+      uniform float uWisp;
+      uniform float uTurbulence;
+      uniform float uGlow;
+      uniform int uHighlightCount;
+      uniform vec3 uHighlightDir[5];
+      uniform vec3 uHighlightColor[5];
+      uniform float uHighlightIntensity[5];
+      uniform float uHighlightSize[5];
+
+      varying vec3 vWorldPos;
+      varying vec3 vNormal;
+      varying vec3 vLocal;
+
+      ${NOISE_GLSL}
+
+      // soft billowing cloud density field: large slow-rolling puffs with
+      // smaller turbulent bumps layered on top, so the volume reads like
+      // stacked cumulus rather than folded fabric.
+      float cloudField(vec3 p, float t, float puff, float turb) {
+        vec3 q = warp(p * 0.8, t, turb);
+        float n = smoothFbm(q * 1.05 + vec3(t * 0.05, -t * 0.04, t * 0.03));
+        n += snoise(q * (2.2 * puff) + vec3(-t * 0.06, t * 0.05, 3.1)) * 0.32;
+        n += snoise(q * (4.4 * puff) + vec3(1.9, -t * 0.03, 2.7)) * 0.14;
+        return n;
+      }
+
+      // thin bright curling smoke-thread: ridged noise pushed through the
+      // same domain warp, sharpened into fine glowing filaments
+      float wispField(vec3 p, float t, float turb) {
+        vec3 q = warp(p * 1.1, t, turb);
+        float w = ridged(q * 1.7 + vec3(t * 0.06, -t * 0.05, 1.1));
+        return pow(w, 6.0);
+      }
+
+      void main() {
+        vec3 viewDir = normalize(cameraPosition - vWorldPos);
+        vec3 n = normalize(vNormal);
+        float t = uTime;
+        float ndv = max(dot(n, viewDir), 0.0);
+        float fresnel = pow(1.0 - ndv, 2.0);
+
+        // derive a coherent palette from the chosen color
+        vec3 base = uCustom;
+        vec3 bodyTone = base;
+        vec3 voidTone = base * 0.42;
+        vec3 paleTone = mix(base, vec3(1.0), 0.72);
+        vec3 hotTone  = mix(base, vec3(1.0), 0.9);
+
+        vec3 localView = normalize(uCameraLocal - vLocal);
+
+        // front-to-back volumetric march: near folds overlap and occlude
+        // far ones, building the layered drapery depth from the video
+        vec3 interior = vec3(0.0);
+        float trans = 1.0;   // remaining transmittance
+        float hotSum = 0.0;
+        float coverage = 0.0;
+
+        float threshold = mix(0.7, -0.5, uCoverage);
+
+        for (int i = 0; i < 9; i++) {
+          float fi = float(i);
+          vec3 sp = vLocal - localView * (fi + 0.5) * 0.15;
+          float ri = length(sp);
+          if (ri > 1.02) continue;
+
+          float cluster = 1.0 - smoothstep(0.5, 0.98, ri);
+
+          float n = cloudField(sp, t, uPuff, uTurbulence);
+
+          // soft-edged puff coverage, no sharp creases or thin lines
+          float density = smoothstep(threshold - 0.28, threshold + 0.28, n) * cluster;
+
+          // thin bright curling smoke threads, confined to where cloud is present
+          float wisp = wispField(sp, t, uTurbulence) * uWisp * density;
+
+          // gentle sunlit-top / shadowed-underside variation across puffs
+          float toneN = snoise(sp * 0.85 + vec3(t * 0.1, -t * 0.08, 1.4));
+          float lit    = smoothstep(0.0, 0.7, toneN);
+          float shaded = smoothstep(0.05, 0.85, -toneN);
+
+          vec3 c = bodyTone;
+          c = mix(c, paleTone, lit * 0.55);
+          c = mix(c, voidTone, shaded * 0.4);
+          c = mix(c, hotTone, lit * lit * 0.16 * uGlow);
+          c = mix(c, hotTone, clamp(wisp, 0.0, 1.0));
+
+          // opacity of this slab
+          float a = clamp(density * 0.6 + wisp * 0.5, 0.0, 1.0);
+
+          interior += trans * a * c;
+          coverage += trans * a;
+          hotSum += trans * (a * lit + wisp * 0.6);
+          trans *= (1.0 - a);
+        }
+
+        // dusky membrane shows through where clouds are absent
+        vec3 col = interior + trans * voidTone * 0.55;
+
+        // soft glow from sunlit cloud tops (broad, not thin blazing lines)
+        hotSum = max(hotSum - 0.3, 0.0) * uGlow;
+        float bloom = 1.0 - exp(-hotSum * 0.8);
+        col += hotTone * bloom * bloom * 0.22;
+
+        // soft tinted shell rim (kept low so the silhouette never blows out)
+        vec3 frost = mix(paleTone, bodyTone, 0.35);
+        float shellGlow = (fresnel * fresnel * 0.4 + fresnel * 0.18) * uGlow;
+        float rimVar = 0.75 + 0.25 * snoise(normalize(vLocal) * 1.8 + vec3(t * 0.03, 0.0, 0.0));
+        col += frost * shellGlow * rimVar;
+
+        // user-placed highlights: fixed in world space so they slide
+        // across the shell like reflections as the orb spins
+        vec3 highlightGlow = vec3(0.0);
+        float highlightAlpha = 0.0;
+        for (int i = 0; i < 5; i++) {
+          if (i >= uHighlightCount) break;
+          float ndl = max(dot(n, uHighlightDir[i]), 0.0);
+          float spec = pow(ndl, mix(70.0, 4.0, uHighlightSize[i]));
+          highlightGlow += uHighlightColor[i] * spec * uHighlightIntensity[i];
+          highlightAlpha += spec * uHighlightIntensity[i];
+        }
+        col += highlightGlow;
+
+        // see-through where empty, solid where folds stack up
+        float outAlpha = 0.2 + coverage * 0.6 + bloom * 0.1 + fresnel * 0.35 + highlightAlpha * 0.3;
+        gl_FragColor = vec4(col, clamp(outAlpha, 0.18, 0.96));
+      }
+    `;
+
+    const scene = new THREE.Scene();
+    // transparent canvas so the CSS #0D0D0D page shows through exactly
+    // (tone mapping would otherwise darken a scene.background color)
+
+    const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 3.1);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      powerPreference: 'low-power',
+      preserveDrawingBuffer: true,
+      alpha: true,
+    });
+    renderer.setPixelRatio(1);
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    document.body.appendChild(renderer.domElement);
+
+    const blobGroup = new THREE.Group();
+    scene.add(blobGroup);
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uCustom: { value: new THREE.Color(0xb98ac4) },
+      uCameraLocal: { value: new THREE.Vector3() },
+      uCoverage: { value: 0.5 },
+      uPuff: { value: 1.0 },
+      uWisp: { value: 0.7 },
+      uTurbulence: { value: 1.0 },
+      uGlow: { value: 1.0 },
+      uHighlightCount: { value: 0 },
+      uHighlightDir: { value: Array.from({ length: 5 }, () => new THREE.Vector3(0, 1, 0)) },
+      uHighlightColor: { value: Array.from({ length: 5 }, () => new THREE.Color(0xffffff)) },
+      uHighlightIntensity: { value: new Float32Array(5) },
+      uHighlightSize: { value: new Float32Array(5) },
+    };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms,
+      transparent: true,
+      depthWrite: false,
+      side: THREE.FrontSide,
+    });
+    blobGroup.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1, 24), material));
+    renderer.debug.checkShaderErrors = true;
+
+    const cameraLocal = new THREE.Vector3();
+    let isDragging = false;
+    let prevX = 0;
+    let prevY = 0;
+    let rotX = 0.15;
+    let rotY = 0;
+    const canvas = renderer.domElement;
+
+    canvas.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      prevX = e.clientX;
+      prevY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointerup', (e) => {
+      isDragging = false;
+      canvas.releasePointerCapture(e.pointerId);
+    });
+    canvas.addEventListener('pointercancel', () => { isDragging = false; });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      rotY += (e.clientX - prevX) * 0.009;
+      rotX += (e.clientY - prevY) * 0.009;
+      rotX = THREE.MathUtils.clamp(rotX, -1.2, 1.2);
+      blobGroup.rotation.set(rotX, rotY, 0);
+      prevX = e.clientX;
+      prevY = e.clientY;
+    });
+
+    const colorPicker = document.getElementById('custom-color');
+    const tmpColor = new THREE.Color();
+
+    function applyCustom(str) {
+      // accept #hex, hex, or CSS color names
+      const val = str.trim();
+      if (!val) return false;
+      try {
+        tmpColor.set(val.startsWith('#') || /^[0-9a-fA-F]{3,8}$/.test(val) ? (val.startsWith('#') ? val : '#' + val) : val);
+      } catch (err) {
+        return false;
+      }
+      uniforms.uCustom.value.copy(tmpColor);
+      colorPicker.value = '#' + tmpColor.getHexString();
+      return true;
+    }
+
+    colorPicker.addEventListener('input', () => {
+      applyCustom(colorPicker.value);
+    });
+
+    // layered highlights: user-editable specular hotspots, fixed in world
+    // space so they slide across the shell as the orb rotates
+    const MAX_HIGHLIGHTS = 5;
+    let highlights = [];
+    let highlightIdSeq = 0;
+
+    function dirFromAngles(azimuthDeg, elevationDeg) {
+      const az = THREE.MathUtils.degToRad(azimuthDeg);
+      const el = THREE.MathUtils.degToRad(elevationDeg);
+      return new THREE.Vector3(
+        Math.cos(el) * Math.sin(az),
+        Math.sin(el),
+        Math.cos(el) * Math.cos(az)
+      );
+    }
+
+    function updateHighlightUniforms() {
+      uniforms.uHighlightCount.value = highlights.length;
+      highlights.forEach((h, i) => {
+        uniforms.uHighlightDir.value[i].copy(dirFromAngles(h.azimuth, h.elevation));
+        uniforms.uHighlightColor.value[i].set(h.color);
+        uniforms.uHighlightIntensity.value[i] = h.intensity;
+        uniforms.uHighlightSize.value[i] = h.size;
+      });
+    }
+
+    function addField(parent, label, min, max, step, value, onInput, format) {
+      const field = document.createElement('div');
+      field.className = 'field';
+      const lbl = document.createElement('label');
+      lbl.className = 'field-label';
+      lbl.append(label + ' ');
+      const span = document.createElement('span');
+      span.className = 'val';
+      span.textContent = format(value);
+      lbl.appendChild(span);
+      const input = document.createElement('input');
+      input.type = 'range';
+      input.min = min; input.max = max; input.step = step; input.value = value;
+      input.addEventListener('input', () => {
+        const v = parseFloat(input.value);
+        span.textContent = format(v);
+        onInput(v);
+      });
+      field.appendChild(lbl);
+      field.appendChild(input);
+      parent.appendChild(field);
+    }
+
+    function createHighlightCard(h) {
+      const card = document.createElement('div');
+      card.className = 'highlight-card';
+
+      const head = document.createElement('div');
+      head.className = 'highlight-card-head';
+      const colorInput = document.createElement('input');
+      colorInput.type = 'color';
+      colorInput.value = h.color;
+      colorInput.title = 'Highlight color';
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'highlight-remove';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Remove highlight';
+      head.appendChild(colorInput);
+      head.appendChild(removeBtn);
+      card.appendChild(head);
+
+      addField(card, 'azimuth', 0, 360, 1, h.azimuth, (v) => { h.azimuth = v; updateHighlightUniforms(); }, (v) => Math.round(v) + '°');
+      addField(card, 'elevation', -90, 90, 1, h.elevation, (v) => { h.elevation = v; updateHighlightUniforms(); }, (v) => Math.round(v) + '°');
+      addField(card, 'intensity', 0, 2, 0.05, h.intensity, (v) => { h.intensity = v; updateHighlightUniforms(); }, (v) => v.toFixed(2));
+      addField(card, 'spread', 0, 1, 0.05, h.size, (v) => { h.size = v; updateHighlightUniforms(); }, (v) => v.toFixed(2));
+
+      colorInput.addEventListener('input', () => { h.color = colorInput.value; updateHighlightUniforms(); });
+      removeBtn.addEventListener('click', () => removeHighlight(h.id));
+
+      return card;
+    }
+
+    function renderHighlightList() {
+      const list = document.getElementById('highlights-list');
+      list.innerHTML = '';
+      highlights.forEach((h) => list.appendChild(createHighlightCard(h)));
+      document.getElementById('btn-add-highlight').disabled = highlights.length >= MAX_HIGHLIGHTS;
+    }
+
+    function addHighlight(preset = {}) {
+      if (highlights.length >= MAX_HIGHLIGHTS) return;
+      const h = Object.assign({
+        id: highlightIdSeq++,
+        azimuth: 40,
+        elevation: 35,
+        intensity: 0.8,
+        size: 0.35,
+        color: '#ffffff',
+      }, preset);
+      highlights.push(h);
+      updateHighlightUniforms();
+      renderHighlightList();
+    }
+
+    function removeHighlight(id) {
+      highlights = highlights.filter((h) => h.id !== id);
+      updateHighlightUniforms();
+      renderHighlightList();
+    }
+
+    document.getElementById('btn-add-highlight').addEventListener('click', () => {
+      const n = highlights.length;
+      addHighlight({ azimuth: (40 + n * 70) % 360, elevation: 35 - (n % 3) * 25 });
+    });
+
+    addHighlight();
+
+    // dashboard sliders
+    const dashboard = document.getElementById('dashboard');
+    const reopenBtn = document.getElementById('dashboard-reopen');
+
+    function setDashboardCollapsed(collapsed) {
+      dashboard.classList.toggle('collapsed', collapsed);
+      reopenBtn.classList.toggle('visible', collapsed);
+    }
+
+    document.getElementById('dashboard-toggle-header').addEventListener('click', () => {
+      setDashboardCollapsed(true);
+    });
+    reopenBtn.addEventListener('click', () => setDashboardCollapsed(false));
+
+    let speedMult = 1;
+    let rotateMult = 1;
+
+    function bindSlider(id, valId, onChange, format = (v) => v.toFixed(2)) {
+      const input = document.getElementById(id);
+      const val = document.getElementById(valId);
+      input.addEventListener('input', () => {
+        const v = parseFloat(input.value);
+        val.textContent = format(v);
+        onChange(v);
+      });
+    }
+
+    bindSlider('slider-speed', 'val-speed', (v) => { speedMult = v; }, (v) => v.toFixed(2));
+    bindSlider('slider-density', 'val-density', (v) => { uniforms.uCoverage.value = v; });
+    bindSlider('slider-puff', 'val-puff', (v) => { uniforms.uPuff.value = v; });
+    bindSlider('slider-wisp', 'val-wisp', (v) => { uniforms.uWisp.value = v; });
+    bindSlider('slider-turbulence', 'val-turbulence', (v) => { uniforms.uTurbulence.value = v; });
+    bindSlider('slider-glow', 'val-glow', (v) => { uniforms.uGlow.value = v; });
+    bindSlider('slider-rotate', 'val-rotate', (v) => { rotateMult = v; });
+    bindSlider('slider-size', 'val-size', (v) => { blobGroup.scale.setScalar(v); });
+
+    const downloadBtn = document.getElementById('btn-download');
+    downloadBtn.addEventListener('click', () => {
+      // render one fresh frame right before capture so the buffer is current
+      renderer.render(scene, camera);
+
+      const out = document.createElement('canvas');
+      out.width = canvas.width;
+      out.height = canvas.height;
+      const ctx = out.getContext('2d');
+      ctx.fillStyle = '#0D0D0D';
+      ctx.fillRect(0, 0, out.width, out.height);
+      ctx.drawImage(canvas, 0, 0, out.width, out.height);
+
+      out.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `orb-${Date.now()}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      }, 'image/png');
+    });
+
+    const recordBtn = document.getElementById('btn-record');
+    let mediaRecorder = null;
+    let recordedChunks = [];
+
+    function pickVideoMimeType() {
+      const candidates = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+      return candidates.find((t) => window.MediaRecorder && MediaRecorder.isTypeSupported(t)) || '';
+    }
+
+    recordBtn.addEventListener('click', () => {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        return;
+      }
+      if (!window.MediaRecorder || !canvas.captureStream) {
+        alert('Video recording is not supported in this browser.');
+        return;
+      }
+      const mimeType = pickVideoMimeType();
+      const stream = canvas.captureStream(30);
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+      mediaRecorder.addEventListener('dataavailable', (e) => {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+      });
+      mediaRecorder.addEventListener('stop', () => {
+        const blob = new Blob(recordedChunks, { type: mimeType || 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `orb-${Date.now()}.webm`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        recordBtn.textContent = 'record video';
+        recordBtn.classList.remove('recording');
+      });
+      mediaRecorder.start();
+      recordBtn.textContent = 'stop & save';
+      recordBtn.classList.add('recording');
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    const clock = new THREE.Clock();
+
+    let accumulatedTime = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = clock.getDelta();
+      accumulatedTime += dt * 1.7 * speedMult;
+      uniforms.uTime.value = accumulatedTime;
+      if (!isDragging) {
+        rotY += 0.0012 * rotateMult;
+        blobGroup.rotation.set(rotX, rotY, 0);
+      }
+      cameraLocal.copy(camera.position);
+      blobGroup.worldToLocal(cameraLocal);
+      uniforms.uCameraLocal.value.copy(cameraLocal);
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
