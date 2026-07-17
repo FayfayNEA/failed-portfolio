@@ -12,7 +12,7 @@ const SOCIAL_BUBBLES = [
     href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/",
     label: "LinkedIn",
     icon: (
-      <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4">
+      <svg viewBox="0 0 16 16" fill="currentColor" className="h-4 w-4 translate-x-px">
         <path d="M2 1.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM1 6h2v9H1zM5.5 6H8v1.2C8.5 6.5 9.5 6 10.5 6c2 0 3 1.2 3 3.5V15h-2.5v-5c0-1-.4-1.6-1.2-1.6-.9 0-1.3.6-1.3 1.6v5H5.5V6z"/>
       </svg>
     ),

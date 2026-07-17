@@ -1,7 +1,6 @@
-import { CategoryGallery } from "@/components/category-gallery";
 import type { GalleryProject, GalleryInitialLayout } from "@/components/category-gallery";
+import { ProductDesignGallery } from "@/components/product-design-gallery";
 import { BUDDY_VIDEO_ZOOM } from "@/lib/buddy-media";
-import { CaseBreadcrumb } from "@/components/case-breadcrumb";
 import { DesignerBio } from "@/components/designer-bio";
 import { HomeIntro } from "@/components/home-intro";
 import { RetroComputerSection } from "@/components/retro-computer-section";
@@ -21,10 +20,13 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     { x: 716, y: 36   },  // eidolon
     { x: 116, y: 620  },  // etrade
     { x: 716, y: 620  },  // teatimer
-    { x: 116, y: 1215 },  // nightterrors
+    { x: 116, y: 1215 },  // nightterrors — main slot (Iris always displays here)
     { x: 716, y: 1215 },  // fither
-    { x: 116, y: 1788 },  // iris-house
+    { x: 116, y: 1788 },  // iris-house — N1ghtterrors uses this when playground is on
     { x: 716, y: 1788 },  // jahn
+    // Match visual gap under jahn row to gap under iris/fither row (~83px)
+    { x: 116, y: 2336 },  // orb
+    { x: 716, y: 2336 },  // tetonic
   ],
   sizesBySlug: {
     buddy:        { w: GRID_W, h: GRID_H },
@@ -35,11 +37,13 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
     fither:       { w: GRID_W, h: 463 },
     "iris-house": { w: 526, h: GRID_H },
     jahn:         { w: GRID_W, h: 465 },
+    orb:          { w: GRID_W, h: GRID_H },
+    tetonic:      { w: GRID_W, h: GRID_H },
   },
 };
 
 const PROJECTS: GalleryProject[] = [
-  { slug: "buddy",        title: "Buddy",        statusLabel: "Shipped",     pillTheme: "purple", cardVariant: "portrait",  typeTags: "AI Hardware · IoT · B2B",                   description: "Created an LLM that captures group conversations as real-time images and diagrams.",      year: "2026", coverColor: "#f0f0f0", coverImageFit: "cover", coverImage: "/buddybackground.jpg", canvasCardW: 540, canvasImageH: 322, coverVideo: "/buddy/buddydemo-full.mp4", coverVideoFit: "cover", coverVideoStartTime: 3, coverVideoStatic: true, hoverVideo: "/buddy/buddydemo-full.mp4", href: "/buddy",        tags: ["64% intuitive on first use", "40% stopped taking notes", "2026"], tagsInline: true },
+  { slug: "buddy",        title: "Buddy",        statusLabel: "Shipped",     pillTheme: "purple", cardVariant: "portrait",  typeTags: "AI Hardware · IoT · B2B",                   description: "Created an LLM that captures group conversations as real-time images and diagrams.",      year: "2026", coverColor: "#f0f0f0", coverImageFit: "cover", coverImage: "/buddybackground.jpg", canvasCardW: 540, canvasImageH: 322, coverVideo: "/buddy/buddydemo-full.mp4", coverVideoFit: "cover", coverVideoStartTime: 2.5, coverVideoStatic: true, hoverVideo: "/buddy/buddydemo-full.mp4", href: "/buddy",        tags: ["64% intuitive on first use", "40% stopped taking notes", "2026"], tagsInline: true },
   { slug: "eidolon",      title: "Eidolon",      statusLabel: "Case Study",  pillTheme: "green",  cardVariant: "portrait",  typeTags: "AI Tool · Mobile · B2B · B2B2C",            description: "Designed what the web would look like as 98% AI and 2% human.",                                 year: "2026", coverColor: "#ffffff", coverImageFit: "contain", canvasImageH: 314, useVideoAsCover: true,                                                                      hoverVideo: "/eidolon/hero-alpha.mp4",                     href: "/eidolon",      tags: ["80% clearer agent in motion", "58% more control with haptics", "2026"], tagsInline: true },
   { slug: "etrade",       title: "E*Trade",      statusLabel: "Case Study",  pillTheme: "blue",   cardVariant: "landscape", typeTags: "Fintech · Web App · B2C",                   description: "Redesigned a financial trading platform to reduce cognitive load and speed up trades.",    year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverBlendMode: "multiply", coverImage: "/coverimages/etrade-frame.jpg", imageAreaClassName: "h-[260px] sm:h-[295px] lg:h-[330px]", canvasImageH: 314, canvasCardW: 580, hoverVideo: "/etrade/hero.mp4", href: "/etrade",       tags: ["83% found the layout faster", "67% felt mentally lighter", "2026"], tagsInline: true },
   { slug: "teatimer",     title: "TeaTimer",     statusLabel: "Shipped",     pillTheme: "parchment", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "A vintage botanical focus-session timer with mood companions and collectible sticker rewards.", year: "2026", coverColor: "#ffffff", coverImageFit: "contain", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/teatimer/tea-timer.mp4", href: "/teatimer", tags: ["Vite + React", "Framer Motion", "2026"], tagsInline: true },
@@ -47,6 +51,10 @@ const PROJECTS: GalleryProject[] = [
   { slug: "fither",       title: "Fither",       statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",             description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4", href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true },
   { slug: "iris-house",   title: "Iris House",   statusLabel: "Shipped",     pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", mobileCoverImageFit: "contain", canvasImageH: 314, useVideoAsCover: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
   { slug: "jahn",         title: "JAHN",         statusLabel: "Shipped",     pillTheme: "teal",   cardVariant: "standard",  typeTags: "Architecture · Visualization · B2B",        description: "Designed a portfolio faithful to Helmut Jahn's design language.",                         year: "2023", coverColor: "#e8e8e8", coverImage: "/coverimages/jahn.jpg", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/jahn/jahn.mp4", href: "/jahn",         tags: ["Commissioned build", "Live site", "2023"], tagsInline: true, archived: true },
+  // TODO: placeholder — swap in real cover image/video, description, and tags once Orb is ready.
+  { slug: "orb",          title: "Orb",          statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "standard",  typeTags: "Placeholder",                               description: "Placeholder description — update with real Orb details.",                                year: "2026", coverColor: "#e5e5e2", href: "/orb",           tags: ["Placeholder", "2026"], tagsInline: true, archived: true },
+  // TODO: placeholder — swap in real cover image/video, description, and tags once Tetonic is ready.
+  { slug: "tetonic",      title: "Tetonic",      statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "standard",  typeTags: "Placeholder",                               description: "Placeholder description — update with real Tetonic details.",                            year: "2026", coverColor: "#e8e6e1", href: "/tetonic",       tags: ["Placeholder", "2026"], tagsInline: true, archived: true },
 ];
 
 export default function Home() {
@@ -54,52 +62,44 @@ export default function Home() {
     <main className="w-full bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px] [background-attachment:fixed]">
       <HomeScrollListener />
       <CollageScrollHint />
-      <DesignerBio />
 
-      {/* Collage iframe */}
-      <div id="home-collage" className="relative min-h-0 w-full overflow-hidden pt-6 md:pt-[72px]">
-        <CollageWordOverlay />
-        {/* Gradient masks — minimal on mobile; scene now fills the iframe height */}
+      {/* Collage + bio sign share one relative frame so the sign can sit on the old orb spot */}
+      <div className="relative min-h-0 w-full">
+        <DesignerBio />
+
         <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-12 md:h-[8rem]"
-          style={{ background: "linear-gradient(to bottom, #e8e8e8 62%, transparent)" }}
-        />
-        <div className="h-[58dvh] -mb-[20dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:-mb-[2rem] md:h-[calc(87dvh-5rem)]">
-          <iframe
-            src="/home/index.html"
-            className="block h-full w-full border-0"
-            title="Failenn Aselta - Home"
-            loading="lazy"
+          id="home-collage"
+          className="relative min-h-0 w-full overflow-hidden pt-6 md:pt-[84px]"
+          style={{
+            maskImage: "linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, #000 0%, #000 calc(100% - 28px), transparent 100%)",
+          }}
+        >
+          <CollageWordOverlay />
+          {/* Top fade only — bottom solid #e8e8e8 mask removed (seam above scroll hint). */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 z-10 h-12 md:h-[8rem]"
+            style={{ background: "linear-gradient(to bottom, var(--canvas) 62%, transparent)" }}
           />
+          <div className="h-[58dvh] -mb-[20dvh] sm:mb-0 sm:h-[calc(100dvh-5rem)] md:-mb-[3.5rem] md:h-[calc(87dvh-5rem)]">
+            <iframe
+              src="/home/index.html"
+              className="block h-full w-full border-0"
+              title="Failenn Aselta - Home"
+              loading="lazy"
+            />
+          </div>
         </div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden h-8 md:block"
-          style={{ background: "linear-gradient(to top, #e8e8e8 0%, transparent 100%)" }}
-        />
       </div>
 
       {/* Product design gallery */}
       <section
         id="product-design-section"
-        className="mt-0 flex flex-col sm:mt-8 md:mt-4"
+        className="relative z-[30] mt-0 flex flex-col sm:mt-8 md:mt-0"
         aria-label="Product Design work"
       >
-        <div
-          id="product-design"
-          className="scroll-mt-[5.5rem] shrink-0 border-b border-zinc-200/50 px-8 py-3 md:scroll-mt-[6.5rem] md:pl-[95px] md:pr-12"
-        >
-          <CaseBreadcrumb
-            segments={[
-              { label: "work", href: "/#retro-computer" },
-              { label: "product-design" },
-            ]}
-          />
-        </div>
-        <div className="md:px-16">
-          <CategoryGallery projects={PROJECTS} storageKey="gallery-product-design-v137" initialLayout={PRODUCT_DESIGN_LAYOUT} />
-        </div>
+        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v142" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}

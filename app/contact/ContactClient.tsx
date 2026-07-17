@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import FluidSlab from "@/components/fluid-slab";
-import { ImageLightbox } from "@/components/image-lightbox";
 import { cn } from "@/lib/cn";
 
 function useIsBelowMd() {
@@ -35,10 +35,21 @@ const IMG = {
     "https://framerusercontent.com/images/8KmffkjfNuwc79LA0N3ciLnJw.png?width=1200&height=1200",
 } as const;
 
+function GitHubIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 16 16" fill="currentColor" className={className} aria-hidden>
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.82 1.23.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.66 7.66 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38C13.71 14.53 16 11.54 16 8c0-4.42-3.58-8-8-8z" />
+    </svg>
+  );
+}
+
+const DOT_GRID_BG =
+  "bg-[var(--canvas)] [background-image:radial-gradient(var(--canvas-dot)_1px,transparent_1px)] [background-size:20px_20px]";
+
 const RESUME_URL = "/failenn-resume.pdf";
 
 const SPOTIFY_EMBED_SRC =
-  "https://open.spotify.com/embed/album/07naAGnFibTManFY20vcUL?utm_source=generator&theme=0";
+  "https://open.spotify.com/embed/playlist/1TbQQFsnSW6s1efIybMEg5?utm_source=generator";
 
 const OLIVE_CARD_GRAIN_BG =
   'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 256 256\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")';
@@ -61,8 +72,8 @@ const LIQUID_CARD_GRAIN_BG =
 
 // ── Shared helpers ────────────────────────────────────────────────────────────
 
-const magneticSpring = { stiffness: 400, damping: 30, mass: 1 } as const;
-const MAG_STRENGTH = 10;
+const magneticSpring = { stiffness: 380, damping: 36, mass: 1 } as const;
+const MAG_STRENGTH = 3.5;
 
 function MagneticHoverShell({
   className,
@@ -125,24 +136,204 @@ function PhotoStrip({
   gapPx: number;
   radiusClass: string;
 }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
+  const open = openIndex !== null;
+  const openTween = { duration: 0.16, ease: [0.25, 0.1, 0.25, 1] as const };
+  const photoTween = { duration: 0.12, ease: [0.25, 0.1, 0.25, 1] as const };
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (!open) setZoomed(false);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (zoomed) setZoomed(false);
+        else setOpenIndex(null);
+      }
+      if (e.key === "ArrowRight") {
+        setOpenIndex((i) => (i === null ? i : (i + 1) % photos.length));
+      }
+      if (e.key === "ArrowLeft") {
+        setOpenIndex((i) => (i === null ? i : (i - 1 + photos.length) % photos.length));
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.documentElement.style.overflow = prev;
+    };
+  }, [open, photos.length, zoomed]);
+
+  const current = openIndex !== null ? photos[openIndex] : null;
+
+  const lightbox =
+    mounted &&
+    createPortal(
+      <AnimatePresence>
+        {open && current && openIndex !== null && (
+          <motion.div
+            key="life-lightbox"
+            className={cn(
+              "fixed inset-0 z-[220] flex items-center justify-center",
+              zoomed ? "p-2 sm:p-3" : "p-4 sm:p-8",
+            )}
+            role="dialog"
+            aria-modal="true"
+            aria-label={current.alt}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={openTween}
+          >
+            <motion.button
+              type="button"
+              className="absolute inset-0 bg-black/35"
+              onClick={() => setOpenIndex(null)}
+              aria-label="Close photo"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={openTween}
+            />
+
+            {/* macOS-style preview window */}
+            <motion.div
+              className={cn(
+                "relative z-[1] flex w-full flex-col overflow-hidden rounded-[12px] bg-[#ececec] shadow-[0_24px_80px_-20px_rgba(0,0,0,0.4),0_0_0_0.5px_rgba(0,0,0,0.14)]",
+                zoomed ? "h-[min(96dvh,100%)] max-w-[min(1400px,100%)]" : "max-w-[min(920px,100%)]",
+              )}
+              onClick={(e) => e.stopPropagation()}
+              layout
+              transition={openTween}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.99 }}
+            >
+              {/* Title bar — traffic lights stay clickable on top */}
+              <div className="relative z-20 flex h-12 shrink-0 items-center border-b border-black/[0.06] bg-[#f6f6f6] px-3.5">
+                <div className="relative z-30 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setOpenIndex(null)}
+                    className="flex h-5 w-5 items-center justify-center rounded-full"
+                    aria-label="Close"
+                  >
+                    <span className="h-[12px] w-[12px] rounded-full bg-[#ff5f57] shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.18)]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (zoomed) setZoomed(false);
+                      else setOpenIndex(null);
+                    }}
+                    className="flex h-5 w-5 items-center justify-center rounded-full"
+                    aria-label={zoomed ? "Restore" : "Minimize"}
+                  >
+                    <span className="h-[12px] w-[12px] rounded-full bg-[#febc2e] shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.18)]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setZoomed((v) => !v)}
+                    className="flex h-5 w-5 items-center justify-center rounded-full"
+                    aria-label={zoomed ? "Restore window size" : "Make window larger"}
+                    aria-pressed={zoomed}
+                  >
+                    <span className="h-[12px] w-[12px] rounded-full bg-[#28c840] shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.18)]" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex min-h-0 flex-1 items-center justify-center bg-[#e4e4e4] px-5 pb-3 pt-3 sm:px-8">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.img
+                    key={current.src}
+                    src={current.src}
+                    alt={current.alt}
+                    className={cn(
+                      "max-w-full rounded-[6px] object-contain shadow-[0_8px_28px_-12px_rgba(0,0,0,0.28)]",
+                      zoomed ? "max-h-[min(78dvh,900px)]" : "max-h-[min(58dvh,640px)]",
+                    )}
+                    draggable={false}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={photoTween}
+                  />
+                </AnimatePresence>
+              </div>
+
+              <div className="flex shrink-0 justify-center bg-[#ececec] px-4 pb-4 pt-2">
+                <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none]">
+                  {photos.map(({ src, alt }, i) => {
+                    const active = i === openIndex;
+                    return (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setOpenIndex(i)}
+                        className={cn(
+                          "relative h-14 w-14 shrink-0 overflow-hidden rounded-[5px] outline-none transition-opacity duration-100 hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#0a84ff]/50 sm:h-16 sm:w-16",
+                          !active && "ring-1 ring-inset ring-black/[0.08]",
+                        )}
+                        aria-label={`Show ${alt}`}
+                        aria-current={active ? "true" : undefined}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={src}
+                          alt=""
+                          className="h-full w-full object-cover"
+                          draggable={false}
+                        />
+                        {active && (
+                          <span
+                            className="pointer-events-none absolute inset-0 rounded-[5px] ring-2 ring-inset ring-[#0a84ff]"
+                            aria-hidden
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>,
+      document.body,
+    );
+
   return (
     <div className="overflow-x-auto [scrollbar-width:thin] [scrollbar-color:rgba(0,0,0,0.15)_transparent] pb-1">
       <div className="flex" style={{ gap: gapPx }}>
-        {photos.map(({ src, alt }) => (
-          <div
+        {photos.map(({ src, alt }, i) => (
+          <button
             key={src}
-            className={`shrink-0 overflow-hidden ${radiusClass} ring-1 ring-black/[0.06]`}
+            type="button"
+            onClick={() => setOpenIndex(i)}
+            className={`relative shrink-0 cursor-zoom-in overflow-hidden ${radiusClass} ring-1 ring-black/[0.06] outline-none transition-opacity duration-150 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-zinc-400/50`}
             style={{ width: itemWidth, aspectRatio: "3/4" }}
+            aria-label={`View ${alt}`}
           >
-            <ImageLightbox
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={src}
               alt={alt}
-              wrapperClassName="h-full rounded-none"
-              imgClassName="h-full w-full object-cover"
+              className="h-full w-full object-cover"
+              draggable={false}
             />
-          </div>
+          </button>
         ))}
       </div>
+      {lightbox}
     </div>
   );
 }
@@ -153,20 +344,21 @@ function LiquidGlassCard({ className, children }: { className?: string; children
       className={[
         "relative isolate overflow-hidden rounded-2xl border border-white/55 bg-white/[0.14]",
         "shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)]",
-        "ring-[0.5px] ring-black/[0.05] backdrop-blur-xl backdrop-saturate-125",
+        "backdrop-blur-xl backdrop-saturate-125",
         className ?? "",
       ].join(" ")}
     >
+      {/* No own radius — parent overflow-hidden clips these, avoids double-corner artifacts */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-b from-white/38 via-white/[0.14] to-white/[0.08]"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/38 via-white/[0.14] to-white/[0.08]"
         aria-hidden
       />
       <span
-        className="pointer-events-none absolute inset-0 z-[1] rounded-2xl bg-repeat opacity-[0.10] mix-blend-overlay"
+        className="pointer-events-none absolute inset-0 z-[1] bg-repeat opacity-[0.10] mix-blend-overlay"
         style={{ backgroundImage: LIQUID_CARD_GRAIN_BG, backgroundSize: "180px 180px" }}
         aria-hidden
       />
-      <div className="relative z-[2]">{children}</div>
+      <div className="relative z-[2] flex h-full min-h-0 flex-col">{children}</div>
     </div>
   );
 }
@@ -178,11 +370,14 @@ export default function ContactClient() {
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [zoomed, setZoomed] = useState(false);
+  const [zoomWindowLarge, setZoomWindowLarge] = useState(false);
   const isBelowMd = useIsBelowMd();
   const pageRef = useRef<HTMLElement | null>(null);
   const screenRef = useRef<HTMLDivElement | null>(null);
   const zoomPanelRef = useRef<HTMLDivElement | null>(null);
   const zoomedRef = useRef(false);
+  const goToPanelRef = useRef<(index: number) => void>(() => {});
+  const panelAnimRef = useRef({ locked: false, raf: 0 });
   const [scrollBar, setScrollBar] = useState({ pct: 0, ratio: 0.5 });
 
   const searchParams = useSearchParams();
@@ -198,10 +393,8 @@ export default function ContactClient() {
     if (isNaN(index)) return;
     const el = screenRef.current;
     if (!el) return;
-    const w = el.clientWidth;
-    const positions = [0, w * 0.94, w * 1.88];
     requestAnimationFrame(() => {
-      el.scrollTo({ left: positions[index] ?? 0, behavior: "smooth" });
+      goToPanelRef.current(index);
     });
   }, [searchParams, mounted]);
 
@@ -210,7 +403,16 @@ export default function ContactClient() {
 
   // Lock scroll when contact zoom is open
   useEffect(() => {
-    if (!zoomed) return;
+    if (!zoomed) {
+      setZoomWindowLarge(false);
+      return;
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      if (zoomWindowLarge) setZoomWindowLarge(false);
+      else setZoomed(false);
+    };
+    window.addEventListener("keydown", onKey);
     const prevHtml = document.documentElement.style.overflow;
     const prevBody = document.body.style.overflow;
     document.documentElement.style.overflow = "hidden";
@@ -221,55 +423,128 @@ export default function ContactClient() {
     });
     return () => {
       cancelAnimationFrame(id);
+      window.removeEventListener("keydown", onKey);
       document.documentElement.style.overflow = prevHtml;
       document.body.style.overflow = prevBody;
     };
-  }, [zoomed]);
+  }, [zoomed, zoomWindowLarge]);
 
 
 
 
 
-  // Vertical or horizontal wheel anywhere on the page pans the CRT panels horizontally.
+  const [currentPanel, setCurrentPanel] = useState(0);
+  const currentPanelRef = useRef(0);
+  useEffect(() => {
+    currentPanelRef.current = currentPanel;
+  }, [currentPanel]);
+
+  const goToPanel = (index: number) => {
+    const el = screenRef.current;
+    if (!el) return;
+    const panels = el.querySelectorAll<HTMLElement>("[data-crt-panel]");
+    if (!panels.length) return;
+    const i = Math.max(0, Math.min(panels.length - 1, index));
+    const target = panels[i];
+    if (!target) return;
+    if (panelAnimRef.current.locked && i === currentPanelRef.current) return;
+
+    cancelAnimationFrame(panelAnimRef.current.raf);
+    panelAnimRef.current.locked = true;
+    currentPanelRef.current = i;
+    setCurrentPanel(i);
+
+    const dest = target.offsetTop;
+    const start = el.scrollTop;
+    const dist = dest - start;
+    if (Math.abs(dist) < 1) {
+      el.scrollTop = dest;
+      panelAnimRef.current.locked = false;
+      return;
+    }
+    const t0 = performance.now();
+    const duration = 620;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - t0) / duration);
+      const eased = 1 - (1 - t) ** 3;
+      el.scrollTop = start + dist * eased;
+      if (t < 1) {
+        panelAnimRef.current.raf = requestAnimationFrame(tick);
+      } else {
+        el.scrollTop = dest;
+        panelAnimRef.current.locked = false;
+      }
+    };
+    panelAnimRef.current.raf = requestAnimationFrame(tick);
+  };
+  goToPanelRef.current = goToPanel;
+
+  // Discrete paging only: one wheel gesture → exactly one panel.
   useEffect(() => {
     const el = screenRef.current;
     if (!el) return;
-    let settleTimer: ReturnType<typeof setTimeout> | null = null;
+    let acc = 0;
+    let gestureActive = false;
+    let gestureTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const endGesture = () => {
+      gestureActive = false;
+      acc = 0;
+    };
+
     const onWheel = (e: WheelEvent) => {
       if (zoomedRef.current) return;
       if ((e.target as HTMLElement).closest?.("[data-no-pan]")) return;
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       if (!delta) return;
-      const max = el.scrollWidth - el.clientWidth;
-      if (max <= 0) return;
+
+      const panels = el.querySelectorAll("[data-crt-panel]");
+      if (panels.length < 2) return;
+
       e.preventDefault();
-      el.style.scrollSnapType = "none";
-      el.scrollLeft = Math.max(0, Math.min(max, el.scrollLeft + delta * 2.2));
-      if (settleTimer) clearTimeout(settleTimer);
-      settleTimer = setTimeout(() => {
-        el.style.scrollSnapType = "";
-        const w = el.clientWidth;
-        const panels = [0, w * 0.94, w * 1.88];
-        const nearest = panels.reduce((a, b) => Math.abs(b - el.scrollLeft) < Math.abs(a - el.scrollLeft) ? b : a);
-        el.scrollTo({ left: nearest, behavior: "smooth" });
-      }, 80);
+      e.stopPropagation();
+
+      if (panelAnimRef.current.locked) return;
+
+      if (gestureActive) {
+        if (gestureTimer) clearTimeout(gestureTimer);
+        gestureTimer = setTimeout(endGesture, 180);
+        return;
+      }
+
+      acc += delta;
+      if (Math.abs(acc) < 24) return;
+
+      const dir = acc > 0 ? 1 : -1;
+      acc = 0;
+      gestureActive = true;
+      if (gestureTimer) clearTimeout(gestureTimer);
+      gestureTimer = setTimeout(endGesture, 180);
+
+      const next = Math.max(0, Math.min(panels.length - 1, currentPanelRef.current + dir));
+      if (next === currentPanelRef.current) {
+        endGesture();
+        return;
+      }
+      goToPanelRef.current(next);
     };
+
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       window.removeEventListener("wheel", onWheel);
-      if (settleTimer) clearTimeout(settleTimer);
+      if (gestureTimer) clearTimeout(gestureTimer);
     };
   }, []);
 
-  // Drive the bottom scrubber from the screen's scroll position.
+  // Drive the scrubber from the screen's vertical scroll position.
   useEffect(() => {
     const el = screenRef.current;
     if (!el) return;
     const update = () => {
-      const max = el.scrollWidth - el.clientWidth;
+      const max = el.scrollHeight - el.clientHeight;
       setScrollBar({
-        pct: max > 0 ? el.scrollLeft / max : 0,
-        ratio: el.scrollWidth > 0 ? el.clientWidth / el.scrollWidth : 1,
+        pct: max > 0 ? el.scrollTop / max : 0,
+        ratio: el.scrollHeight > 0 ? el.clientHeight / el.scrollHeight : 1,
       });
     };
     el.addEventListener("scroll", update, { passive: true });
@@ -282,28 +557,22 @@ export default function ContactClient() {
     };
   }, []);
 
-  // Drag the trackpad graphic horizontally to move between panels.
+  // Drag: swipe past a threshold → next/prev page (no free half-scroll).
   const onTrackpadDrag = (e: React.PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    const screen = screenRef.current;
-    if (!screen) return;
-    const max = screen.scrollWidth - screen.clientWidth;
-    if (max <= 0) return;
-    screen.style.scrollSnapType = "none";
-    const startX = e.clientX;
-    const startScroll = screen.scrollLeft;
-    const SENS = 3;
+    if (panelAnimRef.current.locked) return;
+    const startY = e.clientY;
     const move = (ev: PointerEvent) => {
-      const dx = ev.clientX - startX;
-      screen.scrollLeft = Math.max(0, Math.min(max, startScroll + dx * SENS));
+      const dy = ev.clientY - startY;
+      if (Math.abs(dy) < 36) return;
+      const dir = dy > 0 ? 1 : -1;
+      const next = Math.max(0, Math.min(2, currentPanelRef.current + dir));
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      if (next !== currentPanelRef.current) goToPanelRef.current(next);
     };
     const up = () => {
-      screen.style.scrollSnapType = "";
-      const w = screen.clientWidth;
-      const panels = [0, w * 0.94, w * 1.88];
-      const target = panels.reduce((a, b) => Math.abs(b - screen.scrollLeft) < Math.abs(a - screen.scrollLeft) ? b : a);
-      screen.scrollTo({ left: target, behavior: "smooth" });
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", up);
     };
@@ -311,26 +580,12 @@ export default function ContactClient() {
     window.addEventListener("pointerup", up);
   };
 
-  // Physical trackpad two-finger horizontal swipe (or mouse wheel) over the graphic moves between panels.
+  // Physical trackpad over the graphic — same one-gesture paging.
   const onTrackpadWheel = (e: React.WheelEvent) => {
-    const screen = screenRef.current;
-    if (!screen) return;
-    const max = screen.scrollWidth - screen.clientWidth;
-    if (max <= 0) return;
-    const delta = Math.abs(e.deltaX) >= Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-    screen.scrollLeft = Math.max(0, Math.min(max, screen.scrollLeft + delta));
+    e.preventDefault();
   };
 
   const copyLabel = copied ? "Copied" : "Copy email";
-
-  const currentPanel = scrollBar.pct < 0.3 ? 0 : scrollBar.pct < 0.75 ? 1 : 2;
-  const goToPanel = (index: number) => {
-    const el = screenRef.current;
-    if (!el) return;
-    const w = el.clientWidth;
-    const positions = [0, w * 0.94, w * 1.88];
-    el.scrollTo({ left: positions[index], behavior: "smooth" });
-  };
   const onCopy = async () => {
     try {
       await navigator.clipboard.writeText(email);
@@ -344,11 +599,11 @@ export default function ContactClient() {
       className="relative flex min-h-full flex-col bg-transparent text-zinc-900 transition-opacity duration-500"
       style={{ opacity: mounted ? 1 : 0 }}
     >
-      {/* Accessibility zoom button */}
+      {/* Accessibility zoom button — aligned with the floating contact icon stack */}
       <button
         onClick={() => setZoomed(true)}
         aria-label="Zoom in for accessibility"
-        className="fixed left-3 top-1/2 z-[70] -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-md ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white"
+        className="fixed left-6 top-1/2 z-[70] -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-md ring-1 ring-black/[0.08] backdrop-blur-md transition-colors hover:bg-white"
       >
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
           <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
@@ -357,7 +612,7 @@ export default function ContactClient() {
         </svg>
       </button>
 
-      {/* Contact zoom overlay */}
+      {/* Contact zoom overlay — macOS window, same language as photo tab */}
       <AnimatePresence>
         {zoomed && (
           <motion.div
@@ -365,31 +620,73 @@ export default function ContactClient() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[200] flex items-start justify-center overflow-hidden bg-white/70 px-5 pb-8 pt-[clamp(4.5rem,16vh,8.5rem)] backdrop-blur-2xl"
+            transition={{ duration: 0.16, ease: [0.25, 0.1, 0.25, 1] }}
+            className={cn(
+              "fixed inset-0 z-[200] flex items-center justify-center",
+              zoomWindowLarge
+                ? "px-2 pb-2 pt-[calc(env(safe-area-inset-top)+4.75rem)] sm:px-3 sm:pb-3"
+                : "px-4 pb-4 pt-[calc(env(safe-area-inset-top)+4.75rem)] sm:px-8 sm:pb-8",
+            )}
             onClick={() => setZoomed(false)}
           >
+            <button
+              type="button"
+              className="absolute inset-0 bg-black/35"
+              onClick={() => setZoomed(false)}
+              aria-label="Close zoom"
+            />
+
             <motion.div
-              ref={zoomPanelRef}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              transition={{ duration: 0.22 }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.99 }}
+              transition={{ duration: 0.16, ease: [0.25, 0.1, 0.25, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-xl max-h-[min(82dvh,780px)] overflow-hidden rounded-3xl border border-white/60 bg-white/90 shadow-[0_32px_80px_-20px_rgba(0,0,0,0.18)] ring-1 ring-black/[0.06] backdrop-blur-xl"
+              layout
+              className={cn(
+                "relative z-[1] flex w-full flex-col overflow-hidden rounded-[12px] bg-[#ececec] shadow-[0_24px_80px_-20px_rgba(0,0,0,0.4),0_0_0_0.5px_rgba(0,0,0,0.14)]",
+                zoomWindowLarge
+                  ? "h-full max-h-[min(calc(100dvh-env(safe-area-inset-top)-5.5rem),920px)] max-w-[min(980px,100%)]"
+                  : "max-h-[min(calc(100dvh-env(safe-area-inset-top)-6.5rem),640px)] max-w-[min(560px,100%)]",
+              )}
             >
-              <button
-                onClick={() => setZoomed(false)}
-                aria-label="Close zoom"
-                className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
+              <div className="relative z-20 flex h-12 shrink-0 items-center border-b border-black/[0.06] bg-[#f6f6f6] px-3.5">
+                <div className="relative z-30 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setZoomed(false)}
+                    className="flex h-5 w-5 items-center justify-center rounded-full"
+                    aria-label="Close"
+                  >
+                    <span className="h-[12px] w-[12px] rounded-full bg-[#ff5f57] shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.18)]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (zoomWindowLarge) setZoomWindowLarge(false);
+                      else setZoomed(false);
+                    }}
+                    className="flex h-5 w-5 items-center justify-center rounded-full"
+                    aria-label={zoomWindowLarge ? "Restore" : "Minimize"}
+                  >
+                    <span className="h-[12px] w-[12px] rounded-full bg-[#febc2e] shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.18)]" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setZoomWindowLarge((v) => !v)}
+                    className="flex h-5 w-5 items-center justify-center rounded-full"
+                    aria-label={zoomWindowLarge ? "Restore window size" : "Make window larger"}
+                    aria-pressed={zoomWindowLarge}
+                  >
+                    <span className="h-[12px] w-[12px] rounded-full bg-[#28c840] shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.18)]" />
+                  </button>
+                </div>
+              </div>
+
+              <div
+                ref={zoomPanelRef}
+                className="min-h-0 flex-1 overflow-y-auto overscroll-contain bg-[#e8e8e8] p-6 sm:p-8 [scrollbar-width:thin]"
               >
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                  <path d="M1 1L11 11M11 1L1 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                </svg>
-              </button>
-
-              <div className="max-h-[min(82dvh,780px)] overflow-y-auto overscroll-contain p-8 sm:p-10 [scrollbar-width:thin]">
-
               {/* About — full bio, revealed alongside everything else */}
               <div data-zoom-about className="mb-8">
                 <div className="mb-4 flex items-center gap-4">
@@ -403,29 +700,20 @@ export default function ContactClient() {
                       sizes="64px"
                     />
                   </div>
-                  <h2 className="font-mono text-[1.4rem] font-normal leading-tight text-zinc-900">
-                    I&apos;m Faílenn{" "}
+                  <h2 className="font-mono text-[1.4rem] font-bold leading-tight text-zinc-900">
+                    Faílenn{" "}
                     <span className="font-light text-[0.7em] text-zinc-400">(fay-len)</span>
                   </h2>
                 </div>
-                <div className="space-y-3 text-[0.95rem] leading-[1.62] text-zinc-700">
+                <div className="mt-6 space-y-3.5 text-[1.125rem] leading-[1.65] text-zinc-700">
                   <p>
-                    I&apos;m a product designer with 2+ years of design experience, building since I was 13.
+                    I&apos;m a Product Designer interested in where attention lands in products.
                   </p>
                   <p>
-                    I started with HTML/CSS Tumblr themes in middle school, moved into robotics and C++ and
-                    Python in high school. My first year at VT was in Electrical Engineering, but I left for
-                    Architecture after realizing my interest sat in how a user interacts with a product. That
-                    path led me to parametric and robotic design, and a project selected at the 2025 Venice
-                    Biennale.
-                  </p>
-                  <p>
-                    What that background gave me is not something most product designers have. I understand how
-                    attention moves, and I ask one question when I look at a screen: how do we make
-                    someone&apos;s day seamless and joyful. That instinct, paired with an aesthetic sensibility
-                    sharpened through years of rapid iteration, shapes everything I build. The work feels
-                    obvious in the way that only comes from someone who never stops asking why people move the
-                    way they do.
+                    My path wasn&apos;t traditional. I started with HTML/CSS Tumblr themes, moved into
+                    robotics and programming, then switched to Architecture after realizing I cared most
+                    about how people&apos;s experiences. Today I build digital interfaces with an engineering
+                    mindset and a focus on making technology feel intuitive.
                   </p>
                 </div>
                 <div className="mt-4">
@@ -455,18 +743,18 @@ export default function ContactClient() {
                   href={RESUME_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-zinc-900 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-zinc-700 transition-colors"
+                  className="inline-flex items-center rounded-full bg-zinc-900 px-5 py-2.5 text-[0.95rem] font-medium text-white hover:bg-zinc-700 transition-colors"
                 >
-                  Resume <span aria-hidden>↗</span>
+                  Resume
                 </a>
               </div>
 
               <p className="mb-4 font-mono text-[0.7rem] uppercase tracking-[0.22em] text-zinc-400">Elsewhere</p>
               <div className="space-y-3">
                 {[
-                  { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta" },
-                  { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta" },
-                  { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA" },
+                  { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", kind: "x" as const },
+                  { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", kind: "linkedin" as const },
+                  { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA", kind: "github" as const },
                 ].map((s) => (
                   <a
                     key={s.href}
@@ -479,7 +767,13 @@ export default function ContactClient() {
                       <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-zinc-400">{s.label}</p>
                       <p className="text-[1.05rem] text-zinc-800">{s.sub}</p>
                     </div>
-                    <span className="text-zinc-400">↗</span>
+                    {s.kind === "x" ? (
+                      <Image src={IMG.iconX} alt="" width={22} height={22} className="h-[22px] w-[22px] object-contain opacity-70" />
+                    ) : s.kind === "linkedin" ? (
+                      <Image src={IMG.iconLinkedIn} alt="" width={26} height={26} className="h-[26px] w-[26px] translate-x-px object-contain opacity-70" />
+                    ) : (
+                      <GitHubIcon className="h-[22px] w-[22px] text-zinc-500" />
+                    )}
                   </a>
                 ))}
               </div>
@@ -491,7 +785,8 @@ export default function ContactClient() {
                 <iframe
                   src={`${SPOTIFY_EMBED_SRC}&theme=1`}
                   width="100%"
-                  className="h-[min(352px,52dvh)] w-full rounded-xl"
+                  height={152}
+                  className="h-[152px] w-full rounded-xl"
                   allowFullScreen
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                   loading="lazy"
@@ -505,19 +800,7 @@ export default function ContactClient() {
       </AnimatePresence>
 
 
-      <main ref={pageRef} className="relative flex flex-1 flex-col bg-transparent px-4 py-4 md:px-8 md:py-0 md:overflow-hidden">
-
-        {/* Mobile: liquid (FluidSlab) ambient background */}
-        <div className="pointer-events-none fixed inset-0 z-0 md:hidden" aria-hidden>
-          <FluidSlab
-            className="h-full w-full"
-            intensity={0.55}
-            tint={[0.18, 0.85, 0.32]}
-            tintStrength={0.18}
-            maxPixelRatio={1.25}
-            antialias
-          />
-        </div>
+      <main ref={pageRef} className={cn("relative flex flex-1 flex-col px-4 py-4 md:px-8 md:py-0 md:overflow-hidden", DOT_GRID_BG)}>
 
         {/* ── Contact section ── */}
         <div className="relative z-10 flex w-full flex-col items-center justify-center max-md:min-h-[calc(100dvh-4rem)] md:min-h-[calc(100dvh-5rem)]">
@@ -541,7 +824,7 @@ export default function ContactClient() {
                       <button type="button" onClick={onCopy} className="relative z-[1] inline-flex items-center justify-center bg-transparent px-4 py-2 text-[0.85rem] font-medium text-zinc-900">{copyLabel}</button>
                     </MagneticHoverShell>
                     <MagneticHoverShell disablePull className="inline-flex rounded-full border border-white/60 bg-white/[0.22] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl">
-                      <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="relative z-[1] inline-flex items-center gap-2 bg-transparent px-4 py-2 text-[0.85rem] font-medium tracking-[0.12em] text-zinc-900">Resume <span aria-hidden>↗</span></a>
+                      <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="relative z-[1] inline-flex items-center bg-transparent px-4 py-2 text-[0.85rem] font-medium tracking-[0.12em] text-zinc-900">Resume</a>
                     </MagneticHoverShell>
                   </div>
                 </div>
@@ -552,8 +835,8 @@ export default function ContactClient() {
                   <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500">Elsewhere</p>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", icon: IMG.iconX },
-                      { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", icon: IMG.iconLinkedIn },
+                      { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", icon: IMG.iconX, linkedIn: false },
+                      { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", icon: IMG.iconLinkedIn, linkedIn: true },
                     ].map((s) => (
                       <MagneticHoverShell key={s.href} disablePull className="block w-full rounded-2xl border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl">
                         <Link href={s.href} target="_blank" rel="noopener noreferrer" className="group flex w-full items-center justify-between rounded-2xl p-4">
@@ -561,7 +844,16 @@ export default function ContactClient() {
                             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500">{s.label}</p>
                             <p className="mt-1 truncate text-[0.9rem] text-zinc-800">{s.sub}</p>
                           </div>
-                          <Image src={s.icon} alt="" width={40} height={40} className="h-10 w-10 object-contain opacity-80 group-hover:opacity-100" />
+                          <Image
+                            src={s.icon}
+                            alt=""
+                            width={s.linkedIn ? 46 : 40}
+                            height={s.linkedIn ? 46 : 40}
+                            className={cn(
+                              "object-contain opacity-80 group-hover:opacity-100",
+                              s.linkedIn ? "h-11 w-11 translate-x-px" : "h-10 w-10",
+                            )}
+                          />
                         </Link>
                       </MagneticHoverShell>
                     ))}
@@ -573,7 +865,7 @@ export default function ContactClient() {
                           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-zinc-500">GitHub</p>
                           <p className="mt-1 text-[0.9rem] text-zinc-800">/FayfayNEA</p>
                         </div>
-                        <span className="text-zinc-500/80">↗</span>
+                        <GitHubIcon className="h-10 w-10 text-zinc-600 opacity-80 group-hover:opacity-100" />
                       </Link>
                     </MagneticHoverShell>
                   </div>
@@ -586,7 +878,8 @@ export default function ContactClient() {
                 <iframe
                   src={`${SPOTIFY_EMBED_SRC}&theme=1`}
                   width="100%"
-                  className="h-[200px] w-full"
+                  height={152}
+                  className="h-[152px] w-full rounded-xl"
                   allowFullScreen
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                   loading="lazy"
@@ -616,97 +909,106 @@ export default function ContactClient() {
                   draggable={false}
                 />
 
-                {/* Screen overlay — two horizontal panels: contact → about */}
+                {/* Screen overlay — vertical panels: contact → about → photos */}
                 <div
                   ref={screenRef}
-                  className="absolute z-20 overflow-x-auto overflow-y-hidden snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                  style={{ left: "22.55%", top: "25.9%", width: "53.5%", height: "33.25%", borderRadius: "14px", containerType: "inline-size" }}
+                  className="absolute z-20 overflow-hidden overscroll-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  style={{ left: "22.55%", top: "25.9%", width: "53.5%", height: "33.25%", borderRadius: "14px", containerType: "size" }}
                 >
-                  {/* FluidSlab — full screen behind all three panels */}
-                  <div className="pointer-events-none absolute inset-0 z-0" style={{ width: "288cqi" }}>
+                  {/* FluidSlab — green swirl behind all three CRT panels */}
+                  <div className="pointer-events-none absolute inset-x-0 top-0 z-0 w-full" style={{ height: "284cqh" }} aria-hidden>
                     <FluidSlab
                       className="h-full w-full"
                       intensity={0.75}
                       tint={[0.12, 0.92, 0.22]}
-                      tintStrength={0.2}
+                      tintStrength={0.1}
                       followMouse
                       mouseStrength={1.6}
                       eventTargetRef={screenRef}
                       maxPixelRatio={1.5}
-                      antialias
                     />
                   </div>
 
-                  {/* Three-panel track: Contact → About → Photos. Panels 1+2 are 94cqi so the next panel peeks 6cqi */}
-                  <div className="relative z-10 flex h-full" style={{ width: "288cqi" }}>
+                  {/* Contact → About → Life. First two are short so the next panel peeks. */}
+                  <div className="relative z-10 flex w-full flex-col" style={{ height: "284cqh" }}>
 
-                    {/* ── Panel 1: Contact — 94cqi so Panel 2 portrait peeks 6cqi ── */}
+                    {/* ── Panel 1: Contact — peeks bio card ── */}
                     <div
-                      className="relative h-full shrink-0 snap-start overflow-hidden"
-                      style={{ width: "94cqi", containerType: "inline-size" }}
+                      data-crt-panel
+                      className="relative w-full shrink-0 overflow-hidden"
+                      style={{ height: "92cqh", containerType: "inline-size" }}
                     >
-                      <div className="flex h-full flex-col justify-center gap-[1.2cqi] px-[4cqi] pt-[2cqi] pb-[2cqi]">
-                        <div className="grid grid-cols-[1.1fr_0.9fr] gap-[2cqi]">
+                      <div className="flex h-full flex-col justify-center gap-[0.8cqi] px-[2.2cqi] py-[1.2cqi]">
+                        <div className="grid min-h-0 grid-cols-[1.1fr_0.9fr] gap-[1.1cqi]">
 
                           {/* Left col: primary + spotify */}
-                          <div className="flex flex-col gap-[1cqi] min-h-0">
-                            <div className="relative isolate overflow-hidden rounded-[2cqi] border border-white/55 bg-white/[0.08] p-[2.5cqi] shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-xl">
-                              <div className="pointer-events-none absolute inset-0 rounded-[2cqi] bg-gradient-to-b from-white/30 via-white/[0.10] to-white/[0.06]" aria-hidden />
-                              <span className="pointer-events-none absolute inset-0 z-[1] rounded-[2cqi] bg-repeat opacity-[0.10] mix-blend-overlay" style={{ backgroundImage: OLIVE_CARD_GRAIN_BG, backgroundSize: "180px 180px" }} aria-hidden />
+                          <div className="flex min-h-0 flex-col gap-[0.7cqi]">
+                            <div className="relative isolate overflow-hidden rounded-[1.6cqi] border border-white/55 bg-white/[0.08] p-[1.9cqi] shadow-[0_26px_78px_-34px_rgba(0,0,0,0.22),inset_0_1px_0_0_rgba(255,255,255,0.62)] ring-1 ring-black/[0.05] backdrop-blur-xl">
+                              <div className="pointer-events-none absolute inset-0 rounded-[1.6cqi] bg-gradient-to-b from-white/30 via-white/[0.10] to-white/[0.06]" aria-hidden />
+                              <span className="pointer-events-none absolute inset-0 z-[1] rounded-[1.6cqi] bg-repeat opacity-[0.10] mix-blend-overlay" style={{ backgroundImage: OLIVE_CARD_GRAIN_BG, backgroundSize: "180px 180px" }} aria-hidden />
                               <div className="relative z-[2]">
-                                <p className="mb-[0.8cqi] font-mono text-[clamp(9px,1.9cqi,14px)] uppercase tracking-[0.22em] text-zinc-500">Primary</p>
-                                <a href={`mailto:${email}`} className="group relative inline-flex items-center gap-[1cqi] text-[clamp(11px,2.6cqi,18px)] font-normal text-zinc-950 hover:text-zinc-700">
-                                  <span className="relative">
+                                <p className="mb-[0.5cqi] font-mono text-[clamp(8px,1.65cqi,12px)] uppercase tracking-[0.22em] text-zinc-500">Primary</p>
+                                <a href={`mailto:${email}`} className="group relative inline-flex max-w-full items-center gap-[0.6cqi] text-[clamp(10px,2.25cqi,16px)] font-normal leading-snug text-zinc-950 hover:text-zinc-700">
+                                  <span className="relative truncate">
                                     {email}
                                     <span className="pointer-events-none absolute -bottom-0.5 left-0 h-[0.5px] w-full origin-left scale-x-0 bg-zinc-950/35 transition-transform duration-[480ms] group-hover:scale-x-100" />
                                   </span>
-                                  <span className="text-zinc-500/80">→</span>
+                                  <span className="shrink-0 text-zinc-500/80">→</span>
                                 </a>
-                                <div className="mt-[1.5cqi] flex flex-wrap items-center gap-[1cqi]">
+                                <div className="mt-[1cqi] flex flex-wrap items-center gap-[0.7cqi]">
                                   <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.34] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.70)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.44]">
-                                    <button type="button" onClick={onCopy} className="relative z-[1] inline-flex items-center justify-center bg-transparent px-[2cqi] py-[0.7cqi] text-[clamp(9px,1.9cqi,13px)] font-medium text-zinc-900">{copyLabel}</button>
+                                    <button type="button" onClick={onCopy} className="relative z-[1] inline-flex items-center justify-center bg-transparent px-[1.7cqi] py-[0.5cqi] text-[clamp(8px,1.65cqi,12px)] font-medium text-zinc-900">{copyLabel}</button>
                                   </MagneticHoverShell>
                                   <MagneticHoverShell className="inline-flex rounded-full border border-white/60 bg-white/[0.22] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors hover:bg-white/[0.32]">
-                                    <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="relative z-[1] inline-flex items-center gap-[0.6cqi] bg-transparent px-[2cqi] py-[0.7cqi] text-[clamp(9px,1.9cqi,13px)] font-medium tracking-[0.08em] text-zinc-900">Resume <span aria-hidden>↗</span></a>
+                                    <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="relative z-[1] inline-flex items-center bg-transparent px-[1.7cqi] py-[0.5cqi] text-[clamp(8px,1.65cqi,12px)] font-medium tracking-[0.08em] text-zinc-900">Resume</a>
                                   </MagneticHoverShell>
                                 </div>
                               </div>
                             </div>
-                            <div data-no-pan>
-                              <p className="mb-[0.8cqi] font-mono text-[clamp(9px,1.9cqi,14px)] uppercase tracking-[0.22em] text-zinc-500">What I&apos;m listening to</p>
-                              <iframe
-                                src={SPOTIFY_EMBED_SRC}
-                                width="100%"
-                                scrolling="no"
-                                className="h-[clamp(80px,16cqi,152px)] overscroll-none rounded-[1.5cqi]"
-                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                loading="lazy"
-                                title="Spotify, what I'm listening to"
-                              />
+                            <div data-no-pan className="min-h-0">
+                              <p className="mb-[0.4cqi] font-mono text-[clamp(8px,1.65cqi,12px)] uppercase tracking-[0.22em] text-zinc-500">What I&apos;m listening to</p>
+                              {/* Scale Spotify compact player so it fits the CRT without clipping */}
+                              <div className="h-[clamp(64px,12.5cqi,92px)] overflow-hidden rounded-[10px]">
+                                <div className="origin-top-left scale-[0.6] w-[166.67%]">
+                                  <iframe
+                                    src={SPOTIFY_EMBED_SRC}
+                                    width="100%"
+                                    height={152}
+                                    scrolling="no"
+                                    className="h-[152px] w-full overscroll-none rounded-[12px]"
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                    loading="lazy"
+                                    title="Spotify, what I'm listening to"
+                                  />
+                                </div>
+                              </div>
                             </div>
                           </div>
 
                           {/* Right col: social */}
-                          <div className="relative isolate overflow-hidden rounded-[2cqi] border border-white/55 bg-white/[0.07] p-[2.5cqi] shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] ring-1 ring-black/[0.05] backdrop-blur-xl">
-                            <div className="pointer-events-none absolute inset-0 rounded-[2cqi] bg-gradient-to-b from-white/26 via-white/[0.10] to-white/[0.04]" aria-hidden />
+                          <div className="relative isolate min-h-0 overflow-hidden rounded-[1.6cqi] border border-white/55 bg-white/[0.07] p-[1.9cqi] shadow-[0_18px_60px_-34px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.58)] ring-1 ring-black/[0.05] backdrop-blur-xl">
+                            <div className="pointer-events-none absolute inset-0 rounded-[1.6cqi] bg-gradient-to-b from-white/26 via-white/[0.10] to-white/[0.04]" aria-hidden />
                             <div className="relative z-[2]">
-                              <p className="mb-[1.5cqi] font-mono text-[clamp(9px,1.9cqi,14px)] uppercase tracking-[0.22em] text-zinc-500">Elsewhere</p>
-                              <div className="grid grid-cols-1 gap-[1.2cqi]">
+                              <p className="mb-[0.9cqi] font-mono text-[clamp(8px,1.65cqi,12px)] uppercase tracking-[0.22em] text-zinc-500">Elsewhere</p>
+                              <div className="grid grid-cols-1 gap-[0.7cqi]">
                                 {[
-                                  { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", icon: IMG.iconX },
-                                  { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", icon: IMG.iconLinkedIn },
-                                  { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA", icon: null },
+                                  { href: "https://x.com/failennaselta", label: "X", sub: "@failennaselta", kind: "x" as const },
+                                  { href: "https://www.linkedin.com/in/fa%C3%ADlenn-aselta/", label: "LinkedIn", sub: "Failenn Aselta", kind: "linkedin" as const },
+                                  { href: "https://github.com/FayfayNEA", label: "GitHub", sub: "/FayfayNEA", kind: "github" as const },
                                 ].map((s) => (
-                                  <MagneticHoverShell key={s.href} className="block w-full rounded-[1.5cqi] border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
-                                    <Link href={s.href} target="_blank" rel="noopener noreferrer" className="group flex w-full items-center justify-between rounded-[1.5cqi] px-[1.8cqi] py-[1.2cqi]">
+                                  <MagneticHoverShell key={s.href} className="block w-full rounded-[1.2cqi] border border-white/55 bg-white/[0.06] ring-1 ring-black/[0.04] backdrop-blur-xl transition-colors hover:bg-white/[0.10]">
+                                    <Link href={s.href} target="_blank" rel="noopener noreferrer" className="group flex w-full items-center justify-between rounded-[1.2cqi] px-[1.4cqi] py-[0.8cqi]">
                                       <div className="min-w-0">
-                                        <p className="font-mono text-[clamp(8px,1.6cqi,11px)] uppercase tracking-[0.18em] text-zinc-500">{s.label}</p>
-                                        <p className="mt-[0.3cqi] truncate text-[clamp(10px,2.2cqi,15px)] text-zinc-800">{s.sub}</p>
+                                        <p className="font-mono text-[clamp(7px,1.4cqi,10px)] uppercase tracking-[0.18em] text-zinc-500">{s.label}</p>
+                                        <p className="mt-[0.15cqi] truncate text-[clamp(9px,1.85cqi,13px)] text-zinc-800">{s.sub}</p>
                                       </div>
-                                      {s.icon
-                                        ? <Image src={s.icon} alt="" width={20} height={20} className="h-[clamp(12px,2.2cqi,18px)] w-[clamp(12px,2.2cqi,18px)] object-contain opacity-70 group-hover:opacity-100" />
-                                        : <span className="text-[clamp(10px,2.2cqi,15px)] text-zinc-500/80">↗</span>
-                                      }
+                                      {s.kind === "x" ? (
+                                        <Image src={IMG.iconX} alt="" width={20} height={20} className="h-[clamp(11px,2cqi,15px)] w-[clamp(11px,2cqi,15px)] object-contain opacity-70 group-hover:opacity-100" />
+                                      ) : s.kind === "linkedin" ? (
+                                        <Image src={IMG.iconLinkedIn} alt="" width={24} height={24} className="h-[clamp(13px,2.3cqi,17px)] w-[clamp(13px,2.3cqi,17px)] translate-x-px object-contain opacity-70 group-hover:opacity-100" />
+                                      ) : (
+                                        <GitHubIcon className="h-[clamp(11px,2cqi,15px)] w-[clamp(11px,2cqi,15px)] text-zinc-600 opacity-70 group-hover:opacity-100" />
+                                      )}
                                     </Link>
                                   </MagneticHoverShell>
                                 ))}
@@ -718,10 +1020,11 @@ export default function ContactClient() {
                       </div>
                     </div>
 
-                    {/* ── Panel 2: About — 94cqi so Panel 3 photos peek 6cqi ── */}
+                    {/* ── Panel 2: About / bio — peeks Life title ── */}
                     <div
-                      className="relative h-full shrink-0 snap-start overflow-hidden"
-                      style={{ width: "94cqi", containerType: "inline-size" }}
+                      data-crt-panel
+                      className="relative w-full shrink-0 overflow-hidden"
+                      style={{ height: "92cqh", containerType: "inline-size" }}
                     >
                       <div className="flex h-full items-stretch gap-[1.5cqi] p-[1.5cqi]">
                         {/* Portrait */}
@@ -735,54 +1038,47 @@ export default function ContactClient() {
                             sizes="(max-width: 1920px) 16vw, 280px"
                           />
                         </div>
-                        {/* Bio card — no inner vertical scroll; photos scroll horizontally after the paragraph */}
-                        <LiquidGlassCard className="flex flex-1 flex-col rounded-[1.8cqi] p-[2.5cqi]">
+                        {/* Bio card */}
+                        <LiquidGlassCard className="flex min-h-0 flex-1 flex-col p-[2.4cqi]">
                           <button
                             type="button"
                             data-no-pan
                             onClick={() => setZoomed(true)}
                             aria-label="Expand bio to read it larger"
-                            className="group mb-[0.5cqi] flex items-center gap-[1cqi] text-left outline-none"
+                            className="group mb-[1.5cqi] flex shrink-0 items-center gap-[1cqi] text-left outline-none"
                           >
-                            <h2 className="font-mono text-[clamp(11px,2.6cqi,18px)] font-normal leading-tight tracking-[-0.01em] text-zinc-900 transition-colors group-hover:text-zinc-600">
-                              I&apos;m Faílenn{" "}
+                            <h2 className="font-mono text-[clamp(12px,2.8cqi,18px)] font-bold leading-tight tracking-[-0.01em] text-zinc-900 transition-colors group-hover:text-zinc-600">
+                              Faílenn{" "}
                               <span className="font-light text-[0.75em]">(fay-len)</span>
                             </h2>
-                            <span className="shrink-0 rounded-full border border-white/60 bg-white/[0.22] px-[1.4cqi] py-[0.4cqi] font-sans text-[clamp(8px,1.6cqi,11px)] font-medium tracking-[0.08em] text-zinc-900 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors group-hover:bg-white/[0.32]">
+                            <span className="shrink-0 rounded-full border border-white/60 bg-white/[0.22] px-[1.5cqi] py-[0.45cqi] font-sans text-[clamp(9px,1.7cqi,12px)] font-medium tracking-[0.08em] text-zinc-900 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.55)] ring-1 ring-black/[0.05] backdrop-blur-xl transition-colors group-hover:bg-white/[0.32]">
                               expand
                             </span>
                           </button>
-                          <div className="space-y-[1.4cqi] text-[clamp(8px,1.7cqi,13px)] leading-[1.6] text-zinc-700 overflow-y-auto [scrollbar-width:thin]">
+                          <div className="min-h-0 flex-1 space-y-[1.25cqi] overflow-y-auto text-[clamp(10px,2.2cqi,15px)] leading-[1.56] text-zinc-700 [scrollbar-width:none]">
                             <p>
-                              I&apos;m a product designer with 2+ years of design experience.
+                              I&apos;m a Product Designer interested in where attention lands in products.
                             </p>
                             <p>
-                              I started with HTML/CSS Tumblr themes in middle school, moved into robotics and
-                              C++ and Python in high school. My first year at VT was in Electrical Engineering,
-                              but I left for Architecture after realizing my interest sat in how a user interacts
-                              with a product. That path led me to parametric and robotic design, and a project
-                              selected at the 2025 Venice Biennale.
-                            </p>
-                            <p>
-                              What that background gave me is not something most product designers have. I
-                              understand how attention moves, and I ask one question when I look at a screen:
-                              how do we make someone&apos;s day seamless and joyful. That instinct, paired with
-                              an aesthetic sensibility sharpened through years of rapid iteration, shapes
-                              everything I build.
+                              My path wasn&apos;t traditional. I started with HTML/CSS Tumblr themes, moved into
+                              robotics and programming, then switched to Architecture after realizing I cared
+                              most about how people&apos;s experiences. Today I build digital interfaces with an
+                              engineering mindset and a focus on making technology feel intuitive.
                             </p>
                           </div>
                         </LiquidGlassCard>
                       </div>
                     </div>
 
-                    {/* ── Panel 3: Photos ── */}
+                    {/* ── Panel 3: Life / photos ── */}
                     <div
-                      className="relative h-full shrink-0 snap-start overflow-hidden"
-                      style={{ width: "100cqi", containerType: "inline-size" }}
+                      data-crt-panel
+                      className="relative w-full shrink-0 overflow-hidden"
+                      style={{ height: "100cqh", containerType: "inline-size" }}
                     >
-                      <div className="flex h-full flex-col justify-center gap-[1.5cqi] px-[4cqi] py-[3cqi]">
-                        <p className="font-mono text-[clamp(9px,2cqi,14px)] uppercase tracking-[0.22em] text-zinc-500">Life</p>
-                        <p className="text-[clamp(8px,1.6cqi,12px)] leading-[1.5] text-zinc-700">
+                      <div className="flex h-full flex-col justify-start gap-[1.8cqi] px-[3.2cqi] pb-[2.6cqi] pt-[1.2cqi]">
+                        <p className="font-mono text-[clamp(10px,2.3cqi,15px)] uppercase tracking-[0.22em] text-zinc-500">Life</p>
+                        <p className="text-[clamp(10px,2cqi,14px)] leading-[1.55] text-zinc-700">
                           Outside of work, I love exploring new areas. I&apos;m an avid photographer, hiker,
                           musician, rancher, and writer. Every day I&apos;m fueled with endless curiosity for
                           life, constantly trying to be in awe with everything.
@@ -806,7 +1102,7 @@ export default function ContactClient() {
                   className="flex h-7 w-7 items-center justify-center rounded-full border border-black/[0.18] bg-white/[0.55] text-zinc-500 shadow-sm backdrop-blur-md transition-colors hover:bg-white/[0.78] hover:text-zinc-700 disabled:opacity-25 disabled:pointer-events-none"
                 >
                   <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
-                    <path d="M7.5 2L3.5 6l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 7.5L6 3.5l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
                 <div className="flex gap-1.5">
@@ -824,7 +1120,7 @@ export default function ContactClient() {
                   className="flex h-7 w-7 items-center justify-center rounded-full border border-black/[0.18] bg-white/[0.55] text-zinc-500 shadow-sm backdrop-blur-md transition-colors hover:bg-white/[0.78] hover:text-zinc-700 disabled:opacity-25 disabled:pointer-events-none"
                 >
                   <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden>
-                    <path d="M4.5 2L8.5 6l-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M2 4.5L6 8.5l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </button>
               </div>
@@ -859,24 +1155,22 @@ export default function ContactClient() {
               />
             </div>
             <LiquidGlassCard className="p-4 sm:p-5">
-              <div className="space-y-3.5 text-[13px] leading-[1.62] text-zinc-700">
-                <h2 className="font-mono text-[1.3rem] font-normal text-zinc-900">
-                  I&apos;m Faílenn{" "}
+              <div className="text-[15px] leading-[1.65] text-zinc-700">
+                <h2 className="mb-5 font-mono text-[1.3rem] font-bold text-zinc-900">
+                  Faílenn{" "}
                   <span className="font-light text-[0.9rem] text-zinc-400">(fay-len)</span>
                 </h2>
-                <p>
-                  My tech journey began early, modding iPhones and selling custom Tumblr themes in middle
-                  school. By high school, I was deep into robotics, presenting a thesis on drone
-                  construction, and hand-coding hex colors into my C++ data structures. I started at
-                  Virginia Tech in Electrical Engineering, but a conversation with my professor made me
-                  realize my passion lay in the beauty of creation, not just the mechanics.
-                </p>
-                <p>
-                  Seeking the perfect intersection of mathematics and aesthetics, I pivoted to Architecture.
-                  This led to an award-winning project at the 2025 Venice Biennale and roles at renowned
-                  firms like JAHN, CLB Architects, and Cloud9. Yet, after experiencing the profession, I
-                  yearned to bring technology back to the forefront.
-                </p>
+                <div className="space-y-3.5">
+                  <p>
+                    I&apos;m a Product Designer interested in where attention lands in products.
+                  </p>
+                  <p>
+                    My path wasn&apos;t traditional. I started with HTML/CSS Tumblr themes, moved into
+                    robotics and programming, then switched to Architecture after realizing I cared most
+                    about how people&apos;s experiences. Today I build digital interfaces with an engineering
+                    mindset and a focus on making technology feel intuitive.
+                  </p>
+                </div>
               </div>
               <div className="mt-4">
                 <div className="mb-2 h-px w-full bg-black/[0.07]" />

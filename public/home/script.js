@@ -2,7 +2,7 @@ const ASSET_PATH = "./assets/";
 const DESIGN_WIDTH = 1024;
 const DESIGN_HEIGHT = 580;
 const SCENE_Y_SHIFT_PERCENT = -54;
-const SCENE_SHIFT_UP_PX = 120;
+const SCENE_SHIFT_UP_PX = 100;
 /** Mobile-only vertical nudge (px) after height-fill scale */
 const MOBILE_SCENE_SHIFT_DOWN_PX = 65;
 /** Fill this much of the iframe height on mobile (default width-scale letterboxes) */
@@ -75,7 +75,8 @@ const sceneLayout = [
   { top: 256, left: 653, width: 109 },
   { top: 126, left: 648, width: 230 },
   { top: 265, left: 718, width: 70 },
-  { top: 290, left: 220, width: 138 },
+  // Radio — between Money_Tree (left ~349) and Rocks_Foliage tablet (left ~666)
+  { top: 425, left: 529, width: 128 },
   { top: 227, left: 242, width: 63 },
   { top: 508, left: 540, width: 180 },
   { top: 404, left: 56, width: 170 },
@@ -89,7 +90,7 @@ const MOBILE_SCENE_ADJUSTMENTS = [
   { dTop: 74, dLeft: -160, dWidth: -10 }, // Concrete_Block — +30 down, −20 left
   { dTop: 36, dLeft: -170, dWidth: -20 }, // Large_Tree — +30 down, −20 left
   { dTop: 75, dLeft: -145, dWidth: -8}, // Computer2 — with tree/concrete on mobile
-  { dTop: 50, dLeft: -5, dWidth: -14 }, // Radio — +20 down, −10 left
+  { dTop: 40, dLeft: -30, dWidth: -12 }, // Radio — keep between money tree + tablet on mobile
   { dTop: -14, dLeft: 88, dWidth: -5 }, // Orb
   { dTop: -10, dLeft:-10,dWidth: -16 }, // Screen_Tablet — +30 down
   { dTop: 8, dLeft: 0, dWidth: -30}, // Nether_Portal
@@ -1034,6 +1035,11 @@ portfolioAssets.forEach((asset, index) => {
     anchor.style.display = "none";
     anchor.style.pointerEvents = "none";
   }
+  if (asset.name === "Orb") {
+    // Orb / glass drop-zone removed from the collage.
+    anchor.style.display = "none";
+    anchor.style.pointerEvents = "none";
+  }
   if (asset.name === "Rocks_Foliage") backTabletAnchorEl = anchor;
 
   if (topOnlySwayAssets.has(asset.name)) {
@@ -1423,158 +1429,7 @@ portfolioAssets.forEach((asset, index) => {
   });
 })();
 
-// ── Orb trail — follows cursor; drop/pick-up via glass circle ────────────────
-(function setupOrbCursorFollow() {
-  if (!orbAnchorEl) return;
-  orbAnchorEl.style.display = "none";
-
-  // Glass circle — visual drop-zone, no overflow clip (nodes live in scene)
-  const CIRCLE_R  = 36;
-  // Moved to where the (old) front-facing green tablet used to live.
-  const CIRCLE_CX = 630;
-  const CIRCLE_CY = 540;
-
-  const orbCircle = document.createElement("div");
-  orbCircle.setAttribute("aria-label", "Drop or pick up orb here");
-  orbCircle.style.cssText = `
-    position:absolute;
-    left:${CIRCLE_CX - CIRCLE_R}px;
-    top:${CIRCLE_CY - CIRCLE_R}px;
-    width:${CIRCLE_R * 2}px;
-    height:${CIRCLE_R * 2}px;
-    border-radius:50%;
-    z-index:22;
-    cursor:crosshair;
-    pointer-events:auto;
-    background:rgba(255,255,255,0.10);
-    backdrop-filter:blur(14px) saturate(150%);
-    -webkit-backdrop-filter:blur(14px) saturate(150%);
-    border:0.5px solid rgba(255,255,255,0.55);
-    box-shadow:0 4px 24px rgba(0,0,0,0.07),inset 0 1px 0 rgba(255,255,255,0.6);
-    transition:border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  `;
-  scene.appendChild(orbCircle);
-
-  const TRAIL = [[28,0.92],[22,0.75],[17,0.58],[13,0.42],[9,0.28],[6,0.16]];
-  const LERP  = 0.13;
-
-  // Nodes live in the scene so they can roam freely
-  const nodes = TRAIL.map(([w, opacity]) => {
-    const el = document.createElement("div");
-    el.style.cssText = `position:absolute;width:${w}px;pointer-events:none;z-index:35;opacity:${opacity};left:${CIRCLE_CX - w/2}px;top:${CIRCLE_CY - w/2}px;`;
-    const img = document.createElement("img");
-    img.src = assetUrl("orb.png");
-    img.alt = "";
-    img.setAttribute("aria-hidden", "true");
-    img.style.cssText = "position:absolute;width:100%;height:auto;pointer-events:none;";
-    el.appendChild(img);
-    scene.appendChild(el);
-    return { el, w, cx: CIRCLE_CX - w/2, cy: CIRCLE_CY - w/2 };
-  });
-
-  let tx = CIRCLE_CX, ty = CIRCLE_CY;
-  let rafRunning = false;
-  let orbDropped  = false; // true = resting in circle, not following cursor
-
-  function viewportToScene(clientX, clientY) {
-    const sr = scene.getBoundingClientRect();
-    if (sr.width < 1) return null;
-    return {
-      x: (clientX - sr.left) / sr.width  * DESIGN_WIDTH,
-      y: (clientY - sr.top)  / sr.height * DESIGN_HEIGHT,
-    };
-  }
-
-  function isOverCircle(clientX, clientY) {
-    const cr = orbCircle.getBoundingClientRect();
-    if (cr.width < 1) return false;
-    const dx = clientX - (cr.left + cr.width / 2);
-    const dy = clientY - (cr.top  + cr.height / 2);
-    return Math.sqrt(dx*dx + dy*dy) <= cr.width / 2;
-  }
-
-  function setDroppedStyle(dropped) {
-    orbCircle.style.borderColor = dropped
-      ? "rgba(180,255,60,0.85)"
-      : "rgba(255,255,255,0.55)";
-    orbCircle.style.boxShadow = dropped
-      ? "0 0 28px 6px rgba(80,180,0,0.38), 0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.6)"
-      : "0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.6)";
-    orbCircle.style.background = dropped
-      ? "rgba(60,160,20,0.12)"
-      : "rgba(255,255,255,0.10)";
-  }
-
-  function orbRAF() {
-    let moving = false;
-    nodes.forEach((node, i) => {
-      const tX = i === 0 ? tx : nodes[i-1].cx + nodes[i-1].w/2;
-      const tY = i === 0 ? ty : nodes[i-1].cy + nodes[i-1].w/2;
-      const dL = tX - node.w/2, dT = tY - node.w/2;
-      node.cx += (dL - node.cx) * LERP;
-      node.cy += (dT - node.cy) * LERP;
-      node.el.style.left = `${node.cx}px`;
-      node.el.style.top  = `${node.cy}px`;
-      if (Math.abs(dL - node.cx) > 0.2 || Math.abs(dT - node.cy) > 0.2) moving = true;
-    });
-    if (moving) requestAnimationFrame(orbRAF);
-    else rafRunning = false;
-  }
-
-  function startRAF() { if (!rafRunning) { rafRunning = true; requestAnimationFrame(orbRAF); } }
-
-  // Hover glow — yellow tint on enter, reset on leave (unless dropped)
-  orbCircle.addEventListener("pointerenter", (e) => {
-    if (e.pointerType === "touch") return;
-    if (!orbDropped) {
-      orbCircle.style.borderColor = "rgba(100,200,40,0.75)";
-      orbCircle.style.boxShadow = "0 0 18px 4px rgba(80,180,0,0.28), 0 4px 24px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.6)";
-    }
-  });
-  orbCircle.addEventListener("pointerleave", (e) => {
-    if (e.pointerType === "touch") return;
-    setDroppedStyle(orbDropped); // restore correct state on leave
-  });
-
-  // Toggle drop state each time cursor enters the circle
-  orbCircle.addEventListener("pointerdown", (e) => {
-    if (e.pointerType === "touch") return;
-    orbDropped = !orbDropped;
-    setDroppedStyle(orbDropped);
-    if (orbDropped) {
-      // Snap target to circle centre so orb drifts home when cursor leaves
-      tx = CIRCLE_CX; ty = CIRCLE_CY;
-    }
-    startRAF();
-  });
-
-  viewport.addEventListener("pointermove", (e) => {
-    if (e.pointerType === "touch") return;
-    if (orbDropped) {
-      // While dropped: only follow cursor if it's inside the circle
-      if (isOverCircle(e.clientX, e.clientY)) {
-        const pos = viewportToScene(e.clientX, e.clientY);
-        if (pos) { tx = pos.x; ty = pos.y; }
-      }
-      // Outside circle while dropped → target stays, orb rests
-    } else {
-      // Free: follow cursor everywhere
-      const pos = viewportToScene(e.clientX, e.clientY);
-      if (pos) { tx = pos.x; ty = pos.y; }
-    }
-    startRAF();
-  });
-
-  // Snap orb back to circle centre when cursor leaves the circle while dropped
-  orbCircle.addEventListener("pointerleave", () => {
-    if (orbDropped) { tx = CIRCLE_CX; ty = CIRCLE_CY; startRAF(); }
-  });
-
-  // When cursor leaves the whole scene
-  viewport.addEventListener("pointerleave", () => {
-    if (!orbDropped) { tx = CIRCLE_CX; ty = CIRCLE_CY; startRAF(); }
-  });
-})();
+// Orb cursor-follow + glass drop-zone removed from the collage.
 
 // ── Money tree: bitmap dollar bills rain down, settle, and pile upward ──
 (function setupMoneyTreePile() {

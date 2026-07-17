@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#e8e6e1"/>
+  <rect x="48" y="48" width="1504" height="804" rx="24" stroke="#c9c5bc" stroke-width="2" stroke-dasharray="12 10" fill="#f3f1ec"/>
+  <text x="800" y="440" text-anchor="middle" font-family="ui-monospace, monospace" font-size="28" fill="#9a958c" letter-spacing="0.2em">TETONIC · HERO PLACEHOLDER</text>
+  <text x="800" y="490" text-anchor="middle" font-family="ui-monospace, monospace" font-size="16" fill="#b5b0a6">swap in real hero media</text>
+</svg>

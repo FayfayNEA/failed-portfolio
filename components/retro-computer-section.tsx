@@ -82,7 +82,6 @@ export function RetroComputerSection({
                 <div className="relative drop-shadow-[0_10px_22px_rgba(0,0,0,0.35)]" style={{ width: f.mobileWidth }}>
                   <Image src={FOLDER_ICON} alt="" width={357} height={301}
                     className="h-auto w-full select-none" draggable={false} sizes="44px" />
-                  <div className="pointer-events-none absolute inset-0 rounded-sm ring-1 ring-white/20 mix-blend-overlay" aria-hidden />
                 </div>
                 <span className="relative mt-2 inline-flex items-center justify-center">
                   <span className="pointer-events-none absolute inset-x-[-6px] top-1/2 h-[1.35em] -translate-y-1/2 rounded-full bg-[rgba(143,213,245,0.32)] shadow-[0_0_0_0.5px_rgba(148,181,208,0.7),0_4px_10px_-6px_rgba(15,23,42,0.55)] opacity-100" aria-hidden />
@@ -137,7 +136,6 @@ export function RetroComputerSection({
                       <Image src={FOLDER_ICON} alt="" width={357} height={301}
                         className="h-auto w-full select-none" draggable={false}
                         sizes="(max-width: 960px) 9vw, 84px" />
-                      <div className="pointer-events-none absolute inset-0 rounded-sm ring-1 ring-white/20 mix-blend-overlay" aria-hidden />
                     </div>
                     <span className="relative mt-2 inline-flex items-center justify-center">
                       <span className="pointer-events-none absolute inset-x-[-6px] top-1/2 h-[1.35em] -translate-y-1/2 rounded-full bg-[rgba(143,213,245,0.32)] shadow-[0_0_0_0.5px_rgba(148,181,208,0.7),0_4px_10px_-6px_rgba(15,23,42,0.55)] opacity-0 transition-opacity duration-140 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden />

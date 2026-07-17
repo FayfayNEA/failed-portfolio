@@ -102,16 +102,15 @@ export function MobileHamburgerNav() {
   const spring = { type: "spring", stiffness: 420, damping: 26, mass: 1 } as const;
 
   const btnBase = cn(
-    "pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full",
-    "border-[0.5px] backdrop-blur-2xl backdrop-saturate-125",
+    "pointer-events-auto relative isolate inline-flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border-[0.5px]",
     isDark
-      ? "border-white/[0.10] bg-zinc-950/[0.45] text-white/90 shadow-[0_18px_55px_-28px_rgba(0,0,0,0.65),inset_0_1px_0_0_rgba(255,255,255,0.06)]"
-      : "border-black/[0.06] bg-white/[0.45] text-[#3d4830] shadow-[0_18px_55px_-30px_rgba(0,0,0,0.20),inset_0_1px_0_0_rgba(255,255,255,0.55)]"
+      ? "liquid-glass-surface-dark text-white/90"
+      : "liquid-glass-surface text-[rgb(30,26,21)]"
   );
 
   const iconLine = cn(
     "h-px w-5",
-    isDark ? "bg-white/85" : "bg-[#3d4830]/85"
+    isDark ? "bg-white/85" : "bg-[rgb(30,26,21)]/85"
   );
 
   return (
@@ -167,10 +166,9 @@ export function MobileHamburgerNav() {
             <motion.div
               className={cn(
                 "absolute right-3 top-[calc(env(safe-area-inset-top)+4rem)] w-[min(92vw,360px)] overflow-hidden rounded-2xl border-[0.5px]",
-                "backdrop-blur-2xl backdrop-saturate-125",
                 isDark
-                  ? "border-white/[0.10] bg-zinc-950/[0.52] shadow-[0_24px_80px_-40px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.06)]"
-                  : "border-black/[0.06] bg-white/[0.62] shadow-[0_24px_80px_-46px_rgba(0,0,0,0.25),inset_0_1px_0_0_rgba(255,255,255,0.6)]"
+                  ? "liquid-glass-surface-dark"
+                  : "liquid-glass-surface"
               )}
               initial={reduced ? false : { opacity: 0, y: -10, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -181,7 +179,7 @@ export function MobileHamburgerNav() {
               <div className="liquid-glass-nav-shimmer pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden />
 
               <div className="px-4 py-3">
-                <div className={cn("text-[10px] font-mono uppercase tracking-[0.22em]", isDark ? "text-white/60" : "text-[#5a6648]/70")}>
+                <div className={cn("text-[10px] font-mono uppercase tracking-[0.22em]", isDark ? "text-white/60" : "text-[rgb(30,26,21)]/55")}>
                   menu
                 </div>
               </div>
@@ -194,14 +192,14 @@ export function MobileHamburgerNav() {
                       key={href}
                       href={href}
                       className={cn(
-                        "block rounded-xl px-3 py-3 font-mono text-[12px] uppercase tracking-[0.22em] transition-colors",
+                        "block rounded-xl px-3 py-3 font-mono text-[12px] lowercase tracking-[0.22em] transition-colors",
                         isDark
-                          ? "text-white/80 hover:bg-white/[0.08] active:bg-white/[0.12]"
-                          : "text-[#3d4830]/85 hover:bg-[#5a6648]/[0.08] active:bg-[#5a6648]/[0.12]",
+                          ? "text-white/80 hover:bg-white/[0.035] active:bg-white/[0.05]"
+                          : "text-[rgb(30,26,21)]/80 hover:bg-black/[0.02] active:bg-black/[0.028]",
                         active &&
                           (isDark
-                            ? "bg-white/[0.10] text-white"
-                            : "bg-[#5a6648]/[0.10] text-[#2f3a24]")
+                            ? "bg-white/[0.05] text-white"
+                            : "bg-black/[0.028] text-[rgb(30,26,21)]")
                       )}
                     >
                       {label}

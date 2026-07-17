@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useLayoutEffect, useCallback, type CSSProperties } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useCallback, useMemo, forwardRef, useImperativeHandle, type CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
@@ -239,12 +239,31 @@ function HoverCrossfadeMedia({
       }, MEDIA_CROSSFADE_MS);
       return () => window.clearTimeout(t);
     }
+    const startAt = project.coverVideoStartTime ?? 0;
+    const seekAndPlay = () => {
+      if (startAt > 0) v.currentTime = startAt;
+      v.play().catch(() => {});
+    };
     const markReady = () => setFrameReady(true);
-    if (v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) markReady();
-    else v.addEventListener("loadeddata", markReady, { once: true });
-    v.play().catch(() => {});
-    return () => v.removeEventListener("loadeddata", markReady);
-  }, [effectiveActive, project.hoverVideo, videoCover, autoplaying, hasCoverVideo]);
+    if (v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      markReady();
+      seekAndPlay();
+    } else {
+      v.addEventListener("loadeddata", markReady, { once: true });
+      if (v.readyState >= HTMLMediaElement.HAVE_METADATA) seekAndPlay();
+      else v.addEventListener("loadedmetadata", seekAndPlay, { once: true });
+    }
+    // After a loop wraps to 0, jump back to the same start offset.
+    const onTimeUpdate = () => {
+      if (startAt > 0 && v.loop && v.currentTime < 0.2) v.currentTime = startAt;
+    };
+    v.addEventListener("timeupdate", onTimeUpdate);
+    return () => {
+      v.removeEventListener("loadeddata", markReady);
+      v.removeEventListener("loadedmetadata", seekAndPlay);
+      v.removeEventListener("timeupdate", onTimeUpdate);
+    };
+  }, [effectiveActive, project.hoverVideo, project.coverVideoStartTime, videoCover, autoplaying, hasCoverVideo]);
 
   return (
     <>
@@ -710,7 +729,12 @@ export interface GalleryInitialLayout {
   sizesBySlug: Record<string, { w: number; h: number }>;
 }
 
-export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFontScale, initialLayout, gridOnly }: { projects: GalleryProject[]; storageKey: string; cardMetaHeight?: number; cardFontScale?: number; initialLayout?: GalleryInitialLayout; gridOnly?: boolean }) {
+export interface CategoryGalleryHandle {
+  resetLayout: () => void;
+  togglePlayground: () => void;
+}
+
+export const CategoryGallery = forwardRef<CategoryGalleryHandle, { projects: GalleryProject[]; storageKey: string; cardMetaHeight?: number; cardFontScale?: number; initialLayout?: GalleryInitialLayout; gridOnly?: boolean; onPlaygroundChange?: (visible: boolean) => void }>(function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFontScale, initialLayout, gridOnly, onPlaygroundChange }, ref) {
   const effMetaH = cardMetaHeight ?? CANVAS_META_H;
 
   // Below 800px (or when gridOnly) → CSS-grid layout (no drag/resize, just visual handles on hover).
@@ -757,26 +781,30 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
     });
   }, [projects]);
 
-  // While nightterrors/jahn are archived (hidden), iris-house steps into nightterrors'
-  // slot so it sits next to fither instead of leaving that row half-empty. When archive
-  // is toggled back on, nightterrors drops in below iris-house instead of reclaiming its
-  // old slot (which would overlap iris-house's own row).
+  // Iris House always occupies the main-grid slot next to fither (stored on nightterrors).
+  // When playground is on, nightterrors moves into iris's deep layout slot so they don't overlap.
   const nightterrorsIdx = projects.findIndex((p) => p.slug === "nightterrors");
   const irisHouseIdx    = projects.findIndex((p) => p.slug === "iris-house");
+
   const getEffectivePos = useCallback((i: number): Pos | undefined => {
-    if (!showArchived && i === irisHouseIdx && nightterrorsIdx >= 0) {
+    if (i === irisHouseIdx && nightterrorsIdx >= 0) {
       return positions[nightterrorsIdx] ?? positions[i];
     }
     if (showArchived && i === nightterrorsIdx && irisHouseIdx >= 0) {
-      const irisPos  = positions[irisHouseIdx];
-      const irisSize = baseSizes[irisHouseIdx] ?? getDefaultSize(projects[irisHouseIdx], effMetaH);
-      if (irisPos) return { x: irisPos.x, y: irisPos.y + irisSize.h + 90 };
+      return positions[irisHouseIdx] ?? positions[i];
     }
     return positions[i];
-  }, [showArchived, positions, baseSizes, projects, effMetaH, nightterrorsIdx, irisHouseIdx]);
+  }, [showArchived, positions, nightterrorsIdx, irisHouseIdx]);
 
-  const dragRef      = useRef<{ idx: number; startMX: number; startMY: number; startPX: number; startPY: number } | null>(null);
-  const resizeRef    = useRef<{ idx: number; handleIdx: number; startMX: number; startMY: number; startW: number; startH: number; startPX: number; startPY: number } | null>(null);
+  /** Position writes follow the same swap as getEffectivePos. */
+  const positionWriteIdx = useCallback((cardIdx: number) => {
+    if (cardIdx === irisHouseIdx && nightterrorsIdx >= 0) return nightterrorsIdx;
+    if (showArchived && cardIdx === nightterrorsIdx && irisHouseIdx >= 0) return irisHouseIdx;
+    return cardIdx;
+  }, [showArchived, irisHouseIdx, nightterrorsIdx]);
+
+  const dragRef      = useRef<{ idx: number; posIdx: number; startMX: number; startMY: number; startPX: number; startPY: number } | null>(null);
+  const resizeRef    = useRef<{ idx: number; posIdx: number; handleIdx: number; startMX: number; startMY: number; startW: number; startH: number; startPX: number; startPY: number } | null>(null);
   const hasDragged   = useRef(false);
   const scaleRef     = useRef(1);
   // Keep refs in sync so the global mouse handler always sees fresh state
@@ -827,6 +855,13 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
     applyInitialLayout();
     setZOrder(projects.map((_, i) => i));
   }, [projects, storageKey, applyInitialLayout]);
+
+  useEffect(() => { onPlaygroundChange?.(showArchived); }, [showArchived, onPlaygroundChange]);
+
+  useImperativeHandle(ref, () => ({
+    resetLayout,
+    togglePlayground: revealArchived,
+  }), [resetLayout, revealArchived]);
 
   // Mobile scroll-reveal only
   useEffect(() => {
@@ -961,7 +996,7 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
         const dxScreen = e.clientX - d.startMX, dyScreen = e.clientY - d.startMY;
         if (Math.abs(dxScreen) > 3 || Math.abs(dyScreen) > 3) hasDragged.current = true;
         const dx = dxScreen / sc, dy = dyScreen / sc;
-        setPositions((prev) => { const n = [...prev]; n[d.idx] = { x: d.startPX + dx, y: d.startPY + dy }; return n; });
+        setPositions((prev) => { const n = [...prev]; n[d.posIdx] = { x: d.startPX + dx, y: d.startPY + dy }; return n; });
         return;
       }
       const r = resizeRef.current;
@@ -974,21 +1009,21 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
       if (ndx !== 0) { nw = Math.max(MIN_CARD_W, r.startW + rdx * ndx); if (ndx < 0) nx = r.startPX + (r.startW - nw); }
       if (ndy !== 0) { nh = Math.max(MIN_CARD_H, r.startH + rdy * ndy); if (ndy < 0) ny = r.startPY + (r.startH - nh); }
       setBaseSizes((prev) => prev.map((s, j) => j === r.idx ? { w: nw, h: nh } : s));
-      if (ndx < 0 || ndy < 0) setPositions((prev) => { const n = [...prev]; n[r.idx] = { x: nx, y: ny }; return n; });
+      if (ndx < 0 || ndy < 0) setPositions((prev) => { const n = [...prev]; n[r.posIdx] = { x: nx, y: ny }; return n; });
     };
     const onUp = () => {
-      const wasDrag = dragRef.current !== null && hasDragged.current;
-      const dragIdx = dragRef.current?.idx ?? -1;
+      const wasDrag   = dragRef.current !== null && hasDragged.current;
+      const posIdx    = dragRef.current?.posIdx ?? resizeRef.current?.posIdx ?? -1;
       dragRef.current = resizeRef.current = null;
       setDraggingIdx(null); setResizingIdx(null);
 
-      if (wasDrag && dragIdx >= 0) {
+      if (wasDrag && posIdx >= 0) {
         // Resolve overlaps in design space (positions and sizes are both there).
         setPositions((prev) => {
-          const resolved = resolveOverlaps(dragIdx, prev[dragIdx], prev, baseSizesRef.current, 1, projects);
-          if (resolved.x === prev[dragIdx].x && resolved.y === prev[dragIdx].y) return prev;
+          const resolved = resolveOverlaps(posIdx, prev[posIdx], prev, baseSizesRef.current, 1, projects);
+          if (resolved.x === prev[posIdx].x && resolved.y === prev[posIdx].y) return prev;
           const next    = [...prev];
-          next[dragIdx] = resolved;
+          next[posIdx] = resolved;
           return next;
         });
       }
@@ -1001,23 +1036,23 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
   const startDrag = useCallback((e: React.MouseEvent, idx: number) => {
     e.preventDefault(); hasDragged.current = false; setDraggingIdx(idx);
     const p = getEffectivePos(idx);
-    dragRef.current = { idx, startMX: e.clientX, startMY: e.clientY, startPX: p?.x ?? 0, startPY: p?.y ?? 0 };
+    dragRef.current = { idx, posIdx: positionWriteIdx(idx), startMX: e.clientX, startMY: e.clientY, startPX: p?.x ?? 0, startPY: p?.y ?? 0 };
     setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
-  }, [getEffectivePos]);
+  }, [getEffectivePos, positionWriteIdx]);
 
   const startResize = useCallback((e: React.MouseEvent, idx: number, handleIdx: number) => {
     e.preventDefault(); hasDragged.current = false; setDraggingIdx(idx); setResizingIdx(idx);
     const p = getEffectivePos(idx);
-    resizeRef.current = { idx, handleIdx, startMX: e.clientX, startMY: e.clientY, startW: baseSizes[idx]?.w ?? BASE_CARD_W, startH: baseSizes[idx]?.h ?? getDefaultSize(projects[idx], effMetaH).h, startPX: p?.x ?? 0, startPY: p?.y ?? 0 };
+    resizeRef.current = { idx, posIdx: positionWriteIdx(idx), handleIdx, startMX: e.clientX, startMY: e.clientY, startW: baseSizes[idx]?.w ?? BASE_CARD_W, startH: baseSizes[idx]?.h ?? getDefaultSize(projects[idx], effMetaH).h, startPX: p?.x ?? 0, startPY: p?.y ?? 0 };
     setZOrder((prev) => [...prev.filter((n) => n !== idx), idx]);
-  }, [baseSizes, projects, effMetaH, getEffectivePos]);
+  }, [baseSizes, projects, effMetaH, getEffectivePos, positionWriteIdx]);
 
   // ── Grid (mobile + gridOnly) ────────────────────────────────────────────
   if (!isDesktop) {
     return (
       <div ref={mobileRef} className="relative z-[80] w-full px-4 py-4 sm:px-6 sm:py-6">
         <div className={cn("mx-auto grid gap-4 sm:gap-5", gridOnly ? "max-w-[min(1200px,96vw)] grid-cols-2" : "max-w-[min(900px,96vw)] grid-cols-1 sm:grid-cols-2")}>
-          {projects.filter((p) => !p.archived).map((project, i) => (
+          {projects.filter((p) => !p.archived || showArchived).map((project, i) => (
             <MobileCard key={project.slug} project={project} priority={i < 2}
               revealed={revealedCards.size > 0} revealDelay={i * 70} />
           ))}
@@ -1153,29 +1188,7 @@ export function CategoryGallery({ projects, storageKey, cardMetaHeight, cardFont
           </div>
         );
       })}
-
-      <div className="absolute bottom-4 right-6 z-40 flex items-center gap-4">
-        <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400">
-          Drag to rearrange and resize
-        </p>
-        <button
-          type="button"
-          onClick={resetLayout}
-          className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
-        >
-          Reset layout
-        </button>
-        {projects.some((p) => p.archived) && (
-          <button
-            type="button"
-            onClick={revealArchived}
-            className="font-mono text-[9px] uppercase tracking-[0.18em] text-zinc-400 underline-offset-2 transition-colors hover:text-zinc-600 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400"
-          >
-            Archive
-          </button>
-        )}
-      </div>
       </div>
     </div>
   );
-}
+});

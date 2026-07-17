@@ -19,16 +19,6 @@ function workRouteActive(path: string) {
   return ["/branding", "/product-design", "/architecture"].includes(path);
 }
 
-const WORK_DROPDOWN = [
-  { anchor: "product-design", label: "Product Design" },
-  { href: "/architecture",    label: "Architecture"   },
-  { href: "/branding",        label: "Branding"       },
-] as const;
-
-function workDropdownHref(pathname: string, anchor: string) {
-  return pathname === "/" ? `#${anchor}` : `/#${anchor}`;
-}
-
 /** Scroll so anchor sits below the fixed nav (breadcrumb stays visible). */
 function scrollToAnchor(id: string) {
   const el = document.getElementById(id);
@@ -44,10 +34,9 @@ export function LiquidGlassNav() {
   const isDark      = pathname.startsWith("/work/fither");
   const isLiveTool  = pathname === "/teatimer" || pathname.startsWith("/work/fither");
 
-  const [workOpen, setWorkOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  // Lets the nav-section show its dropdown once the expand animation finishes
-  // (overflow stays hidden while the width animates, then opens so Work's menu isn't clipped).
+  // Lets the nav-section show once the expand animation finishes
+  // (overflow stays hidden while the width animates).
   const [navOverflowVisible, setNavOverflowVisible] = useState(false);
   const collapseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -96,10 +85,6 @@ export function LiquidGlassNav() {
     if (isCollapsed) setNavOverflowVisible(false);
   }, [isCollapsed]);
 
-  const workTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const openWork  = () => { if (workTimer.current) clearTimeout(workTimer.current); setWorkOpen(true); };
-  const closeWork = () => { workTimer.current = setTimeout(() => setWorkOpen(false), 160); };
-
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     if (href === "/work") return workRouteActive(pathname);
@@ -108,19 +93,16 @@ export function LiquidGlassNav() {
 
   const linkBase = isDark
     ? "text-white/75 hover:text-white"
-    : "text-[#5a6648]/75 hover:text-[#3d4830]";
+    : "text-[rgb(30,26,21)]/70 hover:text-[rgb(30,26,21)]";
 
+  // Soft glass press — barely-there wash, no hard outline.
   const linkHover = isDark
-    ? "hover:bg-white/[0.09]"
-    : "hover:bg-[#5a6648]/[0.07]";
+    ? "hover:bg-white/[0.035]"
+    : "hover:bg-black/[0.02]";
 
   const linkActive = isDark
-    ? "bg-white/[0.1] text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
-    : "bg-[#5a6648]/[0.07] text-[#3d4830] shadow-[inset_0_1px_0_0_rgba(90,102,72,0.05)]";
-
-  const conicBg = isDark
-    ? "conic-gradient(from 0deg, rgba(90,102,72,0.55), rgba(52,66,38,0.4), rgba(140,158,110,0.32), rgba(215,228,190,0.14), rgba(90,102,72,0.55))"
-    : "conic-gradient(from 0deg, rgba(90,102,72,0.22), rgba(140,158,110,0.16), rgba(255,255,255,0.45), rgba(167,185,140,0.18), rgba(90,102,72,0.22))";
+    ? "bg-white/[0.05] text-white"
+    : "bg-black/[0.028] text-[rgb(30,26,21)]";
 
   return (
     <header
@@ -142,31 +124,29 @@ export function LiquidGlassNav() {
       >
         {/* ── Nav pill ─────────────────────────────────────────────────────── */}
 
-        {/* Conic rim */}
-        <div className="absolute -inset-px overflow-hidden rounded-full" aria-hidden>
-          <div className="absolute left-1/2 top-1/2 aspect-square w-[220%] -translate-x-1/2 -translate-y-1/2">
-            <div className="liquid-glass-nav-conic h-full w-full" style={{ background: conicBg }} />
-          </div>
-        </div>
-
-        {/* Outer glow */}
-        <div className={cn("relative rounded-full p-px", isDark ? "shadow-[0_10px_40px_-12px_rgba(0,0,0,0.5)]" : "shadow-[0_12px_36px_-14px_rgba(0,0,0,0.12)]")}>
-          {/* Glass pill */}
-          <div className={cn("relative isolate rounded-full border backdrop-blur-2xl backdrop-saturate-125", isDark ? "border-white/[0.09] bg-zinc-950/[0.48] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]" : "border-black/[0.06] bg-white/[0.38] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.5)]")}>
-            <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-full" aria-hidden>
-              <div className={cn("absolute inset-0 rounded-full bg-gradient-to-b from-white/18 to-transparent", isDark ? "opacity-[0.22]" : "opacity-[0.35]")} />
-              <div className="liquid-glass-nav-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            </div>
-
+        {/* Frosted white shell */}
+        <div className="relative rounded-full">
+          {/* Bar */}
+          <div
+            className={cn(
+              "relative isolate overflow-hidden rounded-full border",
+              isDark
+                ? "liquid-glass-surface-dark"
+                : "liquid-glass-surface"
+            )}
+          >
             <motion.div layout transition={{ layout: { duration: reduced ? 0 : 0.55, ease: [0.23, 1, 0.32, 1] } }} className="relative flex min-w-0 items-center gap-0 px-3 py-2 md:px-6 md:py-2.5">
               {/* Brand wordmark */}
               <Link href="/" onClick={handleBrandClick} aria-label="Home, Failenn Aselta" className="shrink-0 inline-block text-center leading-[1.15] md:leading-[1.2]">
                 <motion.span whileHover={reduced ? {} : { scale: 1.03, y: -1 }} whileTap={reduced ? {} : { scale: 0.96 }} transition={spring} className="block text-center">
-                  <span data-intro-name className={cn("block font-mono text-[10px] font-semibold tracking-[0.06em] sm:text-[11px] sm:tracking-[0.08em] md:text-[13px] md:tracking-[0.09em]", isDark ? "text-white/95" : "text-[#4a5c35]")}>
+                  <span data-intro-name className={cn("block font-mono text-[10px] font-semibold tracking-[0.06em] sm:text-[11px] sm:tracking-[0.08em] md:text-[13px] md:tracking-[0.09em]", isDark ? "text-white/95" : "text-[rgb(30,26,21)]")}>
                     failenn aselta
                   </span>
                   <span
-                    className={cn("block font-sans text-[8px] italic tracking-[0.03em] sm:text-[9px] md:text-[10px] md:tracking-[0.04em]", isDark ? "text-white/50" : "text-[#5a6648]/65")}
+                    className={cn(
+                      "block font-sans text-[8px] italic tracking-[0.03em] sm:text-[9px] md:text-[10px] md:tracking-[0.04em]",
+                      isDark ? "text-white/50" : "text-[rgb(30,26,21)]/55",
+                    )}
                   >
                     Product Designer + Code
                   </span>
@@ -198,14 +178,13 @@ export function LiquidGlassNav() {
                       className="relative shrink-0"
                       initial={reduced ? false : { opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
-                      whileHover={reduced ? {} : { scale: 1.06 }}
-                      whileTap={reduced ? {} : { scale: 0.93 }}
+                      whileHover={reduced ? {} : { scale: 1.02 }}
+                      whileTap={reduced ? {} : { scale: 0.97 }}
                       transition={{
                         opacity: { duration: 0.3, ease: "easeOut", delay: 0.2 + 0.07 * i },
                         y: { duration: 0.3, ease: "easeOut", delay: 0.2 + 0.07 * i },
                         scale: spring,
                       }}
-                      {...(isWork ? { onMouseEnter: openWork, onMouseLeave: closeWork } : {})}
                     >
                       <Link
                         href={isWork ? (pathname === "/" ? "#retro-computer" : "/#retro-computer") : href}
@@ -217,87 +196,18 @@ export function LiquidGlassNav() {
                           window.history.replaceState(null, "", "#retro-computer");
                         } : undefined}
                         className={cn(
-                          "flex items-center justify-center whitespace-nowrap font-mono text-[9px] uppercase tracking-[0.11em] transition-colors duration-150 sm:text-[10px] sm:tracking-[0.13em] md:text-[12px] md:tracking-[0.18em]",
+                          "flex items-center justify-center whitespace-nowrap font-mono text-[9px] lowercase tracking-[0.11em] transition-[color,box-shadow,background-color] duration-150 sm:text-[10px] sm:tracking-[0.13em] md:text-[12px] md:tracking-[0.18em]",
                           linkBase,
                         )}
                       >
                         <span className={cn(
-                          "rounded-full px-4 py-1.5 transition-colors duration-150 sm:px-4.5 sm:py-1.5 md:px-5 md:py-2",
+                          "rounded-full px-4 py-1.5 transition-[color,box-shadow,background-color] duration-150 sm:px-4.5 sm:py-1.5 md:px-5 md:py-2",
                           linkHover,
                           active && linkActive
                         )}>
                           {label}
                         </span>
                       </Link>
-
-                      {/* Dropdown anchored under Work link */}
-                      {isWork && (
-                        <AnimatePresence>
-                          {workOpen && (
-                            <div
-                              className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2"
-                              onMouseEnter={openWork}
-                              onMouseLeave={closeWork}
-                            >
-                              <motion.div
-                                className={cn(
-                                  "relative isolate overflow-hidden rounded-xl border backdrop-blur-2xl backdrop-saturate-125",
-                                  isDark
-                                    ? "border-white/[0.09] bg-zinc-950/[0.75] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5),inset_0_1px_0_0_rgba(255,255,255,0.06)]"
-                                    : "border-black/[0.08] bg-white/[0.72] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.12),inset_0_1px_0_0_rgba(255,255,255,0.6)]"
-                                )}
-                                initial={{ opacity: 0, y: -4, scale: 0.97 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: -4, scale: 0.97 }}
-                                transition={{ duration: 0.13, ease: [0.23, 1, 0.32, 1] }}
-                              >
-                                {/* Conic rim */}
-                                <div className="absolute -inset-px overflow-hidden rounded-xl" aria-hidden>
-                                  <div className="absolute left-1/2 top-1/2 aspect-square w-[300%] -translate-x-1/2 -translate-y-1/2">
-                                    <div className="liquid-glass-nav-conic h-full w-full" style={{ background: conicBg }} />
-                                  </div>
-                                </div>
-                                {/* Decorative layers */}
-                                <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-xl" aria-hidden>
-                                  <div className={cn("absolute inset-0 bg-gradient-to-b from-white/18 to-transparent", isDark ? "opacity-[0.22]" : "opacity-[0.35]")} />
-                                  <div className="liquid-glass-nav-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                                </div>
-                                {/* Items */}
-                                <div className="relative flex flex-col px-1 py-1">
-                                  {WORK_DROPDOWN.map((item) => {
-                                    const href =
-                                      "anchor" in item
-                                        ? workDropdownHref(pathname, item.anchor)
-                                        : item.href;
-                                    const anchorId = "anchor" in item ? item.anchor : null;
-                                    return (
-                                      <Link
-                                        key={href}
-                                        href={href}
-                                        onClick={(e) => {
-                                          setWorkOpen(false);
-                                          if (!anchorId) return;
-                                          const el = document.getElementById(anchorId);
-                                          if (el && pathname === "/") {
-                                            e.preventDefault();
-                                            scrollToAnchor(anchorId);
-                                          }
-                                        }}
-                                        className={cn(
-                                          "whitespace-nowrap rounded-lg px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.14em] transition-colors duration-150 md:text-[10px] md:tracking-[0.18em]",
-                                          linkBase
-                                        )}
-                                      >
-                                        {item.label}
-                                      </Link>
-                                    );
-                                  })}
-                                </div>
-                              </motion.div>
-                            </div>
-                          )}
-                        </AnimatePresence>
-                      )}
                     </motion.div>
                   );
                 })}

@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/cn";
-import { shouldShowHomeAside } from "@/lib/home-aside-visibility";
 
 export function DesignerBio() {
   const pathname = usePathname();
@@ -48,13 +47,13 @@ export function DesignerBio() {
       ref={containerRef}
       data-intro-bio
       className={cn(
+        // Tucked under the fixed glass nav, top-left.
         "absolute z-[40] hidden xl:block",
-        "top-[6rem]",
-        "w-[440px] select-none",
+        "top-[calc(env(safe-area-inset-top)+4.75rem+36px)] left-[calc(1.5rem+285px)]",
+        "w-[295px] select-none",
         "transition-opacity duration-500",
         visible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
       )}
-      style={{ left: "1.5rem" }}
     >
       {/* relative wrapper: sign stays locked; card floats below via absolute */}
       <div className="relative">
@@ -66,7 +65,7 @@ export function DesignerBio() {
         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setExpanded((v) => !v); } }}
         aria-expanded={expanded}
         aria-label={expanded ? "Close bio" : "Learn more about Failenn"}
-        className="relative w-[70%] mx-auto cursor-pointer rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50"
+        className="relative w-full cursor-pointer rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-zinc-400/50"
       >
         {/* aspect-ratio matches the actual 2752×1536 PNG files */}
         <div className="relative w-full" style={{ aspectRatio: "2752/1536" }}>
@@ -80,7 +79,7 @@ export function DesignerBio() {
             style={{ opacity: lit ? 0.9 : 0.85 }}
             priority
             unoptimized
-            sizes="300px"
+            sizes="295px"
           />
           {/* On (lit neon) sign — crossfades on top when switched on */}
           <Image
@@ -93,7 +92,7 @@ export function DesignerBio() {
             style={{ opacity: lit ? 0.95 : 0 }}
             priority
             unoptimized
-            sizes="300px"
+            sizes="295px"
           />
 
           {/* Pull cord — stretches from top anchor, springs back on release */}
@@ -156,7 +155,7 @@ export function DesignerBio() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[360px] rounded-2xl border border-black/[0.07] bg-white/[0.78] p-4 backdrop-blur-xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.14),inset_0_1px_0_0_rgba(255,255,255,0.6)]"
+            className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-[min(380px,78vw)] rounded-[8px] border border-black/[0.07] bg-white/[0.78] p-4 backdrop-blur-xl shadow-[0_8px_24px_-8px_rgba(0,0,0,0.14),inset_0_1px_0_0_rgba(255,255,255,0.6)]"
           >
             <button
               type="button"
@@ -169,7 +168,7 @@ export function DesignerBio() {
               </svg>
             </button>
             <p className="font-mono text-[15px] leading-relaxed text-zinc-700 pr-5">
-              Product Designer of 2+ years who studied architecture, robotics, and code. Ships 0 to 1.
+              Product Designer of 2+ years who studied architecture, robotics, and code. Ships 0 → 1.
             </p>
             <ul className="mt-3 space-y-2 list-disc list-inside">
               <li className="font-mono text-[13px] text-zinc-500">Founder + Product Designer of own clothing brand.</li>
