@@ -528,14 +528,14 @@ export default function BuddyPage() {
         {/* Live demo */}
         <div className="mb-14 flex flex-col items-start gap-3">
           <a
-            href="https://buddy-self.vercel.app/"
+            href="https://www.meetbuddy.xyz/"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex w-full items-center justify-between gap-4 rounded-2xl bg-violet-500/[0.08] px-6 py-5 ring-1 ring-violet-300/40 transition-colors hover:bg-violet-500/[0.12]"
           >
             <div className="flex flex-col items-start gap-1">
               <p className="text-[1.05rem] font-semibold text-violet-700">Demo Buddy!</p>
-              <p className="text-[0.72rem] text-violet-500/60">buddy-self.vercel.app</p>
+              <p className="text-[0.72rem] text-violet-500/60">meetbuddy.xyz</p>
             </div>
             <span
               aria-hidden
@@ -1135,7 +1135,7 @@ export default function BuddyPage() {
 
         <div className="py-6">
           <a
-            href="https://buddy-self.vercel.app/"
+            href="https://www.meetbuddy.xyz/"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex w-full flex-col items-start gap-1 rounded-2xl bg-violet-500/[0.08] px-6 py-5 ring-1 ring-violet-300/40 transition-colors hover:bg-violet-500/[0.12]"
@@ -1144,7 +1144,7 @@ export default function BuddyPage() {
               Demo Buddy!
               <span aria-hidden className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </p>
-            <p className="text-[0.72rem] text-violet-500/60">buddy-self.vercel.app</p>
+            <p className="text-[0.72rem] text-violet-500/60">meetbuddy.xyz</p>
           </a>
         </div>
 
