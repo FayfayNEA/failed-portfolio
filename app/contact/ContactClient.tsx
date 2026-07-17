@@ -705,7 +705,7 @@ export default function ContactClient() {
                     <span className="font-light text-[0.7em] text-zinc-400">(fay-len)</span>
                   </h2>
                 </div>
-                <div className="mt-6 space-y-3.5 text-[1.125rem] leading-[1.65] text-zinc-700">
+                <div className="mt-6 space-y-3.5 text-[0.95rem] leading-[1.65] text-zinc-700">
                   <p>
                     I&apos;m a Product Designer interested in where attention lands in products.
                   </p>
@@ -1055,7 +1055,7 @@ export default function ContactClient() {
                               expand
                             </span>
                           </button>
-                          <div className="min-h-0 flex-1 space-y-[1.25cqi] overflow-y-auto text-[clamp(10px,2.2cqi,15px)] leading-[1.56] text-zinc-700 [scrollbar-width:none]">
+                          <div className="min-h-0 flex-1 space-y-[1.25cqi] overflow-y-auto text-[clamp(9px,1.85cqi,13px)] leading-[1.56] text-zinc-700 [scrollbar-width:none]">
                             <p>
                               I&apos;m a Product Designer interested in where attention lands in products.
                             </p>
@@ -1155,7 +1155,7 @@ export default function ContactClient() {
               />
             </div>
             <LiquidGlassCard className="p-4 sm:p-5">
-              <div className="text-[15px] leading-[1.65] text-zinc-700">
+              <div className="text-[13px] leading-[1.65] text-zinc-700">
                 <h2 className="mb-5 font-mono text-[1.3rem] font-bold text-zinc-900">
                   Faílenn{" "}
                   <span className="font-light text-[0.9rem] text-zinc-400">(fay-len)</span>
