@@ -1,0 +1,79 @@
+flowchart TD
+
+  subgraph CERT[DROVER - Certificate Lifecycle]
+    direction TB
+    C_START(["New certificate bound"]) --> C_STAGING["Staging"]
+    C_STAGING -->|doc missing or pending| C_DOCSHOLD["Docs Hold"]
+    C_DOCSHOLD -->|doc cleared| C_STAGING
+    C_STAGING -->|departs, docs clear| C_TRANSIT["In Transit"]
+    C_TRANSIT -->|approaching 28-hr limit| C_WARN{{"Compliance warning"}}
+    C_WARN -->|rest stop taken| C_REST["Rest Stop"]
+    C_TRANSIT -->|limit passed, no stop taken| C_OVERDUE{{"Overdue, critical"}}
+    C_REST -->|rest of 5h or more| C_TRANSIT
+    C_TRANSIT -->|arrival| C_DELIVERED["Delivered"]
+    C_TRANSIT -->|loss occurs| C_CLAIM["Claim - Filed"]
+    C_OVERDUE -->|loss occurs| C_CLAIM
+    C_REST -->|loss occurs| C_CLAIM
+    C_CLAIM --> C_REVIEW["Claim - Under review"]
+    C_REVIEW -->|documented, no exclusion applies| C_APPROVED["Claim - Approved"]
+    C_REVIEW -->|negligence, lapsed COI, or pre-existing condition| C_DENIED["Claim - Denied"]
+    C_APPROVED --> C_PAID["Claim - Paid"]
+    C_DELIVERED --> C_END(["End"])
+    C_DENIED --> C_END
+    C_PAID --> C_END
+  end
+
+  subgraph COI[Hauler certificate of insurance - shared across both tools]
+    COI_VER["Verified"] -->|expiry approaching| COI_EXP["Expiring"]
+    COI_EXP -->|renewed| COI_VER
+    COI_EXP -->|expiry date passes| COI_LAPSED["Lapsed"]
+    COI_LAPSED -->|renewed| COI_VER
+  end
+
+  COI_LAPSED -.->|blocks| C_STAGING
+  COI_LAPSED -.->|raises denial risk| C_REVIEW
+  COI_LAPSED -.->|blocks| LC_BLOCKED
+
+  subgraph CALC[MILEPOST - Load Calculator, per card]
+    LC_START(["New load quoted"]) --> LC_CHECK{"Enough lane history logged"}
+    LC_CHECK -->|no, fewer than 3 hauls| LC_INSUFF["Insufficient data"]
+    LC_INSUFF -->|hauler enters manual estimate| LC_MANUAL["Manual estimate"]
+    LC_CHECK -->|yes| LC_COIQ{"COI current"}
+    LC_MANUAL --> LC_COIQ
+    LC_COIQ -->|lapsed| LC_BLOCKED["Blocked"]
+    LC_BLOCKED -->|renewed| LC_COIQ
+    LC_COIQ -->|verified or expiring| LC_RANGE{"Compute range"}
+    LC_RANGE -->|both bounds positive, narrow| LC_HEALTHY["Healthy"]
+    LC_RANGE -->|both bounds positive, wide| LC_WIDE["Wide, positive"]
+    LC_RANGE -->|worst negative, best positive| LC_STRADDLE["Straddles breakeven"]
+    LC_RANGE -->|best at or below zero| LC_WALKAWAY["Walk away"]
+    LC_HEALTHY --> LC_END(["Accept or decline"])
+    LC_WIDE --> LC_END
+    LC_STRADDLE --> LC_END
+    LC_WALKAWAY --> LC_END
+  end
+
+  subgraph CASH[MILEPOST - Cash Timeline]
+    CT_START(["Open balance view"]) --> CT_HIST{"Bank feed history exists"}
+    CT_HIST -->|no| CT_EMPTY["Empty state"]
+    CT_EMPTY -->|feed connects or bills added manually| CT_NORMAL["Normal"]
+    CT_HIST -->|yes| CT_SYNCQ{"Synced recently"}
+    CT_SYNCQ -->|no, stale| CT_STALE["Stale sync warning"]
+    CT_STALE -->|sync resumes| CT_NORMAL
+    CT_SYNCQ -->|yes| CT_NORMAL["Normal"]
+    CT_NORMAL -->|forecast dips below zero| CT_CRUNCH["Crunch projected"]
+    CT_CRUNCH -->|inflow arrives on schedule| CT_NORMAL
+    CT_CRUNCH -->|expected date passes, unpaid| CT_OVERDUE["Overdue inflow"]
+    CT_OVERDUE -->|late payment arrives| CT_NORMAL
+    CT_OVERDUE -->|cascades to next obligation| CT_CRUNCH
+  end
+
+  classDef ok fill:#6b6354,stroke:#c4a574,color:#e7dcc2;
+  classDef warn fill:#463521,stroke:#c99a3e,color:#e7dcc2;
+  classDef crit fill:#4a2a1d,stroke:#c1552f,color:#e7dcc2;
+  classDef block fill:#28241a,stroke:#9c8f70,color:#9c8f70,stroke-dasharray: 4 3;
+
+  class C_DELIVERED,C_APPROVED,C_PAID,LC_HEALTHY,LC_WIDE,COI_VER,CT_NORMAL ok
+  class C_DOCSHOLD,C_WARN,C_REVIEW,LC_STRADDLE,LC_INSUFF,COI_EXP,CT_STALE,CT_CRUNCH warn
+  class C_OVERDUE,C_CLAIM,C_DENIED,LC_WALKAWAY,COI_LAPSED,CT_OVERDUE crit
+  class LC_BLOCKED block

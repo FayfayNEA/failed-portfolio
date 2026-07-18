@@ -781,27 +781,11 @@ export const CategoryGallery = forwardRef<CategoryGalleryHandle, { projects: Gal
     });
   }, [projects]);
 
-  // Iris House always occupies the main-grid slot next to fither (stored on nightterrors).
-  // When playground is on, nightterrors moves into iris's deep layout slot so they don't overlap.
-  const nightterrorsIdx = projects.findIndex((p) => p.slug === "nightterrors");
-  const irisHouseIdx    = projects.findIndex((p) => p.slug === "iris-house");
-
   const getEffectivePos = useCallback((i: number): Pos | undefined => {
-    if (i === irisHouseIdx && nightterrorsIdx >= 0) {
-      return positions[nightterrorsIdx] ?? positions[i];
-    }
-    if (showArchived && i === nightterrorsIdx && irisHouseIdx >= 0) {
-      return positions[irisHouseIdx] ?? positions[i];
-    }
     return positions[i];
-  }, [showArchived, positions, nightterrorsIdx, irisHouseIdx]);
+  }, [positions]);
 
-  /** Position writes follow the same swap as getEffectivePos. */
-  const positionWriteIdx = useCallback((cardIdx: number) => {
-    if (cardIdx === irisHouseIdx && nightterrorsIdx >= 0) return nightterrorsIdx;
-    if (showArchived && cardIdx === nightterrorsIdx && irisHouseIdx >= 0) return irisHouseIdx;
-    return cardIdx;
-  }, [showArchived, irisHouseIdx, nightterrorsIdx]);
+  const positionWriteIdx = useCallback((cardIdx: number) => cardIdx, []);
 
   const dragRef      = useRef<{ idx: number; posIdx: number; startMX: number; startMY: number; startPX: number; startPY: number } | null>(null);
   const resizeRef    = useRef<{ idx: number; posIdx: number; handleIdx: number; startMX: number; startMY: number; startW: number; startH: number; startPX: number; startPY: number } | null>(null);

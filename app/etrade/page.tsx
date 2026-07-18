@@ -38,21 +38,6 @@ export default function EtradePage() {
       slug={SLUG}
       category={CATEGORY}
       hero={{ kind: "video", src: HERO_VIDEO }}
-      heroBelow={
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-center font-sans text-[0.72rem] italic leading-snug text-zinc-400">
-            Interactive Figma prototype
-          </p>
-          <a
-            href="https://www.figma.com/proto/6BoOsk6H1jDem66V3QoGd8/Etrade-redesign?node-id=3-270&starting-point-node-id=3%3A270&t=NbOntjH30xL2b7ZU-1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={ETRADE.protoBtn}
-          >
-            View Figma Prototype <span aria-hidden>↗</span>
-          </a>
-        </div>
-      }
       heroFrameVariant="liquid"
       heroSize="wide"
       challengeSummary="One of the largest complaints from E*Trade users is the poor UI of the site. What if we modernized the interface?"
@@ -60,7 +45,7 @@ export default function EtradePage() {
       meta={{
         timeline: "1 week",
         roles: ["Full Stack Engineer", "Product Designer"],
-        team: ["Failenn Aselta (solo)"],
+        team: ["Failenn Aselta"],
         tools: ["Figma", "Photoshop", "Illustrator"],
       }}
       sections={[

@@ -25,7 +25,7 @@ const CHALLENGE_SUB = [
 const METADATA = {
   timeline: "1 week",
   roles:    ["Full Stack Engineer", "Product Designer"],
-  team:     ["Failenn Aselta (solo)"],
+  team:     ["Failenn Aselta"],
   tools:    [
     "React 19 · Vite 6 · TypeScript",
     "Tailwind CSS 4 · Motion · Lucide",
@@ -50,20 +50,6 @@ export default async function EidolonPage() {
       slug="eidolon"
       category="product-design"
       hero={{ kind: "video-carousel", videos: [...HERO_VIDEOS], controls: true }}
-      metaBelow={
-        <div className="flex flex-col gap-3">
-          <a
-            href="https://www.figma.com/proto/iXvq0vPTzw4IPXs8kwiNAd/eidolon?node-id=1-56&p=f&t=giHAp2JoHXE7ibfJ-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A56&show-proto-sidebar=1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex w-full flex-col items-center gap-1 rounded-2xl bg-lime-500/[0.08] px-6 py-5 ring-1 ring-lime-300/40 transition-colors hover:bg-lime-500/[0.12]"
-          >
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-lime-600/60">Interactive Prototype</p>
-            <p className="text-[1.05rem] font-semibold text-lime-700">Demo Eidolon</p>
-            <p className="text-[0.72rem] text-lime-500/60">figma.com/proto/eidolon</p>
-          </a>
-        </div>
-      }
       hideCaseStudyLabel
       challengeSummary={CHALLENGE}
       challengeSubtext={CHALLENGE_SUB}

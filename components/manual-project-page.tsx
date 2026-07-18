@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { useState, useCallback, useLayoutEffect, useRef } from "react";
+import { Rosario } from "next/font/google";
 import { motion } from "framer-motion";
 import { useCarouselSwipe } from "@/lib/carousel-swipe";
 import { ProjectSurface } from "@/components/project-surface";
@@ -14,6 +15,12 @@ import { CoolPageCursor } from "@/components/cool-page-cursor";
 import { AutoPlayVideo } from "@/components/autoplay-video";
 import { cn } from "@/lib/cn";
 import { CategoryProjectsFooter } from "@/components/category-projects-footer";
+
+/** Same display face Buddy uses on the case rail title. */
+const rosario = Rosario({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 /**
  * Solid canvas backdrop painted directly behind a mockup video so
@@ -495,7 +502,10 @@ export function ManualProjectPage({
     <div className="contents">
       <CaseStudySidebar
         projectName={title}
-        projectNameClassName={isEtrade ? "font-extralight" : "font-light"}
+        projectNameClassName={cn(
+          rosario.className,
+          isEtrade && "font-extralight"
+        )}
         sections={sidebarSections}
         breadcrumb={breadcrumb}
         hideRailAtMaxWidthPx={1000}
@@ -522,7 +532,8 @@ export function ManualProjectPage({
         {mobileHeading === "title" ? (
           <p
             className={cn(
-              "font-mono text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
+              rosario.className,
+              "text-[clamp(2.75rem,4.8vw,4rem)] leading-[1.02] tracking-[-0.04em] text-zinc-950",
               "font-extralight max-[1000px]:block min-[1001px]:hidden",
               "mb-8 mt-0"
             )}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" fill="none">
+  <rect width="900" height="1200" fill="#f5f0e6"/>
+  <rect x="48" y="48" width="804" height="1104" rx="24" fill="#fffcf6" stroke="#ddd2b8" stroke-width="2"/>
+  <text x="80" y="120" font-family="ui-monospace,monospace" font-size="22" fill="#6b6354" letter-spacing="3">02 ù SHARED COI</text>
+  <rect x="80" y="180" width="720" height="120" rx="16" fill="#f6ded3" stroke="#b8512f" stroke-width="2"/>
+  <text x="110" y="250" font-family="ui-monospace,monospace" font-size="32" font-weight="700" fill="#b8512f">COI LAPSED ù BLOCKED</text>
+  <text x="80" y="380" font-family="ui-monospace,monospace" font-size="26" fill="#2b271f">Potential Shipping</text>
+  <text x="80" y="430" font-family="ui-monospace,monospace" font-size="22" fill="#6b6354">quote blocked</text>
+  <text x="80" y="520" font-family="ui-monospace,monospace" font-size="26" fill="#2b271f">Current Shipping</text>
+  <text x="80" y="570" font-family="ui-monospace,monospace" font-size="22" fill="#6b6354">staging blocked</text>
+  <text x="80" y="700" font-family="ui-monospace,monospace" font-size="24" fill="#6b6354">one status ∑ one product</text>
+</svg>

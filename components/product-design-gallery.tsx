@@ -41,7 +41,7 @@ export function ProductDesignGallery({
               </button>
               {hasPlayground && (
                 <button type="button" onClick={() => galleryRef.current?.togglePlayground()} className={PILL_BUTTON}>
-                  {playgroundVisible ? "hide playground" : "playground"}
+                  {playgroundVisible ? "hide all" : "show all"}
                 </button>
               )}
             </div>

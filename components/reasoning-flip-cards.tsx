@@ -16,7 +16,7 @@ interface Panel {
   points: Point[];
 }
 
-type Theme = "lime" | "sky";
+type Theme = "lime" | "sky" | "olive";
 
 interface ReasoningFlipCardsProps {
   panels: Panel[];
@@ -27,6 +27,7 @@ interface ReasoningFlipCardsProps {
 const THEME = {
   lime: { rule: "bg-lime-400/70", ring: "focus-visible:ring-lime-400/60", accent: "text-lime-600/70", backBorder: "border-lime-200/60", link: "text-lime-700 decoration-lime-300 hover:text-lime-900" },
   sky: { rule: "bg-sky-400/70", ring: "focus-visible:ring-sky-400/60", accent: "text-sky-600/70", backBorder: "border-sky-200/60", link: "text-sky-700 decoration-sky-300 hover:text-sky-900" },
+  olive: { rule: "bg-[#2f4634]/70", ring: "focus-visible:ring-[#2f4634]/50", accent: "text-[#2f4634]/70", backBorder: "border-[#ddd2b8]", link: "text-[#2f4634] decoration-[#2f4634]/40 hover:text-[#1a2a1e]" },
 };
 
 /** Render the detail text, hyperlinking only the trailing "(citation)" to its bib entry. */

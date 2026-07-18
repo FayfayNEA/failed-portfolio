@@ -74,6 +74,9 @@ export function NavShell({ children }: { children: React.ReactNode }) {
   const pathname  = usePathname();
   const fullBleed = isFullBleed(pathname);
   const fitherBg  = pathname.startsWith("/work/fither");
+  // Prototype HTML under /tetonic/* keeps parchment; the case study matches site canvas + Buddy sidebar.
+  const tetonicProtoBg =
+    pathname.startsWith("/tetonic/") && pathname !== "/tetonic";
   const liveTool  = isLiveToolRoute(pathname);
 
   // Live tool routes are locked to the viewport and don't scroll, so release
@@ -83,6 +86,18 @@ export function NavShell({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.add("no-scroll-gutter");
     return () => document.documentElement.classList.remove("no-scroll-gutter");
   }, [liveTool]);
+
+  // Live Tetonic HTML prototypes only: parchment canvas for overscroll / shell match.
+  useEffect(() => {
+    if (!tetonicProtoBg) return;
+    const root = document.documentElement;
+    root.style.setProperty("--canvas", "#f5f0e6");
+    root.style.setProperty("--canvas-dot", "rgba(43, 39, 31, 0.07)");
+    return () => {
+      root.style.removeProperty("--canvas");
+      root.style.removeProperty("--canvas-dot");
+    };
+  }, [tetonicProtoBg]);
 
   return (
     <>
@@ -151,6 +166,7 @@ export function NavShell({ children }: { children: React.ReactNode }) {
             !liveTool && "pb-[calc(60px+env(safe-area-inset-bottom,0px))] md:pb-0",
             liveTool && "h-[100dvh] overflow-hidden",
             fitherBg && "fither-page-canvas",
+            tetonicProtoBg && "tetonic-page-canvas",
             pathname === "/teatimer" && "bg-[#faf5ee]",
             pathname === "/orb" && "bg-[#0D0D0D]",
           )}

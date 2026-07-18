@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tetonic</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f0e6; --bg-panel:#fffcf6; --bg-row:#faf5eb; --bg-row-hover:#f1e8d8; --bg-rail:#efe7d6;
+    --ink:#2b271f; --ink-dim:#4a4438; --ink-dim2:#6b6354; --line:#ddd2b8; --line-soft:#e8dfc9;
+    --oxide:#b8512f; --oxide-soft:#f6ded3; --ochre:#bd8535; --ochre-soft:#f5ead2;
+    --ok:#6b6354; --ok-soft:#efe7d6; --steel:#5f7c86;
+    --shadow-rest:0 1px 2px rgba(43,39,31,.06);
+    --shadow-hover:0 10px 22px rgba(43,39,31,.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;overflow:hidden;display:flex;flex-direction:column;height:100vh;}
+  .app{display:flex;flex-direction:column;flex:1;min-height:0;}
+
+  .suite-nav{display:flex;gap:2px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+  .nav-slider{position:absolute;top:50%;left:0;width:0;height:30px;transform:translateY(-50%);background:var(--bg-row);border-radius:8px;transition:left .25s cubic-bezier(.4,0,.2,1),width .25s cubic-bezier(.4,0,.2,1);z-index:0;}
+  .suite-link{position:relative;z-index:1;font-size:12.5px;font-weight:500;color:var(--ink-dim2);text-decoration:none;padding:7px 14px;border-radius:8px;transition:color .15s ease;}
+  .suite-link:hover, .suite-link.active{color:var(--ink);}
+
+  .topbar{position:relative;display:flex;align-items:center;gap:24px;height:52px;padding:0 20px 0 21px;background:var(--bg-panel);border-bottom:1px solid var(--line);flex-shrink:0;}
+  .brand-text img{display:block;height:16px;width:auto;}
+  .topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+  .user-chip{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:8px;}
+  .user-name{font-size:13px;font-weight:600;color:var(--ink);}
+  .btn-settings{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;color:var(--ink-dim2);}
+  .btn-settings:hover{background:var(--bg-row);color:var(--ink);}
+  .btn-settings svg{width:18px;height:18px;}
+
+  .body{display:flex;flex:1;min-height:0;}
+  .rail{width:230px;flex-shrink:0;background:var(--bg-rail);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;scrollbar-gutter:stable;}
+  .rail-label{font-size:10.5px;letter-spacing:.4px;color:var(--ink-dim2);padding:8px 12px 6px;}
+  .rail-item{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-radius:8px;font-size:13.5px;color:var(--ink-dim);transition:background .15s ease,color .15s ease;}
+  .rail-item:hover{background:var(--bg-row-hover);color:var(--ink);}
+  .rail-item.active{background:var(--bg-panel);color:var(--ink);font-weight:600;box-shadow:var(--shadow-rest);}
+  .rail-item .count{font-size:12px;color:var(--ink-dim2);}
+  .rail-divider{height:1px;background:var(--line);margin:10px 2px;}
+  .rail-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0 4px;}
+  .stat{display:flex;flex-direction:column;justify-content:center;min-height:48px;padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg-panel);box-shadow:var(--shadow-rest);box-sizing:border-box;}
+  .stat-num{font-size:15px;font-weight:700;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink);}
+  .stat-label{font-size:9.5px;color:var(--ink-dim2);margin-top:3px;}
+  .stat--critical .stat-num{color:var(--oxide);}
+  .stat--warning .stat-num{color:var(--ochre);}
+  .rail input{background:var(--bg-panel);border:1px solid var(--line);color:var(--ink);padding:8px 11px;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;width:100%;}
+  .rail input::placeholder{color:var(--ink-dim2);}
+  .rail input:focus{border-color:var(--ochre);}
+
+  .board-wrap{flex:1;min-width:0;overflow-y:auto;scrollbar-gutter:stable;padding:14px;}
+  .board-head, .row{display:grid;grid-template-columns:minmax(88px,104px) minmax(200px,1.35fr) minmax(110px,1fr) minmax(110px,130px) minmax(140px,168px) minmax(100px,120px);gap:14px;}
+  .board-head{padding:0 14px 8px;font-size:11.5px;font-weight:600;color:var(--ink-dim2);border-bottom:1px solid var(--line-soft);margin-bottom:6px;}
+  .row{align-items:center;background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;padding:16px 14px;margin-bottom:6px;cursor:pointer;box-shadow:var(--shadow-rest);transition:box-shadow .18s ease,transform .18s ease,background .15s ease,border-color .15s ease;}
+  .row > div{min-width:0;}
+  .row:hover{background:var(--bg-row-hover);border-color:var(--bg-row-hover);box-shadow:var(--shadow-hover);transform:scale(1.008);}
+  .row.selected{border-color:var(--ochre);}
+  .row.selected:hover{border-color:var(--ochre);}
+  .stamp{font-weight:700;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;width:fit-content;color:var(--ink);background:var(--bg-row);}
+
+  .parties .p-line{font-size:12px;font-weight:600;white-space:normal;word-break:break-word;line-height:1.35;}
+  .parties .p-arrow{color:var(--ink-dim2);font-weight:400;}
+
+  .stock .s-line{font-size:12px;font-weight:600;color:var(--ink-dim);}
+
+  .flip-cell{position:relative;height:16px;cursor:default;}
+  .flip-diagram{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);display:flex;align-items:center;opacity:1;transition:opacity .12s ease;width:100%;}
+  .flip-text{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);font-size:11px;font-weight:600;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .12s ease;}
+  .row:hover .flip-diagram{opacity:0;}
+  .row:hover .flip-text{opacity:1;}
+
+  .capfit{position:relative;}
+  .capfit-bar{width:100%;height:5px;background:var(--line-soft);border-radius:8px;overflow:hidden;}
+  .capfit-fill{height:100%;background:var(--ok);}
+  .capfit.over .capfit-fill{background:var(--oxide);}
+
+  .ticks{display:flex;gap:2px;align-items:flex-end;height:13px;}
+  .tick{width:4px;height:100%;border-radius:1px;background:var(--line-soft);}
+  .tick.on{background:var(--ok);}
+  .tick.on.warn{background:var(--ochre);}
+  .tick.on.crit{background:var(--oxide);}
+  .compliance{display:flex;flex-direction:column;gap:4px;}
+  .compliance-label{font-size:12px;font-weight:600;font-family:'Inter',sans-serif;color:var(--ink-dim);}
+  .compliance-label b{color:var(--ink);}
+  .compliance-label.crit b{color:var(--oxide);}
+  .compliance-label.warn b{color:var(--ochre);}
+
+  .coi{display:flex;align-items:center;}
+  .coi-chip{font-size:11px;font-weight:600;padding:5px 10px;border-radius:8px;background:var(--bg-row);border:1px solid var(--line);color:var(--ink-dim);width:fit-content;display:inline-flex;align-items:center;justify-content:center;}
+  .coi-chip.verified{border-color:var(--ok);color:var(--ok);}
+  .coi-chip.expiring{border-color:var(--ochre);color:var(--ochre);}
+  .coi-chip.lapsed{border-color:var(--oxide);color:var(--oxide);}
+
+  .detail{width:0;overflow:hidden;flex-shrink:0;background:var(--bg-panel);border-left:1px solid var(--line);transition:width .2s ease;}
+  .detail.open{width:min(400px,42vw);overflow-y:auto;}
+  .detail-inner{padding:20px;width:400px;max-width:100%;}
+  .detail-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
+  .detail-close{all:unset;cursor:pointer;color:var(--ink-dim2);padding:4px;border-radius:8px;display:flex;}
+  .detail-close:hover{color:var(--ink);background:var(--bg-row-hover);}
+  .detail-close svg{width:16px;height:16px;}
+  .detail-title{font-size:19px;font-weight:600;}
+  .detail-sub{font-size:11.5px;color:var(--ink-dim2);margin-top:3px;}
+  .detail-section{margin-bottom:18px;}
+  .detail-section h3{font-size:12px;font-weight:700;color:var(--ink-dim2);margin:0 0 10px;border-bottom:1px solid var(--line-soft);padding-bottom:6px;}
+
+  .party-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;}
+  .party-role{font-size:10.5px;font-weight:600;color:var(--ink-dim2);}
+  .party-name{font-size:12.5px;font-weight:600;margin-top:2px;}
+
+  .endorse-chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .endorse-chip{font-size:10px;padding:4px 10px;border-radius:8px;background:var(--bg-row);border:1px solid var(--ochre);color:var(--ochre);}
+  .base-coverage{font-size:12.5px;font-weight:600;margin-bottom:8px;}
+
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .kv-item .kv-label{font-size:10.5px;color:var(--ink-dim2);font-weight:600;}
+  .kv-item .kv-value{font-size:12.5px;margin-top:2px;}
+  .kv-item .kv-value.flagged{color:var(--oxide);}
+
+  .checklist{display:flex;flex-direction:column;gap:8px;}
+  .check-item{display:flex;align-items:center;gap:9px;font-size:12px;}
+  .check-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .check-dot.ok{background:var(--ok);}
+  .check-dot.warn{background:var(--ochre);}
+  .check-dot.bad{background:var(--oxide);}
+  .check-item .check-note{margin-left:auto;font-size:10.5px;color:var(--ink-dim2);}
+
+  .claim-box{background:var(--oxide-soft);border:1px solid var(--oxide);border-radius:8px;padding:12px 14px;}
+  .claim-box.status-review{background:var(--ochre-soft);border-color:var(--ochre);}
+  .claim-head{display:flex;justify-content:space-between;font-size:11.5px;font-weight:600;margin-bottom:6px;}
+  .claim-cause{font-size:12px;margin-bottom:4px;}
+
+  .timeline{display:flex;flex-direction:column;gap:0;}
+  .tl-item{display:flex;gap:10px;padding-bottom:12px;position:relative;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{width:9px;height:9px;border-radius:50%;background:var(--line);margin-top:4px;flex-shrink:0;position:relative;z-index:1;}
+  .tl-item.done .tl-dot{background:var(--ok);}
+  .tl-item.active .tl-dot{background:var(--ochre);box-shadow:0 0 0 3px var(--ochre-soft);}
+  .tl-item:not(:last-child)::before{content:'';position:absolute;left:4px;top:12px;bottom:-2px;width:1px;background:var(--line-soft);}
+  .tl-text .tl-name{font-size:12px;font-weight:600;}
+  .tl-text .tl-time{font-size:10px;color:var(--ink-dim2);margin-top:1px;}
+
+  .notes-box{background:var(--bg-row);border:1px solid var(--line-soft);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.5;color:var(--ink-dim);}
+
+  .ai-root{position:fixed;left:16px;bottom:16px;z-index:40;}
+  .ai-fab{all:unset;cursor:pointer;display:block;background:transparent;border:none;border-radius:8px;width:64px;height:64px;padding:0;overflow:hidden;box-shadow:var(--shadow-rest);box-sizing:border-box;}
+  .ai-fab:hover{transform:scale(1.02);box-shadow:var(--shadow-hover);}
+  .ai-fab-avatar{display:block;width:100%;height:100%;border-radius:8px;overflow:hidden;}
+  .ai-fab-avatar img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+  .ai-panel{display:none;position:absolute;left:0;bottom:76px;width:min(340px,calc(100vw - 32px));height:420px;background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow-hover);flex-direction:column;overflow:hidden;}
+  .ai-panel.open{display:flex;}
+  .ai-panel-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line-soft);background:var(--bg-row);}
+  .ai-panel-head strong{font-size:13px;}
+  .ai-panel-head span{display:block;font-size:11px;color:var(--ink-dim2);font-weight:400;margin-top:2px;}
+  .ai-close{all:unset;cursor:pointer;color:var(--ink-dim2);padding:4px;border-radius:6px;}
+  .ai-close:hover{background:var(--bg-row-hover);color:var(--ink);}
+  .ai-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+  .ai-bubble{max-width:90%;padding:9px 12px;border-radius:12px;font-size:12.5px;line-height:1.45;}
+  .ai-bubble.bot{background:var(--bg-row);border:1px solid var(--line-soft);align-self:flex-start;}
+  .ai-bubble.user{background:var(--ink);color:var(--bg);align-self:flex-end;}
+  .ai-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;}
+  .ai-chip{all:unset;cursor:pointer;font-size:11px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg-row);color:var(--ink-dim);}
+  .ai-chip:hover{border-color:var(--ochre);background:var(--ochre-soft);}
+  .ai-input-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line-soft);}
+  .ai-input-row input{flex:1;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:12.5px;font-family:'Inter',sans-serif;background:var(--bg-row);color:var(--ink);outline:none;}
+  .ai-input-row input:focus{border-color:var(--ochre);}
+  .ai-input-row button{all:unset;cursor:pointer;background:var(--ink);color:var(--bg);font-weight:600;font-size:12px;padding:9px 14px;border-radius:8px;}
+
+  ::-webkit-scrollbar{width:9px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px;}
+
+  @media (max-width:1100px){
+    .board-head, .row{grid-template-columns:90px 1.2fr 1fr 110px 140px 100px;gap:10px;}
+    .rail{width:200px;padding:14px 10px;}
+  }
+  @media (max-width:820px){
+    .rail{width:170px;}
+    .board-head{display:none;}
+    .row{display:flex;flex-direction:column;align-items:stretch;gap:10px;}
+  }
+
+  /* Case-study embed: lock nested scroll so the parent page is the only scroller. */
+  html.embed, html.embed body { overflow: hidden !important; overscroll-behavior: none; }
+  html.embed .board-wrap,
+  html.embed .rail,
+  html.embed .content-scroll,
+  html.embed .detail,
+  html.embed .detail.open,
+  html.embed .ai-msgs { overflow: hidden !important; overscroll-behavior: none; }
+  html.embed .ai-root { display: none !important; }
+  html.embed .sim-controls { display: none !important; }
+</style>
+<script>
+(function () {
+  function applyEmbed() {
+    try {
+      if (!/(?:^|[?&])embed=1(?:&|$)/.test(location.search)) return;
+      document.documentElement.classList.add('embed');
+      document.querySelectorAll('a.suite-link').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href || href.indexOf('embed=') !== -1) return;
+        a.setAttribute('href', href + (href.indexOf('?') >= 0 ? '&' : '?') + 'embed=1');
+      });
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEmbed);
+  } else {
+    applyEmbed();
+  }
+})();
+</script>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand-text"><img src="tetonic.png" alt="Tetonic"></div>
+    <nav class="suite-nav">
+      <a class="suite-link" href="milepost.html">Potential Shipping</a>
+      <a class="suite-link active" href="drover-insurance.html">Current Shipping</a>
+      <a class="suite-link" href="bank-calculator.html">Bank Calculator</a>
+      <div class="nav-slider"></div>
+    </nav>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <button class="btn-settings" type="button" aria-label="Settings" title="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+        <span class="user-name">Jordan Hale</span>
+      </div>
+    </div>
+  </header>
+  <div class="body">
+    <nav class="rail" id="rail">
+      <button class="rail-item active" data-filter="all">All certificates <span class="count" id="cnt-all"></span></button>
+      <button class="rail-item" data-filter="Staging">Staging <span class="count" id="cnt-Staging"></span></button>
+      <button class="rail-item" data-filter="In Transit">In transit <span class="count" id="cnt-InTransit"></span></button>
+      <button class="rail-item" data-filter="Rest Stop">Rest stop <span class="count" id="cnt-RestStop"></span></button>
+      <button class="rail-item" data-filter="Docs Hold">Docs hold <span class="count" id="cnt-DocsHold"></span></button>
+      <button class="rail-item" data-filter="Delivered">Delivered <span class="count" id="cnt-Delivered"></span></button>
+      <div class="rail-divider"></div>
+      <button class="rail-item" data-filter="claims">Open claims <span class="count" id="cnt-claims"></span></button>
+      <div class="rail-divider"></div>
+      <input id="search" placeholder="Search insured, carrier, ID…" />
+      <div class="rail-stats">
+        <div class="stat"><span class="stat-num" id="statBound">0</span><span class="stat-label">Bound certs</span></div>
+        <div class="stat stat--critical"><span class="stat-num" id="statClaims">0</span><span class="stat-label">Open claims</span></div>
+        <div class="stat stat--warning"><span class="stat-num" id="statCOI">0</span><span class="stat-label">COI alerts</span></div>
+        <div class="stat"><span class="stat-num" id="statValue">$0</span><span class="stat-label">Value at risk</span></div>
+      </div>
+    </nav>
+
+    <div class="board-wrap">
+      <div class="board-head">
+        <div>Certificate</div><div>Insured to Carrier</div><div>Stock</div>
+        <div>Loading density</div><div>28-hr compliance</div><div>Hauler COI</div>
+      </div>
+      <div id="board"></div>
+    </div>
+
+    <aside class="detail" id="detail"><div class="detail-inner" id="detailInner"></div></aside>
+  </div>
+</div>
+
+<div class="ai-root" id="aiRoot">
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-head">
+      <div><strong>Tetonic Assist</strong><span>Ask how to use Current Shipping</span></div>
+      <button class="ai-close" id="aiClose" aria-label="Close">✕</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs"></div>
+    <div class="ai-suggestions" id="aiSuggestions"></div>
+    <div class="ai-input-row">
+      <input id="aiInput" placeholder="Ask about COI, 28-hr, claims…" />
+      <button id="aiSend">Send</button>
+    </div>
+  </div>
+  <button class="ai-fab" id="aiFab" type="button" aria-label="Ask Tetonic" title="Ask Tetonic">
+    <span class="ai-fab-avatar"><img src="buckingbronc-ai.png?v=3" alt=""></span>
+  </button>
+</div>
+
+<script>
+(function(){
+  const nav = document.querySelector('.suite-nav');
+  const slider = nav.querySelector('.nav-slider');
+  const links = [...nav.querySelectorAll('.suite-link')];
+  function moveTo(el){
+    slider.style.left = el.offsetLeft + 'px';
+    slider.style.width = el.offsetWidth + 'px';
+  }
+  const active = nav.querySelector('.suite-link.active');
+  if(active) moveTo(active);
+  links.forEach(link=>{
+    link.addEventListener('mouseenter', ()=>moveTo(link));
+  });
+  nav.addEventListener('mouseleave', ()=>{ if(active) moveTo(active); });
+})();
+
+const NOW = new Date('2026-07-17T14:00:00');
+function hoursAgo(h){ return new Date(NOW.getTime() - h*3600*1000); }
+function fmtTime(d){ return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); }
+function fmtMoney(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+
+function requiredSqFt(avgWt, head, horned){
+  let base = (avgWt/100)*1.3*head;
+  return horned ? base*1.05 : base;
+}
+
+const shipments = [
+  {
+    id:'RX-2247', species:'Cattle · Angus', head:42, avgWt:1180, horned:false, trailerSqFt:760,
+    insured:'Rafter K Ranch', carrier:'Big Sky Livestock Transport', thirdParty:true,
+    origin:'Bozeman MT', dest:'Producers Livestock Auction, Billings MT',
+    stage:'In Transit', transitStart:hoursAgo(24.5), declaredValue:88200,
+    coverageBase:'Broad Perils', endorsements:['Refusal of Shipment'],
+    coi:{status:'verified', policy:'HNOA-88431-B', expires:'2027-02-11'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared'],['Owner Transfer','pending']],
+    notes:'Auction deadline 18:00 today. Compliance window closes before arrival if no further delay - flagged for claims monitoring.',
+    claim:null,
+    stops:[['Departed Rafter K Ranch',hoursAgo(24.5),'done'],['Weigh station, Livingston MT',hoursAgo(19),'done'],['Currently en route - I-90 E',null,'active'],['Arrive Producers Livestock Auction',null,'pending']]
+  },
+  {
+    id:'RX-2248', species:'Cattle · Charolais×Angus (stockers)', head:48, avgWt:650, horned:false, trailerSqFt:620,
+    insured:'Broken Spur Ranch', carrier:'Broken Spur Ranch', thirdParty:false,
+    origin:'Cody WY', dest:'Superior Feeders, Dodge City KS',
+    stage:'In Transit', transitStart:hoursAgo(11), declaredValue:52000,
+    coverageBase:'Named Perils', endorsements:[],
+    coi:{status:'verified', policy:'Self-insured fleet', expires:'2027-01-04'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared'],['Owner Transfer','cleared']],
+    notes:'Intact bulls loaded with steers - partition gate should be dropped at next stop. Underwriting flagged compatibility as a monitored condition of coverage.',
+    claim:null, compatConflict:true,
+    stops:[['Departed Broken Spur Ranch',hoursAgo(11),'done'],['Currently en route - US-16 E',null,'active'],['Rest stop, Rapid City SD',null,'pending'],['Arrive Superior Feeders',null,'pending']]
+  },
+  {
+    id:'RX-2249', species:'Horses · Quarter Horse', head:6, avgWt:1100, horned:false, trailerSqFt:280,
+    insured:'Elk Ridge Quarter Horses', carrier:'Blue Ridge Equine Transport', thirdParty:true,
+    origin:'Sheridan WY', dest:'Cavalletti Sporthorse, Aiken SC',
+    stage:'Rest Stop', restStart:hoursAgo(2), restRequired:5, declaredValue:114000,
+    coverageBase:'Broad Perils', endorsements:['Coverage after Transit'],
+    coi:{status:'expiring', policy:'CARR-2291-EQ', expires:'2026-07-26'},
+    docs:[['CVI Health Cert','cleared'],['Coggins Test','cleared'],['Bill of Lading','cleared']],
+    notes:'Carrier COI expires in 9 days - renewal not yet on file. Flag for compliance follow-up before next binding.',
+    claim:null,
+    stops:[['Departed Elk Ridge',hoursAgo(9),'done'],['Rest stop, Knoxville TN - in progress',hoursAgo(2),'active'],['Arrive Cavalletti Sporthorse',null,'pending']]
+  },
+  {
+    id:'RX-2251', species:'Cattle · Hereford', head:50, avgWt:1200, horned:true, trailerSqFt:800,
+    insured:'Cross Anchor Ranch', carrier:'Panhandle Hauling Co', thirdParty:true,
+    origin:'Amarillo TX', dest:'Caviness Beef, Hereford TX',
+    stage:'Docs Hold', declaredValue:105000,
+    coverageBase:'Broad Perils', endorsements:[],
+    coi:{status:'verified', policy:'PH-7741-LX', expires:'2026-11-02'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared'],['Owner Transfer','missing']],
+    notes:'Owner transfer affidavit missing a signature. Held at yard. Coverage cannot attach in transit until documentation clears.',
+    claim:null,
+    stops:[['Staged at Cross Anchor Ranch',hoursAgo(6),'active'],['Held - documents incomplete',hoursAgo(1),'active']]
+  },
+  {
+    id:'RX-2253', species:'Hogs · Market weight', head:220, avgWt:280, horned:false, trailerSqFt:520,
+    insured:'Whitetail Hollow', carrier:'Heartland Hog Haulers', thirdParty:true,
+    origin:'Ames IA', dest:'Prestage Farms, Clinton NC',
+    stage:'In Transit', transitStart:hoursAgo(19), declaredValue:96800,
+    coverageBase:'Broad Perils', endorsements:['Carcass Removal'],
+    coi:{status:'verified', policy:'HHH-3320-SW', expires:'2027-03-19'},
+    docs:[['CVI Health Cert','cleared'],['Bill of Lading','cleared']],
+    notes:'Approaching 28-hr compliance window in warm conditions - hogs are disproportionately vulnerable to in-transit heat mortality. Monitoring for early claim signal.',
+    claim:null,
+    stops:[['Departed Whitetail Hollow',hoursAgo(19),'done'],['Weigh station, Indianapolis IN',hoursAgo(9),'done'],['Currently en route - I-74 E',null,'active'],['Arrive Prestage Farms',null,'pending']]
+  },
+  {
+    id:'RX-2254', species:'Cattle · Black Baldy', head:35, avgWt:1050, horned:false, trailerSqFt:640,
+    insured:'Rocking H Ranch', carrier:'Rocking H Ranch', thirdParty:false,
+    origin:'Dillon MT', dest:'Northern Video Livestock Auction, Billings MT',
+    stage:'Delivered', declaredValue:67900, loadedWeight:36750, unloadedWeight:35400,
+    coverageBase:'Broad Perils', endorsements:[],
+    coi:{status:'verified', policy:'Self-insured fleet', expires:'2027-05-30'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared'],['Owner Transfer','cleared']],
+    notes:'Delivered with one head lost to apparent heat stress before unloading. Claim opened for review.',
+    claim:{id:'CLM-1042', cause:'Heat stress / suffocation, 1 head', status:'Under review',
+      payout:1850, docs:[['Vet report','pending'],['Photos','cleared'],['CVI Health Cert','cleared']]},
+    stops:[['Departed Rocking H Ranch',hoursAgo(30),'done'],['Arrived Northern Video Livestock Auction',hoursAgo(9),'done']]
+  },
+  {
+    id:'RX-2255', species:'Bison', head:18, avgWt:900, horned:true, trailerSqFt:340,
+    insured:'Prairie Wind Bison Co', carrier:'Standing Bear Freight', thirdParty:true,
+    origin:'Rapid City SD', dest:'High Plains Bison Coop, Sturgis SD',
+    stage:'In Transit', transitStart:hoursAgo(3), declaredValue:61200,
+    coverageBase:'Broad Perils', endorsements:['Deck Collapse'],
+    coi:{status:'verified', policy:'SBF-9012-RC', expires:'2026-12-08'},
+    docs:[['CVI Health Cert','cleared'],['Bill of Lading','cleared']],
+    notes:'Reinforced trailer confirmed pre-load, required for the species. Short haul, low compliance risk.',
+    claim:null,
+    stops:[['Departed Prairie Wind Bison Co',hoursAgo(3),'done'],['Currently en route - SD-79',null,'active'],['Arrive High Plains Bison Coop',null,'pending']]
+  },
+  {
+    id:'RX-2256', species:'Cattle · Angus', head:44, avgWt:1210, horned:false, trailerSqFt:790,
+    insured:'Sagebrush Cattle Co', carrier:'Sagebrush Cattle Co', thirdParty:false,
+    origin:'Twin Falls ID', dest:'Producers Livestock, Jerome ID',
+    stage:'In Transit', transitStart:hoursAgo(26), declaredValue:92400,
+    coverageBase:'Broad Perils', endorsements:[],
+    coi:{status:'verified', policy:'Self-insured fleet', expires:'2026-09-14'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared']],
+    notes:'Compliance window closes in under 2 hours. Any loss between now and next rest stop carries elevated claim-denial risk under the negligence exclusion if a stop was avoidable.',
+    claim:null,
+    stops:[['Departed Sagebrush Cattle Co',hoursAgo(26),'done'],['Currently en route - US-93',null,'active'],['Nearest rest facility, Jerome ID',null,'pending']]
+  },
+  {
+    id:'RX-2258', species:'Cattle · Holstein heifers', head:60, avgWt:900, horned:false, trailerSqFt:820,
+    insured:'Meadowlark Dairy Heifers', carrier:'Western Dairy Transport', thirdParty:true,
+    origin:'Tulare CA', dest:'Fair Oaks Farms, Fair Oaks IN',
+    stage:'In Transit', transitStart:hoursAgo(30), declaredValue:75600,
+    coverageBase:'Broad Perils', endorsements:[],
+    coi:{status:'lapsed', policy:'WDT-5510-CA', expires:'2026-07-02'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared']],
+    notes:'Two hours past the 28-hr limit with no logged rest stop, and carrier COI lapsed two weeks ago. High likelihood of claim denial on any loss during this leg under both the compliance condition and the lapsed-COI exclusion.',
+    claim:{id:'CLM-1051', cause:'Suspected heat stress, 2 head down, transit delay beyond 28-hr limit', status:'Filed',
+      payout:null, docs:[['Vet report','missing'],['Photos','missing'],['CVI Health Cert','cleared']]},
+    stops:[['Departed Meadowlark Dairy Heifers',hoursAgo(30),'done'],['Weigh station, Salina KS',hoursAgo(10),'done'],['Currently en route - overdue for rest',null,'active'],['Arrive Fair Oaks Farms',null,'pending']]
+  },
+  {
+    id:'RX-2259', species:'Cattle · Mixed commercial', head:38, avgWt:1150, horned:true, trailerSqFt:700,
+    insured:'Circle B Ranch', carrier:'Circle B Ranch', thirdParty:false,
+    origin:'Guthrie OK', dest:'OKC West Livestock, El Reno OK',
+    stage:'Rest Stop', restStart:hoursAgo(5), restRequired:5, declaredValue:60800,
+    coverageBase:'Named Perils', endorsements:[],
+    coi:{status:'verified', policy:'Self-insured fleet', expires:'2027-01-30'},
+    docs:[['CVI Health Cert','cleared'],['Brand Inspection','cleared'],['Bill of Lading','cleared']],
+    notes:'Rest requirement satisfied. Cleared to reload and continue - clean compliance record on this leg.',
+    claim:null,
+    stops:[['Departed Circle B Ranch',hoursAgo(10),'done'],['Rest stop, Guthrie OK - complete',hoursAgo(5),'done'],['Cleared to reload',null,'active'],['Arrive OKC West Livestock',null,'pending']]
+  }
+];
+
+function riskOf(s){
+  if(s.claim){ return s.claim.status==='Filed' ? 'critical' : 'warning'; }
+  if(s.stage==='Docs Hold'){ return s.docs.some(d=>d[1]==='missing') ? 'critical' : 'warning'; }
+  if(s.coi.status==='lapsed') return 'critical';
+  if(s.stage==='In Transit'){
+    const elapsed=(NOW-s.transitStart)/3600000, remaining=28-elapsed;
+    let level = remaining<=4 ? 'critical' : remaining<=10 ? 'warning' : 'ok';
+    if(s.compatConflict && level==='ok') level='warning';
+    if(s.coi.status==='expiring' && level==='ok') level='warning';
+    return level;
+  }
+  if(s.stage==='Rest Stop') return s.coi.status==='expiring' ? 'warning' : 'ok';
+  if(s.stage==='Staging'){
+    if(s.docs.some(d=>d[1]==='missing')) return 'critical';
+    if(s.docs.some(d=>d[1]==='pending')) return 'warning';
+    return 'ok';
+  }
+  return 'neutral';
+}
+
+function densityHTML(s){
+  const req = requiredSqFt(s.avgWt, s.head, s.horned);
+  const pct = Math.round((req/s.trailerSqFt)*100);
+  const over = pct>100;
+  return `<div class="capfit flip-cell ${over?'over':''}">
+    <div class="flip-diagram"><div class="capfit-bar"><div class="capfit-fill" style="width:${Math.min(pct,100)}%"></div></div></div>
+    <div class="flip-text">${pct}% of BQA guideline${over?' - overloaded':''}</div>
+  </div>`;
+}
+
+function complianceHTML(s){
+  if(s.stage==='In Transit'){
+    const elapsed=(NOW-s.transitStart)/3600000, remaining=Math.max(28-elapsed,-99);
+    const filled=Math.min(Math.round(elapsed/2),14);
+    let cls = remaining<=0?'crit':remaining<=4?'crit':remaining<=10?'warn':'';
+    let ticks=''; for(let i=0;i<14;i++) ticks+=`<div class="tick ${i<filled?'on '+cls:''}"></div>`;
+    const title = remaining<=0 ? `OVERDUE ${Math.abs(remaining).toFixed(1)}h past limit` : `${remaining.toFixed(1)}h until 28-hr limit`;
+    return `<div class="compliance flip-cell"><div class="flip-diagram"><div class="ticks">${ticks}</div></div><div class="flip-text">${title}</div></div>`;
+  }
+  if(s.stage==='Rest Stop'){
+    const restElapsed=(NOW-s.restStart)/3600000, done=restElapsed>=s.restRequired;
+    const filled=Math.min(Math.round((restElapsed/s.restRequired)*14),14);
+    let ticks=''; for(let i=0;i<14;i++) ticks+=`<div class="tick ${i<filled?'on':''}"></div>`;
+    const title = done ? `Rest complete - cleared` : `${restElapsed.toFixed(1)}h / ${s.restRequired}h required`;
+    return `<div class="compliance flip-cell"><div class="flip-diagram"><div class="ticks">${ticks}</div></div><div class="flip-text">${title}</div></div>`;
+  }
+  if(s.stage==='Staging') return `<div class="compliance-label">Not yet in transit</div>`;
+  if(s.stage==='Docs Hold') return `<div class="compliance-label crit"><b>Held</b> - not attached</div>`;
+  return `<div class="compliance-label">Transit complete</div>`;
+}
+
+function complianceDetail(s){
+  if(s.stage==='In Transit'){
+    const elapsed=(NOW-s.transitStart)/3600000, remaining=28-elapsed;
+    if(remaining<=0) return {dot:'bad', text:`Overdue ${Math.abs(remaining).toFixed(1)}h past the 28-hr limit`};
+    if(remaining<=4) return {dot:'bad', text:`${remaining.toFixed(1)}h remaining until the 28-hr limit`};
+    if(remaining<=10) return {dot:'warn', text:`${remaining.toFixed(1)}h remaining until the 28-hr limit`};
+    return {dot:'ok', text:`${remaining.toFixed(1)}h remaining until the 28-hr limit`};
+  }
+  if(s.stage==='Rest Stop'){
+    const restElapsed=(NOW-s.restStart)/3600000, done=restElapsed>=s.restRequired;
+    return done
+      ? {dot:'ok', text:'Rest requirement satisfied - cleared to reload'}
+      : {dot:'warn', text:`${restElapsed.toFixed(1)}h of ${s.restRequired}h required rest completed`};
+  }
+  if(s.stage==='Staging') return {dot:'ok', text:'Not yet in transit - compliance clock not started'};
+  if(s.stage==='Docs Hold') return {dot:'bad', text:'Held - compliance clock not running while documents are incomplete'};
+  return {dot:'ok', text:'Transit complete - no compliance issues on this leg'};
+}
+
+function coiHTML(s){
+  const c=s.coi;
+  const label = c.status==='verified'?'Verified':c.status==='expiring'?'Expiring soon':'Lapsed';
+  return `<div class="coi"><div class="coi-chip ${c.status}">${label}</div></div>`;
+}
+
+let currentFilter='all', currentQuery='', selectedId=null;
+
+function matchesFilter(s){
+  if(currentFilter==='claims') return !!s.claim;
+  if(currentFilter!=='all' && s.stage!==currentFilter) return false;
+  if(currentQuery){
+    const q=currentQuery.toLowerCase();
+    return (s.id+s.insured+s.carrier).toLowerCase().includes(q);
+  }
+  return true;
+}
+
+function renderCounts(){
+  const stages=['Staging','In Transit','Rest Stop','Docs Hold','Delivered'];
+  document.getElementById('cnt-all').textContent = shipments.length;
+  stages.forEach(st=>{
+    const el = document.getElementById('cnt-'+st.replace(/ /g,''));
+    if(el) el.textContent = shipments.filter(s=>s.stage===st).length;
+  });
+  document.getElementById('cnt-claims').textContent = shipments.filter(s=>s.claim).length;
+
+  const inView = shipments.filter(matchesFilter);
+  document.getElementById('statBound').textContent = inView.filter(s=>s.stage!=='Delivered').length;
+  document.getElementById('statClaims').textContent = inView.filter(s=>s.claim).length;
+  document.getElementById('statCOI').textContent = inView.filter(s=>s.coi.status!=='verified').length;
+  const totalValue = inView.reduce((a,s)=>a+s.declaredValue,0);
+  document.getElementById('statValue').textContent = fmtMoney(totalValue);
+}
+
+function renderBoard(){
+  const board=document.getElementById('board');
+  const rows = shipments.filter(matchesFilter).sort((a,b)=>{
+    const order={critical:0,warning:1,ok:2,neutral:3};
+    return order[riskOf(a)]-order[riskOf(b)];
+  });
+  board.innerHTML = rows.map(s=>{
+    const risk=riskOf(s);
+    return `
+    <div class="row risk-${risk} ${s.id===selectedId?'selected':''}" data-id="${s.id}">
+      <div class="stamp">${s.id}</div>
+      <div class="parties">
+        <div class="p-line">${s.insured} <span class="p-arrow">to</span> ${s.carrier}</div>
+      </div>
+      <div class="stock">
+        <div class="s-line">${s.species.split('·')[0].trim()}</div>
+      </div>
+      ${densityHTML(s)}
+      ${complianceHTML(s)}
+      ${coiHTML(s)}
+    </div>`;
+  }).join('');
+  board.querySelectorAll('.row').forEach(row=>row.addEventListener('click',()=>selectShipment(row.dataset.id)));
+}
+
+function selectShipment(id){
+  selectedId=id;
+  const s = shipments.find(x=>x.id===id);
+  const detail=document.getElementById('detail'), inner=document.getElementById('detailInner');
+  detail.classList.add('open');
+
+  const req = requiredSqFt(s.avgWt, s.head, s.horned);
+  const pct = Math.round((req/s.trailerSqFt)*100);
+  const compliance = complianceDetail(s);
+
+  const stopsHTML = s.stops.map(([name,time,state])=>`
+    <div class="tl-item ${state}"><div class="tl-dot"></div>
+      <div class="tl-text"><div class="tl-name">${name}</div>${time?`<div class="tl-time">${fmtTime(time)}</div>`:''}</div>
+    </div>`).join('');
+
+  const docsHTML = s.docs.map(([name,status])=>`
+    <div class="check-item"><div class="check-dot ${status==='cleared'?'ok':status==='pending'?'warn':'bad'}"></div>
+      <div>${name}</div><div class="check-note">${status}</div></div>`).join('');
+
+  const endorseHTML = s.endorsements.length
+    ? `<div class="endorse-chips">${s.endorsements.map(e=>`<span class="endorse-chip">${e}</span>`).join('')}</div>`
+    : `<div style="font-size:11.5px;color:var(--ink-dim2)">No additional endorsements</div>`;
+
+  let shrinkHTML = '';
+  if(s.loadedWeight && s.unloadedWeight){
+    const shrinkPct = ((s.loadedWeight-s.unloadedWeight)/s.loadedWeight*100).toFixed(1);
+    shrinkHTML = `<div class="kv-item"><div class="kv-label">Shrink</div><div class="kv-value ${shrinkPct>5?'flagged':''}">${shrinkPct}%</div></div>`;
+  }
+
+  let claimHTML = '';
+  if(s.claim){
+    const c = s.claim;
+    claimHTML = `<div class="detail-section"><h3>Open claim - ${c.id}</h3>
+      <div class="claim-box ${c.status==='Under review'?'status-review':''}">
+        <div class="claim-head"><span>${c.status}</span><span>${c.payout?fmtMoney(c.payout)+' est.':'Payout pending'}</span></div>
+        <div class="claim-cause">${c.cause}</div>
+      </div>
+      <div style="height:10px"></div>
+      <div class="checklist">${c.docs.map(([name,status])=>`
+        <div class="check-item"><div class="check-dot ${status==='cleared'?'ok':status==='pending'?'warn':'bad'}"></div>
+          <div>${name}</div><div class="check-note">${status}</div></div>`).join('')}</div>
+    </div>`;
+  }
+
+  inner.innerHTML = `
+    <div class="detail-head">
+      <div><div class="detail-title">${s.id}</div><div class="detail-sub">${s.species} · ${s.head} head</div></div>
+      <button class="detail-close" id="closeDetail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+
+    <div class="detail-section"><h3>Parties</h3>
+      <div class="party-row"><div><div class="party-role">Owner</div><div class="party-name">${s.insured}</div></div></div>
+      <div class="party-row"><div><div class="party-role">Carrier</div><div class="party-name">${s.carrier}</div></div></div>
+    </div>
+
+    <div class="detail-section"><h3>Route timeline</h3><div class="timeline">${stopsHTML}</div></div>
+
+    <div class="detail-section"><h3>Value &amp; loading</h3>
+      <div class="kv">
+        <div class="kv-item"><div class="kv-label">Declared value</div><div class="kv-value">${fmtMoney(s.declaredValue)}</div></div>
+        <div class="kv-item"><div class="kv-label">Avg weight</div><div class="kv-value">${s.avgWt} lb</div></div>
+        <div class="kv-item"><div class="kv-label">Density</div><div class="kv-value ${pct>100?'flagged':''}">${pct}% of guideline</div></div>
+        ${shrinkHTML}
+      </div>
+    </div>
+
+    <div class="detail-section"><h3>28-hour compliance</h3>
+      <div class="checklist">
+        <div class="check-item"><div class="check-dot ${compliance.dot}"></div>
+          <div>${compliance.text}</div></div>
+      </div>
+    </div>
+
+    <div class="detail-section"><h3>Hauler certificate of insurance</h3>
+      <div class="checklist">
+        <div class="check-item"><div class="check-dot ${s.coi.status==='verified'?'ok':s.coi.status==='expiring'?'warn':'bad'}"></div>
+          <div>${s.coi.status==='verified'?'Verified':s.coi.status==='expiring'?'Expiring soon':'Lapsed'} - ${s.coi.policy}</div>
+          <div class="check-note">${s.coi.status==='lapsed'?'expired':'expires'} ${s.coi.expires}</div></div>
+      </div>
+    </div>
+
+    <div class="detail-section"><h3>Coverage</h3>
+      <div class="base-coverage">${s.coverageBase}</div>
+      ${endorseHTML}
+    </div>
+
+    <div class="detail-section"><h3>Documents</h3><div class="checklist">${docsHTML}</div></div>
+
+    ${claimHTML}
+
+    ${s.notes?`<div class="detail-section"><h3>Underwriting notes</h3><div class="notes-box">${s.notes}</div></div>`:''}
+  `;
+
+  document.getElementById('closeDetail').addEventListener('click',()=>{
+    detail.classList.remove('open'); selectedId=null; renderBoard();
+  });
+  renderBoard();
+}
+
+document.getElementById('rail').addEventListener('click', e=>{
+  const btn=e.target.closest('.rail-item'); if(!btn) return;
+  document.querySelectorAll('.rail-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); currentFilter=btn.dataset.filter;
+  document.getElementById('detail').classList.remove('open');
+  selectedId=null;
+  renderBoard(); renderCounts();
+});
+document.getElementById('search').addEventListener('input', e=>{ currentQuery=e.target.value; renderBoard(); renderCounts(); });
+
+const aiReplies = [
+  {keys:['28','compliance','rest','hour'], text:'28-hr compliance shows how long until livestock must be unloaded for rest. Overdue or near-limit rows are highlighted. Open a certificate for the full timeline.'},
+  {keys:['density','bqa','load','overload'], text:'Loading density is % of the BQA guideline for trailer space. Over 100% means overloaded. That raises claim risk on loss. Hover a row to see the exact %.'},
+  {keys:['coi','insurance','lapsed','expiring'], text:'Hauler COI must be verified. Expiring soon or lapsed chips mean renew before the next bind. Lapsed COI often blocks claim payout.'},
+  {keys:['claim','search','filter'], text:'Use left filters for stage or open claims. Search matches insured, carrier, or certificate ID. Click any row for parties, docs, and notes.'}
+];
+const aiChips = ['What is 28-hr compliance?','Why is density important?','How do COI alerts work?'];
+
+function aiAdd(role, text){
+  const msgs = document.getElementById('aiMsgs');
+  const div = document.createElement('div');
+  div.className = 'ai-bubble '+role;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function aiRespond(q){
+  const lower = q.toLowerCase();
+  const hit = aiReplies.find(r=>r.keys.some(k=>lower.includes(k)));
+  aiAdd('bot', hit ? hit.text : 'I can explain 28-hr compliance, loading density, COI status, claims, and how to filter this board. Try a suggestion or ask about a certificate.');
+}
+(function initAI(){
+  const panel = document.getElementById('aiPanel');
+  const fab = document.getElementById('aiFab');
+  const close = document.getElementById('aiClose');
+  const input = document.getElementById('aiInput');
+  const send = document.getElementById('aiSend');
+  const suggestions = document.getElementById('aiSuggestions');
+  aiAdd('bot','Hi. Ask me how to read Current Shipping: certificates, density, 28-hr windows, or COI.');
+  suggestions.innerHTML = aiChips.map(c=>`<button class="ai-chip" type="button">${c}</button>`).join('');
+  suggestions.querySelectorAll('.ai-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{ aiAdd('user', chip.textContent); aiRespond(chip.textContent); });
+  });
+  function submit(){
+    const q = input.value.trim();
+    if(!q) return;
+    aiAdd('user', q); input.value=''; aiRespond(q);
+  }
+  fab.addEventListener('click', ()=>panel.classList.toggle('open'));
+  close.addEventListener('click', ()=>panel.classList.remove('open'));
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+})();
+
+renderCounts();
+renderBoard();
+</script>
+</body>
+</html>

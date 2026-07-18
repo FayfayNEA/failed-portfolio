@@ -17,43 +17,41 @@ const PRODUCT_DESIGN_LAYOUT: GalleryInitialLayout = {
   refWidth: 1372,
   positions: [
     { x: 116, y: 36   },  // buddy
-    { x: 716, y: 36   },  // eidolon
-    { x: 116, y: 620  },  // etrade
-    { x: 716, y: 620  },  // teatimer
-    { x: 116, y: 1215 },  // nightterrors — main slot (Iris always displays here)
-    { x: 716, y: 1215 },  // fither
-    { x: 116, y: 1788 },  // iris-house — N1ghtterrors uses this when playground is on
-    { x: 716, y: 1788 },  // jahn
-    // Match visual gap under jahn row to gap under iris/fither row (~83px)
-    { x: 116, y: 2336 },  // orb
-    { x: 716, y: 2336 },  // tetonic
+    { x: 716, y: 36   },  // tetonic
+    { x: 116, y: 620  },  // eidolon
+    { x: 716, y: 620  },  // etrade
+    { x: 116, y: 1215 },  // teatimer
+    { x: 716, y: 1215 },  // orb
+    { x: 116, y: 1788 },  // iris-house — hidden by default, shown via "show all"
+    { x: 716, y: 1788 },  // fither — hidden by default, shown via "show all"
+    { x: 116, y: 2336 },  // nightterrors — hidden by default, shown via "show all"
+    { x: 716, y: 2336 },  // jahn — hidden by default, shown via "show all"
   ],
   sizesBySlug: {
     buddy:        { w: GRID_W, h: GRID_H },
     eidolon:      { w: GRID_W, h: GRID_H },
     etrade:       { w: GRID_W, h: GRID_H },
     teatimer:     { w: GRID_W, h: GRID_H },
-    nightterrors: { w: GRID_W, h: 463 },
-    fither:       { w: GRID_W, h: 463 },
-    "iris-house": { w: 526, h: GRID_H },
-    jahn:         { w: GRID_W, h: 465 },
-    orb:          { w: GRID_W, h: 463 },
+    nightterrors: { w: GRID_W, h: GRID_H },
+    fither:       { w: GRID_W, h: GRID_H },
+    "iris-house": { w: GRID_W, h: GRID_H },
+    jahn:         { w: GRID_W, h: GRID_H },
+    orb:          { w: GRID_W, h: GRID_H },
     tetonic:      { w: GRID_W, h: GRID_H },
   },
 };
 
 const PROJECTS: GalleryProject[] = [
   { slug: "buddy",        title: "Buddy",        statusLabel: "Shipped",     pillTheme: "purple", cardVariant: "portrait",  typeTags: "AI Hardware · IoT · B2B",                   description: "Created an LLM that captures group conversations as real-time images and diagrams.",      year: "2026", coverColor: "#f0f0f0", coverImageFit: "cover", coverImage: "/buddybackground.jpg", canvasCardW: 540, canvasImageH: 322, coverVideo: "/buddy/buddydemo-full.mp4", coverVideoFit: "cover", coverVideoStartTime: 2.5, coverVideoStatic: true, hoverVideo: "/buddy/buddydemo-full.mp4", href: "/buddy",        tags: ["64% intuitive on first use", "40% stopped taking notes", "2026"], tagsInline: true },
+  { slug: "tetonic",      title: "Tetonic",      statusLabel: "Case Study",  pillTheme: "parchment", cardVariant: "landscape", typeTags: "Insurance · Logistics · B2B", description: "Livestock transit software for underwriting compliance and hauler load economics.", year: "2026", coverColor: "#0a0a0a", coverImage: "/tetonic/tetonic-card-still.jpg", coverImageFit: "contain", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/tetonic/tetonic-card.mp4", href: "/tetonic", tags: ["75% want real margins", "HTML · CSS · JS", "2026"], tagsInline: true },
   { slug: "eidolon",      title: "Eidolon",      statusLabel: "Case Study",  pillTheme: "green",  cardVariant: "portrait",  typeTags: "AI Tool · Mobile · B2B · B2B2C",            description: "Designed what the web would look like as 98% AI and 2% human.",                                 year: "2026", coverColor: "#ffffff", coverImageFit: "contain", canvasImageH: 314, useVideoAsCover: true,                                                                      hoverVideo: "/eidolon/hero-alpha.mp4",                     href: "/eidolon",      tags: ["80% clearer agent in motion", "58% more control with haptics", "2026"], tagsInline: true },
   { slug: "etrade",       title: "E*Trade",      statusLabel: "Case Study",  pillTheme: "blue",   cardVariant: "landscape", typeTags: "Fintech · Web App · B2C",                   description: "Redesigned a financial trading platform to reduce cognitive load and speed up trades.",    year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverBlendMode: "multiply", coverImage: "/coverimages/etrade-frame.jpg", imageAreaClassName: "h-[260px] sm:h-[295px] lg:h-[330px]", canvasImageH: 314, canvasCardW: 580, hoverVideo: "/etrade/hero.mp4", href: "/etrade",       tags: ["83% found the layout faster", "67% felt mentally lighter", "2026"], tagsInline: true },
   { slug: "teatimer",     title: "TeaTimer",     statusLabel: "Shipped",     pillTheme: "parchment", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "A vintage botanical focus-session timer with mood companions and collectible sticker rewards.", year: "2026", coverColor: "#ffffff", coverImageFit: "contain", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/teatimer/tea-timer.mp4", href: "/teatimer", tags: ["Vite + React", "Framer Motion", "2026"], tagsInline: true },
+  { slug: "orb",          title: "Orb",          statusLabel: "Shipped",     pillTheme: "purple", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "An animated translucent blob with swirling internal caustics. A small WebGL playground for organic plasma forms.", year: "2026", coverColor: "#f5edd4", coverImageFit: "contain", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/orb/orb-card.mp4", href: "/orb",           tags: ["Three.js", "WebGL", "2026"], tagsInline: true },
+  { slug: "iris-house",   title: "Iris House",   statusLabel: "Shipped",     pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", mobileCoverImageFit: "contain", canvasImageH: 314, useVideoAsCover: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true, archived: true },
+  { slug: "fither",       title: "Fither",       statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",             description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4", href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true, archived: true },
   { slug: "nightterrors", title: "N1ghtterrors", statusLabel: "Shipped",     pillTheme: "black",  cardVariant: "standard",  typeTags: "Brand · E-commerce · D2C",                  description: "Designed and built a full-stack storefront capturing the brand identity of N1ghtterrors.", year: "2024", coverColor: "#e8e8e8", coverImage: "/coverimages/nightterrors.jpg", coverImageFit: "contain", mobileCoverImageFit: "contain", coverObjectPosition: "top", useVideoAsCover: true, canvasImageH: 287, canvasCardW: 736, hoverVideo: "/nightterrors/n1ghtterrors%20demo.mp4", href: "/nightterrors", tags: ["Full-stack build", "50% inventory sold in week one", "2021"], tagsInline: true, archived: true },
-  { slug: "fither",       title: "Fither",       statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "landscape", typeTags: "Creative Tool · Web App · B2C",             description: "An interactive tool for exploring and understanding dithering algorithms with AI.",       year: "2026", coverColor: "#e8e8e8", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, coverImage: "/coverimages/fither-frame.jpg", hoverVideo: "/demo.mp4", href: "/work/fither",  tags: ["30+ dither algorithms", "Open source", "2026"], tagsInline: true },
-  { slug: "iris-house",   title: "Iris House",   statusLabel: "Shipped",     pillTheme: "orange", cardVariant: "landscape", typeTags: "Indie Game · Spatial Empathy · Three.js",   description: "Coded a video game for people to further empathize with my dog's experience of the world.", year: "2026", coverColor: "#1a1a1a", coverImageFit: "contain", mobileCoverImageFit: "contain", canvasImageH: 314, useVideoAsCover: true, hoverVideo: "/iris-world/iris-walkthrough.mp4", href: "/iris-world", tags: ["Live Demo", "Three.js", "2026"], tagsInline: true },
   { slug: "jahn",         title: "JAHN",         statusLabel: "Shipped",     pillTheme: "teal",   cardVariant: "standard",  typeTags: "Architecture · Visualization · B2B",        description: "Designed a portfolio faithful to Helmut Jahn's design language.",                         year: "2023", coverColor: "#e8e8e8", coverImage: "/coverimages/jahn.jpg", coverImageFit: "contain", coverObjectPosition: "top", canvasImageH: 281, useVideoAsCover: true, hoverVideo: "/jahn/jahn.mp4", href: "/jahn",         tags: ["Commissioned build", "Live site", "2023"], tagsInline: true, archived: true },
-  { slug: "orb",          title: "Orb",          statusLabel: "Shipped",     pillTheme: "parchment", cardVariant: "landscape", typeTags: "Creative Tool · Web App · Consumer",         description: "An animated translucent blob with swirling internal caustics. A small WebGL playground for organic plasma forms.", year: "2026", coverColor: "#f5edd4", coverImageFit: "contain", canvasImageH: 281, href: "/orb",           tags: ["Three.js", "WebGL", "2026"], tagsInline: true, archived: true },
-  // TODO: placeholder — swap in real cover image/video, description, and tags once Tetonic is ready.
-  { slug: "tetonic",      title: "Tetonic",      statusLabel: "Shipped",     pillTheme: "gray",   cardVariant: "standard",  typeTags: "Placeholder",                               description: "Placeholder description — update with real Tetonic details.",                            year: "2026", coverColor: "#e8e6e1", href: "/tetonic",       tags: ["Placeholder", "2026"], tagsInline: true, archived: true },
 ];
 
 export default function Home() {
@@ -98,7 +96,7 @@ export default function Home() {
         className="relative z-[30] mt-0 flex flex-col sm:mt-8 md:mt-0"
         aria-label="Product Design work"
       >
-        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v143" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v144" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}

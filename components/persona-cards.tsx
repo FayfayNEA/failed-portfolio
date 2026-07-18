@@ -36,7 +36,7 @@ type PersonaCardsProps = {
   personas: string; // JSON string
   hmw?: string;
   "hmw-answer"?: string;
-  accent?: "violet" | "lime" | "sky" | "etrade" | "black";
+  accent?: "violet" | "lime" | "sky" | "etrade" | "black" | "olive" | "beige";
   /** `liquid`: nav-style frosted glass + shimmer; `frosted`: white blur panel. */
   variant?: "frosted" | "keycards" | "liquid";
   /** Right column title (default: Notes). */
@@ -64,6 +64,8 @@ export function PersonaCards({
   }
 
   const isLime = accent === "lime";
+  const isOlive = accent === "olive";
+  const isBeige = accent === "beige";
   const isSky = accent === "sky";
   const isEtrade = accent === "etrade";
   const isBlack = accent === "black";
@@ -82,17 +84,29 @@ export function PersonaCards({
             "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(132,204,22,0.28),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
             "ring-1 ring-lime-300/50 backdrop-blur-2xl backdrop-saturate-125"
           )
-        : isSky || isEtrade
+        : isBeige
           ? cn(
               "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
-              "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(15,142,199,0.24),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
-              "ring-1 ring-sky-200/45 backdrop-blur-2xl backdrop-saturate-125"
+              "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(189,133,53,0.22),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+              "ring-1 ring-[#ddd2b8]/70 backdrop-blur-2xl backdrop-saturate-125"
             )
-          : cn(
-              "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
-              "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(76,29,149,0.22),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
-              "ring-1 ring-violet-200/40 backdrop-blur-2xl backdrop-saturate-125"
-            )
+          : isOlive
+            ? cn(
+                "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
+                "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(47,70,52,0.28),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+                "ring-1 ring-[#2f4634]/30 backdrop-blur-2xl backdrop-saturate-125"
+              )
+            : isSky || isEtrade
+              ? cn(
+                  "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
+                  "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(15,142,199,0.24),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+                  "ring-1 ring-sky-200/45 backdrop-blur-2xl backdrop-saturate-125"
+                )
+              : cn(
+                  "relative isolate overflow-hidden rounded-2xl border-[0.5px] border-white/55",
+                  "bg-white/[0.26] shadow-[0_10px_40px_-16px_rgba(76,29,149,0.22),inset_0_1px_0_0_rgba(255,255,255,0.45)]",
+                  "ring-1 ring-violet-200/40 backdrop-blur-2xl backdrop-saturate-125"
+                )
     : null;
 
   const keyCardClass = "rounded-xl bg-zinc-100 p-5 ring-1 ring-zinc-200/70";
@@ -135,9 +149,13 @@ export function PersonaCards({
                       ? "from-white/10 via-white/[0.03] to-transparent"
                       : isLime
                         ? "from-white/30 via-white/[0.06] to-lime-100/[0.14]"
-                        : isSky || isEtrade
-                          ? "from-white/30 via-white/[0.06] to-sky-100/[0.14]"
-                          : "from-white/30 via-white/[0.06] to-violet-100/[0.12]"
+                        : isBeige
+                          ? "from-white/30 via-white/[0.06] to-[#f5ead2]/20"
+                          : isOlive
+                            ? "from-white/30 via-white/[0.06] to-[#e3ead9]/14"
+                            : isSky || isEtrade
+                              ? "from-white/30 via-white/[0.06] to-sky-100/[0.14]"
+                              : "from-white/30 via-white/[0.06] to-violet-100/[0.12]"
                   )}
                   aria-hidden
                 />
@@ -174,9 +192,13 @@ export function PersonaCards({
                         ? "text-white/60"
                         : isLime
                           ? "text-lime-700"
-                          : isSky || isEtrade
-                            ? "text-[#0F8EC7]"
-                            : "text-violet-600"
+                          : isBeige
+                            ? "text-[#8b7355]"
+                            : isOlive
+                              ? "text-[#2f4634]"
+                              : isSky || isEtrade
+                                ? "text-[#0F8EC7]"
+                                : "text-violet-600"
                   )}
                 >
                   Participant
@@ -191,9 +213,13 @@ export function PersonaCards({
                           ? "text-white/55"
                           : isLime
                             ? "text-lime-500/90"
-                            : isSky || isEtrade
-                              ? "text-[#0F8EC7]/90"
-                              : "text-violet-400/90"
+                            : isBeige
+                              ? "text-[#bd8535]/90"
+                              : isOlive
+                                ? "text-[#2f4634]/90"
+                                : isSky || isEtrade
+                                  ? "text-[#0F8EC7]/90"
+                                  : "text-violet-400/90"
                     )}
                     aria-hidden
                   >
@@ -208,9 +234,13 @@ export function PersonaCards({
                           ? "text-white/45"
                           : isLime
                             ? "text-emerald-500/85"
-                            : isSky || isEtrade
-                              ? "text-cyan-400/85"
-                              : "text-fuchsia-400/85"
+                            : isBeige
+                              ? "text-[#c4a574]/85"
+                              : isOlive
+                                ? "text-[#2f4634]/70"
+                                : isSky || isEtrade
+                                  ? "text-cyan-400/85"
+                                  : "text-fuchsia-400/85"
                     )}
                     aria-hidden
                   >
@@ -225,9 +255,13 @@ export function PersonaCards({
                         ? "bg-zinc-950 ring-white/15"
                         : isLime
                           ? "bg-lime-500 ring-lime-200/75"
-                          : isSky || isEtrade
-                            ? "bg-[#0F8EC7] ring-sky-200/75"
-                            : "bg-violet-600 ring-violet-200/70"
+                          : isBeige
+                            ? "bg-[#b89a6a] ring-[#ddd2b8]/80"
+                            : isOlive
+                              ? "bg-[#2f4634] ring-[#2f4634]/30"
+                              : isSky || isEtrade
+                                ? "bg-[#0F8EC7] ring-sky-200/75"
+                                : "bg-violet-600 ring-violet-200/70"
                     )}
                   >
                     <div
@@ -263,9 +297,13 @@ export function PersonaCards({
                                   ? "text-white/35"
                                   : isLime
                                     ? "text-lime-400"
-                                    : isSky || isEtrade
-                                      ? "text-sky-200"
-                                      : "text-violet-300"
+                                    : isBeige
+                                      ? "text-[#ddd2b8]"
+                                      : isOlive
+                                        ? "text-[#2f4634]/70"
+                                        : isSky || isEtrade
+                                          ? "text-sky-200"
+                                          : "text-violet-300"
                             )}
                             aria-hidden
                           >
@@ -313,9 +351,13 @@ export function PersonaCards({
                       isLiquid && !isBlack
                         ? isLime
                           ? "text-lime-700/55"
-                          : isSky || isEtrade
-                            ? "text-[#0F8EC7]/55"
-                            : "text-violet-600/55"
+                          : isBeige
+                            ? "text-[#8b7355]/55"
+                            : isOlive
+                              ? "text-[#2f4634]/55"
+                              : isSky || isEtrade
+                                ? "text-[#0F8EC7]/55"
+                                : "text-violet-600/55"
                         : "text-zinc-400"
                     )}
                   >
@@ -328,16 +370,20 @@ export function PersonaCards({
               <div
                 className={cn(
                   "min-w-0 flex-1 border-t pt-6 md:border-l md:border-t-0 md:pl-9 md:pt-1",
-                  isKeycards
+                      isKeycards
                     ? "border-zinc-200/70"
                     : isBlack
                       ? "border-white/10"
                       : isLiquid
                         ? isLime
                           ? "border-lime-200/50"
-                          : isSky || isEtrade
-                            ? "border-sky-200/50"
-                            : "border-violet-200/50"
+                          : isBeige
+                            ? "border-[#ddd2b8]/70"
+                            : isOlive
+                              ? "border-[#2f4634]/30"
+                              : isSky || isEtrade
+                                ? "border-sky-200/50"
+                                : "border-violet-200/50"
                         : "border-zinc-200/70"
                 )}
               >
@@ -367,9 +413,13 @@ export function PersonaCards({
                                 ? "bg-white/70"
                                 : isLime
                                   ? "bg-lime-600"
-                                  : isSky || isEtrade
-                                    ? "bg-[#0F8EC7]"
-                                    : "bg-violet-600"
+                                  : isBeige
+                                    ? "bg-[#bd8535]"
+                                    : isOlive
+                                      ? "bg-[#2f4634]"
+                                      : isSky || isEtrade
+                                        ? "bg-[#0F8EC7]"
+                                        : "bg-violet-600"
                           )}
                           aria-hidden
                         />

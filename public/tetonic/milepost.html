@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tetonic</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=optional" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f5f0e6; --bg-panel:#fffcf6; --bg-row:#faf5eb; --bg-row-hover:#f1e8d8; --bg-rail:#efe7d6;
+    --ink:#2b271f; --ink-dim:#4a4438; --ink-muted:#6b6354; --line:#ddd2b8; --line-soft:#e8dfc9;
+    --ok:#6b6354; --ok-soft:#efe7d6;
+    --amber:#bd8535; --amber-soft:#f5ead2;
+    --red:#b8512f; --red-soft:#f6ded3;
+    --steel:#6d8791;
+    --shadow-rest:0 1px 2px rgba(43,39,31,.06);
+    --shadow-hover:0 10px 22px rgba(43,39,31,.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;overflow:hidden;display:flex;flex-direction:column;height:100vh;}
+  .app{display:flex;flex-direction:column;flex:1;min-height:0;}
+  .body{display:flex;flex:1;min-height:0;}
+  .rail{width:230px;flex-shrink:0;background:var(--bg-rail);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;scrollbar-gutter:stable;}
+  .rail-label{font-size:10.5px;letter-spacing:.4px;color:var(--ink-muted);padding:8px 12px 6px;}
+  .rail-item{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-radius:8px;font-size:13.5px;color:var(--ink-dim);transition:background .15s ease,color .15s ease;}
+  .rail-item:hover{background:var(--bg-row-hover);color:var(--ink);}
+  .rail-item.active{background:var(--bg-panel);color:var(--ink);font-weight:600;box-shadow:var(--shadow-rest);}
+  .rail-item .count{font-size:12px;color:var(--ink-muted);}
+  .rail-divider{height:1px;background:var(--line);margin:10px 2px;}
+  .rail input{background:var(--bg-panel);border:1px solid var(--line);color:var(--ink);padding:8px 11px;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;width:100%;}
+  .rail input::placeholder{color:var(--ink-muted);}
+
+  .suite-nav{display:flex;gap:2px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
+  .nav-slider{position:absolute;top:50%;left:0;width:0;height:30px;transform:translateY(-50%);background:var(--bg-row);border-radius:8px;transition:left .25s cubic-bezier(.4,0,.2,1),width .25s cubic-bezier(.4,0,.2,1);z-index:0;}
+  .suite-link{position:relative;z-index:1;font-size:12.5px;font-weight:500;color:var(--ink-muted);text-decoration:none;padding:7px 14px;border-radius:8px;transition:color .15s ease;}
+  .suite-link:hover, .suite-link.active{color:var(--ink);}
+
+  .topbar{position:relative;display:flex;align-items:center;gap:24px;height:52px;padding:0 20px 0 21px;background:var(--bg-panel);border-bottom:1px solid var(--line);flex-shrink:0;}
+  .brand-text img{display:block;height:16px;width:auto;}
+  .topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;position:relative;z-index:2;}
+  .user-chip{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:8px;}
+  .user-name{font-size:13px;font-weight:600;color:var(--ink);}
+  .btn-settings{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;color:var(--ink-muted);}
+  .btn-settings:hover{background:var(--bg-row);color:var(--ink);}
+  .btn-settings svg{width:18px;height:18px;}
+
+  .board-wrap{flex:1;min-width:0;overflow-x:hidden;overflow-y:auto;scrollbar-gutter:stable;padding:14px;}
+  .board-head, .row{display:grid;grid-template-columns:88px minmax(140px,1.2fr) minmax(180px,1.6fr) minmax(100px,.85fr) minmax(70px,.65fr) minmax(100px,.85fr) minmax(110px,.8fr);gap:14px;width:100%;box-sizing:border-box;align-items:center;}
+  .board-head{padding:0 14px 8px;font-size:11.5px;font-weight:600;color:var(--ink-muted);border-bottom:1px solid var(--line-soft);margin-bottom:6px;}
+
+  .row{background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;padding:16px 14px;margin-bottom:6px;cursor:pointer;box-shadow:var(--shadow-rest);overflow:visible;transition:box-shadow .18s ease,background .15s ease,border-color .15s ease;}
+  .row > div{min-width:0;}
+  .row:hover{background:var(--bg-row-hover);border-color:var(--bg-row-hover);box-shadow:var(--shadow-hover);}
+  .row.selected{border-color:var(--amber);}
+  .row.selected:hover{border-color:var(--amber);}
+  .row.state-block{opacity:.92;}
+
+  .lc-rate{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;display:inline-flex;align-items:center;justify-content:center;letter-spacing:.2px;width:fit-content;max-width:100%;color:var(--ink);background:var(--bg-row);}
+
+  .lc-route{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+  .route-sep{font-weight:400;color:var(--ink-muted);}
+  .meta-line{font-size:12px;font-weight:600;color:var(--ink-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+  .net-range{font-size:13px;font-weight:600;font-family:'Inter',sans-serif;color:var(--ok);display:flex;align-items:center;gap:8px;white-space:nowrap;min-width:0;}
+  .net-range .neg{color:var(--red);}
+  .net-range .to{font-weight:500;color:var(--ink-muted);font-size:12px;}
+
+  .state-banner{display:flex;align-items:flex-start;gap:8px;padding:0;border-radius:8px;font-size:12.5px;line-height:1.35;min-width:0;width:100%;cursor:default;}
+  .state-banner .state-copy{position:relative;min-width:0;flex:1;min-height:18px;}
+  .state-banner .state-front,
+  .state-banner .state-back{
+    font-weight:600;white-space:normal;overflow:visible;word-break:break-word;
+    transition:opacity .12s ease;
+  }
+  .state-banner .state-front{position:relative;opacity:1;z-index:1;}
+  .state-banner .state-back{position:absolute;left:0;right:0;top:0;opacity:0;z-index:0;font-size:11.5px;font-weight:500;color:var(--ink-dim);pointer-events:none;}
+  .state-banner.has-detail .state-copy{min-height:18px;}
+  .row:hover .state-banner.has-detail .state-front{opacity:0;}
+  .row:hover .state-banner.has-detail .state-back{opacity:1;position:relative;}
+  .row:hover .state-banner.has-detail .state-front{position:absolute;left:0;right:0;top:0;pointer-events:none;}
+  .state-banner.ok .state-icon{color:var(--ok);}
+  .state-banner.ok .state-front{color:var(--ok);}
+  .state-icon{flex-shrink:0;width:15px;height:15px;margin-top:1px;}
+  .state-icon svg{width:100%;height:100%;display:block;}
+  .state-banner.warn .state-icon{color:var(--amber);}
+  .state-banner.bad .state-icon{color:var(--red);}
+  .state-banner.block .state-icon{color:var(--ink-muted);}
+
+  .lc-action-col{display:flex;flex-direction:column;align-items:stretch;gap:6px;min-width:0;max-width:100%;}
+  .lc-btn{all:unset;cursor:pointer;box-sizing:border-box;display:block;width:100%;max-width:100%;text-align:center;background:var(--ink);color:var(--bg);font-weight:600;font-size:11px;line-height:1.25;padding:8px 10px;border-radius:8px;white-space:normal;overflow:hidden;transition:opacity .15s ease;}
+  .lc-btn:hover{opacity:.94;}
+  .lc-btn.ghost{background:var(--bg-panel);border:1px solid var(--line);color:var(--ink);}
+  .lc-btn.ghost:hover{border-color:var(--ink-dim);opacity:1;}
+
+  .detail{width:0;overflow:hidden;flex-shrink:0;background:var(--bg-panel);border-left:1px solid var(--line);transition:width .2s ease;z-index:2;}
+  .detail.open{width:min(360px,32vw);overflow-y:auto;}
+  .detail-inner{padding:20px;width:360px;max-width:100%;}
+  .detail-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
+  .detail-close{all:unset;cursor:pointer;color:var(--ink-muted);padding:4px;border-radius:8px;display:flex;}
+  .detail-close:hover{color:var(--ink);background:var(--bg-row-hover);}
+  .detail-close svg{width:16px;height:16px;}
+  .detail-title{font-size:19px;font-weight:600;}
+  .detail-sub{font-size:11.5px;color:var(--ink-muted);margin-top:3px;}
+  .detail-section{margin-bottom:18px;}
+  .detail-section h3{font-size:12px;font-weight:700;color:var(--ink-muted);margin:0 0 10px;border-bottom:1px solid var(--line-soft);padding-bottom:6px;}
+
+  .cost-slider{position:relative;height:6px;background:var(--bg-row);border:1px solid var(--line);border-radius:3px;margin-bottom:8px;}
+  .cost-slider-probable{position:absolute;top:-1.5px;bottom:-1.5px;border:1.5px solid var(--ok);border-radius:4px;background:transparent;box-sizing:border-box;}
+  .cost-slider-probable.neg{border-color:var(--red);}
+  .range-labels{display:flex;justify-content:space-between;gap:16px;font-size:12px;font-weight:600;}
+  .range-labels span{color:var(--ok);}
+  .range-labels span.neg{color:var(--red);}
+
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .kv-item .kv-label{font-size:10.5px;color:var(--ink-muted);font-weight:600;}
+  .kv-item .kv-value{font-size:12.5px;margin-top:2px;}
+  .kv-item .kv-value.flagged{color:var(--red);}
+  .notes-box{background:var(--bg-row);border:1px solid var(--line-soft);border-radius:8px;padding:10px 12px;font-size:12px;line-height:1.5;color:var(--ink-dim);}
+  .walkaway-figs{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--ink-dim);}
+  .walkaway-figs .total{color:var(--red);font-weight:700;border-top:1px solid var(--line);padding-top:4px;margin-top:4px;}
+  .manual-form{display:flex;flex-direction:column;gap:8px;}
+  .manual-form input{background:var(--bg-row);border:1px solid var(--line);color:var(--ink);padding:8px 11px;border-radius:8px;font-size:12px;font-family:'Inter',sans-serif;}
+  .manual-form input:focus{outline:none;border-color:var(--amber);}
+  .manual-form button{all:unset;cursor:pointer;box-sizing:border-box;text-align:center;background:var(--ink);color:var(--bg);font-weight:600;font-size:11.5px;padding:10px 16px;border-radius:8px;}
+  .manual-result{margin-top:10px;font-size:11.5px;display:none;}
+
+  .sim-controls{position:fixed;right:16px;bottom:16px;z-index:10;display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .sim-controls button{all:unset;cursor:pointer;background:var(--bg-panel);border:1px solid var(--line);padding:6px 12px;border-radius:8px;font-size:10px;color:var(--ink-muted);box-shadow:var(--shadow-rest);}
+  .sim-controls button:hover{color:var(--ink);border-color:var(--amber);}
+  .sim-controls button.on{color:var(--ink);border-color:var(--amber);background:var(--amber-soft);}
+
+  .empty-state, .stale-banner{padding:40px 24px;text-align:center;color:var(--ink-muted);font-size:12.5px;line-height:1.6;}
+  .stale-banner{background:var(--amber-soft);border:1px solid var(--amber);border-radius:8px;padding:12px 16px;margin-bottom:18px;text-align:left;color:var(--ink);}
+
+  /* AI assistant */
+  .ai-root{position:fixed;left:16px;bottom:16px;z-index:40;font-family:'Inter',sans-serif;}
+  .ai-fab{all:unset;cursor:pointer;display:block;background:transparent;border:none;border-radius:8px;width:64px;height:64px;padding:0;overflow:hidden;box-shadow:var(--shadow-rest);box-sizing:border-box;}
+  .ai-fab:hover{transform:scale(1.02);box-shadow:var(--shadow-hover);}
+  .ai-fab-avatar{display:block;width:100%;height:100%;border-radius:8px;overflow:hidden;}
+  .ai-fab-avatar img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+  .ai-panel{display:none;position:absolute;left:0;bottom:76px;width:min(340px,calc(100vw - 32px));height:420px;background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow-hover);flex-direction:column;overflow:hidden;}
+  .ai-panel.open{display:flex;}
+  .ai-panel-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line-soft);background:var(--bg-row);}
+  .ai-panel-head strong{font-size:13px;}
+  .ai-panel-head span{display:block;font-size:11px;color:var(--ink-muted);font-weight:400;margin-top:2px;}
+  .ai-close{all:unset;cursor:pointer;color:var(--ink-muted);padding:4px;border-radius:6px;}
+  .ai-close:hover{background:var(--bg-row-hover);color:var(--ink);}
+  .ai-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+  .ai-bubble{max-width:90%;padding:9px 12px;border-radius:12px;font-size:12.5px;line-height:1.45;}
+  .ai-bubble.bot{background:var(--bg-row);border:1px solid var(--line-soft);align-self:flex-start;}
+  .ai-bubble.user{background:var(--ink);color:var(--bg);align-self:flex-end;}
+  .ai-suggestions{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;}
+  .ai-chip{all:unset;cursor:pointer;font-size:11px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--bg-row);color:var(--ink-dim);}
+  .ai-chip:hover{border-color:var(--amber);background:var(--amber-soft);}
+  .ai-input-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line-soft);}
+  .ai-input-row input{flex:1;border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:12.5px;font-family:'Inter',sans-serif;background:var(--bg-row);color:var(--ink);outline:none;}
+  .ai-input-row input:focus{border-color:var(--amber);}
+  .ai-input-row button{all:unset;cursor:pointer;background:var(--ink);color:var(--bg);font-weight:600;font-size:12px;padding:9px 14px;border-radius:8px;}
+
+  ::-webkit-scrollbar{width:9px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--line);border-radius:5px;}
+
+  @media (max-width:1100px){
+    .board-head, .row{grid-template-columns:76px minmax(120px,1.1fr) minmax(160px,1.3fr) minmax(90px,.8fr) minmax(60px,.6fr) minmax(90px,.8fr) minmax(100px,.8fr);gap:10px;}
+    .rail{width:200px;padding:14px 10px;}
+  }
+  @media (max-width:820px){
+    .rail{width:170px;}
+    .board-head{display:none;}
+    .row{display:flex;flex-direction:column;align-items:stretch;gap:10px;}
+  }
+
+  /* Case-study embed: lock nested scroll so the parent page is the only scroller. */
+  html.embed, html.embed body { overflow: hidden !important; overscroll-behavior: none; }
+  html.embed .board-wrap,
+  html.embed .rail,
+  html.embed .content-scroll,
+  html.embed .detail,
+  html.embed .detail.open,
+  html.embed .ai-msgs { overflow: hidden !important; overscroll-behavior: none; }
+  html.embed .ai-root { display: none !important; }
+  html.embed .sim-controls { display: none !important; }
+</style>
+<script>
+(function () {
+  function applyEmbed() {
+    try {
+      if (!/(?:^|[?&])embed=1(?:&|$)/.test(location.search)) return;
+      document.documentElement.classList.add('embed');
+      document.querySelectorAll('a.suite-link').forEach(function (a) {
+        var href = a.getAttribute('href');
+        if (!href || href.indexOf('embed=') !== -1) return;
+        a.setAttribute('href', href + (href.indexOf('?') >= 0 ? '&' : '?') + 'embed=1');
+      });
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyEmbed);
+  } else {
+    applyEmbed();
+  }
+})();
+</script>
+</head>
+<body>
+<div class="sim-controls">
+  <button id="btnNoLoads" onclick="toggleNoLoads()">Simulate: no loads available</button>
+  <button id="btnRateDown" onclick="toggleRateDown()">Simulate: rate service outage</button>
+  <button id="btnCoiDown" onclick="toggleCoiDown()">Simulate: COI check unavailable</button>
+</div>
+<div class="app">
+  <header class="topbar">
+    <div class="brand-text"><img src="tetonic.png" alt="Tetonic"></div>
+    <nav class="suite-nav">
+      <a class="suite-link active" href="milepost.html">Potential Shipping</a>
+      <a class="suite-link" href="drover-insurance.html">Current Shipping</a>
+      <a class="suite-link" href="bank-calculator.html">Bank Calculator</a>
+      <div class="nav-slider"></div>
+    </nav>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <button class="btn-settings" type="button" aria-label="Settings" title="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+        <span class="user-name">Jordan Hale</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="body">
+    <nav class="rail" id="rail">
+      <button class="rail-item active" data-filter="loads-all">All loads <span class="count" id="cnt-loads-all"></span></button>
+      <button class="rail-item" data-filter="loads-profitable">Profitable <span class="count" id="cnt-loads-profitable"></span></button>
+      <button class="rail-item" data-filter="loads-marginal">Marginal <span class="count" id="cnt-loads-marginal"></span></button>
+      <button class="rail-item" data-filter="loads-loss">Loses money <span class="count" id="cnt-loads-loss"></span></button>
+      <button class="rail-item" data-filter="loads-blocked">Blocked <span class="count" id="cnt-loads-blocked"></span></button>
+      <button class="rail-item" data-filter="loads-insufficient">Insufficient data <span class="count" id="cnt-loads-insufficient"></span></button>
+      <div class="rail-divider"></div>
+      <input id="search" placeholder="Search loads, routes…" readonly tabindex="-1" />
+    </nav>
+
+    <div class="board-wrap">
+      <div id="rateDownBanner" class="stale-banner" style="display:none;">
+        <b>Rate engine unavailable.</b> Our pricing service is temporarily down - cost estimates below may not reflect current fuel and lane pricing.
+      </div>
+
+      <div id="coiDownBanner" class="stale-banner" style="display:none;">
+        <b>Insurance verification service unavailable.</b> We can't confirm COI status right now - compliance-blocked loads below may already be cleared but not yet reflected.
+      </div>
+
+      <div id="noLoadsState" class="empty-state" style="display:none;">
+        No loads posted on your lanes right now. New postings will appear here automatically as brokers add them.
+      </div>
+
+      <div class="board-head" id="boardHead">
+        <div>Rate</div><div>Route</div><div>Status</div><div>Est. net</div><div>Deadhead</div><div>Load detail</div><div>Action</div>
+      </div>
+      <div id="board"></div>
+    </div>
+
+    <aside class="detail" id="detail"><div class="detail-inner" id="detailInner"></div></aside>
+  </div>
+</div>
+
+<div class="ai-root" id="aiRoot">
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-head">
+      <div><strong>Tetonic Assist</strong><span>Ask how to use this board</span></div>
+      <button class="ai-close" id="aiClose" aria-label="Close">✕</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs"></div>
+    <div class="ai-suggestions" id="aiSuggestions"></div>
+    <div class="ai-input-row">
+      <input id="aiInput" placeholder="Ask about rates, COI, filters…" />
+      <button id="aiSend">Send</button>
+    </div>
+  </div>
+  <button class="ai-fab" id="aiFab" type="button" aria-label="Ask Tetonic" title="Ask Tetonic">
+    <span class="ai-fab-avatar"><img src="buckingbronc-ai.png?v=3" alt=""></span>
+  </button>
+</div>
+
+<script>
+(function(){
+  const nav = document.querySelector('.suite-nav');
+  const slider = nav.querySelector('.nav-slider');
+  const links = [...nav.querySelectorAll('.suite-link')];
+  const active = nav.querySelector('.suite-link.active');
+  function moveTo(el){
+    slider.style.left = el.offsetLeft + 'px';
+    slider.style.width = el.offsetWidth + 'px';
+  }
+  if(active) moveTo(active);
+  links.forEach(link=>{
+    link.addEventListener('mouseenter', ()=>moveTo(link));
+  });
+  nav.addEventListener('mouseleave', ()=>{ if(active) moveTo(active); });
+})();
+
+function fmtMoney(n){ return (n<0?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US'); }
+
+function formatRoute(route){
+  const m = String(route).match(/^(.+?)\s+to\s+(.+)$/i);
+  if(!m) return route;
+  return `<span class="route-from">${m[1]}</span> <span class="route-sep">to</span> <span class="route-dest">${m[2]}</span>`;
+}
+
+const icons = {
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12.5"/><circle cx="12" cy="16" r=".6" fill="currentColor" stroke="none"/></svg>',
+  triangle:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'
+};
+
+const loads = [
+  {
+    id:'load-a', category:'loads-profitable', route:'Amarillo, TX to Dodge City, KS',
+    rate:2850, loadDetail:'Cattle · 320 loaded mi', deadhead:'0–40 mi',
+    cost:{type:'slider', low:2364, high:2406, left:0, width:100},
+    status:{level:'ok', icon:'check', headline:'Clears cost'},
+    restStop:'none required', insuranceWashout:245,
+    note:'Narrow range, clears cost easily either way. Low risk, safe to accept quickly.'
+  },
+  {
+    id:'load-f', category:'loads-blocked', route:'Dillon, MT to Billings, MT',
+    rate:1800, rateDim:true, loadDetail:'Cattle · 165 loaded mi', deadhead:'40–90 mi',
+    cost:{type:'banner', level:'block', icon:'lock', headline:'Certificate of insurance lapsed', detail:'Estimated net once compliant: ~$1,540.'},
+    status:{level:'block', icon:'lock', headline:'Certificate of insurance lapsed', detail:'Hauler COI expired · renew to clear this load'},
+    estNetLabel:'~$1,540',
+    action:'Renew certificate'
+  },
+  {
+    id:'load-h', category:'loads-blocked', route:'Ontario, OR to Twin Falls, ID',
+    rate:540, rateDim:true, loadDetail:'Cattle · 180 loaded mi', deadhead:'20–55 mi',
+    cost:{type:'banner', level:'warn', icon:'clock', headline:'Quote expired 6 hours ago', detail:'Fuel and lane pricing may have shifted. Confirm the current rate before accepting.'},
+    status:{level:'warn', icon:'clock', headline:'Quote expired 6 hours ago', detail:'Fuel and lane pricing may have shifted'},
+    estNetLabel:'Needs update',
+    action:'Request updated quote'
+  },
+  {
+    id:'load-b', category:'loads-profitable', route:'Tulare, CA to Fair Oaks, IN',
+    rate:6200, loadDetail:'Dairy heifers · 2,050 loaded mi', deadhead:'250–600 mi',
+    cost:{type:'slider', low:2006, high:3272, left:33.3, width:66.7},
+    status:{level:'ok', icon:'check', headline:'Clears cost · wide range'},
+    restStop:'2 mandatory', insuranceWashout:495,
+    note:'Wide range because it crosses three regional diesel markets and this lane has no reliable backhaul data. Still clears cost even in the worst case - profitable, just less predictable.'
+  },
+  {
+    id:'load-e', category:'loads-insufficient', route:'Guthrie, OK to Conway, AR',
+    rate:1450, loadDetail:'Cattle · 210 loaded mi', deadhead:'unverified',
+    cost:{type:'banner', level:'warn', icon:'info', headline:'New lane - fewer than 3 prior hauls logged', detail:'Fuel and deadhead here are unverified. Add your own estimate below rather than trust an unconfirmed range.'},
+    status:{level:'warn', icon:'info', headline:'New lane - fewer than 3 prior hauls logged', detail:'Fuel and deadhead unverified · add your estimate'},
+    estNetLabel:'Unverified',
+    manualForm:true, manualLoadedMiles:210, manualFixed:165
+  },
+  {
+    id:'load-d', category:'loads-loss', route:'Local spot load, 38 mi',
+    rate:380, loadDetail:'Cattle · short haul', deadhead:'0–15 mi',
+    cost:{type:'banner', level:'bad', icon:'triangle', headline:'Loses money'},
+    status:{level:'bad', icon:'triangle', headline:'Loses money', detail:'Fixed costs exceed the quoted rate'},
+    estNetLabel:'-$310',
+    note:'Fixed costs alone exceed the quoted rate on this short haul.',
+    walkaway:{rate:380, fuel:-180, minDay:-510, net:-310}
+  },
+  {
+    id:'load-g', category:'loads-blocked', route:'Twin Falls, ID to Boise, ID',
+    rate:920, rateDim:true, loadDetail:'Cattle · 130 loaded mi', deadhead:'10–35 mi',
+    cost:{type:'banner', level:'block', icon:'lock', headline:'Oversize permit not on file', detail:'This lane requires a state permit that hasn’t been filed yet.'},
+    status:{level:'block', icon:'lock', headline:'Oversize permit not on file', detail:'State oversize permit required · not filed yet'},
+    estNetLabel:'Blocked',
+    action:'File permit request'
+  },
+  {
+    id:'load-c', category:'loads-marginal', route:'Jerome, ID to Twin Falls, ID',
+    rate:650, loadDetail:'Cattle · 95 loaded mi', deadhead:'10–70 mi',
+    cost:{type:'slider', low:-52, high:294, left:50, width:50},
+    status:{level:'warn', icon:'triangle', headline:'Marginal · range crosses zero', detail:'Only profitable if a backhaul lands quickly'},
+    backhaul:'unreliable on this lane', insuranceWashout:140,
+    note:'The range crosses zero. Only profitable if a backhaul comes through quickly - if the truck sits waiting, this load loses money.'
+  }
+];
+
+function statusBannerHTML(l){
+  const s = l.status || {level:'ok', icon:'check', headline:'Ready'};
+  const detail = s.detail || '';
+  return `<div class="state-banner ${s.level}${detail?' has-detail':''}">
+      <span class="state-icon">${icons[s.icon]}</span>
+      <div class="state-copy">
+        <div class="state-front">${s.headline}</div>
+        ${detail?`<div class="state-back" title="${detail.replace(/"/g,'&quot;')}">${detail}</div>`:''}
+      </div>
+    </div>`;
+}
+
+function netRangeHTML(l){
+  if(l.cost.type==='slider'){
+    return `<div class="net-range">
+      <span class="${l.cost.low<0?'neg':''}">${fmtMoney(l.cost.low)}</span>
+      <span class="to">to</span>
+      <span class="${l.cost.high<0?'neg':''}">${fmtMoney(l.cost.high)}</span>
+    </div>`;
+  }
+  if(l.estNetLabel){
+    const neg = String(l.estNetLabel).startsWith('-');
+    return `<div class="net-range"><span class="${neg?'neg':''}">${l.estNetLabel}</span></div>`;
+  }
+  return '';
+}
+
+let currentFilter='loads-all', selectedId=null;
+
+function matchesFilter(l){
+  return currentFilter==='loads-all' || l.category===currentFilter;
+}
+
+function renderCounts(){
+  document.getElementById('cnt-loads-all').textContent = loads.length;
+  ['loads-profitable','loads-marginal','loads-loss','loads-blocked','loads-insufficient'].forEach(cat=>{
+    document.getElementById('cnt-'+cat).textContent = loads.filter(l=>l.category===cat).length;
+  });
+}
+
+function renderBoard(){
+  const board = document.getElementById('board');
+  const rows = loads.filter(matchesFilter);
+  board.innerHTML = rows.map(l=>{
+    return `<div class="row ${l.category==='loads-blocked'?'state-block':''} ${l.id===selectedId?'selected':''}" data-id="${l.id}">
+      <div class="rate-col"><div class="lc-rate" ${l.rateDim?'style="color:var(--ink-muted)"':''}>${fmtMoney(l.rate)}</div></div>
+      <div class="lc-route">${formatRoute(l.route)}</div>
+      ${statusBannerHTML(l)}
+      <div>${netRangeHTML(l)}</div>
+      <div>${l.deadhead?`<div class="meta-line">${l.deadhead}</div>`:''}</div>
+      <div>${l.loadDetail?`<div class="meta-line">${l.loadDetail}</div>`:''}</div>
+      <div class="lc-action-col">${l.action?`<button class="lc-btn ghost" data-action="1">${l.action}</button>`:''}</div>
+    </div>`;
+  }).join('');
+  board.querySelectorAll('.row').forEach(row=>{
+    row.addEventListener('click', e=>{
+      if(e.target.closest('[data-action]')) return;
+      selectLoad(row.dataset.id);
+    });
+  });
+}
+
+function selectLoad(id){
+  selectedId = id;
+  const l = loads.find(x=>x.id===id);
+  const detail = document.getElementById('detail'), inner = document.getElementById('detailInner');
+  detail.classList.add('open');
+
+  let costSectionHTML = '';
+  if(l.cost.type==='slider'){
+    costSectionHTML = `<div class="detail-section"><h3>Cost range</h3>
+      <div class="cost-slider"><div class="cost-slider-probable" style="left:${l.cost.left}%;width:${l.cost.width}%;"></div></div>
+      <div class="range-labels"><span class="${l.cost.low<0?'neg':''}">${fmtMoney(l.cost.low)}</span><span class="${l.cost.high<0?'neg':''}">${fmtMoney(l.cost.high)}</span></div>
+      ${l.note?`<p style="font-size:10.5px;color:var(--ink-muted);margin-top:8px;line-height:1.5;">${l.note}</p>`:''}
+    </div>`;
+  } else {
+    const c = l.cost;
+    costSectionHTML = `<div class="detail-section"><h3>Issue</h3>
+      <div class="state-banner ${c.level}" style="max-width:none">
+        <span class="state-icon">${icons[c.icon]}</span>
+        <div><b>${c.headline}</b>${c.detail?` <span>${c.detail}</span>`:''}</div>
+      </div>
+      ${l.action?`<div style="margin-top:12px"><button class="lc-btn" id="detailAction">${l.action}</button></div>`:''}
+    </div>`;
+  }
+
+  let walkawayHTML = '';
+  if(l.walkaway){
+    const w = l.walkaway;
+    walkawayHTML = `<div class="detail-section"><h3>Cost breakdown</h3>
+      <div class="walkaway-figs">
+        <div>Rate quoted&nbsp; <span style="float:right">${fmtMoney(w.rate)}</span></div>
+        <div>Fuel + insurance + washout&nbsp; <span style="float:right">${fmtMoney(w.fuel)}</span></div>
+        <div>Minimum driver/truck day rate&nbsp; <span style="float:right">${fmtMoney(w.minDay)}</span></div>
+        <div class="total">Net&nbsp; <span style="float:right">${fmtMoney(w.net)}</span></div>
+      </div>
+    </div>`;
+  }
+
+  let manualHTML = '';
+  if(l.manualForm){
+    manualHTML = `<div class="detail-section"><h3>Estimate your own range</h3>
+      <div class="manual-form">
+        <input type="number" id="manMph" placeholder="Estimated mph">
+        <input type="number" id="manFuelPrice" placeholder="Est. fuel cost per gallon ($)">
+        <input type="number" id="manDeadhead" placeholder="Est. deadhead (mi)">
+        <button id="manEstimateBtn">Estimate</button>
+      </div>
+      <div class="manual-result" id="manResult"></div>
+    </div>`;
+  }
+
+  const kvHTML = `<div class="detail-section"><h3>Load specifics</h3>
+    <div class="kv">
+      <div class="kv-item"><div class="kv-label">Rate</div><div class="kv-value ${l.rateDim?'flagged':''}">${fmtMoney(l.rate)}</div></div>
+      ${l.loadDetail?`<div class="kv-item"><div class="kv-label">Load detail</div><div class="kv-value">${l.loadDetail}</div></div>`:''}
+      ${l.deadhead?`<div class="kv-item"><div class="kv-label">Deadhead</div><div class="kv-value">${l.deadhead}</div></div>`:''}
+      ${l.restStop?`<div class="kv-item"><div class="kv-label">Rest stop</div><div class="kv-value">${l.restStop}</div></div>`:''}
+      ${l.backhaul?`<div class="kv-item"><div class="kv-label">Backhaul</div><div class="kv-value">${l.backhaul}</div></div>`:''}
+      ${l.insuranceWashout!==undefined?`<div class="kv-item"><div class="kv-label">Insurance + washout</div><div class="kv-value">${fmtMoney(l.insuranceWashout)}</div></div>`:''}
+    </div>
+  </div>`;
+
+  inner.innerHTML = `
+    <div class="detail-head">
+      <div><div class="detail-title">${l.route}</div>${l.loadDetail?`<div class="detail-sub">${l.loadDetail}</div>`:''}</div>
+      <button class="detail-close" id="closeDetail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    ${costSectionHTML}
+    ${kvHTML}
+    ${walkawayHTML}
+    ${manualHTML}
+    ${l.note && l.cost.type!=='slider' ? `<div class="detail-section"><h3>Notes</h3><div class="notes-box">${l.note}</div></div>` : ''}
+  `;
+
+  document.getElementById('closeDetail').addEventListener('click', ()=>{
+    detail.classList.remove('open'); selectedId=null; renderBoard();
+  });
+
+  if(l.manualForm){
+    document.getElementById('manEstimateBtn').addEventListener('click', ()=>computeManual(l));
+  }
+
+  renderBoard();
+}
+
+function computeManual(l){
+  const mph = parseFloat(document.getElementById('manMph').value);
+  const fuelPrice = parseFloat(document.getElementById('manFuelPrice').value);
+  const dead = parseFloat(document.getElementById('manDeadhead').value);
+  const result = document.getElementById('manResult');
+  if(isNaN(mph) || isNaN(fuelPrice) || isNaN(dead)){
+    result.style.display='block';
+    result.innerHTML = '<span style="color:var(--amber)">Enter an mph, fuel price, and deadhead estimate to compute a range.</span>';
+    return;
+  }
+  const totalMiles = l.manualLoadedMiles + dead;
+  const mpg = 6.5;
+  const fuelCost = (totalMiles / mpg) * fuelPrice;
+  const net = l.rate - fuelCost - l.manualFixed;
+  const hours = (totalMiles / mph).toFixed(1);
+  result.style.display='block';
+  result.innerHTML = 'Estimated net at your figures: <b style="color:'+(net>0?'var(--ok)':'var(--red)')+'">'+fmtMoney(net)+'</b> over ~'+hours+' hrs transit - unverified, based on your manual entry only.';
+}
+
+document.getElementById('rail').addEventListener('click', e=>{
+  const btn = e.target.closest('.rail-item');
+  if(!btn) return;
+  document.querySelectorAll('.rail-item').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.dataset.filter;
+  document.getElementById('detail').classList.remove('open');
+  selectedId = null;
+  renderBoard();
+});
+
+function toggleNoLoads(){
+  const empty = document.getElementById('noLoadsState');
+  const board = document.getElementById('board');
+  const head = document.getElementById('boardHead');
+  const btn = document.getElementById('btnNoLoads');
+  const showing = empty.style.display==='block';
+  empty.style.display = showing?'none':'block';
+  board.style.display = showing?'':'none';
+  head.style.display = showing?'':'none';
+  btn.classList.toggle('on', !showing);
+}
+
+function toggleRateDown(){
+  const banner = document.getElementById('rateDownBanner');
+  const btn = document.getElementById('btnRateDown');
+  const showing = banner.style.display==='block';
+  banner.style.display = showing?'none':'block';
+  btn.classList.toggle('on', !showing);
+}
+
+function toggleCoiDown(){
+  const banner = document.getElementById('coiDownBanner');
+  const btn = document.getElementById('btnCoiDown');
+  const showing = banner.style.display==='block';
+  banner.style.display = showing?'none':'block';
+  btn.classList.toggle('on', !showing);
+}
+
+/* ---- AI assist (prototype) ---- */
+const aiReplies = [
+  {keys:['rate','profit','net','money','range'], text:'Est. net is the money you could keep after costs, from best case to worst case. Click a row to see the range diagram and notes in the side panel.'},
+  {keys:['coi','insurance','certificate','lapsed'], text:'If a load says certificate of insurance lapsed, renew the hauler COI before accepting. Blocked loads stay dimmed until compliance clears.'},
+  {keys:['filter','sidebar','insufficient','search'], text:'Use the left filters to focus on profitable, marginal, blocked, or insufficient-data loads. The search field under Insufficient data is ready for when live search is wired up.'},
+  {keys:['deadhead','detail','load'], text:'Deadhead is empty miles to the pickup. Load detail shows species and loaded miles. Both sit to the right of est. net on each card.'},
+  {keys:['accept','action','quote'], text:'Action buttons appear on blocked or expired loads: renew COI, request an updated quote, or file a permit. Open the row for full context first.'}
+];
+const aiChips = ['What does est. net mean?','Why is a load blocked?','How do filters work?'];
+
+function aiAdd(role, text){
+  const msgs = document.getElementById('aiMsgs');
+  const div = document.createElement('div');
+  div.className = 'ai-bubble '+role;
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function aiRespond(q){
+  const lower = q.toLowerCase();
+  const hit = aiReplies.find(r=>r.keys.some(k=>lower.includes(k)));
+  aiAdd('bot', hit ? hit.text : 'I can help with rates, COI blocks, filters, deadhead, and accepting loads. Try one of the suggestions below, or ask about a specific row on this board.');
+}
+function initAI(){
+  const panel = document.getElementById('aiPanel');
+  const fab = document.getElementById('aiFab');
+  const close = document.getElementById('aiClose');
+  const input = document.getElementById('aiInput');
+  const send = document.getElementById('aiSend');
+  const suggestions = document.getElementById('aiSuggestions');
+  aiAdd('bot','Hi. I can walk you through Potential Shipping. Ask about est. net, blocked loads, or how to filter the board.');
+  suggestions.innerHTML = aiChips.map(c=>`<button class="ai-chip" type="button">${c}</button>`).join('');
+  suggestions.querySelectorAll('.ai-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      aiAdd('user', chip.textContent);
+      aiRespond(chip.textContent);
+    });
+  });
+  function submit(){
+    const q = input.value.trim();
+    if(!q) return;
+    aiAdd('user', q);
+    input.value='';
+    aiRespond(q);
+  }
+  fab.addEventListener('click', ()=>panel.classList.toggle('open'));
+  close.addEventListener('click', ()=>panel.classList.remove('open'));
+  send.addEventListener('click', submit);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') submit(); });
+}
+initAI();
+
+renderCounts();
+renderBoard();
+</script>
+</body>
+</html>

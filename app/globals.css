@@ -176,6 +176,37 @@ body::before {
   background-attachment: fixed;
 }
 
+/* Tetonic route: match public/tetonic parchment UI (milepost / drover). */
+.tetonic-page-canvas {
+  --canvas: #f5f0e6;
+  --canvas-dot: rgba(43, 39, 31, 0.07);
+  --tetonic-ink: #2b271f;
+  --tetonic-ink-dim: #4a4438;
+  --tetonic-ink-muted: #6b6354;
+  --tetonic-line: #ddd2b8;
+  --tetonic-line-soft: #e8dfc9;
+  --tetonic-panel: #fffcf6;
+  --tetonic-row: #faf5eb;
+  --tetonic-rail: #efe7d6;
+  --tetonic-ok: #6b6354;
+  --tetonic-ok-soft: #efe7d6;
+  --tetonic-amber: #bd8535;
+  --tetonic-amber-soft: #f5ead2;
+  --tetonic-red: #b8512f;
+  --tetonic-red-soft: #f6ded3;
+  background-color: #f5f0e6;
+  background-image: radial-gradient(rgba(43, 39, 31, 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+  color: #2b271f;
+}
+
+@media (max-width: 767px) {
+  .tetonic-page-canvas {
+    background-attachment: scroll;
+  }
+}
+
 /* Water-smooth: override Tailwind's transition-colors/opacity/shadow defaults site-wide.
    200ms linear feels snappy; 280ms decelerate feels like water. */
 .transition-colors,
