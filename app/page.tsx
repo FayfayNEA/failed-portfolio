@@ -96,7 +96,7 @@ export default function Home() {
         className="relative z-[30] mt-0 flex flex-col sm:mt-8 md:mt-0"
         aria-label="Product Design work"
       >
-        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v144" initialLayout={PRODUCT_DESIGN_LAYOUT} />
+        <ProductDesignGallery projects={PROJECTS} storageKey="gallery-product-design-v145" initialLayout={PRODUCT_DESIGN_LAYOUT} />
       </section>
 
       {/* Retro computer — desktop inline, mobile navigates to /work */}
