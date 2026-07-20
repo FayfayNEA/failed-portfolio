@@ -63,11 +63,11 @@ export function AutoPlayVideo({
   }, [autoPlay, src]);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <video
         ref={ref}
         src={src}
-        className={cn("block", className)}
+        className={cn("block w-full", className)}
         controls={controls}
         muted={muted}
         loop={loop}

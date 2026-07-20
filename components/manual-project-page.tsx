@@ -571,11 +571,11 @@ export function ManualProjectPage({
                       : "max-w-[min(520px,88vw)] sm:max-w-[min(580px,86vw)] md:max-w-[min(640px,84vw)]"
                   )}
                 >
-                  {/* Description inside video's own container so it aligns with the video's left edge */}
+                  {/* Description shares this column with the video so left edges match exactly. */}
                   {description && (
                     <p
                       className={cn(
-                        "mb-6 font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
+                        "mb-6 w-full text-left font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600",
                         descriptionClassName
                       )}
                     >
@@ -584,7 +584,7 @@ export function ManualProjectPage({
                   )}
                   <div
                     className={cn(
-                      "relative overflow-hidden rounded-2xl",
+                      "relative w-full overflow-hidden rounded-2xl",
                       // Liquid pages (E*Trade) sit frameless so the multiplied video drops
                       // its baked-in white mat against the page canvas.
                       heroFrameVariant === "liquid"
@@ -595,18 +595,22 @@ export function ManualProjectPage({
                   >
                     <div
                       className={cn(
-                        "relative flex justify-center",
-                        heroFrameVariant === "liquid" ? "" : "p-4 sm:p-5 md:p-6"
+                        "relative w-full",
+                        heroFrameVariant === "liquid" ? "" : "flex justify-center p-4 sm:p-5 md:p-6"
                       )}
                     >
                       <AutoPlayVideo
                         controls
                         muted
                         className={cn(
-                          "h-auto w-full max-h-[min(92dvh,960px)] rounded-xl object-contain",
+                          "h-auto w-full max-h-[min(92dvh,960px)] object-contain",
                           heroFrameVariant === "liquid"
                             ? "mix-blend-multiply"
-                            : "bg-white ring-[0.5px] ring-zinc-200/60"
+                            : "rounded-xl bg-white ring-[0.5px] ring-zinc-200/60",
+                          // Tetonic card video has a baked-in blur mat; crop it so the UI
+                          // meets the frame edge and the description can sit flush.
+                          hero.src.includes("/tetonic/") &&
+                            "origin-center scale-[1.0887]"
                         )}
                         src={hero.src}
                       />
