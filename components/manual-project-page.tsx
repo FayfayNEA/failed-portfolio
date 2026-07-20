@@ -880,7 +880,13 @@ export function ManualProjectPage({
 
         {metaCells.length > 0 && (
           <>
-            <div className="mb-12 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10">
+            <div
+              className={cn(
+                heroSize === "wide" &&
+                  "mx-auto w-full max-w-[min(1216px,calc(100vw-1.5rem))]",
+                "mb-12 grid grid-cols-2 gap-x-8 gap-y-8 md:grid-cols-4 md:gap-x-10"
+              )}
+            >
               {metaCells.map(({ label, value }) => (
                 <div key={label}>
                   <p className="mb-2 font-sans text-[10px] font-normal uppercase tracking-[0.16em] text-[#A0A0A0]">
@@ -892,7 +898,17 @@ export function ManualProjectPage({
                 </div>
               ))}
             </div>
-            {metaBelow && <div className="mb-12">{metaBelow}</div>}
+            {metaBelow && (
+              <div
+                className={cn(
+                  "mb-12",
+                  heroSize === "wide" &&
+                    "mx-auto w-full max-w-[min(1216px,calc(100vw-1.5rem))]"
+                )}
+              >
+                {metaBelow}
+              </div>
+            )}
             <Divider />
           </>
         )}

@@ -21,7 +21,7 @@
   html,body{margin:0;padding:0;height:100%;overflow:hidden;}
   body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-size:13px;overflow:hidden;display:flex;flex-direction:column;height:100vh;}
   .app{display:flex;flex-direction:column;flex:1;min-height:0;}
-  .body{display:flex;flex:1;min-height:0;}
+  .body{display:flex;flex:1;min-height:0;position:relative;}
   .rail{width:230px;flex-shrink:0;background:var(--bg-rail);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:3px;overflow-y:auto;scrollbar-gutter:stable;}
   .rail-label{font-size:10.5px;letter-spacing:.4px;color:var(--ink-muted);padding:8px 12px 6px;}
   .rail-item{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:11px 12px;border-radius:8px;font-size:13.5px;color:var(--ink-dim);transition:background .15s ease,color .15s ease;}
@@ -85,9 +85,12 @@
   .li-eye{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--ink-muted);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;font-style:normal;font-synthesis:none;line-height:1;flex-shrink:0;color:var(--ink-muted);padding:0;}
   .li-eye:hover{color:var(--ink);border-color:var(--ink);background:var(--bg-panel);}
 
-  .detail{width:0;overflow:hidden;flex-shrink:0;background:var(--bg-panel);border-left:1px solid var(--line);transition:width .2s ease;}
-  .detail.open{width:min(400px,42vw);overflow-y:auto;}
-  .detail-inner{padding:20px;width:400px;max-width:100%;}
+  /* Overlay so the board keeps its width — flex-shrinking crushed the grid columns. */
+  .detail{position:absolute;top:0;right:0;bottom:0;width:0;overflow:hidden;background:var(--bg-panel);border-left:1px solid var(--line);transition:width .2s ease,box-shadow .2s ease;z-index:5;}
+  .detail.open{width:min(400px,40vw);overflow-y:auto;box-shadow:-16px 0 40px rgba(43,39,31,.12);}
+  .detail-inner{padding:20px;width:400px;max-width:100%;box-sizing:border-box;}
+  .body:has(.detail.open) .board-wrap,
+  .body:has(.detail.open) .content-scroll{padding-right:calc(14px + min(400px,40vw));}
   .detail-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
   .detail-close{all:unset;cursor:pointer;color:var(--ink-muted);padding:4px;border-radius:8px;display:flex;}
   .detail-close:hover{color:var(--ink);background:var(--bg-row-hover);}
@@ -152,16 +155,17 @@
     .rs-stat .rs-num{font-size:30px;}
   }
 
-  /* Case-study embed: lock nested scroll so the parent page is the only scroller. */
+  /* Case-study embed: lock nested scroll so the parent page is the only scroller.
+     Keep the AI assist fab/panel available inside the embed. */
   html.embed, html.embed body { overflow: hidden !important; overscroll-behavior: none; }
   html.embed .board-wrap,
   html.embed .rail,
   html.embed .content-scroll,
   html.embed .detail,
-  html.embed .detail.open,
-  html.embed .ai-msgs { overflow: hidden !important; overscroll-behavior: none; }
-  html.embed .ai-root { display: none !important; }
+  html.embed .detail.open { overflow: hidden !important; overscroll-behavior: none; }
   html.embed .sim-controls { display: none !important; }
+  html.embed .ai-root { z-index: 50; }
+  html.embed .ai-msgs { overflow-y: auto !important; overscroll-behavior: contain; }
 </style>
 <script>
 (function () {

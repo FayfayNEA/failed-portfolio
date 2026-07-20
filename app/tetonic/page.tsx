@@ -35,7 +35,7 @@ export default function TetonicPage() {
     <ManualProjectPage
       title={TITLE}
       description={DESCRIPTION}
-      descriptionClassName="mb-8 text-left"
+      descriptionClassName="mb-8 pl-[4.5%] text-left"
       slug="tetonic"
       category="product-design"
       hideCaseStudyLabel
