@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" fill="none">
   <rect width="900" height="1200" fill="#f5f0e6"/>
   <rect x="48" y="48" width="804" height="1104" rx="24" fill="#fffcf6" stroke="#ddd2b8" stroke-width="2"/>
-  <text x="80" y="120" font-family="ui-monospace,monospace" font-size="22" fill="#6b6354" letter-spacing="3">01 · RANGES</text>
+  <text x="80" y="120" font-family="ui-monospace,monospace" font-size="22" fill="#6b6354" letter-spacing="3">01 ï¿½ RANGES</text>
   <text x="80" y="200" font-family="ui-monospace,monospace" font-size="48" font-weight="700" fill="#6b6354">+$420</text>
   <text x="280" y="200" font-family="ui-monospace,monospace" font-size="32" fill="#6b6354">?</text>
   <text x="360" y="200" font-family="ui-monospace,monospace" font-size="48" font-weight="700" fill="#6b6354">+$890</text>
@@ -11,5 +11,5 @@
   <text x="80" y="400" font-family="ui-monospace,monospace" font-size="22" fill="#6b6354">not a fake single number</text>
   <rect x="80" y="480" width="720" height="160" rx="16" fill="#efe7d6" stroke="#6b6354" stroke-width="1.5"/>
   <text x="110" y="560" font-family="ui-monospace,monospace" font-size="26" fill="#6b6354">Amarillo, TX to Dodge City, KS</text>
-  <text x="110" y="600" font-family="ui-monospace,monospace" font-size="20" fill="#4a4438">Cattle · profitable lane</text>
+  <text x="110" y="600" font-family="ui-monospace,monospace" font-size="20" fill="#4a4438">Cattle ï¿½ profitable lane</text>
 </svg>
