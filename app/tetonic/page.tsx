@@ -9,7 +9,7 @@ import { TetonicUserFlows } from "@/components/tetonic-user-flows";
 const TITLE = "Tetonic";
 const DESCRIPTION =
   "livestock transit software for underwriting compliance and hauler load economics";
-const HERO = "/tetonic/tetonic-card.mp4";
+const HERO = "/tetonic/tetonic-hero.mp4";
 
 const CHALLENGE =
   "Livestock moves under a stack of rules most software ignores. What if one product priced the risk and the haul in the same language?";
@@ -22,7 +22,6 @@ const METADATA = {
   team: ["Failenn Aselta"],
   tools: [
     "HTML · CSS · JS",
-    "Cursor",
   ],
 };
 
