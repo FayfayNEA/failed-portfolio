@@ -37,7 +37,7 @@ export function BuddyHeroVideo({ softwareSrc, hardwareSrc, poster }: BuddyHeroVi
 
   return (
     <div className="mb-14 flex w-full flex-col items-center gap-3">
-      <div className="aspect-video w-full max-w-[min(1216px,calc(100vw-1.5rem))] overflow-hidden rounded-2xl bg-zinc-50 shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]">
+      <div className="aspect-video w-full overflow-hidden rounded-2xl bg-zinc-50 shadow-[0_4px_32px_-8px_rgba(0,0,0,0.12)] ring-1 ring-black/[0.06]">
         {/* key forces a fresh <video> per source so poster/preload reset cleanly */}
         <video
           key={tab}

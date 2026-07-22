@@ -483,21 +483,24 @@ export default function BuddyPage() {
         )}
       >
 
-        {/* One-line product description; top aligns with sidebar breadcrumb */}
-        <p
-          className={cn(
-            "mb-8 mt-0 max-w-[min(52rem,100%)] font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600"
-          )}
-        >
-          {BUDDY_DESCRIPTION}
-        </p>
+        {/* Description + hero share one column so the intro line meets the video edge. */}
+        <div className="flex w-full justify-center">
+          <div className="w-full max-w-[min(1216px,calc(100vw-1.5rem))]">
+            <p
+              className={cn(
+                "mb-8 mt-0 w-full text-left font-mono text-[clamp(0.8rem,1.4vw,0.95rem)] font-light leading-snug tracking-[-0.01em] text-zinc-600"
+              )}
+            >
+              {BUDDY_DESCRIPTION}
+            </p>
 
-        {/* Hero video — software demo first, hardware clip on toggle */}
-        <BuddyHeroVideo
-          softwareSrc="/buddy/buddydemo-full.mp4"
-          hardwareSrc="/buddy/sequence-04.mp4"
-          poster="/buddy/buddydemo-full-poster.jpg"
-        />
+            <BuddyHeroVideo
+              softwareSrc="/buddy/buddydemo-full.mp4"
+              hardwareSrc="/buddy/sequence-04.mp4"
+              poster="/buddy/buddydemo-full-poster.jpg"
+            />
+          </div>
+        </div>
 
         {/* Figma prototype pill — above the metadata grid */}
         <div className="-mt-7 mb-6 flex justify-center">

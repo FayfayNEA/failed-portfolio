@@ -599,17 +599,24 @@ export function ManualProjectPage({
                         heroFrameVariant === "liquid" ? "" : "flex justify-center p-4 sm:p-5 md:p-6"
                       )}
                     >
-                      <AutoPlayVideo
-                        controls
-                        muted
+                      <div
                         className={cn(
-                          "h-auto w-full max-h-[min(92dvh,960px)] object-contain",
-                          heroFrameVariant === "liquid"
-                            ? "mix-blend-multiply"
-                            : "rounded-xl bg-white ring-[0.5px] ring-zinc-200/60"
+                          // Tetonic card video has a baked-in blur mat; crop so the UI meets the frame.
+                          hero.src.includes("/tetonic/") && "origin-center scale-[1.0887]"
                         )}
-                        src={hero.src}
-                      />
+                      >
+                        <AutoPlayVideo
+                          controls
+                          muted
+                          className={cn(
+                            "h-auto w-full max-h-[min(92dvh,960px)] object-contain",
+                            heroFrameVariant === "liquid"
+                              ? "mix-blend-multiply"
+                              : "rounded-xl bg-white ring-[0.5px] ring-zinc-200/60"
+                          )}
+                          src={hero.src}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

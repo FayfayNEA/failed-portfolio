@@ -5,6 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { galleryCoverSrc } from "@/lib/framer-image";
+import {
+  clearGalleryShowAll,
+  markGalleryShowAll,
+  readGalleryShowAll,
+} from "@/lib/gallery-show-all";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface GalleryProject {
@@ -767,19 +772,34 @@ export const CategoryGallery = forwardRef<CategoryGalleryHandle, { projects: Gal
   const [showArchived, setShowArchived] = useState(false);
   // Archived cards never scroll into view (they're not rendered until toggled),
   // so the scroll-reveal IntersectionObserver never fires for them — reveal them directly.
+  const revealArchivedCards = useCallback(() => {
+    setRevealedCards((prev) => {
+      const toAdd = projects.reduce<number[]>((acc, p, i) => (p.archived ? [...acc, i] : acc), []);
+      if (toAdd.every((i) => prev.has(i))) return prev;
+      return new Set([...prev, ...toAdd]);
+    });
+  }, [projects]);
+
+  // Open "show all" when returning from an archived project (Night Terrors, Iris, …).
+  useLayoutEffect(() => {
+    if (!projects.some((p) => p.archived)) return;
+    if (!readGalleryShowAll()) return;
+    setShowArchived(true);
+    revealArchivedCards();
+  }, [projects, revealArchivedCards]);
+
   const revealArchived = useCallback(() => {
     setShowArchived((v) => {
       const next = !v;
       if (next) {
-        setRevealedCards((prev) => {
-          const toAdd = projects.reduce<number[]>((acc, p, i) => (p.archived ? [...acc, i] : acc), []);
-          if (toAdd.every((i) => prev.has(i))) return prev;
-          return new Set([...prev, ...toAdd]);
-        });
+        markGalleryShowAll();
+        revealArchivedCards();
+      } else {
+        clearGalleryShowAll();
       }
       return next;
     });
-  }, [projects]);
+  }, [revealArchivedCards]);
 
   const getEffectivePos = useCallback((i: number): Pos | undefined => {
     return positions[i];

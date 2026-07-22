@@ -6,6 +6,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { LiquidGlassNav } from "@/components/liquid-glass-nav";
 import { MobileHamburgerNav } from "@/components/mobile-hamburger-nav";
 import { cn } from "@/lib/cn";
+import {
+  isArchivedProductDesignPath,
+  markGalleryShowAll,
+} from "@/lib/gallery-show-all";
 
 const SOCIAL_BUBBLES = [
   {
@@ -86,6 +90,12 @@ export function NavShell({ children }: { children: React.ReactNode }) {
     document.documentElement.classList.add("no-scroll-gutter");
     return () => document.documentElement.classList.remove("no-scroll-gutter");
   }, [liveTool]);
+
+  // Visiting a hidden gallery project (Night Terrors, Iris, etc.) so home
+  // opens "show all" when they navigate back — even on a first home visit.
+  useEffect(() => {
+    if (isArchivedProductDesignPath(pathname)) markGalleryShowAll();
+  }, [pathname]);
 
   // Live Tetonic HTML prototypes only: parchment canvas for overscroll / shell match.
   useEffect(() => {
