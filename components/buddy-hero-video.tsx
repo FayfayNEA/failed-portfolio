@@ -4,35 +4,57 @@ import { useState } from "react";
 import { cn } from "@/lib/cn";
 
 interface BuddyHeroVideoProps {
-  /** Software demo (landscape screen recording) — shown first. */
-  softwareSrc: string;
-  /** Hardware demo (portrait, physical device) — shown on toggle/next. */
+  /** UI mockup walkthrough (landscape screen recording) — shown first. */
+  uiMockupSrc: string;
+  /** Image mockup demo (landscape screen recording). */
+  imageMockupSrc: string;
+  /** Hardware demo (portrait, physical device) — shown last. */
   hardwareSrc: string;
   poster?: string;
 }
 
-const TABS = [
-  { key: "software", label: "Software" },
-  { key: "hardware", label: "Hardware" },
-] as const;
+const TAB_ORDER = ["uiMockup", "imageMockup", "hardware"] as const;
 
-type TabKey = (typeof TABS)[number]["key"];
+type TabKey = (typeof TAB_ORDER)[number];
 
-export function BuddyHeroVideo({ softwareSrc, hardwareSrc, poster }: BuddyHeroVideoProps) {
-  const [tab, setTab] = useState<TabKey>("software");
-  // Only autoplay when the user explicitly switches tabs or the software video ends.
+const TAB_LABELS: Record<TabKey, string> = {
+  uiMockup: "UI Mockup",
+  imageMockup: "Image Mockup",
+  hardware: "Hardware",
+};
+
+/** The hardware clip is a portrait capture, so it fits inside the 16:9 frame and
+ *  gets scaled up. The landscape screen recordings fill the frame directly. */
+const TAB_FIT: Record<TabKey, string> = {
+  uiMockup: "object-cover object-center",
+  imageMockup: "object-cover object-center",
+  hardware: "object-contain scale-[1.55]",
+};
+
+export function BuddyHeroVideo({ uiMockupSrc, imageMockupSrc, hardwareSrc, poster }: BuddyHeroVideoProps) {
+  const [tab, setTab] = useState<TabKey>(TAB_ORDER[0]);
+  // Only autoplay when the user explicitly switches tabs or a video ends.
   // Initial load stays on the poster with no autoplay.
   const [shouldAutoPlay, setShouldAutoPlay] = useState(false);
-  const isSoftware = tab === "software";
+
+  const sources: Record<TabKey, string> = {
+    uiMockup: uiMockupSrc,
+    imageMockup: imageMockupSrc,
+    hardware: hardwareSrc,
+  };
+  const isFirst = tab === TAB_ORDER[0];
+  const nextTab: TabKey | undefined = TAB_ORDER[TAB_ORDER.indexOf(tab) + 1];
 
   function handleTabClick(key: TabKey) {
     setShouldAutoPlay(true);
     setTab(key);
   }
 
-  function handleSoftwareEnded() {
+  // Walk through the demos in order; the last one just stops.
+  function handleEnded() {
+    if (!nextTab) return;
     setShouldAutoPlay(true);
-    setTab("hardware");
+    setTab(nextTab);
   }
 
   return (
@@ -46,25 +68,22 @@ export function BuddyHeroVideo({ softwareSrc, hardwareSrc, poster }: BuddyHeroVi
           muted={shouldAutoPlay}
           playsInline
           preload="metadata"
-          poster={isSoftware ? poster : undefined}
-          className={cn(
-            "h-full w-full",
-            isSoftware ? "object-cover object-center" : "object-contain scale-[1.55]"
-          )}
-          src={isSoftware ? softwareSrc : hardwareSrc}
-          onEnded={isSoftware ? handleSoftwareEnded : undefined}
+          poster={isFirst ? poster : undefined}
+          className={cn("h-full w-full", TAB_FIT[tab])}
+          src={sources[tab]}
+          onEnded={nextTab ? handleEnded : undefined}
         >
           Your browser does not support video playback.
         </video>
       </div>
 
-      {/* Toggle between the software demo and the hardware clip */}
+      {/* Toggle between the UI mockup walkthrough, the image mockup demo, and the hardware clip */}
       <div
         role="tablist"
         aria-label="Buddy demo videos"
         className="inline-flex items-center gap-1 rounded-full border border-zinc-200/80 bg-white/70 p-1 shadow-[0_2px_12px_-6px_rgba(0,0,0,0.15)] ring-1 ring-black/[0.04] backdrop-blur-md"
       >
-        {TABS.map(({ key, label }) => {
+        {TAB_ORDER.map((key) => {
           const active = tab === key;
           return (
             <button
@@ -80,7 +99,7 @@ export function BuddyHeroVideo({ softwareSrc, hardwareSrc, poster }: BuddyHeroVi
                   : "text-zinc-500 hover:text-zinc-800"
               )}
             >
-              {label}
+              {TAB_LABELS[key]}
             </button>
           );
         })}

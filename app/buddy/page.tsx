@@ -495,23 +495,12 @@ export default function BuddyPage() {
             </p>
 
             <BuddyHeroVideo
-              softwareSrc="/buddy/buddydemo-full.mp4"
+              uiMockupSrc="/buddy/buddy-ui-mockup.mp4"
+              imageMockupSrc="/buddy/buddydemo-full.mp4"
               hardwareSrc="/buddy/sequence-04.mp4"
-              poster="/buddy/buddydemo-full-poster.jpg"
+              poster="/buddy/buddy-ui-mockup-poster.jpg"
             />
           </div>
-        </div>
-
-        {/* Figma prototype pill — above the metadata grid */}
-        <div className="-mt-7 mb-6 flex justify-center">
-          <a
-            href="https://www.figma.com/proto/1qfQiHq6t99qW3v0J1Iwz6/buddy?node-id=11-113&p=f&t=kcxrkomqe2ZNeUk3-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=11%3A100&show-proto-sidebar=1"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full bg-violet-50/80 px-5 py-2 text-[0.75rem] font-medium text-violet-700 ring-1 ring-violet-200/60 transition-colors hover:bg-violet-100/80"
-          >
-            View Figma Prototype
-          </a>
         </div>
 
         {/* Metadata grid, Timeline, Role, Budget, Team, Tools */}
