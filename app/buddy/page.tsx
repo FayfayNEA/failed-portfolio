@@ -13,6 +13,7 @@ import { cn } from "@/lib/cn";
 import { CategoryProjectsFooter } from "@/components/category-projects-footer";
 import { BuddyButtonIterations, BuddyResetCard, BuddyAIIndicatorCard, BuddyStartingBgCard } from "@/components/buddy-button-iterations";
 import { BuddyComparisonDiagram } from "@/components/buddy-comparison-diagram";
+import { BuddyDemoInterstitial } from "@/components/buddy-demo-interstitial";
 
 const BUDDY_BREADCRUMB = buildProjectBreadcrumb("buddy", "product-design");
 
@@ -459,6 +460,7 @@ function IterationVideoFrame({ src, caption }: { src: string; caption?: string }
 export default function BuddyPage() {
   return (
     <ProjectSurface>
+      <BuddyDemoInterstitial />
       <div className="min-h-full">
       <CaseStudySidebar
         projectName="Buddy"
